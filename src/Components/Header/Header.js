@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import placeHolder  from '../../Assets/Images/rahlogo-placeholder.png'
+import './Index.css'
+
 
 function Header() {
   const [navActive, setNavActive] = useState(false);
@@ -16,7 +18,7 @@ function Header() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 500) {
-        closeMenu;
+        closeMenu();
       }
     };
 
@@ -29,7 +31,7 @@ function Header() {
 
   useEffect(() => {
     if (window.innerWidth <= 1200) {
-      closeMenu;
+      closeMenu();
     }
   }, []);
 
@@ -46,14 +48,12 @@ function Header() {
       <div className={`navbar--items ${navActive ? "active" : ""}`}>
         <div>
         <h1>John Smith</h1>
-        <br />
-        <h3>Real Estate Sales Representive</h3>
+        <h2>Real Estate Sales Representive</h2>
         </div>
         <ul>
           <li>
             <Link
               onClick={closeMenu}
-              activeClass="navbar--active-content"
               to="/Home"
               className="navbar--content"
             >
@@ -63,7 +63,6 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
-              activeClass="navbar--active-content"
               to="/Listings"
               className="navbar--content"
             >
@@ -73,7 +72,6 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
-              activeClass="navbar--active-content"
               to="/About"
               className="navbar--content"
             >
@@ -83,7 +81,6 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
-              activeClass="navbar--active-content"
               to="/Contact"
               className="navbar--content"
             >
@@ -92,7 +89,7 @@ function Header() {
           </li>
         </ul>
         <div>
-        <img src={placeHolder} alt="Placeholder Logo" />
+        <img className="holderImg" src={placeHolder} alt="Placeholder Logo" />
         </div>
       </div>
     </nav>
