@@ -7,3 +7,6 @@
   --black: #000000;
   --white: #ffffff;
 }
+body {
+  margin: 0;
+}

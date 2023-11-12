@@ -1,5 +1,11 @@
 import React from  'react';
-//import Footer from '../Footer/Footer'
+import back1 from "../../Assets/Images/house1.jpg"
+import back2 from "../../Assets/Images/kitchen1.jpg"
+import back3 from "../../Assets/Images/backyard1.jpg"
+import './Index.css'
+
+
+
 
 
 
@@ -7,9 +13,10 @@ import React from  'react';
 function Home() {
 
     return (
-<>
-<div>This is Home, I guess</div>
-</>
+            <div className='backSlider'>
+            <div>This will be the main  page that will be viewed
+            </div>
+            </div>
     );
 }
 

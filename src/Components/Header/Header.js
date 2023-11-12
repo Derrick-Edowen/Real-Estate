@@ -37,6 +37,10 @@ function Header() {
 
   return (
     <nav className={`navbar ${navActive ? "active" : ""}`}>
+      <div>
+        <h1>John Smith</h1>
+        <h2>Real Estate Sales Representive</h2>
+        </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
         onClick={toggleNav}
@@ -46,10 +50,7 @@ function Header() {
         <span className="nav__hamburger__line"></span>
       </a>
       <div className={`navbar--items ${navActive ? "active" : ""}`}>
-        <div>
-        <h1>John Smith</h1>
-        <h2>Real Estate Sales Representive</h2>
-        </div>
+        
         <ul>
           <li>
             <Link
@@ -72,10 +73,10 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
-              to="/About"
+              to="/Calculator"
               className="navbar--content"
             >
-              About
+              Calculator
             </Link>
           </li>
           <li>
@@ -87,12 +88,14 @@ function Header() {
               Contact
             </Link>
           </li>
-        </ul>
-        <div>
+          <div className="holder">
         <img className="holderImg" src={placeHolder} alt="Placeholder Logo" />
         </div>
+        </ul>
+        
       </div>
     </nav>
+    
   );
 }
 
