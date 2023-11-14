@@ -4,6 +4,8 @@ import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
+import man1 from  '../../Assets/Images/man1.jpg'
+
 import './Index.css'
 //Get better pictures
 
@@ -30,6 +32,8 @@ function Home() {
       <div className="home" style={imageStyle}>
         <div className='overLay'>
         Home Page
+        <img src={man1} alt='man'></img>
+
         </div>
       </div>
     );
