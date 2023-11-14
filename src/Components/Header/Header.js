@@ -38,8 +38,8 @@ function Header() {
   return (
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div>
-        <h1>John Smith</h1>
-        <h2>Real Estate Sales Representive</h2>
+        <h2>John Smith</h2>
+        <h3>Real Estate Sales Representive</h3>
         </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
@@ -76,7 +76,7 @@ function Header() {
               to="/Calculator"
               className="navbar--content"
             >
-              Calculator
+              Mortgage Calculator
             </Link>
           </li>
           <li>

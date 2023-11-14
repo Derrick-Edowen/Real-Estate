@@ -1,0 +1,12 @@
+.contact {
+    width: 100%;
+    height: 90vh;
+    background-size: cover;
+    background-position: center;
+    transition: background 2s ease-in-out ;
+  }
+  .underLay {
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100%;
+    width: 100%;
+  }
