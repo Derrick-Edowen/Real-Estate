@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import image1 from '../../Assets/Images/living1.jpg'                                                                            
 import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
-import man1 from  '../../Assets/Images/man1.jpg'
-
+import man1 from  '../../Assets/Images/man1-PhotoRoom.png'
+import Header from '../Header/Header';
 import './Index.css'
 //Get better pictures
 
@@ -29,12 +30,25 @@ function Home() {
     };
   
     return (
+      <div className='homePage'>
+                <Header />
       <div className="home" style={imageStyle}>
         <div className='overLay'>
-        Home Page
-        <img src={man1} alt='man'></img>
-
+          <div  className='imgContainer'>
+        <img className='mainimg' src={man1} alt='man'></img>
+        <div className='textBox'>
+          <h1>Let me help you</h1> 
+          <h2>find your dream home in the GTA!</h2>
+          <p>There are a lot of moving parts when it comes to brokerage and REALTOR® websites.
+          Over the years our real estate websites have evolved and delivers results.</p>
+          <Link to="/Contact" className="contactBtn"
+            >
+              Lets Talk!
+            </Link>
         </div>
+        </div>
+        </div>
+      </div>
       </div>
     );
   };

@@ -5,6 +5,8 @@ import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 import man from  '../../Assets/Images/man2.png'
+import Header from '../Header/Header';
+
 import './Index.css'
 
 
@@ -28,14 +30,15 @@ function Contact() {
     };
 
     return (
-        
+        <div className='contactPage'>
+          <Header />
 <div className="contact" style={imageStyle}>
         <div className='underLay'>
         Contact Page 
         <img src={man} alt='man'></img>
         </div>
       </div>
-
+</div>
     );
 }
 

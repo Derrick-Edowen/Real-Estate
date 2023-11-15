@@ -4,6 +4,7 @@ import placeHolder  from '../../Assets/Images/rahlogo-placeholder.png'
 import './Index.css'
 
 
+
 function Header() {
   const [navActive, setNavActive] = useState(false);
 
@@ -37,7 +38,7 @@ function Header() {
 
   return (
     <nav className={`navbar ${navActive ? "active" : ""}`}>
-      <div>
+      <div className="heading">
         <h2>John Smith</h2>
         <h3>Real Estate Sales Representive</h3>
         </div>
@@ -55,6 +56,11 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
+              activeClass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
               to="/Home"
               className="navbar--content"
             >
@@ -64,6 +70,11 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
+              activeClass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
               to="/Listings"
               className="navbar--content"
             >
@@ -73,6 +84,11 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
+              activeClass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
               to="/Calculator"
               className="navbar--content"
             >
@@ -82,6 +98,11 @@ function Header() {
           <li>
             <Link
               onClick={closeMenu}
+              activeClass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
               to="/Contact"
               className="navbar--content"
             >
