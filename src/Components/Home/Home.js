@@ -30,9 +30,10 @@ function Home() {
     };
   
     return (
-      <div className='homePage'>
-                <Header />
-      <div className="home" style={imageStyle}>
+      <><Header />
+
+      <div className='home' style={imageStyle}>
+      <div className="homePage">
         <div className='overLay'>
           <div  className='imgContainer'>
         <img className='mainimg' src={man1} alt='man'></img>
@@ -49,6 +50,7 @@ function Home() {
         </div>
       </div>
       </div>
+      </>
     );
   };
 export default Home;

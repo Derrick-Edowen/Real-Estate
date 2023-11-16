@@ -5,16 +5,16 @@
     justify-content: space-between;
     align-items: center;
     background: var(--white);
-    box-shadow: 0px 5.333px 80px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 5.333px 80px 0 rgba(0, 0, 0, 0.05);
     position: absolute;
     padding: 6px 14px;
     height: 10vh;
 
   }
   .heading {
-    padding: 10px;
+    padding: 5px;
     padding-left: 20px;
-    margin: 5px;
+    margin: 0px;
   }
   .heading h2 {
     font-size: 25px;

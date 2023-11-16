@@ -78,7 +78,7 @@ function Header() {
               to="/Listings"
               className="navbar--content"
             >
-              Listings
+              Find Listings
             </Link>
           </li>
           <li>

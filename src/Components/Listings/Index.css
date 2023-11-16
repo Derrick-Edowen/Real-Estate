@@ -1,0 +1,34 @@
+/* styles.css */
+
+.searchBar {
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center contents horizontally */
+    align-items: center; /* Align contents vertically */
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+  }
+  
+  /* Adjustments for input and select elements */
+  .searchBar input,
+  .searchBar select {
+    margin: 2px; /* Adjust margins between elements */
+    padding: 8px; /* Adjust padding for input/select fields */
+    /* Add any other styles as needed */
+  }
+  
+  /* Additional styling for placeholder text if required */
+  .searchBar input::placeholder,
+  .searchBar select::placeholder {
+    color: #888; /* Example placeholder text color */
+    /* Add any other placeholder styles as needed */
+  }
+  .lists {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    transition: background 6s ease-in-out ;
+    z-index: -10;
+  }

@@ -33,10 +33,10 @@ function Calculator() {
         <div className="calc" style={imageStyle}>
 
 <div className='mortgC'>
-<MortgageCalculator  interestRate={0.035} price={0} downPayment={0}/>
+<MortgageCalculator  interestRate={0.035} price={0} downPayment={0} mortgageInsuranceEnabled={false}/>
 <div className='disclaimer'>
 <p>"Please note that any monthly mortgage value calculated from this calculator
-     is an estimate and intended for informational purposes only. The actual mortgage
+     is an estimate and intended for informational purposes only. Your actual mortgage
       payment may vary based on a multitude of factors, including but not limited to changes
 in interest rates, loan terms, taxes, insurance, additional fees, and individual financial
 circumstances. Consult with a qualified financial advisor or mortgage
