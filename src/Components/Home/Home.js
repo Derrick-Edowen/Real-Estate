@@ -41,10 +41,9 @@ function Home() {
           <h2>find your dream home in the GTA!</h2>
           <p>There are a lot of moving parts when it comes to brokerage and REALTOR® websites.
           Over the years our real estate websites have evolved and delivers results.</p>
-          <Link to="/Contact" className="contactBtn"
-            >
+          <button><Link to="/Contact" className="contactBtn">
               Lets Talk!
-            </Link>
+            </Link></button>
         </div>
         </div>
         </div>

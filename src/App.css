@@ -10,3 +10,6 @@
 body {
   margin: 0px;
 }
+html {
+  color-scheme: light dark;
+}
