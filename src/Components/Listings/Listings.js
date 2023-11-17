@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import Header from '../Header/Header';
 import './Index.css'
 import image1 from '../../Assets/Images/living1.jpg'                                                                            
@@ -13,7 +14,6 @@ import image5 from '../../Assets/Images/kitchen1.jpg'
 function Listings() {
     const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
-  
     useEffect(() => {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) =>
@@ -23,21 +23,39 @@ function Listings() {
   
       return () => clearInterval(interval);
     }, [images]);
-  
     const imageStyle = {
       backgroundImage: `url(${images[currentIndex]})`,
     };
-
+    const [city, setCity] = useState('');
+    const [position, setPosition] = useState([0, 0]); // Default position
+  
+    const handleCityChange = (event) => {
+      setCity(event.target.value);
+    };
+    const handleSearch = async () => {
+      try {
+        // Use your geocoding service API to get latitude and longitude for the city
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${city}`);
+        const data = await response.json();
+  
+        if (data && data.length > 0) {
+          setPosition([parseFloat(data[0].lat), parseFloat(data[0].lon)]);
+        } else {
+          alert('City not found!');
+        }
+      } catch (error) {
+        console.error('Error fetching city coordinates:', error);
+      }
+    };
     return (
     <>
 
         <Header />
 <div className='lists' style={imageStyle}>
-
         <div className='searchBar'>
           <input type='text' placeholder='City, Address or MLS Number'></input>
           <select id="choose-topic" name="transaction" placeholder='Transaction Type'>
-          <option value="" disabled selected>Transaction Type</option>
+          <option value="" disabled selected>Select Transaction Type</option>
           <option value="">Any</option>
           <option value="For Sale">For Sale</option>
           <option value="For Rent">For Rent</option>
@@ -75,6 +93,7 @@ function Listings() {
           </select>
           <button>Search</button>
         </div>
+
 
 </div>
     </>
