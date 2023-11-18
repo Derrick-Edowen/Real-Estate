@@ -8,6 +8,7 @@ import man from  '../../Assets/Images/man2.png'
 import Header from '../Header/Header';
 import emailjs from '@emailjs/browser';
 import './Index.css'
+import Footer from '../Footer/Footer';
 
 
 
@@ -45,9 +46,10 @@ function Contact() {
       )
   };
 
-    return (
+    return (<>
+      <Header />
+
         <div className='contactPage'>
-          <Header />
 <div className="contact" style={imageStyle}>
         <div className='underLay'>
         <img className='conImg' src={man} alt='man'></img>
@@ -130,6 +132,7 @@ function Contact() {
     </div>
     </div>
 </div>
+</>
     );
 }
 

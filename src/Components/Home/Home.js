@@ -9,7 +9,7 @@ import man1 from  '../../Assets/Images/man1-PhotoRoom.png'
 import Header from '../Header/Header';
 import './Index.css'
 //Get better pictures
-
+//Incorporate Google Translate
 
 function Home() {
     const [images] = useState([image1, image2, image3, image4, image5]);
@@ -42,9 +42,11 @@ function Home() {
           <h2>find your dream home in the GTA!</h2>
           <p>There are a lot of moving parts when it comes to brokerage and REALTOR® websites.
           Over the years our real estate websites have evolved and delivers results.</p>
-          <button><Link to="/Contact" className="contactBtn">
+          <Link to="/Contact">
+          <button  className="contactBtn">
               Lets Talk!
-            </Link></button>
+          </button>
+          </Link>
         </div>
         </div>
         </div>

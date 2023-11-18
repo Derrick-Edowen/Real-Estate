@@ -1,5 +1,16 @@
 /* styles.css */
-
+.lists {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  transition: background 4s ease-in-out ;
+}
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 100vh;
+  width: 100%;
+}
 .searchBar {
     display: flex; /* Use flexbox for layout */
     justify-content: center; /* Center contents horizontally */
@@ -32,3 +43,50 @@
     transition: background 6s ease-in-out ;
     z-index: -10;
   }
+.leaflet-container {
+  height: 100vh;
+  width: 49.3%;
+float: right;
+margin: 5px;
+right: 45px;
+border-radius: 15px;
+}
+.listings-container {
+  display: flex;
+  width: 47%;
+  padding-left: 52px;
+  padding-top: 5px;
+  height: 100vh;
+}
+
+/* Styles for the sidebar */
+.sidebar {
+  width: 100%; /* Adjust the width as needed */
+  background-color: #f0f0f0;
+  padding: 20px;
+  padding-right: 15px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+}
+.sidebar h2{
+color: black;
+}
+/* Scrollable cards container */
+.scrollable-cards {
+  height: 100%; /* Set maximum height for the scrollable area */
+  overflow-y: auto; /* Enable vertical scrollbar when content exceeds height */
+}
+
+/* Styles for individual cards */
+.card {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.card img {
+  width: 100%; /* Make the image fill the card width */
+  border-radius: 3px;
+  margin-bottom: 10px;
+}

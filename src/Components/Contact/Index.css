@@ -20,6 +20,7 @@
     text-align:left;
     box-sizing: border-box;
     color: azure;
+    width: 800px;
   }
   .underLay {
     background-color: rgba(0, 0, 0, 0.8);
@@ -45,14 +46,14 @@
     text-align: center;
     position: relative;
     gap: 12px;
-    width: 700px;
+    width: 900px;
     height: 500px;
   }
   .contact--form--container {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: repeat(5, auto);
-    width: 40%;
+    width: 50%;
     row-gap: 12px;
   }
   .container {

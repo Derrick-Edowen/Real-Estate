@@ -18,9 +18,11 @@
   }
   .heading h2 {
     font-size: 25px;
+    color: black;
   }
   .heading h3 {
     font-size: 18px;
+    color: black;
   }
   .navbar--items > ul {
     list-style: none;
