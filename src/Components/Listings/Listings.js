@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { MapContainer, TileLayer, Marker} from 'react-leaflet';
-import  { Icon } from 'leaflet'
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import Header from '../Header/Header';
 import './Index.css'
-import 'leaflet/dist/leaflet.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import placeHouse from '../../Assets/Images/placeHouse.jpg'
+//import placeHouse from '../../Assets/Images/placeHouse.jpg'
 import image1 from '../../Assets/Images/living1.jpg'                                                                            
 import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
@@ -15,14 +13,8 @@ import image5 from '../../Assets/Images/kitchen1.jpg'
 
 
 function Listings() {
-  const markers = [{
-    geocode: [43.6426,-79.3871]
-  }];
-  const customIcon = new Icon ({
-    iconUrl: require("../../Assets/Images/pin.png"),
-    iconSize: [25, 25]
-  });
-  const [images] = useState([image1, image2, image3, image4, image5]);
+//Images
+const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
     useEffect(() => {
       const interval = setInterval(() => {
@@ -36,10 +28,48 @@ function Listings() {
     const imageStyle = {
       backgroundImage: `url(${images[currentIndex]})`,
     };
+//Mapping
+const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
+  const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
+const handleSearch = () => {
+  const address = document.getElementById('search').value; // Get the value from the input
 
-    /*const [apiData, setApiData] = useState(null);
-  
-    useEffect(() => {
+  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+
+  fetch(geocodeUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const { results } = data;
+      if (results && results.length > 0) {
+        const { lat, lng } = results[0].geometry.location;
+        console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+        setPosition({ lat, lng }); // Update the position with the obtained latitude and longitude
+      } else {
+        window.alert('Location Not Found: Try Using More Descriptive Words!');
+      }
+    })
+    .catch((error) => {
+      console.error('There was a problem fetching the data:', error);
+    });
+};
+
+
+
+
+
+
+
+
+//API Call
+    const [apiData, setApiData] = useState(null);
+    const [cardsData, setCardsData] = useState([]);
+
+    /*useEffect(() => {
       const fetchData = async () => {
         try {
           const response = await axios.get('https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential', {
@@ -65,7 +95,7 @@ function Listings() {
           });
   
           const data = response.data;
-          console.log('API Data - Hockey:', data);
+          console.log(data);
           setApiData(data); 
   
         } catch (error) {
@@ -74,7 +104,7 @@ function Listings() {
       };
   
       fetchData();
-    }, []);*/y
+    }, []);*/
 
     return (
     <>
@@ -82,9 +112,8 @@ function Listings() {
         <div className='lists' style={imageStyle}>
         <div className='overlay'>
 
-
         <div className='searchBar'>
-          <input type='text' placeholder='City, Address or MLS Number'></input>
+          <input id='search' type='text' placeholder='City, Neighbourhood or Address'></input>
           <select id="choose-topic" name="transaction" placeholder='Transaction Type'>
           <option value="" disabled selected>Select Transaction Type</option>
           <option value="">Any</option>
@@ -122,52 +151,28 @@ function Listings() {
           <option value="5">5</option>
           <option value="5+">5+</option>
           </select>
-          <button>Search</button>
+          <button onClick={handleSearch}>Search</button>
         </div>
-        <div className='mapBox'>
-          <MapContainer center={[43.6426,-79.3871]} zoom={10.5}>
-          <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-          />
-          {markers.map(marker => (
-          <Marker position={marker.geocode} icon={customIcon}>
-           </Marker>
-          ))
-          }
-          </MapContainer>
+        <div className='maps'>
+<APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
+  <Map center={position} zoom={10}>
+    <Marker position={position}/>
+  </Map>
+</APIProvider>
         </div>
-        <div className="listings-container">
-      <aside className="sidebar">
-        <h2>Results: Listings</h2>
-        <div className="scrollable-cards">
-          {/* Card 1 */}
-          <div className="card">
-            <img src={placeHouse} alt="1" />
-            <p>Text content for Card 1</p>
-          </div>
-          {/* Card 2 */}
-          <div className="card">
-            <img src={placeHouse} alt="2" />
-            <p>Text content for Card 2</p>
-          </div>
-          {/* Card 3 */}
-          <div className="card">
-            <img src={placeHouse} alt="3" />
-            <p>Text content for Card 2</p>
-          </div>
-          {/* Card 4 */}
-          <div className="card">
-            <img src={placeHouse} alt="4" />
-            <p>Text content for Card 2</p>
-          </div>
+        <div className="card-container">
+      {cardsData.map((card, index) => (
+        <div className="card" key={index}>
+          <img src={card.imageUrl} alt={`Image ${index}`} />
+          <p>{card.text}</p>
         </div>
-      </aside>
-    </div>
+        ))}
+        </div>
+       
     </div>
     </div>
     </>
     );
 }
-
+ 
 export default Listings;

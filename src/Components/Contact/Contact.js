@@ -8,7 +8,7 @@ import man from  '../../Assets/Images/man2.png'
 import Header from '../Header/Header';
 import emailjs from '@emailjs/browser';
 import './Index.css'
-import Footer from '../Footer/Footer';
+//import Footer from '../Footer/Footer';
 
 
 
