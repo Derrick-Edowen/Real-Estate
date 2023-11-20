@@ -29,83 +29,85 @@ const [images] = useState([image1, image2, image3, image4, image5]);
       backgroundImage: `url(${images[currentIndex]})`,
     };
 //Mapping
+const [apiData, setApiData] = useState([]);
 const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
+const [cardIndex, setCardIndex] = useState(0);
+const [searchClicked, setSearchClicked] = useState(false); // Track if search is clicked
+
+  const handleSearch = async () => {
+    const address = document.getElementById('search').value;
+    const transactionType = document.getElementById('choose-topic').value;
+    const propertyType = document.getElementById('choose-type').value;
+    const minPrice = document.getElementById('min-price').value;
+    const maxPrice = document.getElementById('max-price').value;
+    const maxBeds = document.getElementById('choose-beds').value;
+    const maxBaths = document.getElementById('choose-baths').value;
+    setSearchClicked(true);
+    if (!address || !transactionType || !propertyType || !minPrice || !maxPrice || !maxBeds || !maxBaths) {
+      window.alert('Please fill out all required fields!');
+      return;
+    }
+
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
-const handleSearch = () => {
-  const address = document.getElementById('search').value; // Get the value from the input
-
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
-
-  fetch(geocodeUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const { results } = data;
-      if (results && results.length > 0) {
-        const { lat, lng } = results[0].geometry.location;
-        console.log(`Latitude: ${lat}, Longitude: ${lng}`);
-        setPosition({ lat, lng }); // Update the position with the obtained latitude and longitude
-      } else {
-        window.alert('Location Not Found: Try Using More Descriptive Words!');
-      }
-    })
-    .catch((error) => {
-      console.error('There was a problem fetching the data:', error);
-    });
-};
-
-
-
-
-
-
-
-
-//API Call
-    const [apiData, setApiData] = useState(null);
-    const [cardsData, setCardsData] = useState([]);
-
-    /*useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('https://realtor-canadian-real-estate.p.rapidapi.com/properties/list-residential', {
+  try {
+    const response = await fetch(geocodeUrl);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    const { results } = data;
+    if (results && results.length > 0) {
+      const { lat, lng } = results[0].geometry.location;
+      setPosition({ lat, lng });
+    } else {
+      window.alert('Location Not Found: Try Using More Descriptive Words!');
+    }
+    const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
-              CurrentPage: '1',
-              LatitudeMin: '-22.26872153207163',
-              LongitudeMax: '-10.267941690981388',
-              RecordsPerPage: '10',
-              LongitudeMin: '-136.83037765324116',
-              LatitudeMax: '81.14747595814636',
-              BedRange: '2-2+',
-              BathRange: '2-2+',
-              CultureId: '1',
-              SortBy: '1',
-              SortOrder: 'A',
-              RentMin: '0',
-              TransactionTypeId: '2'
+              location: address,
+              page: '1',
+              status_type: transactionType,
+              home_type: propertyType,
+              sort: 'Newest',
+              minPrice: minPrice,
+              maxPrice: maxPrice,
+              rentMinPrice: minPrice,
+              rentMaxPrice: maxPrice,
+              bathsMax: maxBaths,
+              bedsMax: maxBeds
             },
             headers: {
               'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-              'X-RapidAPI-Host': 'realtor-canadian-real-estate.p.rapidapi.com'
+              'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
             },
           });
-  
-          const data = response.data;
-          console.log(data);
-          setApiData(data); 
-  
+          console.log(estateResponse.data);
+          setApiData(estateResponse.data); 
         } catch (error) {
           console.error('Error fetching data:', error);
         }
       };
-  
-      fetchData();
-    }, []);*/
 
+      useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+    
+        return () => {
+          document.removeEventListener('keydown', handleKeyDown);
+        };
+      }, [apiData.props, searchClicked]);
+      const handleKeyDown = (event) => {
+        if (searchClicked && apiData.props.length > 0) {
+          if (event.key === 'ArrowLeft') {
+            setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1));
+          } else if (event.key === 'ArrowRight') {
+            setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1));
+          }
+        }
+      };
+    
+      
+    
     return (
     <>
         <Header />
@@ -113,43 +115,43 @@ const handleSearch = () => {
         <div className='overlay'>
 
         <div className='searchBar'>
-          <input id='search' type='text' placeholder='City, Neighbourhood or Address'></input>
-          <select id="choose-topic" name="transaction" placeholder='Transaction Type'>
+          <input id='search' type='text' placeholder='City, Neighbourhood or Address' required></input>
+          <select id="choose-topic" name="transaction" placeholder='Transaction Type'required>
           <option value="" disabled selected>Select Transaction Type</option>
-          <option value="">Any</option>
-          <option value="For Sale">For Sale</option>
-          <option value="For Rent">For Rent</option>
-          <option value="Sold">Sold</option>
+          <option value="0">Any</option>
+          <option value="ForSale">For Sale</option>
+          <option value="ForRent">For Rent</option>
+          <option value="RecentlySold">Recently Sold</option>
           </select>
-          <input type='number' placeholder='Minimum Price'></input>
-          <input type='number' placeholder='Maximum Price'></input>
-          <select id="choose-beds" name="beds" placeholder='Beds'>
+          <select id="choose-type" name="propertyType" placeholder='Property Type'required>
+          <option value="" disabled selected>Select a Property Type</option>
+          <option value="0">Any</option>
+          <option value="Houses">Houses</option>
+          <option value="Townhomes">Townhomes</option>
+          <option value="Apartments_Condos_Co-ops">Condominium/Apartment</option>
+          <option value="Multi-family">Multi-family</option>
+          </select>
+          <input type='number' id="min-price"placeholder='Minimum Price'required></input>
+          <input type='number' id="max-price"placeholder='Maximum Price'required></input>
+          <select id="choose-beds" name="beds" placeholder='Beds'required>
           <option value="" disabled selected>Beds</option>
-          <option value="">Any</option>
+          <option value="0">Any</option>
           <option value="1">1</option>
-          <option value="1+">1+</option>
           <option value="2">2</option>
-          <option value="2+">2+</option>
           <option value="3">3</option>
-          <option value="3+">3+</option>
           <option value="4">4</option>
-          <option value="4+">4+</option>
           <option value="5">5</option>
-          <option value="5+">5+</option>
+          <option value="8">5+</option>
           </select>
-          <select id="choose-beds" name="baths" placeholder='Baths'>
+          <select id="choose-baths" name="baths" placeholder='Baths'required>
           <option value="" disabled selected>Baths</option>
-          <option value="">Any</option>
+          <option value="0">Any</option>
           <option value="1">1</option>
-          <option value="1+">1+</option>
           <option value="2">2</option>
-          <option value="2+">2+</option>
           <option value="3">3</option>
-          <option value="3+">3+</option>
           <option value="4">4</option>
-          <option value="4+">4+</option>
           <option value="5">5</option>
-          <option value="5+">5+</option>
+          <option value="8">5+</option>
           </select>
           <button onClick={handleSearch}>Search</button>
         </div>
@@ -160,15 +162,31 @@ const handleSearch = () => {
   </Map>
 </APIProvider>
         </div>
-        <div className="card-container">
-      {cardsData.map((card, index) => (
-        <div className="card" key={index}>
-          <img src={card.imageUrl} alt={`Image ${index}`} />
-          <p>{card.text}</p>
+        <div className="cardContainer">
+        {searchClicked &&
+          apiData.props &&
+          apiData.props.slice(cardIndex, cardIndex + 4).map((item, index) => (        
+          <div className="card" key={index}>
+          <img src={item.imgSrc} alt={item.address} />
+          <div className="cardText">
+            <h3>${item.price}</h3>
+            <h3>{item.address}</h3>
+            <p>Bedrooms: {item.bedrooms}</p>
+            <p>Bathrooms: {item.bathrooms}</p>
+          </div>
         </div>
-        ))}
-        </div>
-       
+      ))}
+    </div>
+    {searchClicked && (
+        <>
+          <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
+            Previous
+          </button>
+          <button onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
+            Next
+          </button>
+        </>
+      )}
     </div>
     </div>
     </>
@@ -176,3 +194,4 @@ const handleSearch = () => {
 }
  
 export default Listings;
+
