@@ -66,7 +66,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
               location: address,
-              page: '1',
+              page: '5',
               status_type: transactionType,
               home_type: propertyType,
               sort: 'Newest',
@@ -125,10 +125,10 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           </select>
           <select id="choose-type" name="propertyType" placeholder='Property Type'required>
           <option value="" disabled selected>Select a Property Type</option>
-          <option value="0">Any</option>
+          <option value="">Any</option>
           <option value="Houses">Houses</option>
           <option value="Townhomes">Townhomes</option>
-          <option value="Apartments_Condos_Co-ops">Condominium/Apartment</option>
+          <option value="Apartments,Condos,Co-ops">Condominium/Apartment</option>
           <option value="Multi-family">Multi-family</option>
           </select>
           <input type='number' id="min-price"placeholder='Minimum Price'required></input>
