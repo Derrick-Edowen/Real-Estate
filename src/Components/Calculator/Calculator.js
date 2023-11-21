@@ -29,7 +29,6 @@ function Calculator() {
   
     return (
     <div className='mortCalc'>
-        <Header />
         <div className="calc" style={imageStyle}>
 
 <div className='mortgC'>

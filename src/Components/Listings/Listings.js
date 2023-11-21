@@ -30,6 +30,7 @@ const [images] = useState([image1, image2, image3, image4, image5]);
     };
 //Mapping
 const [apiData, setApiData] = useState([]);
+const [infoData, setInfoData] = useState([]);
 const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
 const [cardIndex, setCardIndex] = useState(0);
 const [searchClicked, setSearchClicked] = useState(false); // Track if search is clicked
@@ -66,7 +67,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
               location: address,
-              page: '5',
+              page: '1',
               status_type: transactionType,
               home_type: propertyType,
               sort: 'Newest',
@@ -82,16 +83,35 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
               'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
             },
           });
-          console.log(estateResponse.data);
           setApiData(estateResponse.data); 
+
+          const zpidPromises = estateResponse.data.props.map((item) => {
+            return axios.get('https://zillow-com1.p.rapidapi.com/property', {
+              params: {
+                zpid: item.zpid // Use the zpid from each card
+              },
+              headers: {
+                'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+                'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+              }
+            });
+          });
+        
+          try {
+            const infoResponses = await Promise.all(zpidPromises);
+            const infoDataArray = infoResponses.map((response) => response.data);
+            setInfoData(infoDataArray);
+          } catch (error) {
+            window.alert('Error: No results found! Please adjust your search parameters', error);
+          }
         } catch (error) {
-          console.error('Error fetching data:', error);
+            window.alert('Error: No results found! Please adjust your search parameters', error);
         }
       };
+    
 
       useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
-    
         return () => {
           document.removeEventListener('keydown', handleKeyDown);
         };
@@ -105,17 +125,13 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           }
         }
       };
-    
-      
-    
     return (
     <>
-        <Header />
         <div className='lists' style={imageStyle}>
         <div className='overlay'>
 
         <div className='searchBar'>
-          <input id='search' type='text' placeholder='City, Neighbourhood or Address' required></input>
+          <input id='search' type='text' placeholder='City, Neighbourhood' required></input>
           <select id="choose-topic" name="transaction" placeholder='Transaction Type'required>
           <option value="" disabled selected>Select Transaction Type</option>
           <option value="0">Any</option>
@@ -162,22 +178,9 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
   </Map>
 </APIProvider>
         </div>
-        <div className="cardContainer">
-        {searchClicked &&
-          apiData.props &&
-          apiData.props.slice(cardIndex, cardIndex + 4).map((item, index) => (        
-          <div className="card" key={index}>
-          <img src={item.imgSrc} alt={item.address} />
-          <div className="cardText">
-            <h3>${item.price}</h3>
-            <h3>{item.address}</h3>
-            <p>Bedrooms: {item.bedrooms}</p>
-            <p>Bathrooms: {item.bathrooms}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-    {searchClicked && (
+        <div className='guidance'>
+        <h1>Newest Listings:</h1>
+        {searchClicked && (
         <>
           <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
             Previous
@@ -187,6 +190,31 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           </button>
         </>
       )}
+        </div>
+        {apiData.props && apiData.props.length > 0 && (
+      <>
+        {/* ... */}
+        <div className="cardContainer">
+          {searchClicked && infoData && infoData.length > 0 &&
+            infoData.slice(cardIndex, cardIndex + 3).map((item, index) => (
+              <div className="card" key={index}>
+                <img src={apiData.props[cardIndex + index]?.imgSrc} alt={apiData.props[cardIndex + index]?.address} />
+                <div className="cardText">
+                  <h3>${apiData.props[cardIndex + index]?.price}</h3>
+                  <h3>{apiData.props[cardIndex + index]?.address}</h3>
+                  <p>Bedrooms: {apiData.props[cardIndex + index]?.bedrooms}</p>
+                  <p>Bathrooms: {apiData.props[cardIndex + index]?.bathrooms}</p>
+                  <p>Basement Status: {item.resoFacts.basement}</p>
+                  <p>{item.description}</p>
+                  <p>MLS Number: {item.mlsid}</p>
+                  <p>BROKERAGE: {item.brokerageName}</p>
+                </div>
+              </div>
+            ))}
+        </div>
+        {/* ... */}
+      </>
+    )}
     </div>
     </div>
     </>

@@ -30,8 +30,7 @@ function Home() {
     };
   
     return (
-      <><Header />
-
+      <>
       <div className='home' style={imageStyle}>
       <div className="homePage">
         <div className='overLay'>

@@ -47,8 +47,6 @@ function Contact() {
   };
 
     return (<>
-      <Header />
-
         <div className='contactPage'>
 <div className="contact" style={imageStyle}>
         <div className='underLay'>
