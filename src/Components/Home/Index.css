@@ -1,14 +1,14 @@
 
 .homePage {
   width: 100%;
-  height: 100vh;
+  height: 90dvh;
 }
 .home {
   width: 100%;
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: background 4s ease-in-out ;
+  transition: background 12s ease-in-out ;
 }
 .overLay {
   background-color: rgba(0, 0, 0, 0.25);
@@ -41,12 +41,16 @@ padding: 0px;
   text-align:left;
   box-sizing: border-box;
 }
+.textBox  h1{
+  font-size: 45px;
+  float: left;
+  text-align:left;
+  padding-left: 0px;
+}
 .textBox  h2{
   font-size: 40px;
   float: left;
   text-align:left;
-
-
 }
 .textBox p {
   font-size: 30px;
@@ -55,4 +59,41 @@ padding: 0px;
 }
 .contactBtn {
   width: 30%;
+  float: left;
+  background-color: rgb(43, 5, 78);
+font-size: 20px;
+box-shadow: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .textBox {
+    width: 100%;
+    padding-right: 0;
+    padding-top: 50px;
+    text-align: center;
+  }
+
+  .mainimg {
+    position: absolute;
+    padding: 15px;
+    height: 100%;
+    padding-left: 0;
+    height: 60vh;
+  }
+
+  .textBox h1 {
+    font-size: 30px;
+  }
+
+  .textBox h2 {
+    font-size: 25px;
+  }
+
+  .textBox p {
+    font-size: 20px;
+  }
+
+  .contactBtn {
+    width: 50%;
+  }
 }

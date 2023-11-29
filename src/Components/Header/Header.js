@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import placeHolder  from '../../Assets/Images/rahlogo-placeholder.png'
 import './Index.css'
 
-
-
 function Header() {
   const [navActive, setNavActive] = useState(false);
 
@@ -40,8 +38,8 @@ function Header() {
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">
         <h2>John Smith</h2>
-        <h3>Real Estate Sales Representive</h3>
-        </div>
+        <h3>Real Estate Sales Representative</h3>
+      </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
         onClick={toggleNav}
@@ -51,7 +49,6 @@ function Header() {
         <span className="nav__hamburger__line"></span>
       </a>
       <div className={`navbar--items ${navActive ? "active" : ""}`}>
-        
         <ul>
           <li>
             <Link
@@ -67,19 +64,36 @@ function Header() {
               Home
             </Link>
           </li>
-          <li>
-            <Link
-              onClick={closeMenu}
-              activeClass="navbar--active-content"
-              spy={true}
-              smooth={true}
-              offset={-70}
-              duration={1000}
-              to="/Listings"
+          <li className="dropdown">
+            <span
+              onClick={toggleNav}
               className="navbar--content"
             >
-              Find Listings
-            </Link>
+              Find Listings <span className="arrow">&#9660;</span>
+            </span>
+            <div className="dropdown-content">
+              <Link
+                onClick={closeMenu}
+                to="/ForRent"
+                className="navbar--content"
+              >
+                For Rent
+              </Link>
+              <Link
+                onClick={closeMenu}
+                to="/ForSale"
+                className="navbar--content"
+              >
+                For Sale
+              </Link>
+              <Link
+                onClick={closeMenu}
+                to="/RecentlySold"
+                className="navbar--content"
+              >
+                Recently Sold
+              </Link>
+            </div>
           </li>
           <li>
             <Link
@@ -110,13 +124,11 @@ function Header() {
             </Link>
           </li>
           <div className="holder">
-        <img className="holderImg" src={placeHolder} alt="Placeholder Logo" />
-        </div>
+            <img className="holderImg" src={placeHolder} alt="Placeholder Logo" />
+          </div>
         </ul>
-        
       </div>
     </nav>
-    
   );
 }
 

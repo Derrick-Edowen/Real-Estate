@@ -12,7 +12,7 @@ import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 
 
-function Listings() {
+function ForRent() {
 //Images
 const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -37,14 +37,14 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
 
   const handleSearch = async () => {
     const address = document.getElementById('search').value;
-    const transactionType = document.getElementById('choose-topic').value;
+    const sort = document.getElementById('sortList').value;
     const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
     setSearchClicked(true);
-    if (!address || !transactionType || !propertyType || !minPrice || !maxPrice || !maxBeds || !maxBaths) {
+    if (!address || !sort || !propertyType || !minPrice || !maxPrice || !maxBeds || !maxBaths) {
       window.alert('Please fill out all required fields!');
       return;
     }
@@ -67,12 +67,10 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
               location: address,
-              page: '1',
-              status_type: transactionType,
+              page: '10',
+              status_type: "ForRent",
               home_type: propertyType,
-              sort: 'Newest',
-              minPrice: minPrice,
-              maxPrice: maxPrice,
+              sort: sort,
               rentMinPrice: minPrice,
               rentMaxPrice: maxPrice,
               bathsMax: maxBaths,
@@ -85,30 +83,38 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           });
           setApiData(estateResponse.data); 
 
-          const zpidPromises = estateResponse.data.props.map((item) => {
-            return axios.get('https://zillow-com1.p.rapidapi.com/property', {
-              params: {
-                zpid: item.zpid // Use the zpid from each card
-              },
-              headers: {
-                'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-                'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-              }
-            });
+          const zpidList = estateResponse.data.props.map((item) => item.zpid);
+
+          const maxConcurrentRequests = 10;
+      const batches = [];
+      for (let i = 0; i < zpidList.length; i += maxConcurrentRequests) {
+        const batch = zpidList.slice(i, i + maxConcurrentRequests);
+        batches.push(batch);
+      }
+      const infoDataArray = [];
+      for (const batch of batches) {
+        const zpidPromises = batch.map((zpid) => {
+          return axios.get('https://zillow-com1.p.rapidapi.com/property', {
+            params: {
+              zpid: zpid
+            },
+            headers: {
+              'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+              'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+            }
           });
-        
-          try {
-            const infoResponses = await Promise.all(zpidPromises);
-            const infoDataArray = infoResponses.map((response) => response.data);
-            setInfoData(infoDataArray);
-          } catch (error) {
-            window.alert('Error: No results found! Please adjust your search parameters', error);
-          }
-        } catch (error) {
-            window.alert('Error: No results found! Please adjust your search parameters', error);
-        }
-      };
-    
+        });
+
+        const batchResponses = await Promise.all(zpidPromises);
+        const batchInfoData = batchResponses.map((response) => response.data);
+        infoDataArray.push(...batchInfoData);
+      }
+
+      setInfoData(infoDataArray);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
       useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);
@@ -126,26 +132,28 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
         }
       };
     return (
-    <>
         <div className='lists' style={imageStyle}>
         <div className='overlay'>
 
         <div className='searchBar'>
-          <input id='search' type='text' placeholder='City, Neighbourhood' required></input>
+          <input id='search' type='text' placeholder='City or Neighbourhood' required></input>
           <select id="choose-topic" name="transaction" placeholder='Transaction Type'required>
-          <option value="" disabled selected>Select Transaction Type</option>
-          <option value="0">Any</option>
-          <option value="ForSale">For Sale</option>
-          <option value="ForRent">For Rent</option>
-          <option value="RecentlySold">Recently Sold</option>
+          <option value="ForRent" selected>For Rent</option>
+          </select>
+          <select id="sortList" name="sort" placeholder='Sort Listings'required>
+          <option value="" disabled selected>Sort Listings</option>
+          <option value="Newest">Newest</option>
+          <option value="Payment_High_Low">Ascending</option>
+          <option value="Payment_Low_High">Descending</option>
+          <option value="Lot_Size">Lot Size</option>
+          <option value="Square_Feet">Square Footage</option>
           </select>
           <select id="choose-type" name="propertyType" placeholder='Property Type'required>
           <option value="" disabled selected>Select a Property Type</option>
           <option value="">Any</option>
           <option value="Houses">Houses</option>
           <option value="Townhomes">Townhomes</option>
-          <option value="Apartments,Condos,Co-ops">Condominium/Apartment</option>
-          <option value="Multi-family">Multi-family</option>
+          <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
           </select>
           <input type='number' id="min-price"placeholder='Minimum Price'required></input>
           <input type='number' id="max-price"placeholder='Maximum Price'required></input>
@@ -157,7 +165,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
-          <option value="8">5+</option>
+          <option value="12">5+</option>
           </select>
           <select id="choose-baths" name="baths" placeholder='Baths'required>
           <option value="" disabled selected>Baths</option>
@@ -167,7 +175,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
-          <option value="8">5+</option>
+          <option value="12">5+</option>
           </select>
           <button onClick={handleSearch}>Search</button>
         </div>
@@ -179,7 +187,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
 </APIProvider>
         </div>
         <div className='guidance'>
-        <h1>Newest Listings:</h1>
+        <h1>For Rent Listings:</h1>
         {searchClicked && (
         <>
           <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
@@ -217,9 +225,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
     )}
     </div>
     </div>
-    </>
     );
 }
  
-export default Listings;
-
+export default ForRent;

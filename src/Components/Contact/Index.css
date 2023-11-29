@@ -38,15 +38,15 @@
   .contact--section {
     display: flex;
     padding: 0px;
-    padding-right: 850px;
-    padding-top: 800px;
+    padding-right: 50px;
+    padding-top: 50px;
     flex-direction: column;
     justify-content:flex-end;
     align-items: center;
     text-align: center;
     position: relative;
     gap: 12px;
-    width: 900px;
+    width: 40%;
     height: 500px;
   }
   .contact--form--container {

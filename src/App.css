@@ -1,5 +1,5 @@
 :root {
-  --primary: #5e3bee;
+  --primary: rgb(43, 5, 78);
   --heading-color: #9699a7;
   --bg-shade: #f5fcff;
   --github: #e62872;
@@ -9,7 +9,10 @@
 }
 body {
   margin: 0px;
+  height: 100dvh;
+
 }
 html {
   color-scheme: light dark;
+  height: 100dvh;
 }

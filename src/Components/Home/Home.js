@@ -6,7 +6,6 @@ import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 import man1 from  '../../Assets/Images/man1-PhotoRoom.png'
-import Header from '../Header/Header';
 import './Index.css'
 //Get better pictures
 //Incorporate Google Translate
@@ -20,7 +19,7 @@ function Home() {
         setCurrentIndex((prevIndex) =>
           prevIndex === images.length - 1 ? 0 : prevIndex + 1
         );
-      }, 15000);
+      }, 18000);
   
       return () => clearInterval(interval);
     }, [images]);
@@ -43,7 +42,7 @@ function Home() {
           Over the years our real estate websites have evolved and delivers results.</p>
           <Link to="/Contact">
           <button  className="contactBtn">
-              Lets Talk!
+              Lets Connect!
           </button>
           </Link>
         </div>
