@@ -123,7 +123,7 @@
     display: block;
     height: 0.188rem;
     width: 100%;
-    background-color: #000000;
+    background-color: #ffffff;
     border-radius: 0.625rem;
     transition: all ease-in-out 0.2s;
   }
@@ -140,6 +140,8 @@
     }
     .navbar--items {
       display: flex;
+      z-index: 100; /* Ensure a higher z-index */
+
     }
     .navbar--items {
       position: absolute;

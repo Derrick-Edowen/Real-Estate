@@ -33,7 +33,6 @@ function Home() {
       <div className='home' style={imageStyle}>
       <div className="homePage">
         <div className='overLay'>
-          <div  className='imgContainer'>
         <img className='mainimg' src={man1} alt='man'></img>
         <div className='textBox'>
           <h1>Let me help you</h1> 
@@ -42,10 +41,9 @@ function Home() {
           Over the years our real estate websites have evolved and delivers results.</p>
           <Link to="/Contact">
           <button  className="contactBtn">
-              Lets Connect!
+              Let's Talk
           </button>
           </Link>
-        </div>
         </div>
         </div>
       </div>

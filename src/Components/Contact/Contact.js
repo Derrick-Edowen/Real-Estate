@@ -55,9 +55,6 @@ function Contact() {
       
       <div className='contactForm'>
       <section id="Contact" className="contact--section">
-      <div>
-        <h3>Lets Connect!</h3>
-      </div>
       <form ref={form} onSubmit={sendEmail} className="contact--form--container">
         <div className="container">
           <label htmlFor="name" className="contact--label">
@@ -105,7 +102,7 @@ function Contact() {
               className="contact--input text-md"
               name="priceRange"
               id="price-Range"
-              placeholder='Example: Lease for $2500/month or Purchase for $1,500,000'
+              placeholder='Example: Purchase for $1,500,000 / Lease for $2500'
             />
           </label>
         <label htmlFor="message" className="contact--label">
@@ -122,7 +119,7 @@ function Contact() {
           <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
         </label>
         <div>
-          <button className="btn btn-primary contact--form--btn"> Send </button>
+          <button className="btn btn-primary "> Send Message </button>
         </div>
       </form>
     </section>

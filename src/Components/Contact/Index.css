@@ -6,21 +6,17 @@
     transition: background 2s ease-in-out ;
   }
   .container {
-    padding: 0px 0px;
-    margin: 0;
+width: 100%;
+padding: 0px 0px;
+  }
+  h3 {
+    color: antiquewhite;
   }
   .contactForm  {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    position: relative;
-    padding-top: 0px;
-    padding-right: 0px;
     float: right;
-    text-align:left;
-    box-sizing: border-box;
-    color: azure;
-    width: 800px;
+    padding-top: 50px;
+    padding-right: 300px;
   }
   .underLay {
     background-color: rgba(0, 0, 0, 0.8);
@@ -37,23 +33,24 @@
   }
   .contact--section {
     display: flex;
-    padding: 0px;
-    padding-right: 50px;
-    padding-top: 50px;
+    float: right;
     flex-direction: column;
-    justify-content:flex-end;
     align-items: center;
     text-align: center;
     position: relative;
     gap: 12px;
-    width: 40%;
-    height: 500px;
+    width: 100%;
+    height: auto;
+    background-color: var(--primary);
+    border-radius: 25px;
+    padding: 5px;
+    margin: 5px;
   }
   .contact--form--container {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: repeat(5, auto);
-    width: 50%;
+    width: 80%;
     row-gap: 12px;
   }
   .container {
@@ -109,6 +106,8 @@
     border-radius: 0.15em;
     transform: translatey(-0.075em);
   }
-  body {
-    color: azure;
-  }
+.btn {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  color: var(--primary);
+}

@@ -8,7 +8,7 @@
   height: 100%;
   background-size: cover;
   background-position: center;
-  transition: background 12s ease-in-out ;
+  transition: background 6s ease-in-out ;
 }
 .overLay {
   background-color: rgba(0, 0, 0, 0.25);
@@ -58,42 +58,100 @@ padding: 0px;
   text-align:left;
 }
 .contactBtn {
-  width: 30%;
+  width: 200px;
   float: left;
-  background-color: rgb(43, 5, 78);
 font-size: 20px;
-box-shadow: 10px;
+  border: none;
+  color: #fff;
+  background-color: rgb(43, 5, 78);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-
-@media screen and (max-width: 768px) {
+.contactBtn:hover {
+  background-color: rgb(75, 5, 139);
+}
+@media screen and (max-width: 1360px) {
+  .overLay {
+    display: flex;
+    justify-content: center;
+  }
   .textBox {
     width: 100%;
-    padding-right: 0;
+    padding: 15px;
+    padding-top: 45px;
+    text-align: center;
+    align-items: center;
+    
+  }
+  .contactBtn {
+    align-items: center;
+  }
+  .mainimg {
+    padding: 10px;
+    border-radius: 200px;
+    height: 450px;
+    width: auto;
+    top: 375px; 
+    margin-top: 5px;
+    padding-top: 15px;
+  }
+  .textBox h1 {
+    font-size: 35px;
+    text-align: center;
+  }
+
+  .textBox h2 {
+    font-size: 30px;
+    text-align: center;
+
+  }
+
+  .textBox p {
+    font-size: 25px;
+    text-align: center;
+margin-bottom: 0px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .overLay {
+    display: flex;
+    justify-content: center;
+
+  }
+  .textBox {
+    width: 100%;
     padding-top: 50px;
     text-align: center;
   }
 
   .mainimg {
-    position: absolute;
-    padding: 15px;
-    height: 100%;
-    padding-left: 0;
-    height: 60vh;
-  }
+    padding: 10px;
+    border-radius: 200px;
+    height: 400px;
+    top: 450px; 
+    margin-top: 5px;
+    padding-top: 15px;
+}
 
   .textBox h1 {
     font-size: 30px;
+    text-align: center;
   }
 
   .textBox h2 {
     font-size: 25px;
+    text-align: center;
+
   }
 
   .textBox p {
     font-size: 20px;
+    text-align: center;
+margin-bottom: 0px;
+  }
+  .contactBtn {
+    margin-top: 5px;
+width: 200px;
   }
 
-  .contactBtn {
-    width: 50%;
-  }
 }
