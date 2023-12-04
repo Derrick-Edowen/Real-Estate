@@ -50,11 +50,10 @@ function Contact() {
         <div className='contactPage'>
 <div className="contact" style={imageStyle}>
         <div className='underLay'>
-        <img className='conImg' src={man} alt='man'></img>
-        
-      
-      <div className='contactForm'>
+       <div className='forms'>
+      <img className='conImg' src={man} alt='man'></img>
       <section id="Contact" className="contact--section">
+        <h2>Send mey an Email!</h2>
       <form ref={form} onSubmit={sendEmail} className="contact--form--container">
         <div className="container">
           <label htmlFor="name" className="contact--label">
@@ -123,7 +122,7 @@ function Contact() {
         </div>
       </form>
     </section>
-    </div>
+      </div>
     </div>
     </div>
 </div>

@@ -9,8 +9,14 @@
 width: 100%;
 padding: 0px 0px;
   }
-  h3 {
-    color: antiquewhite;
+  .forms {
+    width: 90%;
+    height: 90%;
+
+    background-color: antiquewhite;
+    color:antiquewhite;
+    border-radius: 25px;
+
   }
   .contactForm  {
     display: flex;
@@ -22,14 +28,19 @@ padding: 0px 0px;
     background-color: rgba(0, 0, 0, 0.8);
     height: 100%;
     width: 100%;
-  }
+    display: flex;
+align-items: center;  
+justify-content: center;
+}
   .conImg {
     position: absolute;
   padding: 15px;
-  height: 100%;
+  height: 50%;
+  width: 40%;
   padding-left: 00px;
-  height: 90vh;
   padding-bottom: 0px;
+  border-radius: 30px;
+  
   }
   .contact--section {
     display: flex;
@@ -39,7 +50,7 @@ padding: 0px 0px;
     text-align: center;
     position: relative;
     gap: 12px;
-    width: 100%;
+    width: 50%;
     height: auto;
     background-color: var(--primary);
     border-radius: 25px;
