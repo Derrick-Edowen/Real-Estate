@@ -5,7 +5,6 @@ import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 import man from  '../../Assets/Images/man2.png'
-import Header from '../Header/Header';
 import emailjs from '@emailjs/browser';
 import './Index.css'
 //import Footer from '../Footer/Footer';
@@ -21,7 +20,7 @@ function Contact() {
         setCurrentIndex((prevIndex) =>
           prevIndex === images.length - 1 ? 0 : prevIndex + 1
         );
-      }, 15000);
+      }, 18000);
   
       return () => clearInterval(interval);
     }, [images]);
@@ -50,10 +49,11 @@ function Contact() {
         <div className='contactPage'>
 <div className="contact" style={imageStyle}>
         <div className='underLay'>
-       <div className='forms'>
-      <img className='conImg' src={man} alt='man'></img>
+          <div className='venn-diagram'>
+      <img className='conImg circle left' src={man} alt='man'></img>
+      <div className='standIn circle right'></div>
+      </div>
       <section id="Contact" className="contact--section">
-        <h2>Send mey an Email!</h2>
       <form ref={form} onSubmit={sendEmail} className="contact--form--container">
         <div className="container">
           <label htmlFor="name" className="contact--label">
@@ -73,6 +73,7 @@ function Contact() {
               className="contact--input text-md"
               name="email"
               id="email"
+              required
             />
           </label>
           </div>
@@ -101,28 +102,28 @@ function Contact() {
               className="contact--input text-md"
               name="priceRange"
               id="price-Range"
-              placeholder='Example: Purchase for $1,500,000 / Lease for $2500'
+              placeholder='Ex: Purchase for $1,500,000 / Lease for $2500'
             />
           </label>
         <label htmlFor="message" className="contact--label">
-          <span className="text-md">Message</span>
+          <span className="text-md">Message:</span>
           <textarea
             className="contact--input text-md"
             id="message"
             rows="4"
             name="message"
             placeholder="Type your message..."
+            required
           />
         </label>
         <label htmlFor="checkboc" className="checkbox--label">
           <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
         </label>
         <div>
-          <button className="btn btn-primary "> Send Message </button>
+          <button className="sendMe btn-primary"> Send Message </button>
         </div>
       </form>
     </section>
-      </div>
     </div>
     </div>
 </div>
