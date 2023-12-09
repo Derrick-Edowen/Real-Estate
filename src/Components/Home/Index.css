@@ -11,7 +11,7 @@
   transition: background 6s ease-in-out ;
 }
 .overLay {
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.18);
   height: 100%;
   width: 100%;
 }
@@ -40,22 +40,29 @@ padding: 0px;
   float: right;
   text-align:left;
   box-sizing: border-box;
+  
 }
 .textBox  h1{
   font-size: 45px;
   float: left;
   text-align:left;
   padding-left: 0px;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+
 }
 .textBox  h2{
   font-size: 40px;
   float: left;
   text-align:left;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+
 }
 .textBox p {
   font-size: 30px;
   float: left;
   text-align:left;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+
 }
 .contactBtn {
   width: 200px;
@@ -65,7 +72,9 @@ font-size: 20px;
   color: #fff;
   background-color: rgb(43, 5, 78);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  box-shadow: 0px 5px 24px 4px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
 }
 .contactBtn:hover {
   background-color: rgb(75, 5, 139);

@@ -64,6 +64,9 @@ h1 {
   height: 400px;
 }
 
+.searchBtn {
+  background-color: var(--primary);
+}
 .card {
   border: 1px solid #ccc;
   padding: 10px;
@@ -83,6 +86,9 @@ padding-bottom: 20px;
 }
 .guidance h1{
 float: left;
+color: var(--white);
+text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+font-weight: 200;
 }
 .guidance button {
   float: right;

@@ -9,6 +9,10 @@ import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faBed } from '@fortawesome/free-solid-svg-icons';
+import { faBath } from '@fortawesome/free-solid-svg-icons';
 
 
 function ForSale() {
@@ -179,7 +183,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <option value="5">5</option>
           <option value="12">5+</option>
           </select>
-          <button onClick={handleSearch}>Search</button>
+          <button className='searchBtn' onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
         </div>
         <div className='maps'>
 <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
@@ -189,7 +193,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
 </APIProvider>
         </div>
         <div className='guidance'>
-        <h1>For Sale Listings:</h1>
+        <h1>Listings For Sale:</h1>
         {searchClicked && (
         <>
           <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
@@ -210,14 +214,18 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
               <div className="card" key={index}>
                 <img src={apiData.props[cardIndex + index]?.imgSrc} alt={apiData.props[cardIndex + index]?.address} />
                 <div className="cardText">
-                  <h3>${apiData.props[cardIndex + index]?.price}</h3>
-                  <h3>{apiData.props[cardIndex + index]?.address}</h3>
-                  <p>Bedrooms: {apiData.props[cardIndex + index]?.bedrooms}</p>
-                  <p>Bathrooms: {apiData.props[cardIndex + index]?.bathrooms}</p>
-                  <p>Basement Status: {item.resoFacts.basement}</p>
-                  <p>{item.description}</p>
-                  <p>MLS Number: {item.mlsid}</p>
-                  <p>BROKERAGE: {item.brokerageName}</p>
+                  <h2>
+                  ${apiData.props[cardIndex + index]?.price}<br />
+                  {apiData.props[cardIndex + index]?.address}
+                  </h2>
+                  <p>
+                  <FontAwesomeIcon icon={faBed} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bedrooms}<br />
+                  <FontAwesomeIcon icon={faBath} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bathrooms}<br />
+                  Basement Status: {item.resoFacts.basement}<br />
+                  {item.description}<br />
+                  MLS#: {item.mlsid}<br />
+                  BROKERAGE: {item.brokerageName}
+                  </p>
                 </div>
               </div>
             ))}

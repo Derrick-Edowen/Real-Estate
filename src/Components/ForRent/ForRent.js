@@ -10,6 +10,8 @@ import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 
 function ForRent() {
@@ -67,7 +69,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
               location: address,
-              page: '10',
+              page: '1',
               status_type: "ForRent",
               home_type: propertyType,
               sort: sort,
@@ -177,7 +179,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <option value="5">5</option>
           <option value="12">5+</option>
           </select>
-          <button onClick={handleSearch}>Search</button>
+          <button className='searchBtn' onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
         </div>
         <div className='maps'>
 <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>

@@ -36,7 +36,7 @@
   
   /* Style for the dropdown links on hover */
   .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color:rgb(131, 117, 145);
   }
   
   /* Show the dropdown content when hovering or focusing on the dropdown */
@@ -77,34 +77,53 @@
     font-family:Arial, Helvetica, sans-serif;
     text-shadow: #000000;
     color: var(--white);
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7); /* horizontal offset, vertical offset, blur radius, color */
+
   }
   .heading h3 {
     font-size: 18px;
     color: var(--white);
     font-family:Arial, Helvetica, sans-serif;
     text-shadow: #000000;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7); /* horizontal offset, vertical offset, blur radius, color */
+
   }
   .navbar--items > ul {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 65px;
+    gap: 70px;
     text-decoration: none;
     padding-right: 80px;
     padding-left: 0px;
+    transition: font-size 0.2s ease; /* Add transition effect */
+
+  }
+  .navbar--items > ul:hover {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 70px;
+    text-decoration: none;
+    padding-right: 80px;
+    padding-left: 0px;
+
   }
   .navbar--items ul > li > a {
     text-decoration: none;
   }
+ 
   /* Navbar Content */
   .navbar--content {
     color: var(--white);
-    font-size: 16px;
+    font-size: 19px;
     font-style: normal;
     font-weight: 400;
     line-height: 24px;
     cursor: pointer;
+    
   }
+  
   .navbar--active-content {
     color: var(--primary);
   }
@@ -132,7 +151,10 @@
     width: 80px;
 
   }
-  
+  li {
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+
+  }
   @media screen and (max-width: 1200px) {
     .nav__hamburger {
       display: flex;

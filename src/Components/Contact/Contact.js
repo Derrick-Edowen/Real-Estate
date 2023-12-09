@@ -7,6 +7,9 @@ import image5 from '../../Assets/Images/kitchen1.jpg'
 import man from  '../../Assets/Images/man2.png'
 import emailjs from '@emailjs/browser';
 import './Index.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+
 //import Footer from '../Footer/Footer';
 
 
@@ -52,7 +55,23 @@ function Contact() {
           <div className='venn-diagram'>
       <img className='conImg circle left' src={man} alt='man'></img>
       <div className='standIn circle right'></div>
+      <div className='standOut circle right'>
+        <p>
+        Phone Number: 123-456-7890<br />
+        Email: JohnSmith@outlook.com<br />
+        Office Phone: 098-765-4321<br />
+        Office Address: 123 Real Estate Ave<br /><br />
+        or<br /><br />
+        Send me a Message!
+        </p>
+
       </div>
+      <div className='littleOut circle right'></div>
+      <div className='miniArr'>
+      <FontAwesomeIcon icon={faArrowRight} beat size="2xl" style={{color: "#d4c8df",}} />      
+      </div>
+      </div>
+
       <section id="Contact" className="contact--section">
       <form ref={form} onSubmit={sendEmail} className="contact--form--container">
         <div className="container">
