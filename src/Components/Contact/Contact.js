@@ -52,17 +52,17 @@ function Contact() {
         <div className='contactPage'>
 <div className="contact" style={imageStyle}>
         <div className='underLay'>
-          <div className='venn-diagram'>
+          <section className='venn-diagram'>
       <img className='conImg circle left' src={man} alt='man'></img>
       <div className='standIn circle right'></div>
       <div className='standOut circle right'>
         <p>
-        Phone Number: 123-456-7890<br />
+         Phone Number: 123-456-7890<br />
         Email: JohnSmith@outlook.com<br />
         Office Phone: 098-765-4321<br />
         Office Address: 123 Real Estate Ave<br /><br />
         or<br /><br />
-        Send me a Message!
+        Send a Message!
         </p>
 
       </div>
@@ -70,7 +70,7 @@ function Contact() {
       <div className='miniArr'>
       <FontAwesomeIcon icon={faArrowRight} beat size="2xl" style={{color: "#d4c8df",}} />      
       </div>
-      </div>
+      </section>
 
       <section id="Contact" className="contact--section">
       <form ref={form} onSubmit={sendEmail} className="contact--form--container">

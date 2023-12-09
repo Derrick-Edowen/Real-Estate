@@ -151,7 +151,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <option value="Square_Feet">Square Footage</option>
           </select>
           <select id="choose-type" name="propertyType" placeholder='Property Type'required>
-          <option value="" disabled selected>Select a Property Type</option>
+          <option value="" disabled selected>Property Type</option>
           <option value="">Any</option>
           <option value="Houses">Houses</option>
           <option value="Townhomes">Townhomes</option>
@@ -189,7 +189,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
 </APIProvider>
         </div>
         <div className='guidance'>
-        <h1>For Rent Listings:</h1>
+        <h1>Listings For Rent:</h1>
         {searchClicked && (
         <>
           <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>

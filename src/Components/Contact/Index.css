@@ -20,7 +20,7 @@ justify-content: center;
   position: relative;
   width: 300px;
   height: 200px;
-  margin-right: 400px;
+  margin-right: 325px;
 }
 
 .circle {
@@ -53,7 +53,7 @@ justify-content: center;
   transform: translateX(45%);
 }
   .conImg {
-  padding: 15px;
+  padding: 0px;
   height: 300px;
   width: 300px;
   padding-bottom: 0px;
@@ -102,7 +102,7 @@ background-color: rgb(43, 5, 78);
   margin-left: 257px;
   margin-top: 277px;
 }
-  .contact--section {
+.contact--section {
     display: flex;
     float: right;
     flex-direction: column;
@@ -116,6 +116,7 @@ background-color: rgb(43, 5, 78);
     border-radius: 5px;
     padding: 5px;
     margin: 5px;
+    margin-left: 30px;
     box-shadow: 0px 10px 48px 8px;
 
   }
@@ -183,4 +184,806 @@ background-color: rgb(43, 5, 78);
 .sendMe {
   background-color: var(--primary);
   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 1612px) {
+  .underLay {
+    display: flex;
+    justify-content: center;
+  }
+  .venn-diagram {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    margin-right: 225px;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .left {
+    left: 0;
+    z-index: 1;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  /* Adjust positioning for overlap */
+  .venn-diagram .circle {
+    top: -200px; /* Adjust as needed */
+  }
+  
+  .left {
+    transform: translateX(-70%);
+  }
+  
+  .right {
+    transform: translateX(45%);
+  }
+    .conImg {
+    padding: 0px;
+    height: 175px;
+    width: 175px;
+    padding-bottom: 0px;
+    border-radius: 1000px;
+  background-color: rgb(43, 5, 78);
+    }
+  .standIn {
+    height: 450px;
+    width: 450px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    box-shadow: 0px 10px 48px 8px;
+  
+  }
+  .standOut {
+    height: 375px;
+    width: 375px;
+    border-radius: 1000px;
+    background-color: rgb(247, 242, 252);
+    margin-top: 38px;
+    margin-right: 3.5px;
+    padding-top: 90px;
+  
+  }
+  .standOut p {
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:Arial, Helvetica, sans-serif;
+  
+  }
+  .littleOut {
+    height: 60px;
+    width: 60px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-right: 20px;
+    margin-top: 370px;
+  
+  }
+  .miniArr {
+    width: 100px;
+    height: 100px;
+    z-index: 200;
+    margin-left: 162px;
+    margin-top: 182px;
+  }
+}
+@media screen and (max-width: 1296px) {
+  .underLay {
+    display: flex;
+    justify-content: center;
+  }
+  .venn-diagram {
+    position: relative;
+    width: 150px;
+    height: 70px;
+    margin-right: 165px;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .left {
+    left: 0;
+    z-index: 1;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  /* Adjust positioning for overlap */
+  .venn-diagram .circle {
+    top: -200px; /* Adjust as needed */
+  }
+  
+  .left {
+    transform: translateX(-70%);
+  }
+  
+  .right {
+    transform: translateX(45%);
+  }
+    .conImg {
+    padding: 0px;
+    height: 140px;
+    width: 140px;
+    padding-bottom: 0px;
+    border-radius: 1000px;
+  background-color: rgb(43, 5, 78);
+    }
+  .standIn {
+    height: 350px;
+    width: 350px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    box-shadow: 0px 10px 48px 8px;
+  
+  }
+  .standOut {
+    height: 300px;
+    width: 300px;
+    border-radius: 1000px;
+    background-color: rgb(247, 242, 252);
+    margin-top: 25px;
+    margin-right: 2px;
+    padding-top: 90px;
+  
+  }
+  .standOut p {
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:Arial, Helvetica, sans-serif;
+  
+  }
+  .littleOut {
+    height: 50px;
+    width: 50px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-right: 16px;
+    margin-top: 295px;
+  
+  }
+  .miniArr {
+    width: 60px;
+    height: 60px;
+    z-index: 200;
+    margin-left: 117px;
+    margin-top: 103px;
+  }
+
+
+
+
+}
+@media screen and (max-width: 1112px) {
+  .contact {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background 12s ease-in-out ;
+}
+  .underLay {
+    display: flex;
+    justify-content: center;
+  }
+  .venn-diagram {
+    position: absolute;
+  width: auto;
+  height: 200px;
+  top: 375px;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .left {
+    left: 0;
+    z-index: 1;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  /* Adjust positioning for overlap */
+  .venn-diagram .circle {
+    top: -200px; /* Adjust as needed */
+  }
+  
+  .left {
+    transform: translateX(-70%);
+  }
+  
+  .right {
+    transform: translateX(45%);
+  }
+    .conImg {
+    padding: 0px;
+    height: 275px;
+    width: 275px;
+    padding-bottom: 0px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    }
+  .standIn {
+    height: 650px;
+    width: 650px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    box-shadow: 0px 10px 48px 8px;
+  
+  }
+  .standOut {
+    height: 575px;
+    width: 575px;
+    border-radius: 1000px;
+    background-color: rgb(247, 242, 252);
+    margin-top: 38px;
+    margin-right: 3.5px;
+    padding-top: 90px;
+  
+  }
+  .standOut p {
+    font-size: 26px;
+    text-align: center;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:Arial, Helvetica, sans-serif;
+    margin-top: 50px;
+  
+  }
+  .littleOut {
+    height: 90px;
+    width: 90px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-right: 28px;
+    margin-top: 555px;
+  
+  }
+  .miniArr {
+    width: 100px;
+    height: 100px;
+    z-index: 200;
+    margin-left: 200px;
+    margin-top: 370px;
+  }
+  .contact--section {
+    display: flex;
+    position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: auto; /* Take full width */
+  height: auto;
+  background-color: rgb(247, 242, 252);
+  border-radius: 5px;
+  padding: 20px; /* Adjust padding as needed */
+  margin-top: -150px; /* Adjust the negative margin to position it below the venn-diagram */
+  box-shadow: 0px 10px 48px 8px;
+  margin-top: 800px;
+  margin-bottom: 10px;
+  }
+  svg {
+    margin-left: 54px;
+    margin-top: 10px;
+    rotate: 90deg;
+  }
+}
+@media screen and (max-width: 900px) {
+  .contact {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background 12s ease-in-out ;
+}
+  .underLay {
+    display: flex;
+    justify-content: center;
+  }
+  .venn-diagram {
+    position: absolute;
+  width: auto;
+  height: 200px;
+  top: 375px;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .left {
+    left: 0;
+    z-index: 1;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  /* Adjust positioning for overlap */
+  .venn-diagram .circle {
+    top: -200px; /* Adjust as needed */
+  }
+  
+  .left {
+    transform: translateX(-70%);
+  }
+  
+  .right {
+    transform: translateX(45%);
+  }
+    .conImg {
+    padding: 0px;
+    height: 260px;
+    width: 260px;
+    padding-bottom: 0px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    }
+  .standIn {
+    height: 600px;
+    width: 600px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    box-shadow: 0px 10px 48px 8px;
+  
+  }
+  .standOut {
+    height: 525px;
+    width: 525px;
+    border-radius: 1000px;
+    background-color: rgb(247, 242, 252);
+    margin-top: 38px;
+    margin-right: 3.5px;
+    padding-top: 90px;
+  
+  }
+  .standOut p {
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:Arial, Helvetica, sans-serif;
+    margin-top: 50px;
+  
+  }
+  .littleOut {
+    height: 80px;
+    width: 80px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-right: 28px;
+    margin-top: 515px;
+  
+  }
+  .miniArr {
+    width: 80px;
+    height: 80px;
+    z-index: 200;
+    margin-left: 200px;
+    margin-top: 336px;
+  }
+  .contact--section {
+    display: flex;
+    position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: auto; /* Take full width */
+  height: auto;
+  background-color: rgb(247, 242, 252);
+  border-radius: 5px;
+  padding: 20px; /* Adjust padding as needed */
+  margin-top: -150px; /* Adjust the negative margin to position it below the venn-diagram */
+  box-shadow: 0px 10px 48px 8px;
+  margin-top: 800px;
+  margin-bottom: 10px;
+  }
+  svg {
+    margin-left: 34px;
+    margin-top: -200px;
+    rotate: 90deg;
+  }
+}
+@media screen and (max-width: 830px) {
+  .contact {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background 12s ease-in-out ;
+}
+  .underLay {
+    display: flex;
+    justify-content: center;
+  }
+  .venn-diagram {
+    position: absolute;
+  width: auto;
+  height: 200px;
+  top: 375px;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .left {
+    left: 0;
+    z-index: 1;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  /* Adjust positioning for overlap */
+  .venn-diagram .circle {
+    top: -200px; /* Adjust as needed */
+  }
+  
+  .left {
+    transform: translateX(-70%);
+  }
+  
+  .right {
+    transform: translateX(45%);
+  }
+    .conImg {
+    padding: 0px;
+    height: 175px;
+    width: 175px;
+    padding-bottom: 0px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-left: 80px;
+    }
+  .standIn {
+    height: 425px;
+    width: 425px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    box-shadow: 0px 10px 48px 8px;
+  
+  }
+  .standOut {
+    height: 375px;
+    width: 375px;
+    border-radius: 1000px;
+    background-color: rgb(247, 242, 252);
+    margin-top: 25px;
+    margin-right: 1px;
+    padding-top: 90px;
+  
+  }
+  .standOut p {
+    font-size: 18px;
+    text-align: center;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+  
+  }
+  .littleOut {
+    height: 50px;
+    width: 50px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-right: 18px;
+    margin-top: 360px;
+  
+  }
+  .miniArr {
+    width: 80px;
+    height: 80px;
+    z-index: 200;
+    margin-left: 200px;
+    margin-top: 174px;
+  }
+  .contact--section {
+    display: flex;
+    position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: auto; /* Take full width */
+  height: auto;
+  background-color: rgb(247, 242, 252);
+  border-radius: 5px;
+  padding: 20px; /* Adjust padding as needed */
+  box-shadow: 0px 10px 48px 8px;
+  margin-top: 600px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  }
+  svg {
+    margin-left: 45px;
+    margin-top: -200px;
+    rotate: 90deg;
+  }
+}
+@media screen and (max-width: 540px) {
+  .contact {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background 12s ease-in-out ;
+}
+  .underLay {
+    display: flex;
+    justify-content: center;
+  }
+  .venn-diagram {
+    position: absolute;
+  width: auto;
+  height: 200px;
+  top: 375px;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .left {
+    left: 0;
+    z-index: 1;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  /* Adjust positioning for overlap */
+  .venn-diagram .circle {
+    top: -200px; /* Adjust as needed */
+  }
+  
+  .left {
+    transform: translateX(-70%);
+  }
+  
+  .right {
+    transform: translateX(45%);
+  }
+    .conImg {
+    padding: 0px;
+    height: 120px;
+    width: 120px;
+    padding-bottom: 0px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-left: 120px;
+    }
+  .standIn {
+    height: 325px;
+    width: 325px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    box-shadow: 0px 10px 48px 8px;
+  margin-right: 20px;
+  }
+  .standOut {
+    height: 275px;
+    width: 275px;
+    border-radius: 1000px;
+    background-color: rgb(247, 242, 252);
+    margin-top: 25px;
+    margin-right: 21px;
+    padding-top: 60px;
+  
+  }
+  .standOut p {
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+  
+  }
+  .littleOut {
+    height: 50px;
+    width: 50px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-right: 34px;
+    margin-top: 270px;
+  
+  }
+  .miniArr {
+    width: 80px;
+    height: 80px;
+    z-index: 200;
+    margin-left: 200px;
+    margin-top: 85px;
+  }
+  .contact--section {
+    display: flex;
+    position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: auto; /* Take full width */
+  height: auto;
+  background-color: rgb(247, 242, 252);
+  border-radius: 5px;
+  padding: 20px; /* Adjust padding as needed */
+  box-shadow: 0px 10px 48px 8px;
+  margin-top: 600px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  }
+  svg {
+    margin-left: 30.5px;
+    margin-top: -100px;
+    rotate: 90deg;
+  }
+}
+@media screen and (max-width: 386px) {
+  .contact {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: background 12s ease-in-out ;
+}
+  .underLay {
+    display: flex;
+    justify-content: center;
+  }
+  .venn-diagram {
+    position: absolute;
+  width: auto;
+  height: 200px;
+  top: 375px;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .left {
+    left: 0;
+    z-index: 1;
+  }
+  
+  .right {
+    right: 0;
+  }
+  
+  /* Adjust positioning for overlap */
+  .venn-diagram .circle {
+    top: -200px; /* Adjust as needed */
+  }
+  
+  .left {
+    transform: translateX(-70%);
+  }
+  
+  .right {
+    transform: translateX(45%);
+  }
+    .conImg {
+    padding: 0px;
+    height: 100px;
+    width: 100px;
+    padding-bottom: 0px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-left: 135px;
+    }
+  .standIn {
+    height: 290px;
+    width: 290px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    box-shadow: 0px 10px 48px 8px;
+  margin-right: 20px;
+  }
+  .standOut {
+    height: 250px;
+    width: 250px;
+    border-radius: 1000px;
+    background-color: rgb(247, 242, 252);
+    margin-top: 18px;
+    margin-right: 21px;
+    padding-top: 60px;
+  
+  }
+  .standOut p {
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold; /* Make the text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-family:Arial, Helvetica, sans-serif;
+    margin-top: 5px;
+  
+  }
+  .littleOut {
+    height: 50px;
+    width: 50px;
+    border-radius: 1000px;
+    background-color: rgb(43, 5, 78);
+    margin-right: 32px;
+    margin-top: 240px;
+  
+  }
+  .miniArr {
+    width: 80px;
+    height: 80px;
+    z-index: 200;
+    margin-left: 200px;
+    margin-top: 52px;
+  }
+  .contact--section {
+    display: flex;
+    position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  width: auto; /* Take full width */
+  height: auto;
+  background-color: rgb(247, 242, 252);
+  border-radius: 5px;
+  padding: 20px; /* Adjust padding as needed */
+  box-shadow: 0px 10px 48px 8px;
+  margin-top: 600px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  }
+  svg {
+    margin-left: 32px;
+    margin-top: -100px;
+    rotate: 90deg;
+  }
 }

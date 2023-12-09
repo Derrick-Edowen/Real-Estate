@@ -152,7 +152,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <option value="Square_Feet">Square Footage</option>
           </select>
           <select id="choose-type" name="propertyType" placeholder='Property Type'required>
-          <option value="" disabled selected>Select a Property Type</option>
+          <option value="" disabled selected>Property Type</option>
           <option value="">Any</option>
           <option value="Houses">Houses</option>
           <option value="Townhomes">Townhomes</option>

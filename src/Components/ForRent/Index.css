@@ -22,6 +22,7 @@ h1 {
     padding-right: 50px;
     padding-top: 15px;
     padding-bottom: 5px;
+    text-align: left;
   }
   
   /* Adjustments for input and select elements */
@@ -75,15 +76,17 @@ h1 {
   height: auto;
 }
 .guidance {
-  display: flex; /* Use flexbox for layout */
-  justify-content: center; /* Center contents horizontally */
-width: 55%;
-gap: 5px;
-padding-bottom: 20px;
-}
-.guidance h1{
-float: left;
-}
-.guidance button {
-  float: right;
-}
+  width: fit-content;
+  gap: 5px;
+  padding-bottom: 20px;
+  }
+  .guidance h1{
+  color: var(--white);
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+  font-weight: 350;
+  float: left;
+  }
+  .guidance button {
+    float: right;
+    background-color: var(--primary);
+  }
