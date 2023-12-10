@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
-import Header from '../Header/Header';
-import './Index.css'
+import './Indexr.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import placeHouse from '../../Assets/Images/placeHouse.jpg'
 import image1 from '../../Assets/Images/living1.jpg'                                                                            
@@ -12,7 +11,8 @@ import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-
+import { faBed } from '@fortawesome/free-solid-svg-icons';
+import { faBath } from '@fortawesome/free-solid-svg-icons';
 
 function ForRent() {
 //Images
@@ -162,26 +162,26 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <select id="choose-beds" name="beds" placeholder='Beds'required>
           <option value="" disabled selected>Beds</option>
           <option value="0">Any</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="12">5+</option>
+          <option value="1">1 Bed</option>
+          <option value="2">2 Beds </option>
+          <option value="3">3 Beds</option>
+          <option value="4">4 Beds</option>
+          <option value="5">5 Beds</option>
+          <option value="12">6+ Beds</option>
           </select>
           <select id="choose-baths" name="baths" placeholder='Baths'required>
           <option value="" disabled selected>Baths</option>
           <option value="0">Any</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="12">5+</option>
+          <option value="1">1 Bath</option>
+          <option value="2">2 Baths</option>
+          <option value="3">3 Baths</option>
+          <option value="4">4 Baths</option>
+          <option value="5">5 Baths</option>
+          <option value="12">6+ Baths</option>
           </select>
           <button className='searchBtn' onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
         </div>
-        <div className='maps'>
+        <div className='map'>
 <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
   <Map center={position} zoom={10}>
     <Marker position={position}/>
@@ -210,14 +210,18 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
               <div className="card" key={index}>
                 <img src={apiData.props[cardIndex + index]?.imgSrc} alt={apiData.props[cardIndex + index]?.address} />
                 <div className="cardText">
-                  <h3>${apiData.props[cardIndex + index]?.price}</h3>
-                  <h3>{apiData.props[cardIndex + index]?.address}</h3>
-                  <p>Bedrooms: {apiData.props[cardIndex + index]?.bedrooms}</p>
-                  <p>Bathrooms: {apiData.props[cardIndex + index]?.bathrooms}</p>
-                  <p>Basement Status: {item.resoFacts.basement}</p>
-                  <p>{item.description}</p>
-                  <p>MLS Number: {item.mlsid}</p>
-                  <p>BROKERAGE: {item.brokerageName}</p>
+                  <h2>
+                  ${apiData.props[cardIndex + index]?.price}<br />
+                  {apiData.props[cardIndex + index]?.address}
+                  </h2>
+                  <p>
+                  <FontAwesomeIcon icon={faBed} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bedrooms}<br />
+                  <FontAwesomeIcon icon={faBath} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bathrooms}<br />
+                  Basement Status: {item.resoFacts.basement}<br />
+                  {item.description}<br />
+                  MLS#: {item.mlsid}<br />
+                  BROKERAGE: {item.brokerageName}
+                  </p>
                 </div>
               </div>
             ))}
