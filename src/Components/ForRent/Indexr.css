@@ -63,21 +63,26 @@ h1 {
 /* Styles for the sidebar */
 .cardContainer {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
-  padding-left: 60px;
-  height: 400px;
+  max-height: 700px;
+width: 63%;
 }
 
 .card {
-  border: 1px solid #ccc;
-  padding: 10px;
-  width: calc(33.3% - 20px); /* Set the width to 25% of the container minus the gap */
+  border: 5px solid #ccc;
+  padding: 5px;
+  width: calc(33.3% - 10px); /* Set the width to 33.3% of the container minus the gap */
+  height: 695px; /* Set fixed height */
+  overflow: hidden; /* Hide overflowing text */
 }
 
 .card img {
   width: 100%;
   height: auto;
+}
+.cardText {
+  font-size: 1rem; /* Initial font size */
+  overflow: hidden; /* Hide overflowing text */
 }
 .guidance {
   width: fit-content;
@@ -90,7 +95,7 @@ h1 {
   text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
   font-weight: 350;
   float: left;
-  margin-right: 265px;
+  margin-right: 100px;
   }
   .guidance button {
     float: right;

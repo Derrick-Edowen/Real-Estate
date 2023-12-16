@@ -193,7 +193,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
 </APIProvider>
         </div>
         <div className='guidance'>
-        <h1>Listings For Sale:</h1>
+        <h1>Properties for Sale:</h1>
         {searchClicked && (
         <>
           <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>

@@ -86,30 +86,23 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           setApiData(estateResponse.data); 
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
+      const maxRequestsPerSecond = 1; // Define the maximum requests per second
+      const delayBetweenRequests = 2000 / maxRequestsPerSecond; // Calculate the delay between requests
 
-          const maxConcurrentRequests = 10;
-      const batches = [];
-      for (let i = 0; i < zpidList.length; i += maxConcurrentRequests) {
-        const batch = zpidList.slice(i, i + maxConcurrentRequests);
-        batches.push(batch);
-      }
       const infoDataArray = [];
-      for (const batch of batches) {
-        const zpidPromises = batch.map((zpid) => {
-          return axios.get('https://zillow-com1.p.rapidapi.com/property', {
-            params: {
-              zpid: zpid
-            },
-            headers: {
-              'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-              'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-            }
-          });
+      for (let i = 0; i < zpidList.length; i++) {
+        const zpid = zpidList[i];
+        const response = await axios.get('https://zillow-com1.p.rapidapi.com/property', {
+          params: { zpid },
+          headers: {
+            'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          }
         });
-
-        const batchResponses = await Promise.all(zpidPromises);
-        const batchInfoData = batchResponses.map((response) => response.data);
-        infoDataArray.push(...batchInfoData);
+        infoDataArray.push(response.data);
+        if (i < zpidList.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
+        }
       }
 
       setInfoData(infoDataArray);
@@ -133,6 +126,22 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           }
         }
       };
+      function adjustTextSize() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+          const cardText = card.querySelector('.cardText');
+          const cardHeight = card.clientHeight;
+          const textHeight = cardText.scrollHeight;
+          const fontSize = parseFloat(window.getComputedStyle(cardText).fontSize);
+          if (textHeight > cardHeight) {
+            const newFontSize = fontSize * (cardHeight / textHeight);
+            cardText.style.fontSize = `${newFontSize}px`;
+          }
+        });
+      }
+      useEffect(() => {
+        adjustTextSize();
+      }, [infoData, cardIndex]);
     return (
         <div className='lists' style={imageStyle}>
         <div className='overlay'>
@@ -189,46 +198,52 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
 </APIProvider>
         </div>
         <div className='guidance'>
-        <h1>Listings For Rent:</h1>
+        <h1>Properties for Rent:</h1>
+        
         {searchClicked && (
         <>
+        <button onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
+            Next
+          </button>
           <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
             Previous
           </button>
-          <button onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
-            Next
-          </button>
         </>
       )}
+
         </div>
         {apiData.props && apiData.props.length > 0 && (
       <>
         {/* ... */}
+        
         <div className="cardContainer">
           {searchClicked && infoData && infoData.length > 0 &&
             infoData.slice(cardIndex, cardIndex + 3).map((item, index) => (
               <div className="card" key={index}>
                 <img src={apiData.props[cardIndex + index]?.imgSrc} alt={apiData.props[cardIndex + index]?.address} />
                 <div className="cardText">
-                  <h2>
+                  <h5>
                   ${apiData.props[cardIndex + index]?.price}<br />
                   {apiData.props[cardIndex + index]?.address}
-                  </h2>
+                  </h5>
                   <p>
-                  <FontAwesomeIcon icon={faBed} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bedrooms}<br />
+                  <FontAwesomeIcon icon={faBed} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <FontAwesomeIcon icon={faBath} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bathrooms}<br />
-                  Basement Status: {item.resoFacts.basement}<br />
                   {item.description}<br />
                   MLS#: {item.mlsid}<br />
                   BROKERAGE: {item.brokerageName}
                   </p>
                 </div>
               </div>
+              
             ))}
         </div>
+        
         {/* ... */}
       </>
+      
     )}
+    
     </div>
     </div>
     );

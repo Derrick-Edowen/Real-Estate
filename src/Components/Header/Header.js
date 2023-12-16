@@ -39,6 +39,7 @@ function Header() {
       <div className="heading">
         <h2>John Smith</h2>
         <h3>Real Estate Sales Representative</h3>
+        
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
