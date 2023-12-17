@@ -9,10 +9,14 @@ import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
+import placeHolderImg from '../../Assets/Images/noimg.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faBed } from '@fortawesome/free-solid-svg-icons';
 import { faBath } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 
 function ForRent() {
 //Images
@@ -36,6 +40,7 @@ const [infoData, setInfoData] = useState([]);
 const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
 const [cardIndex, setCardIndex] = useState(0);
 const [searchClicked, setSearchClicked] = useState(false); // Track if search is clicked
+const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async () => {
     const address = document.getElementById('search').value;
@@ -54,6 +59,8 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
   try {
+    setIsLoading(true); // Set loading state to true during data fetching
+
     const response = await fetch(geocodeUrl);
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -86,8 +93,8 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           setApiData(estateResponse.data); 
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-      const maxRequestsPerSecond = 1; // Define the maximum requests per second
-      const delayBetweenRequests = 2000 / maxRequestsPerSecond; // Calculate the delay between requests
+      const maxRequestsPerSecond = 2; // Define the maximum requests per second
+      const delayBetweenRequests = 4000 / maxRequestsPerSecond; // Calculate the delay between requests
 
       const infoDataArray = [];
       for (let i = 0; i < zpidList.length; i++) {
@@ -106,8 +113,10 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
       }
 
       setInfoData(infoDataArray);
+      setIsLoading(false); // Set loading state to false after data is fetched
     } catch (error) {
       console.error('Error fetching data:', error);
+      setIsLoading(false); // Ensure loading state is set to false in case of error
     }
   };
 
@@ -199,21 +208,22 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
         </div>
         <div className='guidance'>
         <h1>Properties for Rent:</h1>
-        <>
-        <button onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
-            Next
-          </button>
-          <button onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
-            Previous
-          </button>
-        </>
-
         </div>
+        {isLoading ? (
+        <div className="loadingMessage">
+          Generating properties based on your search results... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
+        </div>
+      ) : (
+        <>
         {apiData.props && apiData.props.length > 0 && (
         <div className="cardContainer">
+          <button className='leftBun' onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
+          <FontAwesomeIcon icon={faArrowLeft} beat size="2xl" />
+          </button>
           {searchClicked && infoData && infoData.length > 0 && (
-            <div className="card" key={cardIndex}>
-              <img src={apiData.props[cardIndex]?.imgSrc} alt={apiData.props[cardIndex]?.address} />
+            <div className="cardi" key={cardIndex}>
+              <img src={apiData.props[cardIndex]?.imgSrc || placeHolderImg}
+                alt={apiData.props[cardIndex]?.address || 'No Image Available'} />
               <div className="cardText">
                 <h5>
                   ${apiData.props[cardIndex]?.price}/Month<br />
@@ -229,10 +239,14 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
               </div>
             </div>
           )}
+          <button className='rightBun' onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
+        <FontAwesomeIcon icon={faArrowRight} beat size="2xl" />
+          </button>
         </div>
       )}
-
-      {/* ... (other components or elements) */}
+      
+          </>
+      )}
     </div>
     </div>
     );
