@@ -169,7 +169,7 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
           <input type='number' id="min-price"placeholder='Minimum Price'required></input>
           <input type='number' id="max-price"placeholder='Maximum Price'required></input>
           <select id="choose-beds" name="beds" placeholder='Beds'required>
-          <option value="" disabled selected>Beds</option>
+          <option value="" disabled selected>Beds<FontAwesomeIcon icon={faBed} size="sm" style={{ color: "#1d1e20" }} /></option>
           <option value="0">Any</option>
           <option value="1">1 Bed</option>
           <option value="2">2 Beds </option>
@@ -199,8 +199,6 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
         </div>
         <div className='guidance'>
         <h1>Properties for Rent:</h1>
-        
-        {searchClicked && (
         <>
         <button onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
             Next
@@ -209,41 +207,32 @@ const [searchClicked, setSearchClicked] = useState(false); // Track if search is
             Previous
           </button>
         </>
-      )}
 
         </div>
         {apiData.props && apiData.props.length > 0 && (
-      <>
-        {/* ... */}
-        
         <div className="cardContainer">
-          {searchClicked && infoData && infoData.length > 0 &&
-            infoData.slice(cardIndex, cardIndex + 3).map((item, index) => (
-              <div className="card" key={index}>
-                <img src={apiData.props[cardIndex + index]?.imgSrc} alt={apiData.props[cardIndex + index]?.address} />
-                <div className="cardText">
-                  <h5>
-                  ${apiData.props[cardIndex + index]?.price}<br />
-                  {apiData.props[cardIndex + index]?.address}
-                  </h5>
-                  <p>
-                  <FontAwesomeIcon icon={faBed} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <FontAwesomeIcon icon={faBath} size="sm" style={{color: "#1d1e20",}} /> {apiData.props[cardIndex + index]?.bathrooms}<br />
-                  {item.description}<br />
-                  MLS#: {item.mlsid}<br />
-                  BROKERAGE: {item.brokerageName}
-                  </p>
-                </div>
+          {searchClicked && infoData && infoData.length > 0 && (
+            <div className="card" key={cardIndex}>
+              <img src={apiData.props[cardIndex]?.imgSrc} alt={apiData.props[cardIndex]?.address} />
+              <div className="cardText">
+                <h5>
+                  ${apiData.props[cardIndex]?.price}/Month<br />
+                  {apiData.props[cardIndex]?.address}
+                </h5>
+                <p>
+                  <FontAwesomeIcon icon={faBed} size="sm" style={{ color: "#1d1e20" }} /> {apiData.props[cardIndex]?.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <FontAwesomeIcon icon={faBath} size="sm" style={{ color: "#1d1e20" }} /> {apiData.props[cardIndex]?.bathrooms}<br />
+                  {infoData[cardIndex]?.description}<br />
+                  MLS#: {infoData[cardIndex]?.mlsid}<br />
+                  BROKERAGE: {infoData[cardIndex]?.brokerageName}
+                </p>
               </div>
-              
-            ))}
+            </div>
+          )}
         </div>
-        
-        {/* ... */}
-      </>
-      
-    )}
-    
+      )}
+
+      {/* ... (other components or elements) */}
     </div>
     </div>
     );

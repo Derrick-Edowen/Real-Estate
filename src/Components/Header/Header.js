@@ -118,6 +118,20 @@ function Header() {
               smooth={true}
               offset={-70}
               duration={1000}
+              to="/Questions"
+              className="navbar--content"
+            >
+              Questions
+            </Link>
+          </li>
+          <li>
+            <Link
+              onClick={closeMenu}
+              activeClass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
               to="/Contact"
               className="navbar--content"
             >

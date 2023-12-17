@@ -10,7 +10,7 @@ import ForSale from './Components/ForSale/ForSale';
 import ForRent from './Components/ForRent/ForRent';
 import RecentlySold from './Components/RecentlySold/RecentlySold';
 import RentCalculator from "./Components/RentCalculator/RentCalculator";
-
+import Questions from "./Components/Questions/Questions";
 
 function App() {
   return (
@@ -27,6 +27,7 @@ function App() {
             <Route path="/RecentlySold" element={<RecentlySold />}></Route>
             <Route path="/RentCalculator" element={<RentCalculator />}></Route>
             <Route path="/Contact" element={<Contact />}></Route>
+            <Route path="/Questions" element={<Questions />}></Route>
             <Route path="*" element={<div>404 Not Found</div>}></Route>
           </Routes>
           <Footer />
