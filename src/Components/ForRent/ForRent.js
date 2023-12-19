@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import './Indexr.css'
@@ -19,7 +20,6 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 
 function ForRent() {
-//Images
 const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
     useEffect(() => {
@@ -75,7 +75,7 @@ const [isLoading, setIsLoading] = useState(false);
     }
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
-              location: address,
+              location: address + ", Ontario",
               page: '1',
               status_type: "ForRent",
               home_type: propertyType,
@@ -94,7 +94,7 @@ const [isLoading, setIsLoading] = useState(false);
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
       const maxRequestsPerSecond = 2; // Define the maximum requests per second
-      const delayBetweenRequests = 4000 / maxRequestsPerSecond; // Calculate the delay between requests
+      const delayBetweenRequests = 3000 / maxRequestsPerSecond; // Calculate the delay between requests
 
       const infoDataArray = [];
       for (let i = 0; i < zpidList.length; i++) {
@@ -152,6 +152,7 @@ const [isLoading, setIsLoading] = useState(false);
         adjustTextSize();
       }, [infoData, cardIndex]);
     return (
+      
         <div className='lists' style={imageStyle}>
         <div className='overlay'>
 
@@ -218,7 +219,8 @@ const [isLoading, setIsLoading] = useState(false);
         {apiData.props && apiData.props.length > 0 && (
         <div className="cardContainer">
           <button className='leftBun' onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
-          <FontAwesomeIcon icon={faArrowLeft} beat size="2xl" />
+          <FontAwesomeIcon icon={faArrowLeft} beat size="2xl" /><br />
+          Back
           </button>
           {searchClicked && infoData && infoData.length > 0 && (
             <div className="cardi" key={cardIndex}>
@@ -230,17 +232,27 @@ const [isLoading, setIsLoading] = useState(false);
                   {apiData.props[cardIndex]?.address}
                 </h5>
                 <p>
-                  <FontAwesomeIcon icon={faBed} size="sm" style={{ color: "#1d1e20" }} /> {apiData.props[cardIndex]?.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <FontAwesomeIcon icon={faBath} size="sm" style={{ color: "#1d1e20" }} /> {apiData.props[cardIndex]?.bathrooms}<br />
+                  <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props[cardIndex]?.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props[cardIndex]?.bathrooms}<br />
                   {infoData[cardIndex]?.description}<br />
+                  Parking Status: {infoData[cardIndex]?.resoFacts.parkingCapacity} parking space(s)<br />
                   MLS#: {infoData[cardIndex]?.mlsid}<br />
-                  BROKERAGE: {infoData[cardIndex]?.brokerageName}
+                  BROKERAGE: {infoData[cardIndex]?.brokerageName}<br />
+                  <Link
+              to={{
+                pathname: '/Contact', // Update the pathname as per your route setup
+                search: `?address=${encodeURIComponent(apiData.props[cardIndex]?.address)}&price=${encodeURIComponent(apiData.props[cardIndex]?.price)}`,
+              }}
+            >
+              Ask John Smith about {apiData.props[cardIndex]?.address}?
+            </Link>
                 </p>
               </div>
             </div>
           )}
           <button className='rightBun' onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
-        <FontAwesomeIcon icon={faArrowRight} beat size="2xl" />
+        <FontAwesomeIcon icon={faArrowRight} beat size="2xl" /><br />
+        Next
           </button>
         </div>
       )}

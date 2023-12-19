@@ -39,6 +39,7 @@ const Questions = () => {
     <>
         <div className="quests" style={imageStyle}>
         <div className='questLay'>
+          <h1 className='qTitle'>Have an Real Estate Questions? Ask Away!</h1>
       <div className="gcse-search"></div>
         </div>
         </div>

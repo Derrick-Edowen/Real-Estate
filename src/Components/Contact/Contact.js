@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom'; // Import useLocation from react-router-dom
 import image1 from '../../Assets/Images/living1.jpg'                                                                            
 import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
@@ -47,6 +48,11 @@ function Contact() {
         }
       )
   };
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const address = queryParams.get('address') || '';
+  const price = queryParams.get('price') || '';
 
     return (<>
         <div className='contactPage'>
@@ -115,15 +121,17 @@ function Contact() {
           </select>
         </label>
         <label htmlFor="price-range" className="contact--label">
-            <span className="text-md">Price Range:</span>
-            <input
-              type="text"
-              className="contact--input text-md"
-              name="priceRange"
-              id="price-Range"
-              placeholder='Ex: Purchase for $1,500,000 / Lease for $2500'
-            />
-          </label>
+        <span className="text-md">Price Range:</span>
+        <input
+          type="text"
+          className="contact--input text-md"
+          name="priceRange"
+          id="price-Range"
+          value={price ? `Ask John Smith about ${address} at $${price}/month` : ''}
+          placeholder='Ex: Purchase for $1,500,000 / Lease for $2500'
+          readOnly
+        />
+      </label>
         <label htmlFor="message" className="contact--label">
           <span className="text-md">Message:</span>
           <textarea
