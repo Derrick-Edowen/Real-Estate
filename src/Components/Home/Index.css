@@ -1,7 +1,7 @@
 
 .homePage {
   width: 100%;
-  height: 90dvh;
+  height: 100dvh;
 }
 .home {
   width: 100%;
@@ -23,7 +23,7 @@ padding: 0px;
   padding: 15px;
   height: 100%;
   padding-left: 110px;
-  height: 90vh;
+  height: 100vh;
   padding-bottom: 0px;
 
 }
@@ -72,14 +72,14 @@ font-size: 20px;
   color: #fff;
   background-color: rgb(43, 5, 78);
   cursor: pointer;
-  box-shadow: 0px 3px 12px 2px;
+  box-shadow: 0px 1px 6px 1px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
 }
 .contactBtn:hover {
   background-color: rgb(75, 5, 139);
 }
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1455px) {
   .overLay {
     display: flex;
     justify-content: center;

@@ -63,12 +63,9 @@ function Contact() {
       <div className='standIn circle right'></div>
       <div className='standOut circle right'>
         <p>
-         Phone Number: 123-456-7890<br />
-        Email: JohnSmith@outlook.com<br />
-        Office Phone: 098-765-4321<br />
-        Office Address: 123 Real Estate Ave<br /><br />
-        or<br /><br />
-        Send a Message!
+         Your contact<br />
+        Information here!<br />
+        
         </p>
 
       </div>
@@ -127,9 +124,8 @@ function Contact() {
           className="contact--input text-md"
           name="priceRange"
           id="price-Range"
-          value={price ? `Ask John Smith about ${address} at $${price}/month` : ''}
           placeholder='Ex: Purchase for $1,500,000 / Lease for $2500'
-          readOnly
+        
         />
       </label>
         <label htmlFor="message" className="contact--label">
@@ -147,7 +143,7 @@ function Contact() {
           <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
         </label>
         <div>
-          <button className="sendMe btn-primary"> Send Message </button>
+          <button className="sendMe btn-primary"> Submit </button>
         </div>
       </form>
     </section>

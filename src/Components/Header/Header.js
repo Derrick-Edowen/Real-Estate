@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import placeHolder  from '../../Assets/Images/rahlogo-placeholder.png'
 import './Index.css'
 
+
 function Header() {
+  const [arrowMissle, setarrowMissle] = useState(false); // Add state for dropdown visibility
+  const [dropdownVisible, setDropdownVisible] = useState(false); // Add state for dropdown visibility
+
   const [navActive, setNavActive] = useState(false);
 
   const toggleNav = () => {
     setNavActive(!navActive);
+    setDropdownVisible(!dropdownVisible);
+    setDropdownVisible(false);
+
   };
 
   const closeMenu = () => {
     setNavActive(false);
+    setDropdownVisible(false);
   };
 
   useEffect(() => {
@@ -29,21 +37,29 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth <= 1350) {
+    if (window.innerWidth <= 1360) {
       closeMenu();
     }
   }, []);
+  const handleClick = () => {
+    // Action 1: Increment counter
+    setDropdownVisible(!dropdownVisible);
 
+  };
   return (
+
+
+
+    
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">
         <h2>John Smith</h2>
-        <h3>Real Estate Sales Representative</h3>
+        <h3>Sales Representative</h3>
         
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
-        onClick={toggleNav}
+        onClick={toggleNav} 
       >
         <span className="nav__hamburger__line"></span>
         <span className="nav__hamburger__line"></span>
@@ -52,7 +68,7 @@ function Header() {
       <div className={`navbar--items ${navActive ? "active" : ""}`}>
         <ul>
           <li>
-            <Link
+            <NavLink
               onClick={closeMenu}
               activeClass="navbar--active-content"
               spy={true}
@@ -63,16 +79,16 @@ function Header() {
               className="navbar--content"
             >
               Home
-            </Link>
+            </NavLink>
           </li>
-          <li className="dropdown">
+          <li className={`dropdown ${dropdownVisible ? "active" : ""}`}>
             <span
-              onClick={toggleNav}
-              className="navbar--content"
+              className={`navbar--content findingList ${dropdownVisible ? "arrow-rotate" : ""}`}
+              onClick={handleClick}
             >
               Find Listings <span className="arrow">&#9660;</span>
             </span>
-            <div className="dropdown-content">
+            <div className={`dropdown-content ${dropdownVisible ? "active" : ""}`}>
               <Link
                 onClick={closeMenu}
                 to="/ForRent"
@@ -97,7 +113,7 @@ function Header() {
             </div>
           </li>
           <li>
-            <Link
+            <NavLink
               onClick={closeMenu}
               activeClass="navbar--active-content"
               spy={true}
@@ -108,10 +124,10 @@ function Header() {
               className="navbar--content"
             >
               Mortgage Calculator
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               onClick={closeMenu}
               activeClass="navbar--active-content"
               spy={true}
@@ -121,11 +137,11 @@ function Header() {
               to="/Questions"
               className="navbar--content"
             >
-              Questions
-            </Link>
+              Info Search
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               onClick={closeMenu}
               activeClass="navbar--active-content"
               spy={true}
@@ -136,7 +152,7 @@ function Header() {
               className="navbar--content"
             >
               Contact
-            </Link>
+            </NavLink>
           </li>
           <div className="holder">
             <img className="holderImg" src={placeHolder} alt="Placeholder Logo" />

@@ -7,6 +7,7 @@ import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 import man1 from  '../../Assets/Images/man1-PhotoRoom.png'
 import './Index.css'
+
 //Get better pictures
 //Incorporate Google Translate
 
@@ -41,7 +42,7 @@ function Home() {
           Over the years our real estate websites have evolved and delivers results.</p>
           <Link to="/Contact">
           <button  className="contactBtn">
-              Let's Talk
+              Let's Talk!
           </button>
           </Link>
         </div>

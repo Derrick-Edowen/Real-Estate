@@ -11,13 +11,14 @@ import ForRent from './Components/ForRent/ForRent';
 import RecentlySold from './Components/RecentlySold/RecentlySold';
 import RentCalculator from "./Components/RentCalculator/RentCalculator";
 import Questions from "./Components/Questions/Questions";
-
+import Test from "./Components/Test/Test"
 function App() {
+  
   return (
-    <div className="App">
+   <div className="App">
+    
       <Router>
-        <div>
-        <Header />
+      <Header />
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/Home" element={<Home />}></Route>
@@ -28,10 +29,10 @@ function App() {
             <Route path="/RentCalculator" element={<RentCalculator />}></Route>
             <Route path="/Contact" element={<Contact />}></Route>
             <Route path="/Questions" element={<Questions />}></Route>
+            <Route path="/test" element={<Test />}></Route>
             <Route path="*" element={<div>404 Not Found</div>}></Route>
           </Routes>
           <Footer />
-        </div>
       </Router>
     </div>
   );
