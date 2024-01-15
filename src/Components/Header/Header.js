@@ -5,7 +5,7 @@ import './Index.css'
 
 
 function Header() {
-  const [arrowMissle, setarrowMissle] = useState(false); // Add state for dropdown visibility
+  const [arrowRotation, setArrowRotation] = useState(0);
   const [dropdownVisible, setDropdownVisible] = useState(false); // Add state for dropdown visibility
 
   const [navActive, setNavActive] = useState(false);
@@ -44,6 +44,8 @@ function Header() {
   const handleClick = () => {
     // Action 1: Increment counter
     setDropdownVisible(!dropdownVisible);
+    setArrowRotation(arrowRotation + 90); // Rotate by 90 degrees on each click
+
 
   };
   return (
@@ -55,7 +57,6 @@ function Header() {
       <div className="heading">
         <h2>John Smith</h2>
         <h3>Sales Representative</h3>
-        
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
@@ -85,8 +86,9 @@ function Header() {
             <span
               className={`navbar--content findingList ${dropdownVisible ? "arrow-rotate" : ""}`}
               onClick={handleClick}
+              style={{ transform: `rotate(${arrowRotation}deg)` }}
             >
-              Find Listings <span className="arrow">&#9660;</span>
+              Find Listings <span className="arrow">&#9661;</span>
             </span>
             <div className={`dropdown-content ${dropdownVisible ? "active" : ""}`}>
               <Link
@@ -137,7 +139,7 @@ function Header() {
               to="/Questions"
               className="navbar--content"
             >
-              Info Search
+              Information
             </NavLink>
           </li>
           <li>

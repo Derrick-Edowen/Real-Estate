@@ -10,7 +10,7 @@ import image2 from '../../Assets/Images/backyard1.jpg'
 import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
-import placeHolderImg from '../../Assets/Images/noimg.png'
+import noImg from '../../Assets/Images/noimg.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faBed } from '@fortawesome/free-solid-svg-icons';
@@ -41,6 +41,12 @@ const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
 const [cardIndex, setCardIndex] = useState(0);
 const [searchClicked, setSearchClicked] = useState(false); // Track if search is clicked
 const [isLoading, setIsLoading] = useState(false);
+
+const [expandedCard, setExpandedCard] = useState(null);
+
+  const handleCardClick = (index) => {
+    setExpandedCard(expandedCard === index ? null : index);
+  };
 
   const handleSearch = async () => {
     const address = document.getElementById('search').value;
@@ -212,56 +218,94 @@ const [isLoading, setIsLoading] = useState(false);
         </div>
         {isLoading ? (
         <div className="loadingMessage">
-          Generating properties based on your search results... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
-        </div>
-      ) : (
-        <>
+        Generating properties based on your search results... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
+      </div>
+    ) : (
+      <>
         {apiData.props && apiData.props.length > 0 && (
-        <div className="cardContainer">
-          <button className='leftBun' onClick={() => setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1))}>
-          <FontAwesomeIcon icon={faArrowLeft} beat size="2xl" /><br />
-          Back
-          </button>
-          {searchClicked && infoData && infoData.length > 0 && (
-            <div className="cardi" key={cardIndex}>
-              <img src={apiData.props[cardIndex]?.imgSrc || placeHolderImg}
-                alt={apiData.props[cardIndex]?.address || 'No Image Available'} />
-              <div className="cardText">
-                <h5>
-                  ${apiData.props[cardIndex]?.price}/Month<br />
-                  {apiData.props[cardIndex]?.address}
-                </h5>
-                <p>
-                  <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props[cardIndex]?.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props[cardIndex]?.bathrooms}<br />
-                  {infoData[cardIndex]?.description}<br />
-                  Parking Status: {infoData[cardIndex]?.resoFacts.parkingCapacity} parking space(s)<br />
-                  MLS#: {infoData[cardIndex]?.mlsid}<br />
-                  BROKERAGE: {infoData[cardIndex]?.brokerageName}<br />
-                  <Link
-              to={{
-                pathname: '/Contact', // Update the pathname as per your route setup
-                search: `?address=${encodeURIComponent(apiData.props[cardIndex]?.address)}&price=${encodeURIComponent(apiData.props[cardIndex]?.price)}`,
-              }}
-            >
-              Ask John Smith about {apiData.props[cardIndex]?.address}?
-            </Link>
-                </p>
-              </div>
-            </div>
-          )}
-          <button className='rightBun' onClick={() => setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1))}>
-        <FontAwesomeIcon icon={faArrowRight} beat size="2xl" /><br />
-        Next
-          </button>
-        </div>
-      )}
-      
-          </>
-      )}
-    </div>
-    </div>
-    );
+          <div className="cardContainer">
+            {searchClicked && infoData && infoData.length > 0 && (
+              apiData.props.map((property, index) => (
+                <div
+                      className={`cardi ${expandedCard === index ? 'expanded' : ''}`}
+                      key={index}
+                      onClick={() => handleCardClick(index)}
+                    >
+                  <img src={property.imgSrc || noImg}
+                    alt={'No Image Available'}
+                    />
+                  <div className="cardText">
+                    <h5>
+                      ${property.price}/Month<br />
+                      {property.address}
+                    </h5>
+                    <p>
+                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
+                      <Link
+                        to={{
+                          pathname: '/Contact',
+                          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
+                        }}
+                      >
+                        Ask John Smith about {property.address}?
+                      </Link>
+                    </p>
+                  </div>
+                  {expandedCard === index && (
+                        <div className="expandedCard">
+                          {/* Additional information goes here */}
+                          {infoData[index]?.description}<br />
+                  Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
+                  MLS#: {infoData[index]?.mlsid}<br />
+                  BROKERAGE: {infoData[index]?.brokerageName}<br />
+                          {/* Close button */}
+                        </div>
+                        )}
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </>
+    )}
+  </div>
+</div>
+);
 }
+
  
 export default ForRent;
+/*
+
+  <div className="cardContainer">
+          <div className="cardi" key={index}>
+        <img src={apiData.props.imgSrc || placeHolderImg}
+          alt={apiData.props.address || 'No Image Available'} />
+        <div className="cardText">
+          <h5>
+            ${apiData.props.price}/Month<br />
+            {apiData.props.address}
+          </h5>
+          <p>
+            <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props.bathrooms}<br />
+            {infoData.description}<br />
+            Parking Status: {infoData.resoFacts.parkingCapacity} parking space(s)<br />
+            MLS#: {infoData.mlsid}<br />
+            BROKERAGE: {infoData.brokerageName}<br />
+            <Link
+        to={{
+          pathname: '/Contact', // Update the pathname as per your route setup
+          search: `?address=${encodeURIComponent(apiData.props.address)}&price=${encodeURIComponent(apiData.props.price)}`,
+        }}
+      >
+        Ask John Smith about {apiData.props.address}?
+      </Link>
+          </p>
+        </div>
+      </div>
+    )}
+    
+  </div>
+)}*/

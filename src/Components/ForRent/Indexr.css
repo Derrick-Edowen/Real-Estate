@@ -12,7 +12,8 @@
   width: 100%;
 }
 h1 {
-  padding-left: 55px;
+  padding-left: 50px;
+  margin-left: 150px;
 }
 .searchBar {
     display: flex; /* Use flexbox for layout */
@@ -66,33 +67,79 @@ h1 {
 /* Styles for the sidebar */
 .cardContainer {
   display: flex;
-  width: 900px;
-  height: 700px;
-  margin-left: 60px;
-  align-items: center; 
+  flex-direction: column;
+  width: 708px;
+  max-height: 680px;
+  margin-left: 50px;
+  gap: 5.5px;
+  overflow:auto;
+  margin-left: 200px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 .cardi {
-  border: 5px solid #ccc;
-  background-color: #eeeeee;
+  display: flex; /* Use flexbox */
+  align-items:flex-start; /* Center vertically */
+  border: 1.8px solid #000000;
+  background-color: #f3f3f3;
   padding: 5px;
-  width: 628px;
-  height: 680px; /* Set fixed height */
-  box-shadow: 0px 5px 24px 4px;
-border-radius: 5px;
-overflow:auto;
+  width: 700px;
+  height: 110px; /* Set fixed height */
+  box-shadow: 0px 2px 12px 2px;
+  border-radius: 5px;
+  cursor: pointer;
 }
+.cardi.expanded {
+  display: flex; /* Use flexbox */
+  align-items:flex-start; /* Center vertically */
+  border: 1.8px solid #000000;
+  flex-direction: column;
 
-.card img {
-  width: 100%;
-  height: auto;
+  background-color: #f3f3f3;
+  padding: 5px;
+  width: 700px;
+  height: 650px; /* Set fixed height */
+  box-shadow: 0px 2px 12px 2px;
+  border-radius: 5px;
+}
+.cardi.expanded img{
+  width: 97.5%;
+  height: 60%;
   border-radius: 5px;
   margin-bottom: 5px;
+}
+.cardi img {
+  border: 0.1px solid #000000;
+  border-radius: 5px;
+  margin: 10px;
+  width: 125px;
+  height: 80px;
+  margin-right: 15px;
 }
 .cardText {
   font-size: 1rem; /* Initial font size */
   overflow: hidden; /* Hide overflowing text */
+  padding-top: 10px;
 }
+
+
 .guidance {
   width: fit-content;
   gap: 5px;
