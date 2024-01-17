@@ -18,7 +18,7 @@ const Questions = () => {
       document.body.removeChild(script);
     };
   }, []);
-  const [images] = useState([image1, image2, image3, image4, image5]);
+  /*const [images] = useState([image1, image2, image3, image4, image5]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -33,11 +33,11 @@ const Questions = () => {
 
   const imageStyle = {
     backgroundImage: `url(${images[currentIndex]})`,
-  };
+  };*/
 
   return (
     <>
-        <div className="quests" style={imageStyle}>
+        <div className="quests">
         <div className='questLay'>
           <h1 className='qTitle'>Have a Question? Ask Away!</h1>
       <div className="gcse-search"></div>

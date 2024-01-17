@@ -9,7 +9,7 @@ import image5 from '../../Assets/Images/kitchen1.jpg'
 import './Index.css'
 
 function Calculator() {
-    const [images] = useState([image1, image2, image3, image4, image5]);
+    /*const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
   
     useEffect(() => {
@@ -24,10 +24,10 @@ function Calculator() {
   
     const imageStyle = {
       backgroundImage: `url(${images[currentIndex]})`,
-    };
+    };*/
   
     return (
-        <div className="calc" style={imageStyle}>
+        <div className="calc">
 <div className='calculatorContainer'>
 <MortgageCalculator  interestRate={0.050} price={0} downPayment={0} mortgageInsuranceEnabled={true}/>
 <p></p>

@@ -139,7 +139,7 @@ function Header() {
               to="/Questions"
               className="navbar--content"
             >
-              Information
+              Search
             </NavLink>
           </li>
           <li>

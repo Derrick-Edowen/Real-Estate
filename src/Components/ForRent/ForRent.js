@@ -20,7 +20,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 
 function ForRent() {
-const [images] = useState([image1, image2, image3, image4, image5]);
+/*const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
     useEffect(() => {
       const interval = setInterval(() => {
@@ -33,7 +33,7 @@ const [images] = useState([image1, image2, image3, image4, image5]);
     }, [images]);
     const imageStyle = {
       backgroundImage: `url(${images[currentIndex]})`,
-    };
+    };*/
 //Mapping
 const [apiData, setApiData] = useState([]);
 const [infoData, setInfoData] = useState([]);
@@ -46,6 +46,7 @@ const [expandedCard, setExpandedCard] = useState(null);
 
   const handleCardClick = (index) => {
     setExpandedCard(expandedCard === index ? null : index);
+    
   };
 
   const handleSearch = async () => {
@@ -100,7 +101,7 @@ const [expandedCard, setExpandedCard] = useState(null);
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
       const maxRequestsPerSecond = 2; // Define the maximum requests per second
-      const delayBetweenRequests = 3000 / maxRequestsPerSecond; // Calculate the delay between requests
+      const delayBetweenRequests = 2500 / maxRequestsPerSecond; // Calculate the delay between requests
 
       const infoDataArray = [];
       for (let i = 0; i < zpidList.length; i++) {
@@ -159,7 +160,7 @@ const [expandedCard, setExpandedCard] = useState(null);
       }, [infoData, cardIndex]);
     return (
       
-        <div className='lists' style={imageStyle}>
+        <div className='lists'>
         <div className='overlay'>
 
         <div className='searchBar'>
@@ -192,7 +193,7 @@ const [expandedCard, setExpandedCard] = useState(null);
           <option value="3">3 Beds</option>
           <option value="4">4 Beds</option>
           <option value="5">5 Beds</option>
-          <option value="12">6+ Beds</option>
+          <option value="6">6 Beds</option>
           </select>
           <select id="choose-baths" name="baths" placeholder='Baths'required>
           <option value="" disabled selected>Baths</option>
@@ -202,7 +203,7 @@ const [expandedCard, setExpandedCard] = useState(null);
           <option value="3">3 Baths</option>
           <option value="4">4 Baths</option>
           <option value="5">5 Baths</option>
-          <option value="12">6+ Baths</option>
+          <option value="6">6 Baths</option>
           </select>
           <button className='searchBtn' onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
         </div>
@@ -218,7 +219,7 @@ const [expandedCard, setExpandedCard] = useState(null);
         </div>
         {isLoading ? (
         <div className="loadingMessage">
-        Generating properties based on your search results... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
+        Generating properties. Please wait ... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
       </div>
     ) : (
       <>
@@ -229,7 +230,7 @@ const [expandedCard, setExpandedCard] = useState(null);
                 <div
                       className={`cardi ${expandedCard === index ? 'expanded' : ''}`}
                       key={index}
-                      onClick={() => handleCardClick(index)}
+                      
                     >
                   <img src={property.imgSrc || noImg}
                     alt={'No Image Available'}
@@ -252,6 +253,8 @@ const [expandedCard, setExpandedCard] = useState(null);
                       </Link>
                     </p>
                   </div>
+                  <button className='exButt' onClick={() => handleCardClick(index)}>More</button>
+
                   {expandedCard === index && (
                         <div className="expandedCard">
                           {/* Additional information goes here */}

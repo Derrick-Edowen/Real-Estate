@@ -104,7 +104,6 @@ h1 {
   height: 110px; /* Set fixed height */
   box-shadow: 0px 2px 12px 2px;
   border-radius: 5px;
-  cursor: pointer;
 }
 .cardi.expanded {
   display: flex; /* Use flexbox */
@@ -115,7 +114,7 @@ h1 {
   background-color: #f3f3f3;
   padding: 5px;
   width: 700px;
-  height: 650px; /* Set fixed height */
+  height: 100%; /* Set fixed height */
   box-shadow: 0px 2px 12px 2px;
   border-radius: 5px;
 }
@@ -124,6 +123,9 @@ h1 {
   height: 60%;
   border-radius: 5px;
   margin-bottom: 5px;
+}
+.cardi.expanded:active + .cardContainer{
+  display: none;
 }
 .cardi img {
   border: 0.1px solid #000000;
@@ -138,7 +140,12 @@ h1 {
   overflow: hidden; /* Hide overflowing text */
   padding-top: 10px;
 }
-
+.exButt {
+  width: auto;
+  height: auto;
+  margin: 8px;
+  background-color: rgb(131, 117, 145);
+}
 
 .guidance {
   width: fit-content;

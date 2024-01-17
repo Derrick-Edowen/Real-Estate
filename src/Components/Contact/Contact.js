@@ -16,7 +16,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 function Contact() {
-    const [images] = useState([image1, image2, image3, image4, image5]);
+    /*const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
   
     useEffect(() => {
@@ -31,7 +31,7 @@ function Contact() {
   
     const imageStyle = {
       backgroundImage: `url(${images[currentIndex]})`,
-    };
+    };*/
     const [textVisible, setTextVisible] = useState(false);
   const handleButtonClick = () => {
     setTextVisible(!textVisible);
@@ -56,7 +56,7 @@ function Contact() {
 
     return (<>
         <div className='contactPage'>
-<div className="contact" style={imageStyle}>
+<div className="contact">
         <div className='underLay'>
           <section className='venn-diagram'>
       <img className='conImg circle left' src={man} alt='man'></img>

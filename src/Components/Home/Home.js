@@ -12,7 +12,7 @@ import './Index.css'
 //Incorporate Google Translate
 
 function Home() {
-    const [images] = useState([image1, image2, image3, image4, image5]);
+    /*const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
   
     useEffect(() => {
@@ -27,11 +27,11 @@ function Home() {
   
     const imageStyle = {
       backgroundImage: `url(${images[currentIndex]})`,
-    };
+    };*/
   
     return (
       <>
-      <div className='home' style={imageStyle}>
+      <div className='home'>
       <div className="homePage">
         <div className='overLay'>
         <img className='mainimg' src={man1} alt='man'></img>
