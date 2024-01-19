@@ -16,22 +16,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 function Contact() {
-    /*const [images] = useState([image1, image2, image3, image4, image5]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) =>
-          prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 18000);
-  
-      return () => clearInterval(interval);
-    }, [images]);
-  
-    const imageStyle = {
-      backgroundImage: `url(${images[currentIndex]})`,
-    };*/
+    
     const [textVisible, setTextVisible] = useState(false);
   const handleButtonClick = () => {
     setTextVisible(!textVisible);

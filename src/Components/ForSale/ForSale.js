@@ -20,7 +20,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 
 function ForSale() {
-const [images] = useState([image1, image2, image3, image4, image5]);
+/*const [images] = useState([image1, image2, image3, image4, image5]);
     const [currentIndex, setCurrentIndex] = useState(0);
     useEffect(() => {
       const interval = setInterval(() => {
@@ -33,7 +33,7 @@ const [images] = useState([image1, image2, image3, image4, image5]);
     }, [images]);
     const imageStyle = {
       backgroundImage: `url(${images[currentIndex]})`,
-    };
+    };*/
 //Mapping
 const [apiData, setApiData] = useState([]);
 const [infoData, setInfoData] = useState([]);
@@ -153,14 +153,11 @@ const [isLoading, setIsLoading] = useState(false);
       }, [infoData, cardIndex]);
     return (
       
-        <div className='lists' style={imageStyle}>
+        <div className='lists'>
         <div className='overlay'>
 
         <div className='searchBar'>
           <input id='search' type='text' placeholder='City or Neighbourhood' required></input>
-          <select id="choose-topic" name="transaction" placeholder='Transaction Type'required>
-          <option value="ForSale" disabled selected>For Sale</option>
-          </select>
           <select id="sortList" name="sort" placeholder='Sort Listings'required>
           <option value="" disabled selected>Sort Listings</option>
           <option value="Newest">Newest</option>

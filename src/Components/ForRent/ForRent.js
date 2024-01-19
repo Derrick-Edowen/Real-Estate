@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+import Contact from '../Contact/Contact';
 import './Indexr.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import placeHouse from '../../Assets/Images/placeHouse.jpg'
@@ -101,7 +102,7 @@ const [expandedCard, setExpandedCard] = useState(null);
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
       const maxRequestsPerSecond = 2; // Define the maximum requests per second
-      const delayBetweenRequests = 2500 / maxRequestsPerSecond; // Calculate the delay between requests
+      const delayBetweenRequests = 2000 / maxRequestsPerSecond; // Calculate the delay between requests
 
       const infoDataArray = [];
       for (let i = 0; i < zpidList.length; i++) {
@@ -165,9 +166,6 @@ const [expandedCard, setExpandedCard] = useState(null);
 
         <div className='searchBar'>
           <input id='search' type='text' placeholder='City or Neighbourhood' required></input>
-          <select id="choose-topic" name="transaction" placeholder='Transaction Type'required>
-          <option value="ForRent" selected>For Rent</option>
-          </select>
           <select id="sortList" name="sort" placeholder='Sort Listings'required>
           <option value="" disabled selected>Sort Listings</option>
           <option value="Newest">Newest</option>
@@ -183,8 +181,8 @@ const [expandedCard, setExpandedCard] = useState(null);
           <option value="Townhomes">Townhomes</option>
           <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
           </select>
-          <input type='number' id="min-price"placeholder='Minimum Price'required></input>
-          <input type='number' id="max-price"placeholder='Maximum Price'required></input>
+          <input type='number' id="min-price"placeholder='Minimum Price - Ex: $1000'required></input>
+          <input type='number' id="max-price"placeholder='Maximum Price - Ex: $4000'required></input>
           <select id="choose-beds" name="beds" placeholder='Beds'required>
           <option value="" disabled selected>Beds<FontAwesomeIcon icon={faBed} size="sm" style={{ color: "#1d1e20" }} /></option>
           <option value="0">Any</option>
@@ -243,14 +241,6 @@ const [expandedCard, setExpandedCard] = useState(null);
                     <p>
                       <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
-                      <Link
-                        to={{
-                          pathname: '/Contact',
-                          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
-                        }}
-                      >
-                        Ask John Smith about {property.address}?
-                      </Link>
                     </p>
                   </div>
                   <button className='exButt' onClick={() => handleCardClick(index)}>More</button>
@@ -262,6 +252,16 @@ const [expandedCard, setExpandedCard] = useState(null);
                   Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
                   MLS#: {infoData[index]?.mlsid}<br />
                   BROKERAGE: {infoData[index]?.brokerageName}<br />
+                  <p>
+                  <Link
+        to={{
+          pathname: '/Contact', // Update the pathname as per your route setup
+          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
+        }}
+      >
+        Ask John Smith about {property.address}?
+      </Link>
+      </p>
                           {/* Close button */}
                         </div>
                         )}
