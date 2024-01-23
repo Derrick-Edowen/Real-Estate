@@ -8,22 +8,40 @@
 }
 .overlay {
   background-color: rgba(0, 0, 0, 0.5);
-  height: 100vh;
+  height: 100dvh;
   width: 100%;
+  
 }
-h1 {
-  margin-left: 55px;
+.fullStage {
+width: 70%;
+float: right;
+margin: 20px;
+margin-right: 35px;
+margin-top: 30px;
+
+}
+.halves {
+  width: 20%;
+  height: auto;
+  margin-left: 20px;
+  padding-top: 25px;
 }
 .searchBar {
-    display: flex; /* Use flexbox for layout */
-    justify-content: center; /* Center contents horizontally */
-    align-items: center; /* Align contents vertically */
-    padding-left: 50px;
-    padding-right: 50px;
-    padding-top: 15px;
-    padding-bottom: 5px;
-    text-align: left;
+    flex-direction: column;  
+
   }
+  .searchBtn {
+    background-color:var(--primary);
+        justify-content: center;
+    align-items: center;
+    border: 0.1px solid #000000;
+    width: 50%;
+
+}
+.searchBtn:hover {
+background-color: rgb(131, 117, 145);
+}
+
   
   /* Adjustments for input and select elements */
   .searchBar input,
@@ -52,150 +70,124 @@ h1 {
     z-index: -10;
   }
 .map {
-  height: 715px;
-  width: 700px;
+  height: 375px;
+  width: 400px;
   z-index: 200;
-  float: right;
-  padding-right: 50px;
-  margin-right: 115px;
-  padding-top: 35px;
-  margin-top: 15px;
-  border-radius: 100px;
+  margin: 20px;
+  margin-left: 5px;
+
 }
 
 /* Styles for the sidebar */
 .cardContainer {
   display: flex;
-  flex-direction: column;
-  width: 708px;
-  max-height: 680px;
-  margin-left: 50px;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
   gap: 5.5px;
   overflow:auto;
-  margin-left: 200px;
+  max-height: 750px;
+  width:fit-content;
 }
+
 ::-webkit-scrollbar {
   width: 5px;
+  border-radius: 25px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1; 
+  -webkit-box-shadow: inset 0 0 6px     rgba(0,0,0,0.3); 
+    border-radius: 10px;
 }
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888; 
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px     rgba(0,0,0,0.5); 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+.pPrice  {
+  color: var(--primary);
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: larger;
+  font: bolder;
+}
+.pAddress {
+    color: var(--primary);
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: larger;
 
+}
 .cardi {
-  display: flex; /* Use flexbox */
-  align-items:flex-start; /* Center vertically */
-  border: 1.8px solid #000000;
-  background-color: #f3f3f3;
-  padding: 5px;
-  width: 700px;
-  height: 110px; /* Set fixed height */
+  flex: 0 0 calc(25% - 20px); /* Calculate width for three columns with gap */
+  align-items: flex-start;
+  background-color: #ebe7e7;
   box-shadow: 0px 2px 12px 2px;
   border-radius: 5px;
+  margin-bottom: 2px; /* Add margin to create gap between rows */
+ max-height: 345px;
+overflow: auto;
 }
 .cardi.expanded {
   display: flex; /* Use flexbox */
   align-items:flex-start; /* Center vertically */
-  border: 1.8px solid #000000;
   flex-direction: column;
-
   background-color: #f3f3f3;
-  padding: 5px;
   width: 700px;
   height: 100%; /* Set fixed height */
   box-shadow: 0px 2px 12px 2px;
   border-radius: 5px;
+  .exButt {
+    display: none;
+  }
+
 }
 .cardi.expanded img{
-  width: 97.5%;
+  width: 100%;
   height: 60%;
-  border-radius: 5px;
-  margin-bottom: 5px;
 }
-.cardi.expanded:active + .cardContainer{
-  display: none;
-}
+
 .cardi img {
   border: 0.1px solid #000000;
-  border-radius: 5px;
-  margin: 10px;
-  width: 125px;
-  height: 80px;
-  margin-right: 15px;
+  width: 100%;
+  height: 50%;
 }
 .cardText {
   font-size: 1rem; /* Initial font size */
   overflow: hidden; /* Hide overflowing text */
-  padding-top: 10px;
+  margin: 5px;
 }
 .exButt {
+  width: fit-content;
+  height: fit-content;
+  margin: 5px;
+cursor: pointer;
+color:var(--primary);
+margin-left: 8px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.exButt:hover {
+text-decoration: underline;
+color: rgb(131, 117, 145);
+
+}
+.exButt1 {
   width: auto;
   height: auto;
   margin: 8px;
   background-color: rgb(131, 117, 145);
-}
+  border: 0.1px solid #000000;
 
-.guidance {
-  width: fit-content;
-  gap: 5px;
-  height: fit-content;
-  }
-  .guidance h1{
-  color: var(--white);
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
-  font-weight: 350;
-  float: left;
-  margin-right: 100px;
-  font-size: 35px;
-  }
- .leftBun {
-border-radius: 15px;
-background-color: var(--primary);
-height: 30%;
 }
- .rightBun {
-  border-radius: 15px;
-  background-color: var(--primary);
-  height: 30%;
-
- }
- .rightBun:hover {
-    background-color: rgb(91, 27, 155);
-  }
-  
-  .leftBun:hover {
-    background-color: rgb(91, 27, 155);
-  }
 
 .loadingMessage {
   font-size: 25px;
-  color: #eeeeee;
+  color: #ffffff;
   margin-top: 350px;
-  margin-left: 250px;
+  margin-left: 375px;
 }
-
-
-  @media screen and (max-width: 1360px) {
-    .map {
-      height: 300px;
-      width: 80%;
-      z-index: 200;
-      padding-right: 50px;
-      margin-right: 115px;
-      padding-top: 15px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-      border-radius: 100px;
-    }
-  }

@@ -21,20 +21,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faHouseUser } from '@fortawesome/free-solid-svg-icons';
 
 function ForRent() {
-/*const [images] = useState([image1, image2, image3, image4, image5]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) =>
-          prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 15000);
-  
-      return () => clearInterval(interval);
-    }, [images]);
-    const imageStyle = {
-      backgroundImage: `url(${images[currentIndex]})`,
-    };*/
+
 //Mapping
 const [apiData, setApiData] = useState([]);
 const [infoData, setInfoData] = useState([]);
@@ -42,12 +29,43 @@ const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
 const [cardIndex, setCardIndex] = useState(0);
 const [searchClicked, setSearchClicked] = useState(false); // Track if search is clicked
 const [isLoading, setIsLoading] = useState(false);
-
 const [expandedCard, setExpandedCard] = useState(null);
+const [zoomLevel, setZoomLevel] = useState(10); // Set an initial zoom level
 
+
+const updateMapLocation = async (address) => {
+  const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
+  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+  try {
+    setIsLoading(true); // Set loading state to true during data fetching
+
+    const response = await fetch(geocodeUrl);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    const { results } = data;
+    if (results && results.length > 0) {
+      const { lat, lng } = results[0].geometry.location;
+      setPosition({ lat, lng });
+      setZoomLevel(15); // Set your desired zoom level here
+    } else {
+      window.alert('Location Not Found: Try Using More Descriptive Words!');
+    }
+
+    setIsLoading(false); // Set loading state to false after data is fetched
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setIsLoading(false); // Ensure loading state is set to false in case of error
+  }
+};
   const handleCardClick = (index) => {
     setExpandedCard(expandedCard === index ? null : index);
-    
+    (async () => {
+      // Update map location when a card is clicked
+      const selectedProperty = apiData.props[index];
+      await updateMapLocation(selectedProperty.address);
+    })();
   };
 
   const handleSearch = async () => {
@@ -102,7 +120,7 @@ const [expandedCard, setExpandedCard] = useState(null);
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
       const maxRequestsPerSecond = 2; // Define the maximum requests per second
-      const delayBetweenRequests = 2000 / maxRequestsPerSecond; // Calculate the delay between requests
+      const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Calculate the delay between requests
 
       const infoDataArray = [];
       for (let i = 0; i < zpidList.length; i++) {
@@ -128,21 +146,6 @@ const [expandedCard, setExpandedCard] = useState(null);
     }
   };
 
-      useEffect(() => {
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-          document.removeEventListener('keydown', handleKeyDown);
-        };
-      }, [apiData.props, searchClicked]);
-      const handleKeyDown = (event) => {
-        if (searchClicked && apiData.props.length > 0) {
-          if (event.key === 'ArrowLeft') {
-            setCardIndex((prevIndex) => (prevIndex === 0 ? apiData.props.length - 1 : prevIndex - 1));
-          } else if (event.key === 'ArrowRight') {
-            setCardIndex((prevIndex) => (prevIndex === apiData.props.length - 1 ? 0 : prevIndex + 1));
-          }
-        }
-      };
       function adjustTextSize() {
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
@@ -163,14 +166,77 @@ const [expandedCard, setExpandedCard] = useState(null);
       
         <div className='lists'>
         <div className='overlay'>
+        <main className='fullStage'>
+        {isLoading ? (
+        <div className="loadingMessage">
+        Generating properties! Please wait... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
+      </div>
+    ) : (
+      <>
+        {apiData.props && apiData.props.length > 0 && (
+          <div className="cardContainer">
+            {searchClicked && infoData && infoData.length > 0 && (
+              apiData.props.map((property, index) => (
+                <div
+                      className={`cardi ${expandedCard === index ? 'expanded' : ''}`}
+                      key={index}
+                      
+                    >
+                  <img src={property.imgSrc || noImg}
+                    alt={'No Image Available'}
+                    />
+                  <div className="cardText">
+                      <div className='pPrice'>${property.price}/Month<br /></div>
+                      <div className='pAddress'>{property.address}</div>
+                    <p>
+                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
+                    </p>
+                  </div>
+                  <p className='exButt' onClick={() => handleCardClick(index)}>Expand</p>
 
+                  {expandedCard === index && (
+                        <div className="expandedCard">
+<div className='pPrice'>${property.price}/Month<br /></div>
+                      <div className='pAddress'>{property.address}</div>
+                    <p>
+                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
+                    </p>                          {infoData[index]?.description}<br />
+                  Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
+                  MLS#: {infoData[index]?.mlsid}<br />
+                  BROKERAGE: {infoData[index]?.brokerageName}<br />
+                  <p>
+                  <Link
+        to={{
+          pathname: '/Contact', // Update the pathname as per your route setup
+          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
+        }}
+      >
+        Ask John Smith about {property.address}?
+      </Link>
+      </p>
+      <button className='exButt1' onClick={() => handleCardClick(index)}>Close</button>
+
+                          {/* Close button */}
+                        </div>
+                        )}
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </>
+    )}
+    </main>
+        <aside  className='halves'>
         <div className='searchBar'>
           <input id='search' type='text' placeholder='City or Neighbourhood' required></input>
           <select id="sortList" name="sort" placeholder='Sort Listings'required>
           <option value="" disabled selected>Sort Listings</option>
           <option value="Newest">Newest</option>
-          <option value="Payment_High_Low">Ascending</option>
-          <option value="Payment_Low_High">Descending</option>
+          <option value="Payment_High_Low">Ascending - Price</option>
+          <option value="Payment_Low_High">Descending - Price</option>
           <option value="Lot_Size">Lot Size</option>
           <option value="Square_Feet">Square Footage</option>
           </select>
@@ -203,77 +269,22 @@ const [expandedCard, setExpandedCard] = useState(null);
           <option value="5">5 Baths</option>
           <option value="6">6 Baths</option>
           </select>
-          <button className='searchBtn' onClick={handleSearch}><FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
+          <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
         </div>
         <div className='map'>
 <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
-  <Map center={position} zoom={10}>
+  <Map center={position} zoom={zoomLevel}>
     <Marker position={position}/>
   </Map>
 </APIProvider>
         </div>
-        <div className='guidance'>
-        <h1>Properties for Rent:</h1>
-        </div>
-        {isLoading ? (
-        <div className="loadingMessage">
-        Generating properties. Please wait ... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
-      </div>
-    ) : (
-      <>
-        {apiData.props && apiData.props.length > 0 && (
-          <div className="cardContainer">
-            {searchClicked && infoData && infoData.length > 0 && (
-              apiData.props.map((property, index) => (
-                <div
-                      className={`cardi ${expandedCard === index ? 'expanded' : ''}`}
-                      key={index}
-                      
-                    >
-                  <img src={property.imgSrc || noImg}
-                    alt={'No Image Available'}
-                    />
-                  <div className="cardText">
-                    <h5>
-                      ${property.price}/Month<br />
-                      {property.address}
-                    </h5>
-                    <p>
-                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
-                    </p>
-                  </div>
-                  <button className='exButt' onClick={() => handleCardClick(index)}>More</button>
-
-                  {expandedCard === index && (
-                        <div className="expandedCard">
-                          {/* Additional information goes here */}
-                          {infoData[index]?.description}<br />
-                  Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
-                  MLS#: {infoData[index]?.mlsid}<br />
-                  BROKERAGE: {infoData[index]?.brokerageName}<br />
-                  <p>
-                  <Link
-        to={{
-          pathname: '/Contact', // Update the pathname as per your route setup
-          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
-        }}
-      >
-        Ask John Smith about {property.address}?
-      </Link>
-      </p>
-                          {/* Close button */}
-                        </div>
-                        )}
-                </div>
-              ))
-            )}
-          </div>
-        )}
-      </>
-    )}
+        </aside>
+        
+        
   </div>
+  
 </div>
+
 );
 }
 
@@ -281,34 +292,5 @@ const [expandedCard, setExpandedCard] = useState(null);
 export default ForRent;
 /*
 
-  <div className="cardContainer">
-          <div className="cardi" key={index}>
-        <img src={apiData.props.imgSrc || placeHolderImg}
-          alt={apiData.props.address || 'No Image Available'} />
-        <div className="cardText">
-          <h5>
-            ${apiData.props.price}/Month<br />
-            {apiData.props.address}
-          </h5>
-          <p>
-            <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {apiData.props.bathrooms}<br />
-            {infoData.description}<br />
-            Parking Status: {infoData.resoFacts.parkingCapacity} parking space(s)<br />
-            MLS#: {infoData.mlsid}<br />
-            BROKERAGE: {infoData.brokerageName}<br />
-            <Link
-        to={{
-          pathname: '/Contact', // Update the pathname as per your route setup
-          search: `?address=${encodeURIComponent(apiData.props.address)}&price=${encodeURIComponent(apiData.props.price)}`,
-        }}
-      >
-        Ask John Smith about {apiData.props.address}?
-      </Link>
-          </p>
-        </div>
-      </div>
-    )}
-    
-  </div>
-)}*/
+     
+      */
