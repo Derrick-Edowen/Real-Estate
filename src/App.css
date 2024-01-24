@@ -10,7 +10,7 @@
 body {
   margin: 0px;
   height: 100%;
-overflow: hidden;
+  overflow-y: hidden;
 }
 html {
   color-scheme: light dark;

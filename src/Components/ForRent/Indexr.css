@@ -18,6 +18,7 @@ float: right;
 margin: 20px;
 margin-right: 35px;
 margin-top: 30px;
+position: relative; /* Ensure relative positioning for absolute positioning inside */
 
 }
 .halves {
@@ -86,6 +87,8 @@ background-color: rgb(131, 117, 145);
   overflow:auto;
   max-height: 750px;
   width:fit-content;
+  position: relative; /* Ensure relative positioning for absolute positioning inside */
+
 }
 
 ::-webkit-scrollbar {
@@ -124,43 +127,57 @@ background-color: rgb(131, 117, 145);
 
 }
 .cardi {
-  flex: 0 0 calc(25% - 20px); /* Calculate width for three columns with gap */
+  flex: 0 0 calc(25% - 5px); /* Calculate width for three columns with gap */
   align-items: flex-start;
   background-color: #ebe7e7;
   box-shadow: 0px 2px 12px 2px;
   border-radius: 5px;
   margin-bottom: 2px; /* Add margin to create gap between rows */
- max-height: 345px;
-overflow: auto;
-}
-.cardi.expanded {
-  display: flex; /* Use flexbox */
-  align-items:flex-start; /* Center vertically */
-  flex-direction: column;
-  background-color: #f3f3f3;
-  width: 700px;
-  height: 100%; /* Set fixed height */
-  box-shadow: 0px 2px 12px 2px;
-  border-radius: 5px;
-  .exButt {
-    display: none;
-  }
+ max-height: 355px;
+ overflow: hidden;
+ transition: all 1s ease-in-out;
+ position: relative; /* Ensure relative positioning for absolute positioning inside */
 
 }
-.cardi.expanded img{
+.cardi:hover img{
+transform: scale(1.02);
+ 
+}
+.cardi.expanded {
   width: 100%;
-  height: 60%;
+min-height: 750px;
+  position: absolute;
+
+  z-index: 1;
+  background-color: white; /* You can customize the background color */
+  transition: all 1s ease-in-out;
+
+  overflow-y: auto;
+  .cardContainer {
+    overflow: hidden;
+  }
+}
+.expandedCard {
+  margin: 5px;
+}
+.cardi.expanded img{
+  width: fit-content;
+  height: 500px;
+  object-fit:contain;
 }
 
 .cardi img {
   border: 0.1px solid #000000;
   width: 100%;
-  height: 50%;
+  height: 52%;
+  object-fit: cover;
+  transition: 275ms transform ease-in-out;
 }
 .cardText {
   font-size: 1rem; /* Initial font size */
   overflow: hidden; /* Hide overflowing text */
-  margin: 5px;
+  margin: 10px;
+  align-items: flex-start;
 }
 .exButt {
   width: fit-content;

@@ -96,7 +96,7 @@ function Header() {
                 to="/ForRent"
                 className="navbar--content"
               >
-                For Rent
+                For Lease
               </Link>
               <Link
                 onClick={closeMenu}

@@ -15,6 +15,7 @@ import noImg from '../../Assets/Images/noimg.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faBed } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faBath } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -29,7 +30,8 @@ const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
 const [cardIndex, setCardIndex] = useState(0);
 const [searchClicked, setSearchClicked] = useState(false); // Track if search is clicked
 const [isLoading, setIsLoading] = useState(false);
-const [expandedCard, setExpandedCard] = useState(null);
+const [selectedCard, setSelectedCard] = useState(null);
+const [isExpanded, setIsExpanded] = useState(false);
 const [zoomLevel, setZoomLevel] = useState(10); // Set an initial zoom level
 
 
@@ -60,8 +62,8 @@ const updateMapLocation = async (address) => {
   }
 };
   const handleCardClick = (index) => {
-    setExpandedCard(expandedCard === index ? null : index);
-    (async () => {
+    setSelectedCard(selectedCard === index ? null : index);
+    setIsExpanded(!isExpanded);    (async () => {
       // Update map location when a card is clicked
       const selectedProperty = apiData.props[index];
       await updateMapLocation(selectedProperty.address);
@@ -177,55 +179,41 @@ const updateMapLocation = async (address) => {
           <div className="cardContainer">
             {searchClicked && infoData && infoData.length > 0 && (
               apiData.props.map((property, index) => (
-                <div
-                      className={`cardi ${expandedCard === index ? 'expanded' : ''}`}
-                      key={index}
-                      
-                    >
+                <div className={`cardi ${selectedCard === index ? 'expanded' : ''}`} key={index}>
                   <img src={property.imgSrc || noImg}
-                    alt={'No Image Available'}
-                    />
+                    alt={'No Image Available'}/>
                   <div className="cardText">
                       <div className='pPrice'>${property.price}/Month<br /></div>
                       <div className='pAddress'>{property.address}</div>
                     <p>
-                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
+                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;
+                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}&nbsp;&nbsp;&nbsp;&nbsp;
+                      <FontAwesomeIcon icon={faClock} size="xs" />&nbsp;{infoData[index]?.timeOnZillow || "Unknown"}<br />
                     </p>
+                    
+              
                   </div>
-                  <p className='exButt' onClick={() => handleCardClick(index)}>Expand</p>
-
-                  {expandedCard === index && (
-                        <div className="expandedCard">
-<div className='pPrice'>${property.price}/Month<br /></div>
-                      <div className='pAddress'>{property.address}</div>
-                    <p>
-                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
-                    </p>                          {infoData[index]?.description}<br />
+                  {selectedCard === index && (
+            <div className="expandedCard">
+              {infoData[index]?.description}<br />
                   Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
+                  Heating: {infoData[index]?.resoFacts.heating[0]}/{infoData[index]?.resoFacts.heating[1]}<br />
+                  Cooling: {infoData[index]?.resoFacts.cooling[0]}<br />
                   MLS#: {infoData[index]?.mlsid}<br />
-                  BROKERAGE: {infoData[index]?.brokerageName}<br />
-                  <p>
-                  <Link
-        to={{
-          pathname: '/Contact', // Update the pathname as per your route setup
-          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
-        }}
-      >
-        Ask John Smith about {property.address}?
-      </Link>
-      </p>
-      <button className='exButt1' onClick={() => handleCardClick(index)}>Close</button>
-
-                          {/* Close button */}
-                        </div>
-                        )}
+                  BROKERAGE: {infoData[index]?.brokerageName}<br /><br />
+            </div>
+          )}
+          <p className='exButt' onClick={() => handleCardClick(index)}>
+                {selectedCard === index && isExpanded ? 'Close' : 'Details'}
+              </p>
                 </div>
+                
               ))
             )}
           </div>
+          
         )}
+        
       </>
     )}
     </main>
@@ -242,7 +230,7 @@ const updateMapLocation = async (address) => {
           </select>
           <select id="choose-type" name="propertyType" placeholder='Property Type'required>
           <option value="" disabled selected>Property Type</option>
-          <option value="">Any</option>
+          <option value="Any">Any</option>
           <option value="Houses">Houses</option>
           <option value="Townhomes">Townhomes</option>
           <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
@@ -291,6 +279,73 @@ const updateMapLocation = async (address) => {
  
 export default ForRent;
 /*
+<div className='lists'>
+        <div className='overlay'>
+        <main className='fullStage'>
+        {isLoading ? (
+        <div className="loadingMessage">
+        Generating properties! Please wait... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
+      </div>
+    ) : (
+      <>
+        {apiData.props && apiData.props.length > 0 && (
+          <div className="cardContainer">
+            {searchClicked && infoData && infoData.length > 0 && (
+              apiData.props.map((property, index) => (
+                <div
+                      className={`cardi ${expandedCard === index ? 'expanded' : ''}`}
+                      key={index}
+                      
+                    >
+                  <img src={property.imgSrc || noImg}
+                    alt={'No Image Available'}
+                    />
+                  <div className="cardText">
+                      <div className='pPrice'>${property.price}/Month<br /></div>
+                      <div className='pAddress'>{property.address}</div>
+                    <p>
+                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
 
+                    </p>
+                  </div>
+                  <p className='exButt' onClick={() => handleCardClick(index)}>Expand</p>
+
+                  {expandedCard === index && (
+                        <div className="expandedCard">
+<div className='pPrice'>${property.price}/Month<br /></div>
+                      <div className='pAddress'>{property.address}</div>
+                    <p>
+                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
+                    </p>                          {infoData[index]?.description}<br />
+                  Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
+                  Heating: {infoData[index]?.resoFacts.heating[0]}/{infoData[index]?.resoFacts.heating[1]}<br />
+                      Cooling: {infoData[index]?.resoFacts.cooling[0]}
+                  MLS#: {infoData[index]?.mlsid}<br />
+                  BROKERAGE: {infoData[index]?.brokerageName}<br /><br />
+                  <p>
+                  <Link
+        to={{
+          pathname: '/Contact', // Update the pathname as per your route setup
+          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
+        }}
+      >      
+        Ask John Smith about {property.address}?
+        </Link>
+      </p>
+      <button className='exButt1' onClick={() => handleCardClick(index)}>Close</button>
+
+
+                          </div>
+                          )}
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </>
+      )}
+      </main>
      
       */

@@ -6,7 +6,7 @@ import image3 from '../../Assets/Images/yard1.jpg'
 import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 //import customStyle from "./customStyle";
-import './Index.css'
+import './Indexcalc.css'
 
 function Calculator() {
     /*const [images] = useState([image1, image2, image3, image4, image5]);
