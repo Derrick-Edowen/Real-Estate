@@ -62,8 +62,9 @@ const updateMapLocation = async (address) => {
   }
 };
   const handleCardClick = (index) => {
-    setSelectedCard(selectedCard === index ? null : index);
-    setIsExpanded(!isExpanded);    (async () => {
+    setSelectedCard(apiData.props[index]);
+    
+    (async () => {
       // Update map location when a card is clicked
       const selectedProperty = apiData.props[index];
       await updateMapLocation(selectedProperty.address);
@@ -176,10 +177,12 @@ const updateMapLocation = async (address) => {
     ) : (
       <>
         {apiData.props && apiData.props.length > 0 && (
-          <div className="cardContainer">
+          <div className={`cardContainer ${selectedCard ? 'hidden' : ''}`}>
             {searchClicked && infoData && infoData.length > 0 && (
               apiData.props.map((property, index) => (
-                <div className={`cardi ${selectedCard === index ? 'expanded' : ''}`} key={index}>
+                <div className={`cardi ${selectedCard === index ? 'expanded' : ''}`}
+                key={index}
+                onClick={() => handleCardClick(index)}>
                   <img src={property.imgSrc || noImg}
                     alt={'No Image Available'}/>
                   <div className="cardText">
@@ -193,19 +196,31 @@ const updateMapLocation = async (address) => {
                     
               
                   </div>
-                  {selectedCard === index && (
-            <div className="expandedCard">
-              {infoData[index]?.description}<br />
+                  {selectedCard && (
+        <div className="expandedCardContainer">
+          {/* Display detailed information from the selected card */}
+          <div className="expandedCard">
+          <img src={property.imgSrc || noImg}
+                    alt={'No Image Available'}/>
+          <div className="cardText">
+          <p className='pPrice'>${property.price}/Month</p>
+            <p className='pAddress'>{property.address}</p>
+            <p>
+            <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;
+            <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}&nbsp;&nbsp;&nbsp;&nbsp;
+            <FontAwesomeIcon icon={faClock} size="xs" />&nbsp;{infoData[index]?.timeOnZillow || "Unknown"}<br />
+            </p>
+            </div>
+            {infoData[index]?.description}<br />
                   Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
                   Heating: {infoData[index]?.resoFacts.heating[0]}/{infoData[index]?.resoFacts.heating[1]}<br />
                   Cooling: {infoData[index]?.resoFacts.cooling[0]}<br />
                   MLS#: {infoData[index]?.mlsid}<br />
                   BROKERAGE: {infoData[index]?.brokerageName}<br /><br />
-            </div>
-          )}
-          <p className='exButt' onClick={() => handleCardClick(index)}>
-                {selectedCard === index && isExpanded ? 'Close' : 'Details'}
-              </p>
+          </div>
+        </div>
+      )}
+          
                 </div>
                 
               ))
@@ -348,4 +363,14 @@ export default ForRent;
       )}
       </main>
      
+
+
+
+
+      {infoData[index]?.description}<br />
+                  Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
+                  Heating: {infoData[index]?.resoFacts.heating[0]}/{infoData[index]?.resoFacts.heating[1]}<br />
+                  Cooling: {infoData[index]?.resoFacts.cooling[0]}<br />
+                  MLS#: {infoData[index]?.mlsid}<br />
+                  BROKERAGE: {infoData[index]?.brokerageName}<br /><br />
       */
