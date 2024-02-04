@@ -70,14 +70,7 @@ background-color: rgb(131, 117, 145);
     transition: background 6s ease-in-out ;
     z-index: -10;
   }
-.map {
-  height: 375px;
-  width: 400px;
-  z-index: 200;
-  margin: 20px;
-  margin-left: 5px;
 
-}
 
 /* Styles for the sidebar */
 .cardContainer {
@@ -90,7 +83,17 @@ background-color: rgb(131, 117, 145);
   position: relative; /* Ensure relative positioning for absolute positioning inside */
 
 }
-
+.expandedCardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent overlay */
+}
 ::-webkit-scrollbar {
   width: 5px;
   border-radius: 25px;
@@ -115,17 +118,17 @@ background-color: rgb(131, 117, 145);
   background: #555; 
 }
 .pPrice  {
-  color: var(--primary);
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: larger;
+  font-size: 24px;
   font: bolder;
 }
 .pAddress {
-    color: var(--primary);
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: larger;
+    font-size: 24px;
+    font: bolder;
 
 }
+
 .cardi {
   flex: 0 0 calc(25% - 5px); /* Calculate width for three columns with gap */
   align-items: flex-start;
@@ -134,38 +137,16 @@ background-color: rgb(131, 117, 145);
   border-radius: 5px;
   margin-bottom: 2px; /* Add margin to create gap between rows */
  max-height: 355px;
- overflow: auto;
+ overflow: hidden;
  transition: all 1s ease-in-out;
  position: relative; /* Ensure relative positioning for absolute positioning inside */
+ cursor: pointer;
+ transition: transform 0.3s ease-in-out;
 
 }
 .cardi:hover img{
-transform: scale(1.02);
+transform: scale(1.025);
  
-}
-
-.cardi.expanded {
-  width: 100%;
-min-height: 750px;
-  position: absolute;
-top: 0;
-left: 0;
-  z-index: 1;
-  background-color: white; /* You can customize the background color */
-  transition: all 1s ease-in-out;
-
-  overflow-y: auto;
-  .cardContainer {
-    overflow: hidden;
-  }
-}
-.expandedCard {
-  margin: 5px;
-}
-.cardi.expanded img{
-  width: fit-content;
-  height: 500px;
-  object-fit:contain;
 }
 
 .cardi img {
@@ -179,30 +160,11 @@ left: 0;
   font-size: 1rem; /* Initial font size */
   overflow: hidden; /* Hide overflowing text */
   margin: 10px;
+  margin-left: 12px;
+
   align-items: flex-start;
 }
-.exButt {
-  width: fit-content;
-  height: fit-content;
-  margin: 5px;
-cursor: pointer;
-color:var(--primary);
-margin-left: 8px;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-.exButt:hover {
-text-decoration: underline;
-color: rgb(131, 117, 145);
 
-}
-.exButt1 {
-  width: auto;
-  height: auto;
-  margin: 8px;
-  background-color: rgb(131, 117, 145);
-  border: 0.1px solid #000000;
-
-}
 
 .loadingMessage {
   font-size: 25px;
@@ -210,4 +172,105 @@ color: rgb(131, 117, 145);
   margin-top: 350px;
   margin-left: 375px;
   padding-left: 70px;
+}
+.lightbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  z-index: 3; /* Ensure it appears above other elements */
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 80%;
+  max-height: 85%;
+  overflow: auto;
+  background-color: #ebe7e7;
+  border-radius: 10px;
+display: grid;
+  justify-content: center;
+}
+
+
+.lightbox-close {
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #000000;
+  cursor: pointer;
+  transition: all .2s ease-in-out; 
+
+}
+.lightbox-close:hover {
+background-color: transparent;
+transform: scale(1.05); 
+}
+.side-by-side-container {
+  display: flex;
+}
+
+.side-by-side-container img,
+.side-by-side-container .cardText {
+  flex: 1;
+}
+.map {
+  width: auto; /* Set the width to 100% */
+  height: 335px;
+  z-index: 200;
+margin: 3px;
+margin-top: 0.5px;
+}
+.lightbox-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 53.5%;
+  background: transparent; /* Semi-transparent black background */
+  border: none;
+  color: #fff; /* Text color */
+  font-size: 24px; /* Adjust the font size as needed */
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.lightbox-left:hover {
+  background-color: rgba(54, 52, 52, 0.3); /* Adjust the hover opacity as needed */
+}
+
+.lightbox-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 778px; /* Adjust the right offset as needed */
+  height: 53.5%;
+  background: transparent; /* Semi-transparent black background */
+  border: none;
+  color: #fff; /* Text color */
+  font-size: 24px; /* Adjust the font size as needed */
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease;
+}
+
+.lightbox-right:hover {
+  background-color: rgba(54, 52, 52, 0.3); /* Adjust the hover opacity as needed */
+}
+.lightbox img {
+  width: 80%;
+  height: fit-content;
+  min-height: auto;
+  max-width: 100%;
+  max-height: 410px;
+
 }
