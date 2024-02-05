@@ -71,7 +71,7 @@ function Header() {
           <li>
             <NavLink
               onClick={closeMenu}
-              activeClass="navbar--active-content"
+              activeclass="navbar--active-content"
               spy={true}
               smooth={true}
               offset={-70}
@@ -117,7 +117,7 @@ function Header() {
           <li>
             <NavLink
               onClick={closeMenu}
-              activeClass="navbar--active-content"
+              activeclass="navbar--active-content"
               spy={true}
               smooth={true}
               offset={-70}
@@ -131,7 +131,7 @@ function Header() {
           <li>
             <NavLink
               onClick={closeMenu}
-              activeClass="navbar--active-content"
+              activeclass="navbar--active-content"
               spy={true}
               smooth={true}
               offset={-70}
@@ -145,7 +145,7 @@ function Header() {
           <li>
             <NavLink
               onClick={closeMenu}
-              activeClass="navbar--active-content"
+              activeclass="navbar--active-content"
               spy={true}
               smooth={true}
               offset={-70}

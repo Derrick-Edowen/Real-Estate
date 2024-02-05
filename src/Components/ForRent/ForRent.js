@@ -5,11 +5,11 @@ import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import Contact from '../Contact/Contact';
 import './Indexr.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import noImg from '../../Assets/Images/noimg.png'
+import noImg from '../../Assets/Images/noimg.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faChevronLeft, faChevronRight, faBed,
  faClock, faBath, faCircleXmark, faHouseUser,  faFire,  faWind,
-faSquareParking, faJugDetergent} from '@fortawesome/free-solid-svg-icons';
+faSquareParking, faJugDetergent, faRepeat} from '@fortawesome/free-solid-svg-icons';
 
 
 function ForRent() {
@@ -71,7 +71,16 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
-
+  const handleReset = () => {
+    // Select the input elements and reset their values
+    document.getElementById('search').value = '';
+    document.getElementById('sortList').value = '';
+    document.getElementById('choose-type').value = '';
+    document.getElementById('choose-beds').value = '';
+    document.getElementById('choose-baths').value = '';
+    document.getElementById('min-price').value = '';
+    document.getElementById('max-price').value = '';
+  };
   const handleSearch = async () => {
     const address = document.getElementById('search').value;
     const sort = document.getElementById('sortList').value;
@@ -85,7 +94,10 @@ const updateMapLocation = async (address) => {
       window.alert('Please fill out all required fields!');
       return;
     }
-
+    if (minPrice > maxPrice) {
+      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+      return;
+    }
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
   try {
@@ -102,6 +114,8 @@ const updateMapLocation = async (address) => {
       setPosition({ lat, lng });
     } else {
       window.alert('Location Not Found: Try Using More Descriptive Words!');
+      setIsLoading(false); 
+      return;
     }
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
@@ -209,6 +223,7 @@ setImageUrls(imageUrlsArray);
         setSelectedCardIndex(null);
         setLightboxActive(false);
       };
+      
     return (
       
         <div className='lists'>
@@ -250,32 +265,37 @@ setImageUrls(imageUrlsArray);
   <div className="lightbox" onClick={handleCloseLightbox}>
     <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
       {/* Lightbox content goes here */}
-      {infoData[selectedCardIndex] && imageUrls[selectedCardIndex] && (
+      {infoData[selectedCardIndex] && imageUrls[selectedCardIndex] && imageUrls[selectedCardIndex].images && (
         <>
         <div className='side-by-side-container'>
+          <div className='fixer'>
         <button className="lightbox-left" onClick={handlePrevImage}>
             <FontAwesomeIcon icon={faChevronLeft} size="lg" />
           </button>
-        <img src={imageUrls[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Not Available :(" />
+          <img src={imageUrls[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Not Available :(" />
           <button className="lightbox-right" onClick={handleNextImage}>
             <FontAwesomeIcon icon={faChevronRight} size="lg" />
           </button> 
-              
+          </div> 
           <div className="cardText">
+            <div className='containText'>
           <div className='pAddress'>{apiData.props[selectedCardIndex].address}</div>
-          <div className='pPrice'>${apiData.props[selectedCardIndex].price}/Month<br /></div>
-        <p>
-        <FontAwesomeIcon icon={faBed} size="xl" style={{color: "#492903",}} />&nbsp; {apiData.props[selectedCardIndex].bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;
-        <FontAwesomeIcon icon={faBath} size="xl" style={{color: "#492903",}}/>&nbsp; {apiData.props[selectedCardIndex].bathrooms}&nbsp;&nbsp;&nbsp;&nbsp;
-        <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#3d0000",}} />&nbsp; {infoData[selectedCardIndex]?.timeOnZillow || "Unknown"}             
-        </p>
-            {infoData[selectedCardIndex]?.description}<br />
-            <FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity} parking space(s)<br />
-            <FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1]}<br />
-            <FontAwesomeIcon icon={faWind} size="lg" style={{color: "#006bbd",}} /> - {infoData[selectedCardIndex]?.resoFacts.cooling[0]}<br />
-            <FontAwesomeIcon icon={faJugDetergent} size="lg" style={{ color: "#012665" }}/> - {infoData[selectedCardIndex]?.resoFacts.laundryFeatures &&infoData[selectedCardIndex]?.resoFacts.laundryFeatures.length > 0? infoData[selectedCardIndex]?.resoFacts.laundryFeatures[0]: "Unknown Laundry Status"}<br />
-                  MLS#: {infoData[selectedCardIndex]?.mlsid}<br />
-                  Listing Brokerage: {infoData[selectedCardIndex]?.brokerageName}<br />        
+          <div className='pPrice'>${apiData.props[selectedCardIndex].price}/Month</div>
+        
+        <FontAwesomeIcon icon={faBed} size="lg" style={{color: "#492903",}} />&nbsp; {apiData.props[selectedCardIndex].bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;
+        <FontAwesomeIcon icon={faBath} size="lg" style={{color: "#492903",}}/>&nbsp; {apiData.props[selectedCardIndex].bathrooms}&nbsp;&nbsp;&nbsp;&nbsp;
+        <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#3d0000",}} />&nbsp; {infoData[selectedCardIndex]?.timeOnZillow || "Unknown"}<br />            
+        
+            {infoData[selectedCardIndex]?.description}<br /><br />
+            <FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity} parking space(s) &nbsp;&nbsp;
+            <FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1]} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            MLS&reg; Number: {infoData[selectedCardIndex]?.mlsid}<br />
+
+            <FontAwesomeIcon icon={faJugDetergent} size="lg" style={{ color: "#012665" }}/> - {infoData[selectedCardIndex]?.resoFacts.laundryFeatures &&infoData[selectedCardIndex]?.resoFacts.laundryFeatures.length > 0? infoData[selectedCardIndex]?.resoFacts.laundryFeatures[0]: "Unknown"}&nbsp;&nbsp;&nbsp;&nbsp;
+            <FontAwesomeIcon icon={faWind} size="lg" style={{color: "#006bbd",}} /> - {infoData[selectedCardIndex]?.resoFacts.cooling[0]}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Brokerage: {infoData[selectedCardIndex]?.brokerageName}      
+
+          </div>
           </div>
           </div>
           <div className='map'>
@@ -297,7 +317,93 @@ setImageUrls(imageUrlsArray);
     </>
     )}
     </main>
-        <aside  className='halves'>
+        <aside className='searchBar'>
+          
+          <div class="container">
+	<div class="screen">
+		<div class="screen__content">
+			<div class="login">
+      <h5 className='params'>RENTAL SEARCH</h5>
+
+				<div class="login__field">
+          
+					<i class="login__icon fas fa-user"></i>
+          
+          <input className='search1' id='search' type='text' placeholder='Enter a City or Neighbourhood!' required></input>
+				</div>
+				<div class="login__field">
+					<i class="login__icon fas fa-lock"></i>
+          <div className='propsort'>
+          <select className='sort1' id="sortList" name="sort" placeholder='Sort Listings'required>
+          <option value="" disabled selected>Sort Listings</option>
+          <option value="Newest">Newest</option>
+          <option value="Payment_High_Low">Ascending - Price</option>
+          <option value="Payment_Low_High">Descending - Price</option>
+          <option value="Lot_Size">Lot Size</option>
+          <option value="Square_Feet">Square Footage</option>
+          </select>
+          <select className='property1' id="choose-type" name="propertyType" placeholder='Property Type'required>
+          <option value="" disabled selected>Property Type</option>
+          <option value="Any">Any</option>
+          <option value="Houses">Houses</option>
+          <option value="Townhomes">Townhomes</option>
+          <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
+          </select>
+          </div>
+          <div className='bedsbaths'>
+          <select className='beds1' id="choose-beds" name="beds" placeholder='Beds'required>
+          <option value="" disabled selected>Beds</option>
+          <option value="0">Any</option>
+          <option value="1">1 Bed</option>
+          <option value="2">2 Beds </option>
+          <option value="3">3 Beds</option>
+          <option value="4">4 Beds</option>
+          <option value="5">5 Beds</option>
+          <option value="6">6 Beds</option>
+          </select>
+          <select className='baths1' id="choose-baths" name="baths" placeholder='Baths'required>
+          <option value="" disabled selected>Baths</option>
+          <option value="0">Any</option>
+          <option value="1">1 Bath</option>
+          <option value="2">2 Baths</option>
+          <option value="3">3 Baths</option>
+          <option value="4">4 Baths</option>
+          <option value="5">5 Baths</option>
+          <option value="6">6 Baths</option>
+          </select>
+          
+          </div>
+          <input className='mins1' type='number' id="min-price"placeholder='Minimum Rent Price'required></input>
+          <input className='maxs1' type='number' id="max-price"placeholder='Maximum Rent Price'required></input>
+				</div>
+        <div className='resets'>
+          <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>
+          <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass}/></button>
+          </div>			
+			</div>
+		</div>
+		<div class="screen__background">
+			<span class="screen__background__shape screen__background__shape4"></span>
+			<span class="screen__background__shape screen__background__shape3"></span>		
+			<span class="screen__background__shape screen__background__shape2"></span>
+			<span class="screen__background__shape screen__background__shape1"></span>
+		</div>		
+	</div>
+</div>
+        </aside> 
+  </div>
+  
+</div>
+
+);
+}
+
+ 
+export default ForRent;
+/*
+
+<aside  className='halves'>
+          <div className='manager'>
         <div className='searchBar'>
           <input id='search' type='text' placeholder='City or Neighbourhood' required></input>
           <select id="sortList" name="sort" placeholder='Sort Listings'required>
@@ -318,7 +424,7 @@ setImageUrls(imageUrlsArray);
           <input type='number' id="min-price"placeholder='Minimum Price - Ex: $1000'required></input>
           <input type='number' id="max-price"placeholder='Maximum Price - Ex: $4000'required></input>
           <select id="choose-beds" name="beds" placeholder='Beds'required>
-          <option value="" disabled selected>Beds<FontAwesomeIcon icon={faBed} size="sm" style={{ color: "#1d1e20" }} /></option>
+          <option value="" disabled selected>Beds</option>
           <option value="0">Any</option>
           <option value="1">1 Bed</option>
           <option value="2">2 Beds </option>
@@ -339,65 +445,9 @@ setImageUrls(imageUrlsArray);
           </select>
           <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
         </div>
-        
+        </div>
         </aside>
-        
-        
-  </div>
-  
-</div>
 
-);
-}
-
- 
-export default ForRent;
-/*
-<div className='lists'>
-        <div className='overlay'>
-        <main className='fullStage'>
-        {isLoading ? (
-        <div className="loadingMessage">
-        Generating properties! Please wait... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
-      </div>
-    ) : (
-      <>
-        {apiData.props && apiData.props.length > 0 && (
-          <div className="cardContainer">
-            {searchClicked && infoData && infoData.length > 0 && (
-              apiData.props.map((property, index) => (
-                <div
-                      className={`cardi ${expandedCard === index ? 'expanded' : ''}`}
-                      key={index}
-                      
-                    >
-                  <img src={property.imgSrc || noImg}
-                    alt={'No Image Available'}
-                    />
-                  <div className="cardText">
-                      <div className='pPrice'>${property.price}/Month<br /></div>
-                      <div className='pAddress'>{property.address}</div>
-                    <p>
-                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
-
-                    </p>
-                  </div>
-                  <p className='exButt' onClick={() => handleCardClick(index)}>Expand</p>
-
-                  {expandedCard === index && (
-                        <div className="expandedCard">
-<div className='pPrice'>${property.price}/Month<br /></div>
-                      <div className='pAddress'>{property.address}</div>
-                    <p>
-                      <FontAwesomeIcon icon={faBed} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <FontAwesomeIcon icon={faBath} size="lg" style={{ color: "#1d1e20" }} />&nbsp; {property.bathrooms}<br />
-                    </p>                          {infoData[index]?.description}<br />
-                  Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
-                  Heating: {infoData[index]?.resoFacts.heating[0]}/{infoData[index]?.resoFacts.heating[1]}<br />
-                      Cooling: {infoData[index]?.resoFacts.cooling[0]}
-                  MLS#: {infoData[index]?.mlsid}<br />
-                  BROKERAGE: {infoData[index]?.brokerageName}<br /><br />
                   <p>
                   <Link
         to={{
@@ -408,36 +458,63 @@ export default ForRent;
         Ask John Smith about {property.address}?
         </Link>
       </p>
-      <button className='exButt1' onClick={() => handleCardClick(index)}>Close</button>
-
-
-                          </div>
-                          )}
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-        </>
-      )}
-      </main>
-     
+      
 
 
 
+      <input className='search1' id='search' type='text' placeholder='Enter a City or Neighbourhood!' required></input>
 
-      {infoData[index]?.description}<br />
-                  Parking Status: {infoData[index]?.resoFacts.parkingCapacity} parking space(s)<br />
-                  Heating: {infoData[index]?.resoFacts.heating[0]}/{infoData[index]?.resoFacts.heating[1]}<br />
-                  Cooling: {infoData[index]?.resoFacts.cooling[0]}<br />
-                  MLS#: {infoData[index]?.mlsid}<br />
-                  BROKERAGE: {infoData[index]?.brokerageName}<br /><br />
+          <div className='splash'>
+            <h5 className='params'>RENTAL SEARCH</h5>
+          <div className='propsort'>
+          <select className='sort1' id="sortList" name="sort" placeholder='Sort Listings'required>
+          <option value="" disabled selected>Sort Listings</option>
+          <option value="Newest">Newest</option>
+          <option value="Payment_High_Low">Ascending - Price</option>
+          <option value="Payment_Low_High">Descending - Price</option>
+          <option value="Lot_Size">Lot Size</option>
+          <option value="Square_Feet">Square Footage</option>
+          </select>
+          <select className='property1' id="choose-type" name="propertyType" placeholder='Property Type'required>
+          <option value="" disabled selected>Property Type</option>
+          <option value="Any">Any</option>
+          <option value="Houses">Houses</option>
+          <option value="Townhomes">Townhomes</option>
+          <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
+          </select>
+          </div>
 
-                  <div className='map'>
-<APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
-  <Map center={position} zoom={zoomLevel}>
-    <Marker position={position}/>
-  </Map>
-</APIProvider>
-        </div>
+          <div className='bedsbaths'>
+          <select className='beds1' id="choose-beds" name="beds" placeholder='Beds'required>
+          <option value="" disabled selected>Beds</option>
+          <option value="0">Any</option>
+          <option value="1">1 Bed</option>
+          <option value="2">2 Beds </option>
+          <option value="3">3 Beds</option>
+          <option value="4">4 Beds</option>
+          <option value="5">5 Beds</option>
+          <option value="6">6 Beds</option>
+          </select>
+          <select className='baths1' id="choose-baths" name="baths" placeholder='Baths'required>
+          <option value="" disabled selected>Baths</option>
+          <option value="0">Any</option>
+          <option value="1">1 Bath</option>
+          <option value="2">2 Baths</option>
+          <option value="3">3 Baths</option>
+          <option value="4">4 Baths</option>
+          <option value="5">5 Baths</option>
+          <option value="6">6 Baths</option>
+          </select>
+          </div>
+
+          <div className='minsmaxs'>
+          <input className='mins1' type='number' id="min-price"placeholder='Minimum Rent Price'required></input>
+          <input className='maxs1' type='number' id="max-price"placeholder='Maximum Rent Price'required></input>
+          </div>
+          <div className='resets'>
+          <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>
+          <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
+          </div>
+          </div>
+
       */
