@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faChevronLeft, faChevronRight, faBed,
  faClock, faBath, faCircleXmark, faHouseUser,  faFire,  faWind,
 faSquareParking, faJugDetergent, faRepeat} from '@fortawesome/free-solid-svg-icons';
+import FadeLoader from "react-spinners/FadeLoader";
 
 
 function ForRent() {
@@ -27,15 +28,7 @@ const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 const [zoomLevel, setZoomLevel] = useState(11); 
 const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-const handleNextImage = () => {
-  const nextIndex = (currentImageIndex + 1) % imageUrls[selectedCardIndex].images.length;
-  setCurrentImageIndex(nextIndex);
-};
 
-const handlePrevImage = () => {
-  const prevIndex = (currentImageIndex - 1 + imageUrls[selectedCardIndex].images.length) % imageUrls[selectedCardIndex].images.length;
-  setCurrentImageIndex(prevIndex);
-};
 const updateMapLocation = async (address) => {
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
@@ -223,7 +216,15 @@ setImageUrls(imageUrlsArray);
         setSelectedCardIndex(null);
         setLightboxActive(false);
       };
+      const handleNextImage = () => {
+        const nextIndex = (currentImageIndex + 1) % imageUrls[selectedCardIndex].images.length;
+        setCurrentImageIndex(nextIndex);
+      };
       
+      const handlePrevImage = () => {
+        const prevIndex = (currentImageIndex - 1 + imageUrls[selectedCardIndex].images.length) % imageUrls[selectedCardIndex].images.length;
+        setCurrentImageIndex(prevIndex);
+      };
     return (
       
         <div className='lists'>
@@ -231,7 +232,8 @@ setImageUrls(imageUrlsArray);
         <main className='fullStage'>
         {isLoading ? (
         <div className="loadingMessage">
-        Generating properties! Please wait... &nbsp;&nbsp;<FontAwesomeIcon icon={faHouseUser} beatFade size="2xl" />
+        Please wait...&nbsp;&nbsp;<FadeLoader color="#f5fcff" margin={0}
+/>
       </div>
     ) : (
       <>
@@ -246,14 +248,15 @@ setImageUrls(imageUrlsArray);
               >
                 <img src={property.imgSrc || noImg} alt={'Not Available'} />
                 <div className="cardText">
-                  <div>${property.price}/Month<br /></div>
-                  <div>{property.address}</div>
+                  <div className='cDress'>${property.price}/Month<br /></div>
+                  <div className='cPrice'>{property.address}</div>
                   <p>
                   
                   <FontAwesomeIcon icon={faBed} size="xl" style={{color: "#190000",}} />&nbsp;{property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;
                   <FontAwesomeIcon icon={faBath} size="xl" style={{color: "#190000",}}/>&nbsp;{property.bathrooms}&nbsp;&nbsp;&nbsp;&nbsp;
                   <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#190000",}}  />&nbsp;{infoData[index]?.timeOnZillow || "Unknown"}<br />
-                </p>  
+                </p>
+                <p>Click to See More...</p>
                 </div>
               </div>
             ))
@@ -282,14 +285,14 @@ setImageUrls(imageUrlsArray);
           <div className='pAddress'>{apiData.props[selectedCardIndex].address}</div>
           <div className='pPrice'>${apiData.props[selectedCardIndex].price}/Month</div>
         
-        <FontAwesomeIcon icon={faBed} size="lg" style={{color: "#492903",}} />&nbsp; {apiData.props[selectedCardIndex].bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;
-        <FontAwesomeIcon icon={faBath} size="lg" style={{color: "#492903",}}/>&nbsp; {apiData.props[selectedCardIndex].bathrooms}&nbsp;&nbsp;&nbsp;&nbsp;
-        <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#3d0000",}} />&nbsp; {infoData[selectedCardIndex]?.timeOnZillow || "Unknown"}<br />            
+        <FontAwesomeIcon icon={faBed} size="lg" style={{color: "#492903",}} />&nbsp; {apiData.props[selectedCardIndex].bedrooms}&nbsp;Beds&nbsp;&nbsp;&nbsp;&nbsp;
+        <FontAwesomeIcon icon={faBath} size="lg" style={{color: "#492903",}}/>&nbsp; {apiData.props[selectedCardIndex].bathrooms}&nbsp;Baths&nbsp;&nbsp;&nbsp;&nbsp;
+        <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#3d0000",}} />&nbsp; {infoData[selectedCardIndex]?.timeOnZillow || "Unknown"} on Market<br />            
         
             {infoData[selectedCardIndex]?.description}<br /><br />
             <FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity} parking space(s) &nbsp;&nbsp;
             <FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1]} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            MLS&reg; Number: {infoData[selectedCardIndex]?.mlsid}<br />
+            MLS&reg;: {infoData[selectedCardIndex]?.mlsid}<br />
 
             <FontAwesomeIcon icon={faJugDetergent} size="lg" style={{ color: "#012665" }}/> - {infoData[selectedCardIndex]?.resoFacts.laundryFeatures &&infoData[selectedCardIndex]?.resoFacts.laundryFeatures.length > 0? infoData[selectedCardIndex]?.resoFacts.laundryFeatures[0]: "Unknown"}&nbsp;&nbsp;&nbsp;&nbsp;
             <FontAwesomeIcon icon={faWind} size="lg" style={{color: "#006bbd",}} /> - {infoData[selectedCardIndex]?.resoFacts.cooling[0]}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -323,13 +326,12 @@ setImageUrls(imageUrlsArray);
 	<div class="screen">
 		<div class="screen__content">
 			<div class="login">
-      <h5 className='params'>RENTAL SEARCH</h5>
-
+      <h5 className='params'>FOR LEASE SEARCH</h5>
 				<div class="login__field">
           
 					<i class="login__icon fas fa-user"></i>
           
-          <input className='search1' id='search' type='text' placeholder='Enter a City or Neighbourhood!' required></input>
+          <input className='search1' id='search' type='text' placeholder='Enter a City!' required></input>
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>
@@ -347,7 +349,7 @@ setImageUrls(imageUrlsArray);
           <option value="Any">Any</option>
           <option value="Houses">Houses</option>
           <option value="Townhomes">Townhomes</option>
-          <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
+          <option value="Apartments_Condos_Co-ops">Condominiums</option>
           </select>
           </div>
           <div className='bedsbaths'>

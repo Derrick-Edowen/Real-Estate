@@ -183,10 +183,17 @@ top: -50px;
     transform: translatey(-0.075em);
   }
 .sendMe {
-  background-color: var(--primary);
+  background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#5b01b6);
   margin-bottom: 10px;
 }
-
+.sendMe:hover {
+  background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#5b01b6);
+  margin-bottom: 10px;
+}
+.sendMe:active {
+  box-shadow: 0 1px #666;
+  transform: translateY(1px);
+}
 @media screen and (max-width: 1612px) {
   .underLay {
     display: flex;

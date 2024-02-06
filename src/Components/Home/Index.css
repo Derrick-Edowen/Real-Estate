@@ -70,14 +70,16 @@ padding: 0px;
 font-size: 20px;
   border: none;
   color: #fff;
-  background-color: rgb(43, 5, 78);
+  background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
   cursor: pointer;
-  box-shadow: 0px 1px 6px 1px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
 }
 .contactBtn:hover {
-  background-color: rgb(75, 5, 139);
+  background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
+}
+.contactBtn:active {
+  box-shadow: 0 1px #666;
+  transform: translateY(2px);
 }
 @media screen and (max-width: 1455px) {
   .overLay {

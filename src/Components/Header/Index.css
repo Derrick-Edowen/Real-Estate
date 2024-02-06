@@ -1,13 +1,13 @@
 
 .active {
-  background-color: rgb(131, 117, 145);
+  background-color: rgb(179, 131, 226);
   border-radius: 5px;
 }
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--primary);
+    background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#837591f7);
     box-shadow: 0px 5.333px 80px 0 rgba(0, 0, 0, 0.05);
     position: fixed; 
   top: 0;
@@ -175,7 +175,7 @@ padding-bottom: 5px;
     display: none;
     align-items: center;
     justify-content: center;
-    background-color: var(--primary);
+    background-color: rgb(61, 1, 95);
     width: 100%;
     transition: all ease-in-out 0.5s;
     margin-top: 350px;

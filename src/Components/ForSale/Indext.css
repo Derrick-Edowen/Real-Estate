@@ -10,20 +10,15 @@
   height: 100dvh;
   width: 100%;
 }
-
 .fullStage {
-width: 60%;
+width: 61%;
 float: right;
 margin: 20px;
 margin-right: 18px;
 margin-top: 30px;
 position: relative; /* Ensure relative positioning for absolute positioning inside */
 }
-.params {
-	font-weight: lighter;
-	font-size: 24px;
-	
-}
+
 .searchBar {
   display: flex;
   flex-direction: column; 
@@ -64,7 +59,6 @@ position: relative; /* Ensure relative positioning for absolute positioning insi
 	font-weight: 700;
 	width: 100%;
 	transition: .2s;
-	cursor: pointer;
 }
 .sort1 {
 	border: none;
@@ -75,8 +69,6 @@ position: relative; /* Ensure relative positioning for absolute positioning insi
 	font-weight: 700;
 	width: 100%;
 	transition: .2s;
-	cursor: pointer;
-
 }
 
 .bedsbaths {
@@ -100,7 +92,6 @@ position: relative; /* Ensure relative positioning for absolute positioning insi
 	font-weight: 700;
 	width: 100%;
 	transition: .2s;
-	cursor: pointer;
 
 }
 .beds1 {
@@ -112,7 +103,6 @@ position: relative; /* Ensure relative positioning for absolute positioning insi
 	font-weight: 700;
 	width: 100%;
 	transition: .2s;
-	cursor: pointer;
 
 }
 
@@ -473,7 +463,7 @@ transform: translateY(-50%);
 .screen__background__shape2 {
 	height: 220px;
 	width: 220px;
-  background: linear-gradient(to right, var(--primary),#340053fc, #520081,#57228b);
+  background: linear-gradient(to left, var(--primary),#340053fc, #520081,#57228b);
 	top: -172px;
 	right: 0;	
 	border-radius: 32px;
@@ -482,7 +472,7 @@ transform: translateY(-50%);
 .screen__background__shape3 {
 	height: 540px;
 	width: 190px;
-  background: linear-gradient(to right, var(--primary),#340053fc, #520081,#57228b);
+  background: linear-gradient(to left, var(--primary),#340053fc, #520081,#57228b);
 	top: -24px;
 	right: 0;	
 	border-radius: 32px;
@@ -491,7 +481,7 @@ transform: translateY(-50%);
 .screen__background__shape4 {
 	height: 400px;
 	width: 200px;
-  background: linear-gradient(to right, var(--primary),#340053fc, #520081,#57228b);
+  background: linear-gradient(to left, var(--primary),#340053fc, #520081,#57228b);
 	top: 420px;
 	right: 50px;	
 	border-radius: 60px;
