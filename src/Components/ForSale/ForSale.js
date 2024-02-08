@@ -288,7 +288,7 @@ setImageUrls(imageUrlsArray);
         <FontAwesomeIcon icon={faBath} size="lg" style={{color: "#492903",}}/>&nbsp; {apiData.props[selectedCardIndex].bathrooms}&nbsp;Baths&nbsp;&nbsp;&nbsp;&nbsp;
         <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#3d0000",}} />&nbsp; {infoData[selectedCardIndex]?.timeOnZillow || "Unknown"} on Market<br />            
         
-            {infoData[selectedCardIndex]?.description}<br /><br />
+            {infoData[selectedCardIndex]?.description}<br />
             <FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity} parking space(s) &nbsp;&nbsp;
             <FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1]} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             MLS&reg;: {infoData[selectedCardIndex]?.mlsid}<br />

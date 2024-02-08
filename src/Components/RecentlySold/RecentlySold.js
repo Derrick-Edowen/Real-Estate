@@ -84,7 +84,6 @@ const updateMapLocation = async (address) => {
     const maxBaths = document.getElementById('choose-baths').value;
     setSearchClicked(true);
     if (!address || !sort || !propertyType || !minPrice || !maxPrice || !maxBeds || !maxBaths) {
-      window.alert('Please fill out all required fields!');
       return;
     }
     if (minPrice > maxPrice) {
@@ -320,7 +319,8 @@ setImageUrls(imageUrlsArray);
     )}
     </main>
         <aside className='searchBar'>
-          
+        <form>
+
           <div class="container">
 	<div class="screen">
 		<div class="screen__content">
@@ -395,6 +395,8 @@ setImageUrls(imageUrlsArray);
 		</div>		
 	</div>
 </div>
+</form>
+
         </aside> 
   </div>
   

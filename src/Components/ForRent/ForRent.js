@@ -27,6 +27,7 @@ const [lightboxActive, setLightboxActive] = useState(false);
 const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 const [zoomLevel, setZoomLevel] = useState(11); 
 const [currentImageIndex, setCurrentImageIndex] = useState(0);
+const [searchTrigger, setSearchTrigger] = useState(false); // New state variable
 
 
 const updateMapLocation = async (address) => {
@@ -64,7 +65,9 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
-  const handleReset = () => {
+  const handleReset = (e) => {
+    e.preventDefault();
+
     // Select the input elements and reset their values
     document.getElementById('search').value = '';
     document.getElementById('sortList').value = '';
@@ -74,7 +77,9 @@ const updateMapLocation = async (address) => {
     document.getElementById('min-price').value = '';
     document.getElementById('max-price').value = '';
   };
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
     const address = document.getElementById('search').value;
     const sort = document.getElementById('sortList').value;
     const propertyType = document.getElementById('choose-type').value;
@@ -83,10 +88,7 @@ const updateMapLocation = async (address) => {
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
     setSearchClicked(true);
-    if (!address || !sort || !propertyType || !minPrice || !maxPrice || !maxBeds || !maxBaths) {
-      window.alert('Please fill out all required fields!');
-      return;
-    }
+
     if (minPrice > maxPrice) {
       window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
       return;
@@ -182,25 +184,9 @@ setImageUrls(imageUrlsArray);
   console.error('Error fetching data:', error);
   setIsLoading(false);
 }
+setSearchTrigger(prevState => !prevState); // Toggle the state variable to trigger re-render
+
 };
-
-      function adjustTextSize() {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-          const cardText = card.querySelector('.cardText');
-          const cardHeight = card.clientHeight;
-          const textHeight = cardText.scrollHeight;
-          const fontSize = parseFloat(window.getComputedStyle(cardText).fontSize);
-          if (textHeight > cardHeight) {
-            const newFontSize = fontSize * (cardHeight / textHeight);
-            cardText.style.fontSize = `${newFontSize}px`;
-          }
-        });
-      }
-      useEffect(() => {
-        adjustTextSize();
-      }, [infoData, cardIndex]);
-
 
       const handleOpenLightbox = (index) => {
         setSelectedCardIndex(index);
@@ -250,13 +236,11 @@ setImageUrls(imageUrlsArray);
                 <div className="cardText">
                   <div className='cDress'>${property.price}/Month<br /></div>
                   <div className='cPrice'>{property.address}</div>
-                  <p>
-                  
-                  <FontAwesomeIcon icon={faBed} size="xl" style={{color: "#190000",}} />&nbsp;{property.bedrooms}&nbsp;&nbsp;&nbsp;&nbsp;
-                  <FontAwesomeIcon icon={faBath} size="xl" style={{color: "#190000",}}/>&nbsp;{property.bathrooms}&nbsp;&nbsp;&nbsp;&nbsp;
-                  <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#190000",}}  />&nbsp;{infoData[index]?.timeOnZillow || "Unknown"}<br />
-                </p>
-                <p>Click to See More...</p>
+                  <div className='holding1'>
+                  <div className='cardBed'>{property.bedrooms} Beds&nbsp;</div>
+                  <div className='cardBaths'>{property.bathrooms} Baths&nbsp;</div>
+                  <div className='cardMls'>MLS&reg;:{infoData[index]?.mlsid || "Unknown"}</div>
+                  </div>
                 </div>
               </div>
             ))
@@ -290,13 +274,17 @@ setImageUrls(imageUrlsArray);
         <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#3d0000",}} />&nbsp; {infoData[selectedCardIndex]?.timeOnZillow || "Unknown"} on Market<br />            
         
             {infoData[selectedCardIndex]?.description}<br /><br />
-            <FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity} parking space(s) &nbsp;&nbsp;
-            <FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1]} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            MLS&reg;: {infoData[selectedCardIndex]?.mlsid}<br />
+            <div className='holding1'>
+            <div className='cardPark'><FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity} parking space(s) &nbsp;&nbsp;  </div>
+            <div className='cardFire'><FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1]} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div className='cardWind'><FontAwesomeIcon icon={faWind} size="lg" style={{color: "#006bbd",}} /> - {infoData[selectedCardIndex]?.resoFacts.cooling[0]}</div>
+            </div> 
 
-            <FontAwesomeIcon icon={faJugDetergent} size="lg" style={{ color: "#012665" }}/> - {infoData[selectedCardIndex]?.resoFacts.laundryFeatures &&infoData[selectedCardIndex]?.resoFacts.laundryFeatures.length > 0? infoData[selectedCardIndex]?.resoFacts.laundryFeatures[0]: "Unknown"}&nbsp;&nbsp;&nbsp;&nbsp;
-            <FontAwesomeIcon icon={faWind} size="lg" style={{color: "#006bbd",}} /> - {infoData[selectedCardIndex]?.resoFacts.cooling[0]}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Brokerage: {infoData[selectedCardIndex]?.brokerageName}      
+            <div className='holding1'>
+            <div className='cardJug'><FontAwesomeIcon icon={faJugDetergent} size="lg" style={{ color: "#012665" }}/> - {infoData[selectedCardIndex]?.resoFacts.laundryFeatures &&infoData[selectedCardIndex]?.resoFacts.laundryFeatures.length > 0? infoData[selectedCardIndex]?.resoFacts.laundryFeatures[0]: "Unknown"}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div className='cardMl'>MLS&reg;: {infoData[selectedCardIndex]?.mlsid}</div><br />
+            <div className='cardBroke'>Brokerage: {infoData[selectedCardIndex]?.brokerageName}  </div>    
+            </div> 
 
           </div>
           </div>
@@ -320,79 +308,77 @@ setImageUrls(imageUrlsArray);
     </>
     )}
     </main>
-        <aside className='searchBar'>
-          
-          <div class="container">
-	<div class="screen">
-		<div class="screen__content">
-			<div class="login">
-      <h5 className='params'>FOR LEASE SEARCH</h5>
-				<div class="login__field">
-          
-					<i class="login__icon fas fa-user"></i>
-          
-          <input className='search1' id='search' type='text' placeholder='Enter a City!' required></input>
-				</div>
-				<div class="login__field">
-					<i class="login__icon fas fa-lock"></i>
-          <div className='propsort'>
-          <select className='sort1' id="sortList" name="sort" placeholder='Sort Listings'required>
-          <option value="" disabled selected>Sort Listings</option>
-          <option value="Newest">Newest</option>
-          <option value="Payment_High_Low">Ascending - Price</option>
-          <option value="Payment_Low_High">Descending - Price</option>
-          <option value="Lot_Size">Lot Size</option>
-          <option value="Square_Feet">Square Footage</option>
-          </select>
-          <select className='property1' id="choose-type" name="propertyType" placeholder='Property Type'required>
-          <option value="" disabled selected>Property Type</option>
-          <option value="Any">Any</option>
-          <option value="Houses">Houses</option>
-          <option value="Townhomes">Townhomes</option>
-          <option value="Apartments_Condos_Co-ops">Condominiums</option>
-          </select>
+    <aside className='searchBar'>
+      <div className="container">
+        <div className="screen">
+          <div className="screen__content">
+            <div className="login">
+              <h5 className='params'>FOR LEASE SEARCH</h5>
+              <form onSubmit={handleSearch}>
+                <div className="login__field">
+                  <i className="login__icon fas fa-user"></i>
+                  <input className='search1' id='search' type='text' placeholder='Enter a City!' required />
+                </div>
+                <div className="login__field">
+                  <i className="login__icon fas fa-lock"></i>
+                  <div className='propsort'>
+                    <select className='sort1' id="sortList" name="sort" placeholder='Sort Listings' required>
+                      <option value="" disabled selected>Sort Listings</option>
+                      <option value="Newest">Newest</option>
+                      <option value="Payment_High_Low">Ascending - Price</option>
+                      <option value="Payment_Low_High">Descending - Price</option>
+                      <option value="Lot_Size">Lot Size</option>
+                      <option value="Square_Feet">Square Footage</option>
+                    </select>
+                    <select className='property1' id="choose-type" name="propertyType" placeholder='Property Type' required>
+                      <option value="" disabled selected>Property Type</option>
+                      <option value="Any">Any</option>
+                      <option value="Houses">Houses</option>
+                      <option value="Townhomes">Townhomes</option>
+                      <option value="Apartments_Condos_Co-ops">Condominiums</option>
+                    </select>
+                  </div>
+                  <div className='bedsbaths'>
+                    <select className='beds1' id="choose-beds" name="beds" placeholder='Beds' required>
+                      <option value="" disabled selected>Beds</option>
+                      <option value="0">Any</option>
+                      <option value="1">1 Bed</option>
+                      <option value="2">2 Beds</option>
+                      <option value="3">3 Beds</option>
+                      <option value="4">4 Beds</option>
+                      <option value="5">5 Beds</option>
+                      <option value="6">6 Beds</option>
+                    </select>
+                    <select className='baths1' id="choose-baths" name="baths" placeholder='Baths' required>
+                      <option value="" disabled selected>Baths</option>
+                      <option value="0">Any</option>
+                      <option value="1">1 Bath</option>
+                      <option value="2">2 Baths</option>
+                      <option value="3">3 Baths</option>
+                      <option value="4">4 Baths</option>
+                      <option value="5">5 Baths</option>
+                      <option value="6">6 Baths</option>
+                    </select>
+                  </div>
+                  <input className='mins1' type='number' id="min-price" placeholder='Minimum Rent Price' required />
+                  <input className='maxs1' type='number' id="max-price" placeholder='Maximum Rent Price' required />
+                </div>
+                <div className='resets'>
+                  <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>
+                  <button className='searchBtn'>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                </div>
+              </form>
+            </div>
           </div>
-          <div className='bedsbaths'>
-          <select className='beds1' id="choose-beds" name="beds" placeholder='Beds'required>
-          <option value="" disabled selected>Beds</option>
-          <option value="0">Any</option>
-          <option value="1">1 Bed</option>
-          <option value="2">2 Beds </option>
-          <option value="3">3 Beds</option>
-          <option value="4">4 Beds</option>
-          <option value="5">5 Beds</option>
-          <option value="6">6 Beds</option>
-          </select>
-          <select className='baths1' id="choose-baths" name="baths" placeholder='Baths'required>
-          <option value="" disabled selected>Baths</option>
-          <option value="0">Any</option>
-          <option value="1">1 Bath</option>
-          <option value="2">2 Baths</option>
-          <option value="3">3 Baths</option>
-          <option value="4">4 Baths</option>
-          <option value="5">5 Baths</option>
-          <option value="6">6 Baths</option>
-          </select>
-          
+          <div className="screen__background">
+            <span className="screen__background__shape screen__background__shape4"></span>
+            <span className="screen__background__shape screen__background__shape3"></span>
+            <span className="screen__background__shape screen__background__shape2"></span>
+            <span className="screen__background__shape screen__background__shape1"></span>
           </div>
-          <input className='mins1' type='number' id="min-price"placeholder='Minimum Rent Price'required></input>
-          <input className='maxs1' type='number' id="max-price"placeholder='Maximum Rent Price'required></input>
-				</div>
-        <div className='resets'>
-          <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>
-          <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass}/></button>
-          </div>			
-			</div>
-		</div>
-		<div class="screen__background">
-			<span class="screen__background__shape screen__background__shape4"></span>
-			<span class="screen__background__shape screen__background__shape3"></span>		
-			<span class="screen__background__shape screen__background__shape2"></span>
-			<span class="screen__background__shape screen__background__shape1"></span>
-		</div>		
-	</div>
-</div>
-        </aside> 
+        </div>
+      </div>
+    </aside> 
   </div>
   
 </div>
@@ -404,119 +390,58 @@ setImageUrls(imageUrlsArray);
 export default ForRent;
 /*
 
-<aside  className='halves'>
-          <div className='manager'>
-        <div className='searchBar'>
-          <input id='search' type='text' placeholder='City or Neighbourhood' required></input>
-          <select id="sortList" name="sort" placeholder='Sort Listings'required>
-          <option value="" disabled selected>Sort Listings</option>
-          <option value="Newest">Newest</option>
-          <option value="Payment_High_Low">Ascending - Price</option>
-          <option value="Payment_Low_High">Descending - Price</option>
-          <option value="Lot_Size">Lot Size</option>
-          <option value="Square_Feet">Square Footage</option>
-          </select>
-          <select id="choose-type" name="propertyType" placeholder='Property Type'required>
-          <option value="" disabled selected>Property Type</option>
-          <option value="Any">Any</option>
-          <option value="Houses">Houses</option>
-          <option value="Townhomes">Townhomes</option>
-          <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
-          </select>
-          <input type='number' id="min-price"placeholder='Minimum Price - Ex: $1000'required></input>
-          <input type='number' id="max-price"placeholder='Maximum Price - Ex: $4000'required></input>
-          <select id="choose-beds" name="beds" placeholder='Beds'required>
-          <option value="" disabled selected>Beds</option>
-          <option value="0">Any</option>
-          <option value="1">1 Bed</option>
-          <option value="2">2 Beds </option>
-          <option value="3">3 Beds</option>
-          <option value="4">4 Beds</option>
-          <option value="5">5 Beds</option>
-          <option value="6">6 Beds</option>
-          </select>
-          <select id="choose-baths" name="baths" placeholder='Baths'required>
-          <option value="" disabled selected>Baths</option>
-          <option value="0">Any</option>
-          <option value="1">1 Bath</option>
-          <option value="2">2 Baths</option>
-          <option value="3">3 Baths</option>
-          <option value="4">4 Baths</option>
-          <option value="5">5 Baths</option>
-          <option value="6">6 Baths</option>
-          </select>
-          <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
-        </div>
-        </div>
-        </aside>
-
-                  <p>
-                  <Link
-        to={{
-          pathname: '/Contact', // Update the pathname as per your route setup
-          search: `?address=${encodeURIComponent(property.address)}&price=${encodeURIComponent(property.price)}`,
-        }}
-      >      
-        Ask John Smith about {property.address}?
-        </Link>
-      </p>
-      
-
-
-
-      <input className='search1' id='search' type='text' placeholder='Enter a City or Neighbourhood!' required></input>
-
-          <div className='splash'>
-            <h5 className='params'>RENTAL SEARCH</h5>
-          <div className='propsort'>
-          <select className='sort1' id="sortList" name="sort" placeholder='Sort Listings'required>
-          <option value="" disabled selected>Sort Listings</option>
-          <option value="Newest">Newest</option>
-          <option value="Payment_High_Low">Ascending - Price</option>
-          <option value="Payment_Low_High">Descending - Price</option>
-          <option value="Lot_Size">Lot Size</option>
-          <option value="Square_Feet">Square Footage</option>
-          </select>
-          <select className='property1' id="choose-type" name="propertyType" placeholder='Property Type'required>
-          <option value="" disabled selected>Property Type</option>
-          <option value="Any">Any</option>
-          <option value="Houses">Houses</option>
-          <option value="Townhomes">Townhomes</option>
-          <option value="Apartments_Condos_Co-ops">Condominiums / Apartments</option>
-          </select>
-          </div>
-
-          <div className='bedsbaths'>
-          <select className='beds1' id="choose-beds" name="beds" placeholder='Beds'required>
-          <option value="" disabled selected>Beds</option>
-          <option value="0">Any</option>
-          <option value="1">1 Bed</option>
-          <option value="2">2 Beds </option>
-          <option value="3">3 Beds</option>
-          <option value="4">4 Beds</option>
-          <option value="5">5 Beds</option>
-          <option value="6">6 Beds</option>
-          </select>
-          <select className='baths1' id="choose-baths" name="baths" placeholder='Baths'required>
-          <option value="" disabled selected>Baths</option>
-          <option value="0">Any</option>
-          <option value="1">1 Bath</option>
-          <option value="2">2 Baths</option>
-          <option value="3">3 Baths</option>
-          <option value="4">4 Baths</option>
-          <option value="5">5 Baths</option>
-          <option value="6">6 Baths</option>
-          </select>
-          </div>
-
-          <div className='minsmaxs'>
-          <input className='mins1' type='number' id="min-price"placeholder='Minimum Rent Price'required></input>
-          <input className='maxs1' type='number' id="max-price"placeholder='Maximum Rent Price'required></input>
-          </div>
-          <div className='resets'>
-          <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>
-          <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass} style={{color: "#fafafa",}} /></button>
-          </div>
-          </div>
-
+<form>
+                <div className="login__field">
+                  <i className="login__icon fas fa-user"></i>
+                  <input className='search1' id='search' type='text' placeholder='Enter a City!' required />
+                </div>
+                <div className="login__field">
+                  <i className="login__icon fas fa-lock"></i>
+                  <div className='propsort'>
+                    <select className='sort1' id="sortList" name="sort" placeholder='Sort Listings' required>
+                      <option value="" disabled selected>Sort Listings</option>
+                      <option value="Newest">Newest</option>
+                      <option value="Payment_High_Low">Ascending - Price</option>
+                      <option value="Payment_Low_High">Descending - Price</option>
+                      <option value="Lot_Size">Lot Size</option>
+                      <option value="Square_Feet">Square Footage</option>
+                    </select>
+                    <select className='property1' id="choose-type" name="propertyType" placeholder='Property Type' required>
+                      <option value="" disabled selected>Property Type</option>
+                      <option value="Any">Any</option>
+                      <option value="Houses">Houses</option>
+                      <option value="Townhomes">Townhomes</option>
+                      <option value="Apartments_Condos_Co-ops">Condominiums</option>
+                    </select>
+                  </div>
+                  <div className='bedsbaths'>
+                    <select className='beds1' id="choose-beds" name="beds" placeholder='Beds' required>
+                      <option value="" disabled selected>Beds</option>
+                      <option value="0">Any</option>
+                      <option value="1">1 Bed</option>
+                      <option value="2">2 Beds</option>
+                      <option value="3">3 Beds</option>
+                      <option value="4">4 Beds</option>
+                      <option value="5">5 Beds</option>
+                      <option value="6">6 Beds</option>
+                    </select>
+                    <select className='baths1' id="choose-baths" name="baths" placeholder='Baths' required>
+                      <option value="" disabled selected>Baths</option>
+                      <option value="0">Any</option>
+                      <option value="1">1 Bath</option>
+                      <option value="2">2 Baths</option>
+                      <option value="3">3 Baths</option>
+                      <option value="4">4 Baths</option>
+                      <option value="5">5 Baths</option>
+                      <option value="6">6 Baths</option>
+                    </select>
+                  </div>
+                  <input className='mins1' type='number' id="min-price" placeholder='Minimum Rent Price' required />
+                  <input className='maxs1' type='number' id="max-price" placeholder='Maximum Rent Price' required />
+                </div>
+                <div className='resets'>
+                  <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>
+                  <button className='searchBtn' onClick={handleSearch}>Search&nbsp;&nbsp;<FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                </div>
+              </form>
       */

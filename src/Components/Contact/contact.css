@@ -58,13 +58,13 @@ justify-content: center;
   width: 300px;
   padding-bottom: 0px;
   border-radius: 1000px;
-background-color: rgb(43, 5, 78);
+  background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
   }
 .standIn {
   height: 550px;
   width: 550px;
   border-radius: 1000px;
-  background-color: rgb(43, 5, 78);
+  background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
   box-shadow: 0px 10px 48px 8px;
 
 }
@@ -92,7 +92,7 @@ background-color: rgb(43, 5, 78);
   height: 75px;
   width: 75px;
   border-radius: 1000px;
-  background-color: rgb(43, 5, 78);
+  background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
   margin-right: 25px;
   margin-top: 460px;
 
@@ -102,7 +102,7 @@ background-color: rgb(43, 5, 78);
   height: 125px;
   z-index: 200;
   margin-left: 257px;
-  margin-top: 277px;
+  margin-top: 282px;
 }
 .contact--section {
     display: flex;
@@ -112,7 +112,7 @@ background-color: rgb(43, 5, 78);
     text-align: center;
     position: relative;
     gap: 12px;
-    width: auto;
+    width: 665px;
     height: auto;
     background-color:rgb(247, 242, 252);
     border-radius: 5px;

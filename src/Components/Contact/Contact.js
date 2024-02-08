@@ -7,7 +7,7 @@ import image4 from '../../Assets/Images/house1.jpg'
 import image5 from '../../Assets/Images/kitchen1.jpg'
 import man from  '../../Assets/Images/man2.png'
 import emailjs from '@emailjs/browser';
-import './Index.css'
+import './contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
