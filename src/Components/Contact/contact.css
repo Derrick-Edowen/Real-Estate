@@ -132,8 +132,10 @@ top: -50px;
     display: grid;
     grid-template-columns: repeat(2, auto);
     column-gap: 60px;
-    row-gap: 20px;
+    row-gap: 24px;
     padding-top: 12px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
   .contact--label {
     display: flex;

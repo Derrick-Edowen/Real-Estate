@@ -20,24 +20,31 @@ import image5 from './Assets/Images/kitchen1.jpg'
 
 function App() {
   const [images] = useState([image1, image2, image3, image4, image5]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) =>
-          prevIndex === images.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 14000);
-  
-      return () => clearInterval(interval);
-    }, [images]);
-  
-    const imageStyle = {
-      backgroundImage: `url(${images[currentIndex]})`,
-    };
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Preload images
+  useEffect(() => {
+    images.forEach((image) => {
+      const img = new Image();
+      img.src = image;
+    });
+  }, [images]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 18000);
+
+    return () => clearInterval(interval);
+  }, [images]);
+
+  const imageStyle = {
+    backgroundImage: `url(${images[currentIndex]})`,
+  };
   return (
    <div className="App" style={imageStyle}>
-    
       <Router>
       <Header />
           <Routes>

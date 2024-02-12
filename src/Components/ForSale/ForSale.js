@@ -378,8 +378,8 @@ setImageUrls(imageUrlsArray);
           </select>
           
           </div>
-          <input className='mins1' type='number' id="min-price"placeholder='Minimum Rent Price'required></input>
-          <input className='maxs1' type='number' id="max-price"placeholder='Maximum Rent Price'required></input>
+          <input className='mins1' type='number' id="min-price"placeholder='Minimum Sales Price'required></input>
+          <input className='maxs1' type='number' id="max-price"placeholder='Maximum Sales Price'required></input>
 				</div>
         <div className='resets'>
           <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>

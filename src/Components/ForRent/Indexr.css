@@ -161,7 +161,7 @@ input[type="number"] {
   display: flex;
   justify-content: space-between;
 }
-.searchBtn {
+.searchBtn1 {
 	background: #fff;
 	font-size: 14px;
 	margin-top: 30px;
@@ -180,10 +180,14 @@ input[type="number"] {
 	cursor: pointer;
 	transition: .2s;
 }
-.searchBtn:hover {
-  transition: 1s;
+.searchBtn1:hover {
+  transition: 0.4s;
   background: linear-gradient(to left, var(--primary),#340053fc, #520081,#57228b);
 }
+.searchBtn1:active {
+	box-shadow: 0 1px #666;
+	transform: translateY(3.5px);
+  }
 .resetBtn {
 	background: #fff;
 	font-size: 14px;
@@ -205,7 +209,13 @@ input[type="number"] {
 }
 .resetBtn:hover {
   background-color: #dfd3ebe8;
+  transition: 0.4s;
+
 }
+.resetBtn:active {
+	box-shadow: 0 1px #666;
+	transform: translateY(3.5px);
+  }
 .splash {
   background-color: #ffffff79;
   border-radius: 10px;
@@ -215,15 +225,41 @@ input[type="number"] {
   box-shadow: 0px 2px 12px 2px;
 }
 
-.cDress{
-font-size: 20px;
-color: var(--primary);
-}
-.cPrice{
-  font-size: 20px;
-color: var(--primary);
-}
+.cDress1{
+font-size: 26px;
+color: rgb(236, 236, 236);
+background-color: #252525a1;
+width: fit-content;
+padding-left: 3px;
+padding-right: 3px;
+border-radius: 4px;
+text-shadow: 2px 2px 6px #000000;
+box-shadow: 0px 0.1px ;
 
+}
+.cPrice1{
+  font-size: 24px;
+  color: rgb(236, 236, 236);
+  background-color: #252525a1;
+  margin-top: 1px;
+padding-left: 3px;
+padding-right: 3px;
+border-radius: 4px;
+text-shadow: 2px 2px 6px #000000;
+box-shadow: 0px 0.1px;
+width: fit-content;
+
+}
+.noResultsMessage {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	font-size: 36px;
+	color: #ffffff;
+	margin-top: 350px;
+	text-shadow: 2px 2px 6px #000000;
+
+}
 
   .lists {
     width: 100%;
@@ -239,9 +275,10 @@ color: var(--primary);
   gap: 5.5px;
   overflow:auto;
   max-height: 750px;
+  min-width: 500px;
   width:fit-content;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
-
+margin-right: 10px;
 }
 ::-webkit-scrollbar {
   width: 5px;
@@ -271,17 +308,18 @@ color: var(--primary);
     font: bolder;
 
 }
-.cardi {
-  flex: 0 0 calc(25% - 5px); /* Calculate width for three columns with gap */
+.cardi1 {
+	position: relative; /* Ensure relative positioning for absolute positioning inside */
+
+  flex: 0 0 calc(50% - 5px); /* Calculate width for three columns with gap */
   align-items: flex-start;
-  background-color: #ebe7e7;
+  background-color: transparent;
   box-shadow: 0px 2px 12px 2px;
   border-radius: 5px;
   margin-bottom: 2px; /* Add margin to create gap between rows */
- max-height: 355px;
+ max-height: 340px;
  overflow: hidden;
  transition: all 1s ease-in-out;
- position: relative; /* Ensure relative positioning for absolute positioning inside */
  cursor: pointer;
  transition: transform 0.3s ease-in-out;
 
@@ -290,14 +328,22 @@ color: var(--primary);
 .holding1 {
 	display: flex;
 	max-width: 100%;
+	margin-top: 4px;
   }
   
   .cardBed,
   .cardBaths,
   .cardMls {
 	margin-right: 8px; /* Adjust margin as needed */
-	background-color: #D1D1D4;
+	background-color: #252525a1;
 	border-radius: 4px;
+	color: rgb(236, 236, 236);
+	padding: 1px;
+	padding-left: 2px;
+	padding-right: 3px;
+	font-size: 20px;
+	text-shadow: 2px 2px 6px #000000;
+
   }
   .cardPark,
   .cardFire,
@@ -320,15 +366,17 @@ color: var(--primary);
 	background-color: #dad7d7;
 	border-radius: 5px;
 }
-.cardi:hover img{
-transform: scale(1.015);
+.cardi1:hover img{
+transform: scale(1.05);
  
 }
-.cardi img {
-  width: 100%;
-  height: 52%;
-  object-fit: cover;
-  transition: 275ms transform ease-in-out;
+.cardi1 img {
+	width: 100%;
+	height: 100%;
+	padding: 1px;
+	object-fit: fill;
+	transition: 275ms transform ease-in-out;
+	z-index: -1; 
 }
 .cardText {
   font-size: 1rem; /* Initial font size */
@@ -340,16 +388,32 @@ transform: scale(1.015);
   max-height: 600px;
   overflow-y: auto;
 }
+.cardText1 {
+	font-size: 1rem;
+	overflow: hidden;
+	margin: 8px;
+	margin-left: 10px;
+	align-items:flex-end;
+	flex: 0 0 50%;
+	overflow-y: auto;
+	position: absolute; /* Position the text absolutely */
+	bottom: 0; /* Align to the top of the parent container */
+	left: 0; /* Align to the left of the parent container */
+	z-index: 2;
+	
+  }
 .containText {
   height: 50%;
 }
-.loadingMessage {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  font-size: 25px;
-  color: #ffffff;
-  margin-top: 350px;
+.loadingMessage1 {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	font-size: 40px;
+	color: #ffffff;
+	margin-top: 350px;
+	text-shadow: 2px 2px 6px #000000;
+
 }
 .clickMore {
 	color: #49018b;
@@ -430,7 +494,7 @@ margin-top: 0.5px;
 
 }
 .lightbox-left:hover {
-  background-color: rgba(54, 52, 52, 0.45); /* Adjust the hover opacity as needed */
+  background-color: rgba(54, 52, 52, 0.40); /* Adjust the hover opacity as needed */
 }
 
 .lightbox-right {
@@ -449,7 +513,7 @@ transform: translateY(-50%);
   transition: background-color 0.3s ease;
 }
 .lightbox-right:hover {
-  background-color: rgba(54, 52, 52, 0.45); /* Adjust the hover opacity as needed */
+  background-color: rgba(54, 52, 52, 0.40); /* Adjust the hover opacity as needed */
 }
 .lightbox img {
  width: 100%;
