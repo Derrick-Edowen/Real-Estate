@@ -5,12 +5,26 @@
   .containerCalc {
     width: 25%;
   }
+  .textChart {
+    display: flex;
+}
 
+.text-container {
+    margin-right: 20px; /* Add some space between text and chart */
+}
+
+.doughnut-chart-container {
+    flex: 1; /* Allow the chart container to grow to take remaining space */
+}
+.amortTitle {
+    background-color: rgb(85, 85, 226);
+    border-radius: 5px;
+}
   .popUp {
     flex-grow: 1;
     margin: 5px;
     padding: 8px;
-    background: hsla(270, 11%, 51%, 0.969);
+    background: hsla(0, 0%, 73%, 0.969);
 }
 form {
     margin: auto;

@@ -15,6 +15,9 @@ function Calculator() {
     const [annualDropdownActive, setAnnualDropdownActive] = useState(false);
     const [principalPercentage, setPrincipalPercentage] = useState(0);
     const [interestPercentage, setInterestPercentage] = useState(0);
+    const [chartInstance, setChartInstance] = useState(null);
+    const [doughnutChartInstance, setDoughnutChartInstance] = useState(null);
+
 
     useEffect(() => {
         if (homePrice && downPaymentPercentage) {
@@ -22,72 +25,107 @@ function Calculator() {
             setLoanAmount(homePrice - downPaymentAmount);
         }
     }, [homePrice, downPaymentPercentage]);
+    useEffect(() => {
+        if (annualAmortization.length > 0) {
+            renderLineChart();
+        }
+    }, [annualAmortization]);
+
     const calculateAmortization = () => {
-        // Convert interest rate to monthly rate
         const monthlyInterestRate = interestRate / 100 / 12;
-    // Convert loan term to months
-    const loanTermMonths = loanTerm * 12;
-    // Calculate mortgage payment
-    const downPaymentAmount = (homePrice * downPaymentPercentage) / 100;
-    const loanAmount = homePrice - downPaymentAmount;
-    const mortgagePayment =
-        (loanAmount * monthlyInterestRate) /
-        (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
+        const loanTermMonths = loanTerm * 12;
+        const downPaymentAmount = (homePrice * downPaymentPercentage) / 100;
+        const loanAmount = homePrice - downPaymentAmount;
+        const mortgagePayment = (loanAmount * monthlyInterestRate) /
+            (1 - Math.pow(1 + monthlyInterestRate, -loanTermMonths));
 
-    let remainingBalance = loanAmount;
-    const monthlyAmortization = [];
-    const annualAmortization = [];
-    let month = 0;
+        let remainingBalance = loanAmount;
+        const monthlyAmortization = [];
+        const annualAmortization = [];
+        let month = 0;
 
-    while (remainingBalance > 0 && month < loanTermMonths) {
-        const interestPayment = remainingBalance * monthlyInterestRate;
-        const principalPayment = mortgagePayment - interestPayment;
-        remainingBalance -= principalPayment;
+        while (remainingBalance > 0 && month < loanTermMonths) {
+            const interestPayment = remainingBalance * monthlyInterestRate;
+            const principalPayment = mortgagePayment - interestPayment;
+            remainingBalance -= principalPayment;
 
-        // Monthly amortization
-        monthlyAmortization.push({
-            month: month + 1,
-            principalPayment,
-            interestPayment,
-            remainingBalance,
-            mortgagePayment // Add mortgage payment to the entry
-        });
-
-        // Annual amortization
-        if ((month + 1) % 12 === 0 || month === loanTermMonths - 1) {
-            const totalPrincipal = monthlyAmortization.reduce((acc, curr) => acc + curr.principalPayment, 0);
-            const totalInterest = monthlyAmortization.reduce((acc, curr) => acc + curr.interestPayment, 0);
-            const totalRemainingBalance = monthlyAmortization[monthlyAmortization.length - 1].remainingBalance;
-            annualAmortization.push({
-                year: Math.ceil((month + 1) / 12),
-                totalPrincipal,
-                totalInterest,
-                totalRemainingBalance,
-                mortgagePayment // Add mortgage payment to the entry
+            monthlyAmortization.push({
+                month: month + 1,
+                principalPayment,
+                interestPayment,
+                remainingBalance,
+                mortgagePayment
             });
+
+            if ((month + 1) % 12 === 0 || month === loanTermMonths - 1) {
+                const totalPrincipal = monthlyAmortization.reduce((acc, curr) => acc + curr.principalPayment, 0);
+                const totalInterest = monthlyAmortization.reduce((acc, curr) => acc + curr.interestPayment, 0);
+                const totalRemainingBalance = monthlyAmortization[monthlyAmortization.length - 1].remainingBalance;
+                annualAmortization.push({
+                    year: Math.ceil((month + 1) / 12),
+                    totalPrincipal,
+                    totalInterest,
+                    totalRemainingBalance,
+                    mortgagePayment
+                });
+            }
+
+            month++;
         }
 
-        month++;
-    }
+        setMonthlyAmortization(monthlyAmortization);
+        setAnnualAmortization(annualAmortization);
 
-    setMonthlyAmortization(monthlyAmortization);
-    setAnnualAmortization(annualAmortization);
-    const totalPrincipal = annualAmortization.length > 0 ? annualAmortization[annualAmortization.length - 1].totalPrincipal : 0;
+        const totalAmount = monthlyAmortization.reduce((acc, curr) => acc + curr.mortgagePayment, 0);
+        const totalPrincipal = annualAmortization.length > 0 ? annualAmortization[annualAmortization.length - 1].totalPrincipal : 0;
         const totalInterest = annualAmortization.length > 0 ? annualAmortization[annualAmortization.length - 1].totalInterest : 0;
 
-        // Calculate percentages
-        const totalAmount = totalPrincipal + totalInterest;
         const principalPercentage = (totalPrincipal / totalAmount) * 100;
         const interestPercentage = (totalInterest / totalAmount) * 100;
 
         setPrincipalPercentage(principalPercentage);
         setInterestPercentage(interestPercentage);
 
-        // Render doughnut chart
         renderDoughnutChart(principalPercentage, interestPercentage);
+        renderLineChart();
     };
+
     const renderDoughnutChart = (principalPercentage, interestPercentage) => {
+        if (doughnutChartInstance) {
+            doughnutChartInstance.destroy();
+        }
+    
         const ctx = document.getElementById('doughnutChart').getContext('2d');
+    
+        // Define custom plugin to display percentage values
+        const percentagePlugin = {
+            id: 'percentagePlugin',
+            afterDraw: (chart) => {
+                const ctx = chart.ctx;
+                const datasets = chart.data.datasets[0].data;
+                const total = datasets.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    
+                chart.data.labels.forEach((label, index) => {
+                    const dataset = datasets[index];
+                    const meta = chart.getDatasetMeta(0);
+                    const element = meta.data[index];
+                    const model = element._model;
+                    const startAngle = model.startAngle;
+                    const endAngle = model.endAngle;
+                    const midAngle = (startAngle + endAngle) / 2;
+                    const x = model.x + Math.cos(midAngle) * model.outerRadius * 0.5; // Adjust the percentage text position
+                    const y = model.y + Math.sin(midAngle) * model.outerRadius * 0.5; // Adjust the percentage text position
+                    const percentage = ((dataset / total) * 100).toFixed(2) + '%';
+    
+                    ctx.fillStyle = 'black';
+                    ctx.textBaseline = 'middle';
+                    ctx.textAlign = 'center';
+                    ctx.font = 'bold 12px Arial';
+                    ctx.fillText(percentage, x, y);
+                });
+            }
+        };
+    
         const chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -103,50 +141,64 @@ function Calculator() {
                 }]
             },
             options: {
-                width: 500,
-                height: 500,
-                showDatasetLabels : true,
+                responsive: false,
+                maintainAspectRatio: false,
+                width: 350,
+                height: 350,
                 cutoutPercentage: 41,
-                legend: {
-                         display: true, 
-                         position:'bottom',
-                         labels: {
-                           fontFamily: "myriadpro-regular",
-                           boxWidth: 15,
-                           boxHeight: 2,
-                         },
-                     } 
-                 }
-             });
-
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'right',
+                        labels: {
+                            fontFamily: "myriadpro-regular",
+                            boxWidth: 15,
+                            boxHeight: 2,
+                        },
+                    },
+                    // Include the custom percentage plugin
+                    percentagePlugin: percentagePlugin
+                }
+            }
+        });
+    
+        setDoughnutChartInstance(chart);
     };
+
     const renderLineChart = () => {
+
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
         const ctx = document.getElementById('lineChart').getContext('2d');
     
         // Generate labels for the x-axis based on the loan term
         const loanTermYears = parseInt(loanTerm);
-        const labels = Array.from({ length: loanTermYears + 1 }, (_, index) => index);
+        const labels = annualAmortization.map(entry => entry.year);
     
         const chartData = {
             labels: labels,
             datasets: [
                 {
                     label: 'Principal',
-                    data: monthlyAmortization.map(entry => entry.principalPayment),
+                    data: annualAmortization.map(entry => entry.totalPrincipal),
                     borderColor: 'rgb(255, 99, 132)',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    fill: false // Ensure lines are not filled
                 },
                 {
                     label: 'Interest',
-                    data: monthlyAmortization.map(entry => entry.interestPayment),
+                    data: annualAmortization.map(entry => entry.totalInterest),
                     borderColor: 'rgb(54, 162, 235)',
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: false // Ensure lines are not filled
                 },
                 {
                     label: 'Balance',
-                    data: monthlyAmortization.map(entry => entry.remainingBalance),
+                    data: annualAmortization.map(entry => entry.totalRemainingBalance),
                     borderColor: 'rgb(75, 192, 192)',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false // Ensure lines are not filled
                 }
             ],
         };
@@ -171,20 +223,20 @@ function Calculator() {
             }
         };
     
-        new Chart(ctx, {
+        const newChartInstance = new Chart(ctx, {
             type: 'line',
             data: chartData,
             options: chartOptions
         });
+
+        setChartInstance(newChartInstance);
     };
 
-
-    
     const handleSubmit = (event) => {
         event.preventDefault();
-        renderLineChart();
         calculateAmortization();
     };
+
     const handleReset = (event) => {
         event.preventDefault();
         setHomePrice('');
@@ -194,7 +246,8 @@ function Calculator() {
         setLoanAmount('');
         setMonthlyAmortization([]);
         setAnnualAmortization([]);
-        }; 
+    };
+ 
     return ( 
         <div className='containerDad'>
         <div className="containerCalc">
@@ -261,27 +314,25 @@ function Calculator() {
 
 
 <div className='popUp'>
-<h4>Mortgage Details</h4>
+<h4 className='amortTitle'>Amortization Details</h4>
             <div className='impData'>
-<div> Monthly Payment: ${monthlyAmortization.length > 0 ? (monthlyAmortization[0].mortgagePayment || 0).toFixed(2) : '-'}</div>
-<div>Total Interest: ${annualAmortization.length > 0 ? (annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2) : '-'}</div>
-<div>Total Amount: ${annualAmortization.length > 0 ? ((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2) : '-'}</div>
-
-{/* Doughnut chart */}
-<div className='doughnut-chart-container'>
-                <canvas id="doughnutChart"></canvas>
-            </div>
+            <div className='textChart'>
+    <div className='text-container'>
+        <div>Monthly Payment: ${monthlyAmortization.length > 0 ? (monthlyAmortization[0].mortgagePayment || 0).toFixed(2) : '-'}</div>
+        <div>Total Interest: ${annualAmortization.length > 0 ? (annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2) : '-'}</div>
+        <div>Total Amount: ${annualAmortization.length > 0 ? ((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2) : '-'}</div>
+    </div>
+    {/* Doughnut chart */}
+    <div className='doughnut-chart-container'>
+        <canvas id="doughnutChart"></canvas>
+    </div>
+</div>
 {/* Line Chart */}
 <div className='line-chart-container'>
-                    <canvas id="lineChart"></canvas>
+<canvas id="lineChart" width="400" height="500"></canvas>
                 </div>            
 </div>
-
-
 <br />
-<br />
-<br />
-
             <div>
                     <div onClick={() => setMonthlyDropdownActive(!monthlyDropdownActive)}>Monthly Amortization Schedule</div>
                     <div className={`dropdown-content ${monthlyDropdownActive ? 'active' : ''}`}>
