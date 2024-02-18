@@ -7,6 +7,7 @@ import './Index.css'
 function Header() {
   const [arrowRotation, setArrowRotation] = useState(0);
   const [dropdownVisible, setDropdownVisible] = useState(false); // Add state for dropdown visibility
+  const [dropdownVisible2, setDropdownVisible2] = useState(false); // Add state for dropdown visibility
 
   const [navActive, setNavActive] = useState(false);
 
@@ -14,12 +15,15 @@ function Header() {
     setNavActive(!navActive);
     setDropdownVisible(!dropdownVisible);
     setDropdownVisible(false);
-
+    setDropdownVisible2(!dropdownVisible2);
+    setDropdownVisible2(false);
   };
 
   const closeMenu = () => {
     setNavActive(false);
     setDropdownVisible(false);
+    setDropdownVisible2(false);
+
   };
 
   useEffect(() => {
@@ -44,14 +48,16 @@ function Header() {
   const handleClick = () => {
     // Action 1: Increment counter
     setDropdownVisible(!dropdownVisible);
-    setArrowRotation(arrowRotation + 90); // Rotate by 90 degrees on each click
+
+
+  };
+  const handleClick2 = () => {
+    // Action 1: Increment counter
+    setDropdownVisible2(!dropdownVisible2);
 
 
   };
   return (
-
-
-
     
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">
@@ -88,7 +94,7 @@ function Header() {
               onClick={handleClick}
               style={{ transform: `rotate(${arrowRotation}deg)` }}
             >
-              Find Listings <span className="arrow">&#9661;</span>
+              Find Listings <span className="arrow">&#9660;</span>
             </span>
             <div className={`dropdown-content ${dropdownVisible ? "active" : ""}`}>
               <Link
@@ -114,6 +120,31 @@ function Header() {
               </Link>
             </div>
           </li>
+          <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
+            <span
+              className={`navbar--content findingList ${dropdownVisible2 ? "arrow-rotate" : ""}`}
+              onClick={handleClick2}
+              style={{ transform: `rotate(${arrowRotation}deg)` }}
+            >
+              Calculators <span className="arrow">&#9660;</span>
+            </span>
+            <div className={`dropdown-content ${dropdownVisible2 ? "active" : ""}`}>
+              <Link
+                onClick={closeMenu}
+                to="/Calculator"
+                className="navbar--content"
+              >
+                Amortization Calculator
+              </Link>
+              <Link
+                onClick={closeMenu}
+                to="/RentCalculator"
+                className="navbar--content"
+              >
+                Rent Affordability Calculator
+              </Link>
+            </div>
+          </li>
           <li>
             <NavLink
               onClick={closeMenu}
@@ -122,10 +153,10 @@ function Header() {
               smooth={true}
               offset={-70}
               duration={1000}
-              to="/Calculator"
+              to="/Blog"
               className="navbar--content"
             >
-              Mortgage Calculator
+              My Blog
             </NavLink>
           </li>
           <li>

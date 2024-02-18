@@ -82,7 +82,6 @@ const updateMapLocation = async (address) => {
     e.preventDefault();
 
     const address = document.getElementById('search').value;
-    console.log(address + ", Ontario")
     const sort = document.getElementById('sortList').value;
     const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
@@ -116,7 +115,7 @@ const updateMapLocation = async (address) => {
     }
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
-              location: address + ",ON",
+              location: address + ", Ontario",
               page: '1',
               status_type: "ForRent",
               home_type: propertyType,
@@ -217,7 +216,9 @@ if (apiData.props && apiData.props.length === 0) {
         const prevIndex = (currentImageIndex - 1 + imageUrls[selectedCardIndex].images.length) % imageUrls[selectedCardIndex].images.length;
         setCurrentImageIndex(prevIndex);
       };
-      
+      const formatNumberWithCommas = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     return (
       
         <div className='lists'>
@@ -241,7 +242,7 @@ if (apiData.props && apiData.props.length === 0) {
                     >
                       <img src={property.imgSrc || noImg} alt={'Not Available'} />
                       <div className="cardText1">
-                        <div className='cDress1'>${property.price || "Undisclosed"}/Month<br /></div>
+                        <div className='cDress1'>${formatNumberWithCommas(property.price) || "Undisclosed"}/Month<br /></div>
                         <div className='cPrice1'>{property.address || "Undisclosed"}</div>
                         <div className='holding1'>
                           <div className='cardBed'>{property.bedrooms || "Undisclosed Number of"} Beds&nbsp;</div>

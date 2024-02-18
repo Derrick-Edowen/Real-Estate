@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import './Indexcalc.css'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faPrint } from '@fortawesome/free-solid-svg-icons';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 function Calculator() {
     const [homePrice, setHomePrice] = useState('');
@@ -17,8 +20,24 @@ function Calculator() {
     const [interestPercentage, setInterestPercentage] = useState(0);
     const [chartInstance, setChartInstance] = useState(null);
     const [doughnutChartInstance, setDoughnutChartInstance] = useState(null);
+    const [selectedSchedule, setSelectedSchedule] = useState(null);
+    const [showPopUp, setShowPopUp] = useState(false);
+const [showPopUp2, setShowPopUp2] = useState(false);
+const [showScheduleButts, setShowScheduleButts] = useState(false);
 
 
+    const toggleMonthlyDropdown = () => {
+        setMonthlyDropdownActive(!monthlyDropdownActive);
+        setAnnualDropdownActive(false);
+        setSelectedSchedule('monthly');
+      };
+      
+      // Function to toggle the annual dropdown
+      const toggleAnnualDropdown = () => {
+        setAnnualDropdownActive(!annualDropdownActive);
+        setMonthlyDropdownActive(false);
+        setSelectedSchedule('annual');
+      };
     useEffect(() => {
         if (homePrice && downPaymentPercentage) {
             const downPaymentAmount = (homePrice * downPaymentPercentage) / 100;
@@ -104,7 +123,7 @@ function Calculator() {
                 const ctx = chart.ctx;
                 const datasets = chart.data.datasets[0].data;
                 const total = datasets.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-    
+        
                 chart.data.labels.forEach((label, index) => {
                     const dataset = datasets[index];
                     const meta = chart.getDatasetMeta(0);
@@ -113,10 +132,10 @@ function Calculator() {
                     const startAngle = model.startAngle;
                     const endAngle = model.endAngle;
                     const midAngle = (startAngle + endAngle) / 2;
-                    const x = model.x + Math.cos(midAngle) * model.outerRadius * 0.5; // Adjust the percentage text position
-                    const y = model.y + Math.sin(midAngle) * model.outerRadius * 0.5; // Adjust the percentage text position
+                    const x = model.x + Math.cos(midAngle) * model.outerRadius * 0.5;
+                    const y = model.y + Math.sin(midAngle) * model.outerRadius * 0.5;
                     const percentage = ((dataset / total) * 100).toFixed(2) + '%';
-    
+        
                     ctx.fillStyle = 'black';
                     ctx.textBaseline = 'middle';
                     ctx.textAlign = 'center';
@@ -143,8 +162,8 @@ function Calculator() {
             options: {
                 responsive: false,
                 maintainAspectRatio: false,
-                width: 350,
-                height: 350,
+                width: 200,
+                height: 200,
                 cutoutPercentage: 41,
                 plugins: {
                     legend: {
@@ -152,7 +171,7 @@ function Calculator() {
                         position: 'right',
                         labels: {
                             fontFamily: "myriadpro-regular",
-                            boxWidth: 15,
+                            boxWidth: 20,
                             boxHeight: 2,
                         },
                     },
@@ -183,22 +202,28 @@ function Calculator() {
                     label: 'Principal',
                     data: annualAmortization.map(entry => entry.totalPrincipal),
                     borderColor: 'rgb(255, 99, 132)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    fill: false // Ensure lines are not filled
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    fill: false, // Ensure lines are not filled
+                    borderDash: [] // Make the line solid
+
                 },
                 {
                     label: 'Interest',
                     data: annualAmortization.map(entry => entry.totalInterest),
                     borderColor: 'rgb(54, 162, 235)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    fill: false // Ensure lines are not filled
+                    backgroundColor: 'rgb(54, 162, 235)',
+                    fill: false, // Ensure lines are not filled
+                    borderDash: [] // Make the line solid
+
                 },
                 {
                     label: 'Balance',
                     data: annualAmortization.map(entry => entry.totalRemainingBalance),
                     borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    fill: false // Ensure lines are not filled
+                    backgroundColor: 'rgb(75, 192, 192)',
+                    fill: false, // Ensure lines are not filled
+                    borderDash: [] // Make the line solid
+
                 }
             ],
         };
@@ -210,14 +235,51 @@ function Calculator() {
                 x: {
                     title: {
                         display: true,
-                        text: 'Loan Term (Years)'
+                        text: 'Loan Term (Years)',
+                        color: 'white',
+                        font: {
+                            size: 20,
+                        }
+                    },
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
                     }
                 },
                 y: {
                     beginAtZero: true,
+                    suggestedMin: 0, // Ensure y-axis starts at 0
                     title: {
                         display: true,
-                        text: 'Amount'
+                        text: 'Amount ($)',
+                        color: 'white',
+                        font: {
+                            size: 20,
+                        }
+                    },
+                    ticks: {
+                        color: 'white',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white',
+                        font: {
+                            size: 16
+                        }
                     }
                 }
             }
@@ -235,6 +297,10 @@ function Calculator() {
     const handleSubmit = (event) => {
         event.preventDefault();
         calculateAmortization();
+        toggleMonthlyDropdown();
+        setShowPopUp(true);
+    setShowPopUp2(true);
+    setShowScheduleButts(true);
     };
 
     const handleReset = (event) => {
@@ -247,102 +313,137 @@ function Calculator() {
         setMonthlyAmortization([]);
         setAnnualAmortization([]);
     };
- 
+    const formatNumberWithCommas = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    const downloadPDFa = () => {
+        const doc = new jsPDF();
+        
+        // Add monthly table
+        doc.text('Monthly Amortization Schedule', 10, 10);
+        doc.autoTable({ html: '#monthlyTable', startY: 15 });
+        
+        
+        doc.save('Monthly_Amortization_Schedule.pdf');
+      };
+      const downloadPDFb = () => {
+        const doc = new jsPDF();
+        
+        
+        // Add annual table
+        doc.text('Annual Amortization Summary', 10, 10);
+        doc.autoTable({ html: '#annualTable', startY: 15 });
+        
+        doc.save('Annual_Amortization_Schedule.pdf');
+      };
+
+    const monthlyClass = monthlyDropdownActive ? '' : 'inactive';
+    const annualClass = annualDropdownActive ? '' : 'inactive';
     return ( 
         <div className='containerDad'>
         <div className="containerCalc">
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="homePrice">Home Price:</label>
-                    <input
-                        type="number"
-                        id="homePrice"
-                        value={homePrice}
-                        onChange={(e) => setHomePrice(e.target.value)}
-                        min={0}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="downPaymentPercentage">Down Payment (%):</label>
-                    <input
-                        type="number"
-                        id="downPaymentPercentage"
-                        value={downPaymentPercentage}
-                        onChange={(e) => setDownPaymentPercentage(e.target.value)}
-                        min={0}
-                        max={100} // Percentage should be between 0 and 100
-                        step={0.01} // Example step
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="loanAmount">Loan Amount:</label>
-                    <div id="loanAmount">{loanAmount}</div>
-                </div>
-                <div>
-                    <label htmlFor="interestRate">Interest Rate (%):</label>
-                    <input
-                        type="number"
-                        id="interestRate"
-                        value={interestRate}
-                        onChange={(e) => setInterestRate(e.target.value)}
-                        min={0}
-                        max={100} // Example maximum value
-                        step={0.01} // Example step
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="loanTerm">Loan Term (in years):</label>
-                    <input
-                        type="number"
-                        id="loanTerm"
-                        value={loanTerm}
-                        onChange={(e) => setLoanTerm(e.target.value)}
-                        min={1}
-                        max={35} // Example maximum value
-                        required
-                    />
-                </div>
-                <button type="button" onClick={handleReset}>Reset</button>
-                <button type="submit">Calculate</button>
-            </form>
-            </div>
-
-{/*Other side / own div*/}
-
-
-<div className='popUp'>
-<h4 className='amortTitle'>Amortization Details</h4>
-            <div className='impData'>
-            <div className='textChart'>
-    <div className='text-container'>
-        <div>Monthly Payment: ${monthlyAmortization.length > 0 ? (monthlyAmortization[0].mortgagePayment || 0).toFixed(2) : '-'}</div>
-        <div>Total Interest: ${annualAmortization.length > 0 ? (annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2) : '-'}</div>
-        <div>Total Amount: ${annualAmortization.length > 0 ? ((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2) : '-'}</div>
+            
+        <form className='calcForm' onSubmit={handleSubmit}>
+        <h4 className='amortTitle'>MORTGAGE CALCULATOR</h4>
+    <div className="form-row">
+        <div className="form-group">
+            <label htmlFor="homePrice">Home Price:</label>
+            <input
+                type="number"
+                id="homePrice"
+                value={homePrice}
+                onChange={(e) => setHomePrice(e.target.value)}
+                min={1}
+                required
+            />
+        </div>
+        <div className="form-group">
+            <label htmlFor="downPaymentPercentage">Down Payment (%):</label>
+            <input
+                type="number"
+                id="downPaymentPercentage"
+                value={downPaymentPercentage}
+                onChange={(e) => setDownPaymentPercentage(e.target.value)}
+                min={0}
+                max={99} // Percentage should be between 0 and 100
+                step={0.01} // Example step
+                required
+            />
+        </div>
     </div>
-    {/* Doughnut chart */}
-    <div className='doughnut-chart-container'>
-        <canvas id="doughnutChart"></canvas>
+    <div className="form-row">
+        <div className="form-group">
+            <label htmlFor="interestRate">Interest Rate (%):</label>
+            <input
+                type="number"
+                id="interestRate"
+                value={interestRate}
+                onChange={(e) => setInterestRate(e.target.value)}
+                min={0}
+                max={99} // Example maximum value
+                step={0.01} // Example step
+                required
+            />
+        </div>
+        <div className="form-group">
+            <label htmlFor="loanTerm">Loan Term (in years):</label>
+            <input
+                type="number"
+                id="loanTerm"
+                value={loanTerm}
+                onChange={(e) => setLoanTerm(e.target.value)}
+                min={1}
+                max={35} // Example maximum value
+                required
+            />
+        </div>
     </div>
+    <div className="form-row">
+        <div className="form-group full-width">
+            <label htmlFor="loanAmount">Loan Amount:</label>
+            <div className="input-like" id="loanAmount">{loanAmount}</div>
+        </div>
+    </div>
+    <div className="form-actions">
+        <button className='resetCalc' type="button" onClick={handleReset}>Reset</button>
+        <button  className='calculate' type="submit">Calculate</button>
+    </div>
+</form>
+
+
+
+<div className='scheduleButts' style={{ display: showScheduleButts ? 'block' : 'none' }}>
+    <button className={`annual ${annualClass}`} onClick={toggleAnnualDropdown}>
+        Annual Amortization Schedule
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <span className="icon" onClick={() => downloadPDFb('annual')}>
+        <FontAwesomeIcon icon={faDownload} size="lg" />
+        </span>
+        </button>
+    <button className={`month ${monthlyClass}`} onClick={toggleMonthlyDropdown}>
+        Monthly Amortization Schedule
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+        <span className="icon" onClick={() => downloadPDFa('monthly')}>
+            <FontAwesomeIcon icon={faDownload} size="lg" />
+        </span>
+    </button>
 </div>
-{/* Line Chart */}
-<div className='line-chart-container'>
-<canvas id="lineChart" width="400" height="500"></canvas>
-                </div>            
-</div>
-<br />
+
+
+
+
+<div  className='drops'>
             <div>
-                    <div onClick={() => setMonthlyDropdownActive(!monthlyDropdownActive)}>Monthly Amortization Schedule</div>
-                    <div className={`dropdown-content ${monthlyDropdownActive ? 'active' : ''}`}>
-                        <table>
+      <div className={`dropdown-contentCalc ${monthlyDropdownActive ? 'active' : ''}`}>
+                        <table id='monthlyTable'>
                         <thead>
                         <tr>
                             <th>Month</th>
                             <th>Principal Payment</th>
                             <th>Interest Payment</th>
-                            <th>EMI</th>
+                            <th>Monthly Payment</th>
                             <th>Remaining Balance</th>
                         </tr>
                     </thead>
@@ -350,23 +451,19 @@ function Calculator() {
                         {monthlyAmortization.map((entry, index) => (
                             <tr key={index}>
                                 <td>{entry.month}</td>
-                                <td>${entry.principalPayment.toFixed(2)}</td>
-                                <td>${entry.interestPayment.toFixed(2)}</td>
-                                <td>${(entry.principalPayment + entry.interestPayment).toFixed(2)}</td>
-                                <td>${entry.remainingBalance.toFixed(2)}</td>
+                                <td>${formatNumberWithCommas(entry.principalPayment.toFixed(2))}</td>
+                                <td>${formatNumberWithCommas(entry.interestPayment.toFixed(2))}</td>
+                                <td>${formatNumberWithCommas((entry.principalPayment + entry.interestPayment).toFixed(2))}</td>
+                                <td>${formatNumberWithCommas(entry.remainingBalance.toFixed(2))}</td>
                             </tr>
                         ))}
                     </tbody>                        
                     </table>
                     </div>
                 </div>
-
-
-
                 <div>
-                    <div onClick={() => setAnnualDropdownActive(!annualDropdownActive)}>Annual Amortization Summary</div>
-                    <div className={`dropdown-content ${annualDropdownActive ? 'active' : ''}`}>
-                        <table>
+      <div className={`dropdown-contentCalc ${annualDropdownActive ? 'active' : ''}`}>
+                        <table id="annualTable">
                         <thead>
                         <tr>
                             <th>Year</th>
@@ -379,9 +476,9 @@ function Calculator() {
                         {annualAmortization.map((entry, index) => (
                             <tr key={index}>
                                 <td>{entry.year}</td>
-                                <td>${entry.totalPrincipal.toFixed(2)}</td>
-                                <td>${entry.totalInterest.toFixed(2)}</td>
-                                <td>${entry.totalRemainingBalance.toFixed(2)}</td>
+                                <td>${formatNumberWithCommas(entry.totalPrincipal.toFixed(2))}</td>
+                                <td>${formatNumberWithCommas(entry.totalInterest.toFixed(2))}</td>
+                                <td>${formatNumberWithCommas(entry.totalRemainingBalance.toFixed(2))}</td>
                             </tr>
                         ))}
                     </tbody>                        
@@ -389,6 +486,46 @@ function Calculator() {
                     </div>
                 </div>
                 </div>
+
+
+
+
+
+            </div>
+
+{/*Other side / own div*/}
+
+<div className='split-container'>
+
+<div className='popUp' style={{ display: showPopUp ? 'block' : 'none' }}>
+            <div className='impData'>
+            <h4 className='amortTitle'>AMORTIZATION DETAILS</h4>
+
+            <div className='textChart'>
+    <div className='text-container'>
+        <div className='monPay'>Monthly Payment: ${formatNumberWithCommas(monthlyAmortization.length) > 0 ? formatNumberWithCommas((monthlyAmortization[0].mortgagePayment || 0).toFixed(2)) : '-'}</div>
+        <div className='monPay2'>Total Interest: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas((annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2)) : '-'}</div>
+        <div className='monPay3'>Total Amount: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas(((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2)) : '-'}</div>
+
+    </div>
+    {/* Doughnut chart */}
+    <div className='doughnut-chart-container'>
+        <canvas id="doughnutChart" width="250" height="250"></canvas>
+    </div>
+</div>
+         
+</div>
+
+                </div>
+                {/* Line Chart */}
+                <div className='popUp2' style={{ display: showPopUp2 ? 'block' : 'none' }}>
+                <h4 className='amortTitle'>ANNUAL AMORTIZATION</h4>
+<div className='line-chart-container'>
+<canvas id="lineChart" width="300" height="415"></canvas>
+                </div>   
+                </div>
+                
+        </div>
         </div>
     );
 }

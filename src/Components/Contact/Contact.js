@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation from react-router-dom
-import image1 from '../../Assets/Images/living1.jpg'                                                                            
-import image2 from '../../Assets/Images/backyard1.jpg'
-import image3 from '../../Assets/Images/yard1.jpg'
-import image4 from '../../Assets/Images/house1.jpg'
-import image5 from '../../Assets/Images/kitchen1.jpg'
 import man from  '../../Assets/Images/man2.png'
 import emailjs from '@emailjs/browser';
 import './contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-
-//import Footer from '../Footer/Footer';
-
 
 
 function Contact() {
@@ -35,13 +27,11 @@ function Contact() {
   };
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-
   const address = queryParams.get('address') || '';
   const price = queryParams.get('price') || '';
 
-    return (<>
-        <div className='contactPage'>
-<div className="contact">
+    return (
+
         <div className='underLay'>
           <section className='venn-diagram'>
       <img className='conImg circle left' src={man} alt='man'></img>
@@ -50,7 +40,6 @@ function Contact() {
         <p>
          Your contact<br />
         Information here!<br />
-        
         </p>
 
       </div>
@@ -133,9 +122,6 @@ function Contact() {
       </form>
     </section>
     </div>
-    </div>
-</div>
-</>
     );
 }
 

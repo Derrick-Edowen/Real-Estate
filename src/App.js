@@ -12,6 +12,7 @@ import RecentlySold from './Components/RecentlySold/RecentlySold';
 import RentCalculator from "./Components/RentCalculator/RentCalculator";
 import Questions from "./Components/Questions/Questions";
 import Test from "./Components/Test/Test"
+import Blog from "./Components/Blog/Blog"
 import image1 from './Assets/Images/living1.jpg'                                                                            
 import image2 from './Assets/Images/backyard1.jpg'
 import image3 from './Assets/Images/yard1.jpg'
@@ -35,7 +36,7 @@ function App() {
       setCurrentIndex((prevIndex) =>
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
       );
-    }, 18000);
+    }, 25000);
 
     return () => clearInterval(interval);
   }, [images]);
@@ -44,6 +45,7 @@ function App() {
     backgroundImage: `url(${images[currentIndex]})`,
   };
   return (
+    <>
    <div className="App" style={imageStyle}>
       <Router>
       <Header />
@@ -51,18 +53,18 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/Home" element={<Home />}></Route>
             <Route path="/Calculator" element={<Calculator />}></Route>
+            <Route path="/Blog" element={<Blog />}></Route>
             <Route path="/ForSale" element={<ForSale />}></Route>
             <Route path="/ForRent" element={<ForRent />}></Route>
             <Route path="/RecentlySold" element={<RecentlySold />}></Route>
             <Route path="/RentCalculator" element={<RentCalculator />}></Route>
             <Route path="/Contact" element={<Contact />}></Route>
             <Route path="/Questions" element={<Questions />}></Route>
-            <Route path="/test" element={<Test />}></Route>
             <Route path="*" element={<div>404 Not Found</div>}></Route>
           </Routes>
-          <Footer />
       </Router>
     </div>
+    </>
   );
 }
 

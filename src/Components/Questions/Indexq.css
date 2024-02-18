@@ -1,10 +1,3 @@
-.quests {
-    width: 100%;
-    height: 100dvh;
-    background-size: cover;
-    background-position: center;
-    transition: background 12s ease-in-out ;
-}
 
 .questLay {
     background-color: rgba(0, 0, 0, 0.4);

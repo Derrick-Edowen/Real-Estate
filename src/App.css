@@ -10,11 +10,10 @@
 body {
   margin: 0px;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 html {
   color-scheme: light dark;
-  height: 100%;
 }
 .App {
     width: 100vw;
