@@ -144,9 +144,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type="number"] {
-  border-radius: 25px !important;
-}
+
 .resets {
   display: flex;
   justify-content: space-between;

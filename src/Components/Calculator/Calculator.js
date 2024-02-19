@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './Indexcalc.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faPrint } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +25,7 @@ function Calculator() {
     const [showPopUp, setShowPopUp] = useState(false);
 const [showPopUp2, setShowPopUp2] = useState(false);
 const [showScheduleButts, setShowScheduleButts] = useState(false);
+const [showDrops, setShowDrops] = useState(false);
 
 
     const toggleMonthlyDropdown = () => {
@@ -116,35 +118,6 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
     
         const ctx = document.getElementById('doughnutChart').getContext('2d');
     
-        // Define custom plugin to display percentage values
-        const percentagePlugin = {
-            id: 'percentagePlugin',
-            afterDraw: (chart) => {
-                const ctx = chart.ctx;
-                const datasets = chart.data.datasets[0].data;
-                const total = datasets.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-        
-                chart.data.labels.forEach((label, index) => {
-                    const dataset = datasets[index];
-                    const meta = chart.getDatasetMeta(0);
-                    const element = meta.data[index];
-                    const model = element._model;
-                    const startAngle = model.startAngle;
-                    const endAngle = model.endAngle;
-                    const midAngle = (startAngle + endAngle) / 2;
-                    const x = model.x + Math.cos(midAngle) * model.outerRadius * 0.5;
-                    const y = model.y + Math.sin(midAngle) * model.outerRadius * 0.5;
-                    const percentage = ((dataset / total) * 100).toFixed(2) + '%';
-        
-                    ctx.fillStyle = 'black';
-                    ctx.textBaseline = 'middle';
-                    ctx.textAlign = 'center';
-                    ctx.font = 'bold 12px Arial';
-                    ctx.fillText(percentage, x, y);
-                });
-            }
-        };
-    
         const chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -156,14 +129,14 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
                         'rgb(255, 99, 132)',
                         'rgb(54, 162, 235)'
                     ],
+                    borderColor: ['rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)'],
                     hoverOffset: 4
                 }]
             },
             options: {
                 responsive: false,
                 maintainAspectRatio: false,
-                width: 200,
-                height: 200,
                 cutoutPercentage: 41,
                 plugins: {
                     legend: {
@@ -171,14 +144,35 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
                         position: 'right',
                         labels: {
                             fontFamily: "myriadpro-regular",
-                            boxWidth: 20,
-                            boxHeight: 2,
+                            boxWidth: 30,
+                            boxHeight: 8,
+                            color: 'white',
+                    font: {
+                        size: 16
+                    }
                         },
                     },
-                    // Include the custom percentage plugin
-                    percentagePlugin: percentagePlugin
+                    tooltip: {
+                        enabled: false
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value * 100 / sum).toFixed(0) + "%";
+                            return percentage;
+                        },
+                        color: '#fff',
+                        font: {
+                            size: 18,
+                        },
+                    }
                 }
-            }
+            },
+            plugins: [ChartDataLabels],
         });
     
         setDoughnutChartInstance(chart);
@@ -269,7 +263,7 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
                         }
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
+                        color: 'rgba(255, 255, 255, 0.6)'
                     }
                 }
             },
@@ -296,15 +290,24 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        calculateAmortization();
-        toggleMonthlyDropdown();
-        setShowPopUp(true);
+    calculateAmortization();
+    toggleMonthlyDropdown(); // Ensure monthly dropdown is inactive
+    setMonthlyDropdownActive(false);
+    setAnnualDropdownActive(true); // Activate annual dropdown
+    setShowPopUp(true);
     setShowPopUp2(true);
     setShowScheduleButts(true);
+    setShowDrops(true);
+
     };
 
     const handleReset = (event) => {
         event.preventDefault();
+        setShowPopUp(false);
+    setShowPopUp2(false);
+    setShowScheduleButts(false);
+    setShowDrops(false);
+
         setHomePrice('');
         setDownPaymentPercentage('');
         setInterestRate('');
@@ -344,10 +347,10 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
         <div className="containerCalc">
             
         <form className='calcForm' onSubmit={handleSubmit}>
-        <h4 className='amortTitle'>MORTGAGE CALCULATOR</h4>
+        <h4 className='amortTitle'>Amortization Calculator</h4>
     <div className="form-row">
         <div className="form-group">
-            <label htmlFor="homePrice">Home Price:</label>
+            <label htmlFor="homePrice">Home Price ($):</label>
             <input
                 type="number"
                 id="homePrice"
@@ -400,7 +403,7 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
     </div>
     <div className="form-row">
         <div className="form-group full-width">
-            <label htmlFor="loanAmount">Loan Amount:</label>
+            <label htmlFor="loanAmount">Loan Amount ($):</label>
             <div className="input-like" id="loanAmount">{loanAmount}</div>
         </div>
     </div>
@@ -434,7 +437,7 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
 
 
 
-<div  className='drops'>
+<div className='drops' style={{ display: showDrops ? 'block' : 'none' }}>
             <div>
       <div className={`dropdown-contentCalc ${monthlyDropdownActive ? 'active' : ''}`}>
                         <table id='monthlyTable'>
@@ -499,18 +502,20 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
 
 <div className='popUp' style={{ display: showPopUp ? 'block' : 'none' }}>
             <div className='impData'>
-            <h4 className='amortTitle'>AMORTIZATION DETAILS</h4>
+            <h4 className='amortTitle'>Equated Monthly Instalment (EMI) Details</h4>
 
             <div className='textChart'>
     <div className='text-container'>
-        <div className='monPay'>Monthly Payment: ${formatNumberWithCommas(monthlyAmortization.length) > 0 ? formatNumberWithCommas((monthlyAmortization[0].mortgagePayment || 0).toFixed(2)) : '-'}</div>
-        <div className='monPay2'>Total Interest: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas((annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2)) : '-'}</div>
-        <div className='monPay3'>Total Amount: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas(((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2)) : '-'}</div>
-
+    <div className='monPay'>Monthly Payment: ${formatNumberWithCommas(monthlyAmortization.length) > 0 ? formatNumberWithCommas((monthlyAmortization[0].mortgagePayment || 0).toFixed(2)) : '-'}</div>
+    <div className='monPay3'>Home Price: ${formatNumberWithCommas(homePrice)}</div>
+    <div className='monPay3'>Down Payment: ${formatNumberWithCommas((homePrice * downPaymentPercentage / 100).toFixed(0))}</div>
+    <div className='monPay3'>Loan Amount: ${formatNumberWithCommas(loanAmount)}</div>
+    <div className='monPay2'>Total Interest: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas((annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2)) : '-'}</div>
+    <div className='monPay3'>Total Amount: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas(((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2)) : '-'}</div>
     </div>
     {/* Doughnut chart */}
     <div className='doughnut-chart-container'>
-        <canvas id="doughnutChart" width="250" height="250"></canvas>
+        <canvas id="doughnutChart" width="300" height="250"></canvas>
     </div>
 </div>
          
@@ -519,7 +524,7 @@ const [showScheduleButts, setShowScheduleButts] = useState(false);
                 </div>
                 {/* Line Chart */}
                 <div className='popUp2' style={{ display: showPopUp2 ? 'block' : 'none' }}>
-                <h4 className='amortTitle'>ANNUAL AMORTIZATION</h4>
+                <h4 className='amortTitle'>Annual Amortization Graph</h4>
 <div className='line-chart-container'>
 <canvas id="lineChart" width="300" height="415"></canvas>
                 </div>   

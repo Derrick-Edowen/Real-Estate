@@ -14,9 +14,11 @@
 .impData {
     padding: 2px;
     padding-top: 0px;
+    padding-bottom: 14px;
 }
 .text-container {
     margin-right: 20px; /* Add some space between text and chart */
+    margin-left: 14px;
 }
 
 .doughnut-chart-container {
@@ -32,31 +34,32 @@
 .resetCalc {
     width: fit-content;
     height: fit-content;
-    background-color:rgb(141, 131, 226) ;
+    background-color:#5b028ffb ;
 padding: 8px;
 }
 .calculate {
     width: fit-content;
     height: fit-content;
-    background-color:rgb(141, 131, 226) ;
+    background-color:#5b028ffb ;
     padding: 8px;
 
 }
 .scheduleButts {
     display: flex;
     justify-content: space-between;
-    gap: 12px;
+    gap: 30px;
     margin-left: 40px;
 }
 .amortTitle {
     border-radius: 5px;
     padding: 8px;
     padding-left: 10px;
-    font-size: 14px;
+    font-size: 18px;
     background-color: #5b028ffb;
     line-height: 1.8;
     color: #f2f2f2;
     margin: 8px;
+    margin-bottom: 0px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
 }
@@ -79,7 +82,7 @@ padding: 8px;
 }
 .popUp {
     flex: 1; /* Grow to fill remaining space */
-    background: rgba(63, 0, 100, 0.99);
+    background: rgba(30, 0, 48, 0.99);
     width: 80%;
     border-radius: 5px;
     color: #ffffff;
@@ -88,30 +91,31 @@ margin-bottom: 10px;
 margin-top: 14px;
 }
 .popUp:hover {
-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) ;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
 }
 .monPay {
     font-size: 28px;
-    padding-top: 55px;
+    padding-top: 25px;
     padding-left: 12px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .monPay2 {
-    font-size: 22px;
-    padding-top: 18px;
+    font-size: 18px;
+    padding-top: 2px;
     padding-left: 12px;
+    color: #d6d6d6;
 
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .monPay3 {
-    font-size: 22px;
+    font-size: 18px;
     padding-left: 12px;
-
+    color: #d6d6d6;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 .input-like {
     display: inline-block;
-    width: 100%;
+    width: 96%;
     height: 46px;
     padding: 10px;
     font-size: 16px;
@@ -125,13 +129,16 @@ box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) ;
 
 .popUp2 {
     flex: 1; /* Grow to fill remaining space */
-    background: rgba(63, 0, 100, 0.99);
+    background: rgba(30, 0, 48, 0.99);
     width: 90%;
     justify-content: flex-end;
     border-radius: 5px;
     border: 1px solid #000000;
 
 }
+.popUp2:hover {
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+    }
 .calcForm {
     display: flex;
     flex-direction: column;
@@ -141,17 +148,20 @@ box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) ;
     margin-left: 160px;
     border: 1px solid #000000;
 
-    background: rgba(52, 0, 83, 0.990);
+    background: rgba(30, 0, 48, 0.99);
     color: #ddd;
     border-radius: 5px;
     padding: 10px;
     padding-top: 0px;
     width: fit-content;
 }
-
+.calcForm:hover {
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
+    }
 .form-row {
     display: flex;
     gap: 10px;
+    
 }
 
 .form-group {
@@ -168,56 +178,47 @@ box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) ;
 
     gap: 10px;
 }
+.calcForm input[type="number"] {
+    border-radius: 0;
+}
 .month {
-    background-color: rgba(52, 0, 83, 0.990);
-    width: 50%;
+    background-color: rgba(30, 0, 48, 0.99);
+    width: 40%;
     color: rgb(255, 255, 255);
     border: 1px solid #000000;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 20px;
-
+    font-size: 16px;
+    margin-right: 0;
+    margin-left: auto;
 }
 .month:hover {
     background-color: #5b028ffb;
-    width: 50%;
-    color: rgb(255, 255, 255);
-    border: 1px solid #000000;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 20px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
 
 }
 .month.inactive {
-    background-color: #636363fb;
-    width: 50%;
-    color: rgb(255, 255, 255);
-    border: 1px solid #000000;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 20px;
+    background-color: #363636fb;
+
 
 }
 .annual  {
-    background-color: rgba(52, 0, 83, 0.990);
-    width: 50%;
+    background-color: rgba(30, 0, 48, 0.99);
+    width: 40%;
     color: rgb(255, 255, 255);
     border: 1px solid #000000;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 20px;
+    font-size: 16px;
+    margin-right: 20px;
+    margin-left: 80px;
+
 }
 .annual:hover  {
     background-color: #5b028ffb;
-    width: 50%;
-    color: rgb(255, 255, 255);
-    border: 1px solid #000000;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 20px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
+
 }
 .annual.inactive  {
-    background-color: #636363fb;
-    width: 50%;
-    color: rgb(255, 255, 255);
-    border: 1px solid #000000;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    font-size: 20px;
+    background-color: #363636fb;
 }
 table {
     border-collapse: collapse;
@@ -225,6 +226,9 @@ table {
     text-align: center;
 
 }
+.dropdown-contentCalc.active:hover {
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
+    }
 table td {
     border: 1px solid #afafafd5;
 }
@@ -240,7 +244,7 @@ th, td {
 }
 
 th {
-    background: rgba(52, 0, 83, 0.990);
+    background: rgba(30, 0, 48, 0.99);
     color: rgb(250, 250, 250);
     position: sticky;
     top: 0;
@@ -259,7 +263,7 @@ th {
 }
 .doughnut-chart-container {
     position: relative;
-    width: 250px; /* Or adjust to your desired width */
+    width: 300px; /* Or adjust to your desired width */
     height: 225px; /* Or adjust to your desired height */
 }
 
@@ -267,7 +271,7 @@ th {
     position: absolute;
     top: 0;
     right: 0;
-    margin-right: 80px;
+    margin-right: 50px;
 
 }
 .line-chart-container canvas {

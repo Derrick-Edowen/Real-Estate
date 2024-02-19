@@ -134,7 +134,7 @@ function Header() {
                 to="/Calculator"
                 className="navbar--content"
               >
-                Amortization Calculator
+                Mortgage Calculator
               </Link>
               <Link
                 onClick={closeMenu}
@@ -157,20 +157,6 @@ function Header() {
               className="navbar--content"
             >
               My Blog
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              onClick={closeMenu}
-              activeclass="navbar--active-content"
-              spy={true}
-              smooth={true}
-              offset={-70}
-              duration={1000}
-              to="/Questions"
-              className="navbar--content"
-            >
-              Search
             </NavLink>
           </li>
           <li>
