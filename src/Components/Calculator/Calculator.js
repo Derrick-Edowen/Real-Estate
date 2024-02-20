@@ -348,6 +348,7 @@ const [showDrops, setShowDrops] = useState(false);
             
         <form className='calcForm' onSubmit={handleSubmit}>
         <h4 className='amortTitle'>Amortization Calculator</h4>
+        <div  className='littlePlan'>
     <div className="form-row">
         <div className="form-group">
             <label htmlFor="homePrice">Home Price ($):</label>
@@ -406,6 +407,7 @@ const [showDrops, setShowDrops] = useState(false);
             <label htmlFor="loanAmount">Loan Amount ($):</label>
             <div className="input-like" id="loanAmount">{loanAmount}</div>
         </div>
+    </div>
     </div>
     <div className="form-actions">
         <button className='resetCalc' type="button" onClick={handleReset}>Reset</button>

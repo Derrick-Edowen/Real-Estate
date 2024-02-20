@@ -57,28 +57,25 @@ padding: 0px;
 height: 300px;
 width: 300px;
 padding-bottom: 0px;
-border-radius: 1000px;
-background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
+background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
 }
 .standIn {
 height: 550px;
 width: 550px;
-border-radius: 1000px;
 background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
 box-shadow: 0px 10px 48px 8px;
-
+border-radius: 50%;
 }
 .standOut {
 height: 475px;
 width: 475px;
-border-radius: 1000px;
 background-color: rgb(247, 242, 252);
 margin-top: 38px;
 margin-right: 3.5px;
-padding-top: 165px;
 
 
 }
+
 .standOut p {
 font-size: 32px;
 text-align: center;
@@ -91,19 +88,12 @@ font-family:Arial, Helvetica, sans-serif;
 .littleOut {
 height: 75px;
 width: 75px;
-border-radius: 1000px;
 background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
 margin-right: 25px;
 margin-top: 460px;
 
 }
-.miniArr {
-width: 125px;
-height: 125px;
-z-index: 200;
-margin-left: 257px;
-margin-top: 282px;
-}
+
 .contact--section {
   display: flex;
   float: right;
@@ -112,7 +102,8 @@ margin-top: 282px;
   text-align: center;
   position: relative;
   gap: 12px;
-  width: 665px;
+  width: 35%;
+  padding: 12px;
   height: auto;
   background-color:rgb(247, 242, 252);
   border-radius: 5px;
@@ -125,17 +116,20 @@ top: -50px;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: repeat(5, auto);
-  width: 80%;
+  width: 100%;
   row-gap: 12px;
 }
 .container {
   display: grid;
   grid-template-columns: repeat(2, auto);
   column-gap: 60px;
-  row-gap: 24px;
-  padding-top: 12px;
-  padding-left: 0px;
-  padding-right: 0px;
+  row-gap: 20px;
+  width: 100%;
+padding: 0px;
+}
+.stress {
+  padding-left: 12px;
+  padding-right: 12px;
 }
 .contact--label {
   display: flex;
@@ -152,6 +146,7 @@ top: -50px;
   align-items: center;
   align-self: stretch;
   border-radius: 8px;
+  width: 100%;
   border: 1.333px solid var(--primary);
   background: var(--white);
 }

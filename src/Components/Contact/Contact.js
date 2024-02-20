@@ -37,16 +37,9 @@ function Contact() {
       <img className='conImg circle left' src={man} alt='man'></img>
       <div className='standIn circle right'></div>
       <div className='standOut circle right'>
-        <p>
-         Your contact<br />
-        Information here!<br />
-        </p>
-
+      
       </div>
-      <div className='littleOut circle right'></div>
-      <div className='miniArr'>
-      <FontAwesomeIcon icon={faArrowRight} beat size="2xl" style={{color: "#d4c8df",}} />      
-      </div>
+      
       </section>
 
       <section id="Contact" className="contact--section">
@@ -73,6 +66,7 @@ function Contact() {
             />
           </label>
           </div>
+          <div className='stress'>
           <label htmlFor="phone-number" className="contact--label">
             <span className="text-md">Phone number:</span>
             <input
@@ -113,6 +107,7 @@ function Contact() {
             required
           />
         </label>
+        </div>
         <label htmlFor="checkboc" className="checkbox--label">
           <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
         </label>

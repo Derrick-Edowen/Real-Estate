@@ -1,15 +1,33 @@
 .calculator-container {
-  margin-top: 50px;
-    max-width: 400px;
-    padding: 20px;
-    margin: 80px;
-    border: 1px solid #000000;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  min-width: 33%;
+  max-width: 33%;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  background: rgba(30, 0, 48, 0.99);
+  color: #fff;
+  margin-right: 22px;
+  margin-top: auto; /* Set top margin to auto */
+  margin-bottom: auto; /* Set bottom margin to auto */
+  height: 90%;
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Align children vertically */
+  justify-content: center;
+  }
+  .calculator-container:hover {
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
+  }
+  .input-section {
+    margin-bottom: 10px;
   }
   
-  .input-section {
-    margin-bottom: 15px;
+  .input-section label {
+    display: block;
+  }
+
+  .input-section .dollar-input {
+    display: flex;
+    align-items: center;
   }
   
   input[type='number'] {
@@ -19,22 +37,115 @@
     border-radius: 5px;
     font-size: 16px;
   }
+  .input-with-icon {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  }
+  .dollar-input {
+    display: flex;
+    align-items: center;
+  }
+
   
+  .dollar-input input {
+    flex: 1;
+    padding: 8px; /* Adjust as needed */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
   button {
     padding: 10px 20px;
-    background-color: #007bff;
+  background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#4d207a);
     color: #fff;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
   }
-  
+ 
   button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#4d207a);
   }
-  
+  button:active {
+    box-shadow: 0 1px #666;
+    transform: translateY(1px);
+    }
   .result {
     margin-top: 15px;
     font-size: 18px;
   }
+  .results-container {
+    background: rgba(30, 0, 48, 0.99);
+    color: #fff;
+width: 15%;
+padding: 10px;
+border-radius: 5px;
+
+  }
+  .bigHold {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    margin-top: 20px;
+    
+  }
+
+  .meth  {
+    font-size: 18px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    width: 85%;
+    background: rgba(30, 0, 48, 0.99);
+padding: 8px;
+color: #fff;
+border-radius: 5px;
+border: 1px solid #000000;
+  }
+  .meth:hover {
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
+  }
+  .rentCalchead {
+    border-radius: 5px;
+    padding: 8px;
+    background-color: #5b028ffb;
+    font-size: 22px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    color: #fff;
+  }
+  .rentButton {
+    display: block;
+    margin: 0 auto;
+  }
+  .rentCalchead1 {
+    border-radius: 5px;
+    padding: 6px;
+    background-color: #5b028ffb;
+    font-size: 22px;
+width: 100%;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+color: #fff;
+
+  }
+  label {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+  .expensive {
+    display: flex;
+    margin: 8px;
+    margin-top: 4px;
+
+  }
+.headie1 {
+  width: 30%;
+}
+.headie2 {
+  width: 70%;
+  font-size: 17px;
+padding: 4px;
+padding-top: 0px;
+
+}
+.ppl {
+  font-size: 20px;
+}

@@ -411,7 +411,7 @@ transform: scale(1.05);
 	color: #ffffff;
 	margin-top: 350px;
 	text-shadow: 2px 2px 6px #000000;
-
+	margin-bottom: auto; /* Set bottom margin to auto */
 }
 .clickMore {
 	color: #49018b;
