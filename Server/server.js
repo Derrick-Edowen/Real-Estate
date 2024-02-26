@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 
@@ -8,12 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Database connection
-const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'DerrickEdowen97',
-  database: 'realestateusers',
+// Database connection pool
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   connectionLimit: 10
 });
 
@@ -23,7 +24,7 @@ const db = mysql.createPool({
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    const [results] = await db.execute('SELECT id FROM users WHERE id = 1 AND name = ? AND email = ? AND password = ?', [name, email, password]);
+    const [results] = await pool.execute('SELECT id FROM users WHERE id = 1 AND name = ? AND email = ? AND password = ?', [name, email, password]);
     if (results.length > 0) {
       res.json({ success: true, message: 'Login successful', userID: results[0].id });
     } else {
@@ -34,13 +35,13 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error logging in' });
   }
 });
-// Assuming you already have an Express app instance
+
+// Create a post
 app.post('/posts', async (req, res) => {
   const { title, content, user_id, created_at } = req.body;
 
-  // Assuming you have a database connection named 'db'
   try {
-    await db.query('INSERT INTO posts (title, content, user_id, created_at) VALUES (?, ?, ?, ?)', [title, content, 1, created_at]);
+    await pool.query('INSERT INTO posts (title, content, user_id, created_at) VALUES (?, ?, ?, ?)', [title, content, 1, created_at]);
     res.status(201).json({ message: 'Post created successfully' });
   } catch (error) {
     console.error('Error creating post:', error);
@@ -51,20 +52,21 @@ app.post('/posts', async (req, res) => {
 // Get all posts for user with ID = 1
 app.get('/posts', async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT * FROM posts WHERE user_id = ?', [1]);
+    const [rows] = await pool.execute('SELECT * FROM posts WHERE user_id = ?', [1]);
     res.json(rows);
   } catch (error) {
     console.error('Error fetching posts:', error);
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 });
+
 // DELETE a post by ID and user ID
 app.delete('/posts/:postId', async (req, res) => {
   const postId = req.params.postId;
   const userId = 1; // Assuming user_id is always 1 in this case
 
   try {
-    const result = await db.query('DELETE FROM posts WHERE id = ? AND user_id = ?', [postId, userId]);
+    const result = await pool.query('DELETE FROM posts WHERE id = ? AND user_id = ?', [postId, userId]);
     if (result.affectedRows > 0) {
       res.json({ success: true, message: 'Post deleted successfully' });
     } else {
@@ -76,13 +78,12 @@ app.delete('/posts/:postId', async (req, res) => {
   }
 });
 
-
-
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
 
 
