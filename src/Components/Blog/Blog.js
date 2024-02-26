@@ -53,9 +53,6 @@ function Blog() {
       }
     }
   };
-  
-  
-  
   const handleDelete = async (postId) => {
     try {
       await fetch(`http://localhost:5000/posts/${postId}`, {
@@ -68,9 +65,6 @@ function Blog() {
     }
   };
   
-  
-  
-
   return (
     <div className="blog-container">
     <div className="posts-container">
