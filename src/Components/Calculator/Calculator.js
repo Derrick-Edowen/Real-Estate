@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './Indexcalc.css'
@@ -319,25 +319,18 @@ const [showDrops, setShowDrops] = useState(false);
     const formatNumberWithCommas = (number) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    const downloadPDFa = () => {
+    const downloadPDF = () => {
         const doc = new jsPDF();
         
         // Add monthly table
         doc.text('Monthly Amortization Schedule', 10, 10);
         doc.autoTable({ html: '#monthlyTable', startY: 15 });
         
-        
-        doc.save('Monthly_Amortization_Schedule.pdf');
-      };
-      const downloadPDFb = () => {
-        const doc = new jsPDF();
-        
-        
         // Add annual table
-        doc.text('Annual Amortization Summary', 10, 10);
-        doc.autoTable({ html: '#annualTable', startY: 15 });
+        doc.text('Annual Amortization Summary', 10, doc.autoTable.previous.finalY + 10);
+        doc.autoTable({ html: '#annualTable', startY: doc.autoTable.previous.finalY + 15 });
         
-        doc.save('Annual_Amortization_Schedule.pdf');
+        doc.save('Amortization_Schedules.pdf');
       };
 
     const monthlyClass = monthlyDropdownActive ? '' : 'inactive';
@@ -420,19 +413,13 @@ const [showDrops, setShowDrops] = useState(false);
 <div className='scheduleButts' style={{ display: showScheduleButts ? 'block' : 'none' }}>
     <button className={`annual ${annualClass}`} onClick={toggleAnnualDropdown}>
         Annual Amortization Schedule
-        &nbsp;&nbsp;&nbsp;&nbsp;
-
-        <span className="icon" onClick={() => downloadPDFb('annual')}>
-        <FontAwesomeIcon icon={faDownload} size="lg" />
-        </span>
         </button>
     <button className={`month ${monthlyClass}`} onClick={toggleMonthlyDropdown}>
         Monthly Amortization Schedule
-        &nbsp;&nbsp;&nbsp;&nbsp;
+    </button>
+    <button className='downPDF' onClick={downloadPDF}>Download Table&nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faDownload} size="lg" />
 
-        <span className="icon" onClick={() => downloadPDFa('monthly')}>
-            <FontAwesomeIcon icon={faDownload} size="lg" />
-        </span>
+
     </button>
 </div>
 

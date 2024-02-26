@@ -35,6 +35,7 @@ function Contact() {
         <div className='underLay'>
           <section className='venn-diagram'>
       <img className='conImg circle left' src={man} alt='man'></img>
+      <div className='mix'></div>
       <div className='standIn circle right'></div>
       <div className='standOut circle right'>
       

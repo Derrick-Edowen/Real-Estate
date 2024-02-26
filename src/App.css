@@ -9,8 +9,9 @@
 }
 body {
   margin: 0px;
-  height: 100%;
-  overflow-y: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
 }
 html {
   color-scheme: light dark;

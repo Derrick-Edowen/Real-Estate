@@ -11,7 +11,7 @@ import ForRent from './Components/ForRent/ForRent';
 import RecentlySold from './Components/RecentlySold/RecentlySold';
 import RentCalculator from "./Components/RentCalculator/RentCalculator";
 import Questions from "./Components/Questions/Questions";
-import Test from "./Components/Test/Test"
+import Login from "./Components/Login/Login"
 import Blog from "./Components/Blog/Blog"
 import image1 from './Assets/Images/living1.jpg'                                                                            
 import image2 from './Assets/Images/backyard1.jpg'
@@ -46,9 +46,9 @@ function App() {
   };
   return (
     <>
-   <div className="App" style={imageStyle}>
       <Router>
       <Header />
+      <div className="App" style={imageStyle}>
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/Home" element={<Home />}></Route>
@@ -60,10 +60,11 @@ function App() {
             <Route path="/RentCalculator" element={<RentCalculator />}></Route>
             <Route path="/Contact" element={<Contact />}></Route>
             <Route path="/Questions" element={<Questions />}></Route>
+            <Route path="/Login" element={<Login />}></Route>
             <Route path="*" element={<div>404 Not Found</div>}></Route>
           </Routes>
+          </div>
       </Router>
-    </div>
     </>
   );
 }

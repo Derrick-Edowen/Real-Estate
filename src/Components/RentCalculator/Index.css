@@ -87,8 +87,8 @@ border-radius: 5px;
     display: flex;
     justify-content: space-between;
     margin: 20px;
-    margin-top: 20px;
-    
+margin-top: 0px;   
+padding-top: 30px; 
   }
 
   .meth  {

@@ -1,6 +1,7 @@
 .containerDad {
     display: flex;
     height: 100%;
+    padding-top: 16px;
   }
   
   .containerCalc {
@@ -47,8 +48,8 @@ padding: 8px;
 .scheduleButts {
     display: flex;
     justify-content: space-between;
-    gap: 30px;
-    margin-left: 40px;
+    margin-left: 5px;
+    padding-left: 36px;
 }
 .amortTitle {
     border-radius: 5px;
@@ -189,12 +190,11 @@ margin-top: 14px;
 }
 .month {
     background-color: rgba(30, 0, 48, 0.99);
-    width: 40%;
+    width: 35%;
     color: rgb(255, 255, 255);
     border: 1px solid #000000;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     font-size: 16px;
-    margin-right: 0;
     margin-left: auto;
 }
 .month:hover {
@@ -207,15 +207,25 @@ margin-top: 14px;
 
 
 }
-.annual  {
+.downPDF {
     background-color: rgba(30, 0, 48, 0.99);
-    width: 40%;
+    width: fit-content;
     color: rgb(255, 255, 255);
     border: 1px solid #000000;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     font-size: 16px;
-    margin-right: 20px;
-    margin-left: 80px;
+    margin-right: 0;
+float: right;
+    margin-left: 10px;
+}
+.annual  {
+    background-color: rgba(30, 0, 48, 0.99);
+    width: 35%;
+    color: rgb(255, 255, 255);
+    border: 1px solid #000000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 16px;
+    margin-right: 14px;
 
 }
 .annual:hover  {

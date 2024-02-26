@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import placeHolder  from '../../Assets/Images/rahlogo-placeholder.png'
 import './Index.css'
+import manH from  '../../Assets/Images/man1-PhotoRoom2.png'
 
 
 function Header() {
@@ -61,8 +62,9 @@ function Header() {
     
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">
-        <h2>John Smith</h2>
-        <h3>Sales Representative</h3>
+        <img src={manH} className="headerImg"></img>
+        <h2>John Smith <br />
+        Sales Representative</h2>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
@@ -156,7 +158,7 @@ function Header() {
               to="/Blog"
               className="navbar--content"
             >
-              My Blog
+              Announcements
             </NavLink>
           </li>
           <li>

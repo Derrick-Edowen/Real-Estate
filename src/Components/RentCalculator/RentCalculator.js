@@ -12,7 +12,12 @@ const RentCalculator = () => {
   const [lowRisk, setLowRisk] = useState('');
   const [midRisk, setMidRisk] = useState('');
   const [highRisk, setHighRisk] = useState('');
-  const [selectedTips, setSelectedTips] = useState([]);
+  const [selectedTips, setSelectedTips] = useState(["Use energy-efficient appliances, LED light bulbs, and smart power strips to reduce electricity consumption",
+  "Fix leaks, install water-saving fixtures, and practice water-saving habits like shorter showers",
+  "Bundle internet, cable, and phone services from the same provider for discounts",
+  "Use a bicycle or walk for short distances instead of driving",
+  "Plan meals in advance to avoid impulse purchases and reduce food waste",
+  "Purchase non-perishable items in bulk to save money in the long run"]);
 
   const handleCalculate = (e) => {
     e.preventDefault();
@@ -146,9 +151,9 @@ const tips = [
         <div className='headie1'>
           <h4 className='rentCalchead1'>Your Rent Affordability</h4>
           <div className='cups'>
-            <div className='ppl'>Recommended Risk Level - ${lowRisk}</div>              <br />
+            <div className='ppl'>Recommended Risk Level - ${lowRisk}</div>              
 
-            <div className='ppl'>Medium Risk Level - ${midRisk}</div>              <br />
+            <div className='ppl'>Medium Risk Level - ${midRisk}</div>        
 
             <div className='ppl'>High Risk Level - ${highRisk}</div>
           </div>
@@ -157,8 +162,8 @@ const tips = [
               <div className='headie2'>
 <h4 className='rentCalchead1'>Expense Reduction Tips</h4>
 {selectedTips.map((tip, index) => (
-    <div key={index}> - {tip}</div>
-  ))}
+              <div key={index}> - {tip}</div>
+            ))}
             </div>
             </div>
             <div className='riskL'>
