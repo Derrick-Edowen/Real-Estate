@@ -65,6 +65,7 @@ function Header() {
         <img src={manH} className="headerImg"></img>
         <h2>John Smith <br />
         Sales Representative</h2>
+        <div  className="transLate" id="google_translate_element"></div>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}

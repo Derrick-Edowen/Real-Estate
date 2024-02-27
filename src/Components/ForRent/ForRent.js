@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
-import Contact from '../Contact/Contact';
 import './Indexr.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
@@ -94,6 +93,7 @@ const updateMapLocation = async (address) => {
       window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
       return;
     }
+
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
   try {
@@ -221,9 +221,9 @@ if (apiData.props && apiData.props.length === 0) {
     }
     return (
       
-        <div className='lists'>
-        <div className='overlay'>
-        <main className='fullStage'>
+        <div className='lists notranslate'>
+        <div className='overlay notranslate'>
+        <main className='fullStage notranslate'>
         {isLoading ? (
           <div className="loadingMessage1">
             Please wait...&nbsp;&nbsp;
@@ -232,22 +232,22 @@ if (apiData.props && apiData.props.length === 0) {
         ) : (
           <>
             {apiData.props && apiData.props.length > 0 ? (
-              <div className="cardContainer">
+              <div className="cardContainer notranslate">
                 {searchClicked && infoData && infoData.length > 0 && (
                   apiData.props.map((property, index) => (
                     <div
-                      className="cardi1"
+                      className="cardi1 notranslate"
                       key={index}
                       onClick={() => handleOpenLightbox(index)}
                     >
                       <img src={property.imgSrc || noImg} alt={'Not Available'} />
-                      <div className="cardText1">
-                        <div className='cDress1'>${formatNumberWithCommas(property.price) || "Undisclosed"}/Month<br /></div>
-                        <div className='cPrice1'>{property.address || "Undisclosed"}</div>
-                        <div className='holding1'>
-                          <div className='cardBed'>{property.bedrooms || "Undisclosed Number of"} Beds&nbsp;</div>
-                          <div className='cardBaths'>{property.bathrooms || "Undisclosed Number of"} Baths&nbsp;</div>
-                          <div className='cardMls'>MLS&reg;: {infoData[index]?.mlsid || "Unknown"}</div>
+                      <div className="cardText1 notranslate">
+                        <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Undisclosed"}<br /></div>
+                        <div className='cPrice1 notranslate'>{property.address || "Undisclosed"}</div>
+                        <div className='holding1 notranslate'>
+                          <div className='cardBed notranslate'>{property.bedrooms || "Undisclosed Number of"} Beds&nbsp;</div>
+                          <div className='cardBaths notranslate'>{property.bathrooms || "Undisclosed Number of"} Baths&nbsp;</div>
+                          <div className='cardMls notranslate'>MLS&reg;: {infoData[index]?.mlsid || "Unknown"}</div>
                         </div>
                       </div>
                     </div>
@@ -263,46 +263,46 @@ if (apiData.props && apiData.props.length === 0) {
             )}
 
             {lightboxActive && selectedCardIndex !== null && (
-              <div className="lightbox" onClick={handleCloseLightbox}>
-                <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+              <div className="lightbox notranslate" onClick={handleCloseLightbox}>
+                <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
                   {/* Lightbox content goes here */}
                   {infoData[selectedCardIndex] && imageUrls[selectedCardIndex] && imageUrls[selectedCardIndex].images && (
                     <>
-                      <div className='side-by-side-container'>
-                        <div className='fixer'>
-                          <button className="lightbox-left" onClick={handlePrevImage}>
+                      <div className='side-by-side-container notranslate'>
+                        <div className='fixer notranslate'>
+                          <button className="lightbox-left notranslate" onClick={handlePrevImage}>
                             <FontAwesomeIcon icon={faChevronLeft} size="lg" />
                           </button>
                           <img src={imageUrls[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Image Not Available!" />
-                          <button className="lightbox-right" onClick={handleNextImage}>
+                          <button className="lightbox-right notranslate" onClick={handleNextImage}>
                             <FontAwesomeIcon icon={faChevronRight} size="lg" />
                           </button> 
                         </div> 
-                        <div className="cardText">
-                          <div className='containText'>
-                            <div className='pAddress'>{apiData.props[selectedCardIndex].address || "Undisclosed"}</div>
-                            <div className='pPrice'>${apiData.props[selectedCardIndex].price || "Undisclosed"}/Month</div>
+                        <div className="cardText notranslate">
+                          <div className='containText notranslate'>
+                            <div className='pAddress notranslate'>{apiData.props[selectedCardIndex].address || "Undisclosed"}</div>
+                            <div className='pPrice notranslate'>${apiData.props[selectedCardIndex].price || "Undisclosed"}</div>
                           
                             <FontAwesomeIcon icon={faBed} size="lg" style={{color: "#492903",}} />&nbsp; {apiData.props[selectedCardIndex].bedrooms || "Undisclosed"}&nbsp;Beds&nbsp;&nbsp;&nbsp;&nbsp;
                             <FontAwesomeIcon icon={faBath} size="lg" style={{color: "#492903",}}/>&nbsp; {apiData.props[selectedCardIndex].bathrooms || "Undisclosed"}&nbsp;Baths&nbsp;&nbsp;&nbsp;&nbsp;
                             <FontAwesomeIcon icon={faClock} size="lg" style={{color: "#3d0000",}} />&nbsp; {infoData[selectedCardIndex]?.timeOnZillow || "Undisclosed"} on Market<br />            
                           
-                            {infoData[selectedCardIndex]?.description}<br /><br />
-                            <div className='holding1'>
-                              <div className='cardPark'><FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity|| "Undisclosed"} parking space(s) &nbsp;&nbsp;  </div>
-                              <div className='cardFire'><FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1] || "Undisclosed"} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                              <div className='cardWind'><FontAwesomeIcon icon={faWind} size="lg" style={{color: "#006bbd",}} /> - {infoData[selectedCardIndex]?.resoFacts.cooling[0] || "Undisclosed"}</div>
+                            <div className='descText notranslate'>{infoData[selectedCardIndex]?.description}</div><br />
+                            <div className='holding1 notranslate'>
+                              <div className='cardPark notranslate'><FontAwesomeIcon icon={faSquareParking} size="lg" style={{color: "#065b0b",}} /> - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity|| "Undisclosed"} parking space(s) &nbsp;&nbsp;  </div>
+                              <div className='cardFire notranslate'><FontAwesomeIcon icon={faFire} size="lg" style={{color: "#bf0d0d",}} /> - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1] || "Undisclosed"} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                              <div className='cardWind notranslate'><FontAwesomeIcon icon={faWind} size="lg" style={{color: "#006bbd",}} /> - {infoData[selectedCardIndex]?.resoFacts.cooling[0] || "Undisclosed"}</div>
                             </div> 
 
-                            <div className='holding1'>
-                              <div className='cardJug'><FontAwesomeIcon icon={faJugDetergent} size="lg" style={{ color: "#012665" }}/> - {infoData[selectedCardIndex]?.resoFacts.laundryFeatures &&infoData[selectedCardIndex]?.resoFacts.laundryFeatures.length > 0? infoData[selectedCardIndex]?.resoFacts.laundryFeatures[0]: "Undisclosed"}&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                              <div className='cardMl'>MLS&reg;: {infoData[selectedCardIndex]?.mlsid || "Undisclosed"}</div><br />
-                              <div className='cardBroke'>Brokerage: {infoData[selectedCardIndex]?.brokerageName || "Undisclosed"}  </div>    
+                            <div className='holding1 notranslate'>
+                              <div className='cardJug notranslate'><FontAwesomeIcon icon={faJugDetergent} size="lg" style={{ color: "#012665" }}/> - {infoData[selectedCardIndex]?.resoFacts.laundryFeatures &&infoData[selectedCardIndex]?.resoFacts.laundryFeatures.length > 0? infoData[selectedCardIndex]?.resoFacts.laundryFeatures[0]: "Undisclosed"}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                              <div className='cardMl notranslate'>MLS&reg;: {infoData[selectedCardIndex]?.mlsid || "Undisclosed"}</div><br />
+                              <div className='cardBroke notranslate'>Brokerage: {infoData[selectedCardIndex]?.brokerageName || "Undisclosed"}  </div>    
                             </div> 
                           </div>
                         </div>
                       </div>
-                      <div className='map'>
+                      <div className='map notranslate'>
                         <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
                           <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >
                             <Marker position={position}/>
@@ -310,7 +310,7 @@ if (apiData.props && apiData.props.length === 0) {
                         </APIProvider>
                       </div>
                       
-                      <button className="lightbox-close" onClick={handleCloseLightbox}>
+                      <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
                         <FontAwesomeIcon icon={faCircleXmark} size="xl" />
                       </button>         
                     </>
@@ -330,12 +330,12 @@ if (apiData.props && apiData.props.length === 0) {
               <form onSubmit={handleSearch}>
                 <div className="login__field">
                   <i className="login__icon fas fa-user"></i>
-                  <input className='search1' id='search' type='text' placeholder='Enter a City!' required />
+                  <input className='search1 notranslate' id='search' type='text' placeholder='Enter a City!' required />
                 </div>
                 <div className="login__field">
                   <i className="login__icon fas fa-lock"></i>
                   <div className='propsort'>
-                    <select className='sort1' id="sortList" name="sort" placeholder='Sort Listings' required>
+                    <select className='sort1 notranslate' id="sortList" name="sort" placeholder='Sort Listings' required>
                       <option value="" disabled selected>Sort Listings</option>
                       <option value="Newest">Newest</option>
                       <option value="Payment_High_Low">Ascending - Price</option>
@@ -343,7 +343,7 @@ if (apiData.props && apiData.props.length === 0) {
                       <option value="Lot_Size">Lot Size</option>
                       <option value="Square_Feet">Square Footage</option>
                     </select>
-                    <select className='property1' id="choose-type" name="propertyType" placeholder='Property Type' required>
+                    <select className='property1 notranslate' id="choose-type" name="propertyType" placeholder='Property Type' required>
                       <option value="" disabled selected>Property Type</option>
                       <option value="Any">Any</option>
                       <option value="Houses">Houses</option>
@@ -352,7 +352,7 @@ if (apiData.props && apiData.props.length === 0) {
                     </select>
                   </div>
                   <div className='bedsbaths'>
-                    <select className='beds1' id="choose-beds" name="beds" placeholder='Beds' required>
+                    <select className='beds1 notranslate' id="choose-beds" name="beds" placeholder='Beds' required>
                       <option value="" disabled selected>Beds</option>
                       <option value="0">Any</option>
                       <option value="1">1 Bed</option>
@@ -362,7 +362,7 @@ if (apiData.props && apiData.props.length === 0) {
                       <option value="5">5 Beds</option>
                       <option value="6">6 Beds</option>
                     </select>
-                    <select className='baths1' id="choose-baths" name="baths" placeholder='Baths' required>
+                    <select className='baths1 notranslate' id="choose-baths" name="baths" placeholder='Baths' required>
                       <option value="" disabled selected>Baths</option>
                       <option value="0">Any</option>
                       <option value="1">1 Bath</option>
@@ -373,8 +373,8 @@ if (apiData.props && apiData.props.length === 0) {
                       <option value="6">6 Baths</option>
                     </select>
                   </div>
-                  <input className='mins1' type='number' id="min-price" placeholder='$ - Minimum Rent Price' required />
-                  <input className='maxs1' type='number' id="max-price" placeholder='$ - Maximum Rent Price' required />
+                  <input className='mins1 notranslate' type='number' id="min-price" placeholder='$ - Minimum Rent Price' required />
+                  <input className='maxs1 notranslate' type='number' id="max-price" placeholder='$ - Maximum Rent Price' required />
                 </div>
                 <div className='resets'>
                   <button className='resetBtn' onClick={handleReset}>Clear&nbsp;&nbsp;<FontAwesomeIcon icon={faRepeat} size="lg" /></button>
@@ -401,7 +401,3 @@ if (apiData.props && apiData.props.length === 0) {
 
  
 export default ForRent;
-/*
-
-
-      */

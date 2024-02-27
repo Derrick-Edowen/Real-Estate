@@ -229,7 +229,7 @@ color: rgb(236, 236, 236);
 background-color: #252525a1;
 width: fit-content;
 padding-left: 3px;
-padding-right: 3px;
+padding-right: 8px;
 border-radius: 4px;
 text-shadow: 2px 2px 6px #000000;
 box-shadow: 0px 0.1px ;
@@ -273,7 +273,7 @@ width: fit-content;
   gap: 5.5px;
   overflow:auto;
   max-height: 750px;
-  min-width: 500px;
+  min-width: 800px;
   width:fit-content;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
 margin-right: 10px;
@@ -436,6 +436,7 @@ transform: scale(1.05);
   background-color: #ebe7e7;
   border-radius: 10px;
 display: grid;
+margin-top: 50px;
   justify-content: center;
   border: 0.1px solid #000000;
 }

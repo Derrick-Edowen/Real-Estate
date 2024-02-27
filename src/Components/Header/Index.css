@@ -97,7 +97,11 @@
     transition: font-size 0.2s ease; /* Add transition effect */
 
   }
-
+  .transLate {
+    width: fit-content;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
   
   .navbar--items ul > li > a {
     text-decoration: none;
@@ -116,7 +120,7 @@
   /* Navbar Content */
   .navbar--content {
     color: var(--white);
-    font-size: 22px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 400;
     line-height: 24px;
@@ -156,7 +160,7 @@
 
   }
 
-  @media screen and (max-width: 1450px) {
+  @media screen and (max-width: 1465px) {
     .nav__hamburger {
       display: flex;
       z-index: 200;
