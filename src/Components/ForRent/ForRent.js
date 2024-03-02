@@ -225,7 +225,7 @@ if (apiData.props && apiData.props.length === 0) {
         <div className='overlay notranslate'>
         <main className='fullStage notranslate'>
         {isLoading ? (
-          <div className="loadingMessage1">
+          <div className="loadingMessage1 translate">
             Please wait...&nbsp;&nbsp;
             <FadeLoader color="#f5fcff" margin={0} />
           </div>
