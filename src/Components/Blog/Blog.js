@@ -10,28 +10,27 @@ function Blog() {
   const currentUserID = location.state?.currentUserID || '';
   const isLoggedIn = location.state?.isLoggedIn || false;
 
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch('http://localhost:5000/posts');
+      const response = await fetch('/posts');
       const data = await response.json();
       setPosts(data);
     } catch (error) {
       console.error('Error fetching posts:', error);
     }
   };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
+  
   const handlePost = async () => {
     if (newTitle.trim() !== '' && newContent.trim() !== '') {
       try {
         // Get the current date in YYYY-MM-DD format
         const currentDate = new Date().toISOString().slice(0, 10);
         
-        const response = await fetch('http://localhost:5000/posts', {
+        const response = await fetch('/posts', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -53,9 +52,10 @@ function Blog() {
       }
     }
   };
+  
   const handleDelete = async (postId) => {
     try {
-      await fetch(`http://localhost:5000/posts/${postId}`, {
+      await fetch(`/posts/${postId}`, {
         method: 'DELETE'
       });
       const updatedPosts = posts.filter((post) => post.id !== postId);
