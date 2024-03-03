@@ -8,14 +8,16 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-
+let pool;
+ if (process.env.JAWSDB_URL) {
+pool = mysql.createPool(process.env.JAWSDB_URL)
+ } else
 // Database connection pool
-const pool = mysql.createPool({
+pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  connectionLimit: 10
 });
 
 // API endpoints
