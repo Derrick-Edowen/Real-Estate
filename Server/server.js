@@ -15,6 +15,11 @@ if (process.env.JAWSDB_URL) {
   console.error('JAWSDB_URL environment variable not found');
   process.exit(1);
 }
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 // API endpoints
 
@@ -76,11 +81,6 @@ app.delete('/posts/:postId', async (req, res) => {
   }
 });
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
 
 
