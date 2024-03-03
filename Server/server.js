@@ -9,16 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 let pool;
- if (process.env.JAWSDB_URL) {
-pool = mysql.createPool(process.env.JAWSDB_URL)
- } else
-// Database connection pool
-pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
+if (process.env.JAWSDB_URL) {
+  pool = mysql.createPool(process.env.JAWSDB_URL);
+} else {
+  console.error('JAWSDB_URL environment variable not found');
+  process.exit(1);
+}
 
 // API endpoints
 
