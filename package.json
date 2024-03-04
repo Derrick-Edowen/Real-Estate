@@ -43,7 +43,7 @@
   },
   "scripts": {
     "dev": "concurrently \"npm start\" \"npm run server\"",
-    "start": "react-scripts start",
+    "start": "npm run server",
     "server": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
