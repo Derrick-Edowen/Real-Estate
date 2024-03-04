@@ -9,14 +9,14 @@ function Blog() {
   const location = useLocation();
   const currentUserID = location.state?.currentUserID || '';
   const isLoggedIn = location.state?.isLoggedIn || false;
-
+const port =  process.env.PORT || 3001;
   useEffect(() => {
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch('/posts');
+      const response = await fetch(`http://localhost:${port}/posts`);
       const data = await response.json();
       setPosts(data);
     } catch (error) {
@@ -30,7 +30,7 @@ function Blog() {
         // Get the current date in YYYY-MM-DD format
         const currentDate = new Date().toISOString().slice(0, 10);
         
-        const response = await fetch('/posts', {
+        const response = await fetch(`http://localhost:${port}/posts`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ function Blog() {
   
   const handleDelete = async (postId) => {
     try {
-      await fetch(`/posts/${postId}`, {
+      await fetch(`http://localhost:${port}/posts/${postId}`, {
         method: 'DELETE'
       });
       const updatedPosts = posts.filter((post) => post.id !== postId);

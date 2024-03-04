@@ -5,20 +5,22 @@ require('dotenv').config();
 
 const app = express();
 
+
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+
 let pool;
-if (process.env.JAWSDB_URL) {
-  pool = mysql.createPool(process.env.JAWSDB_URL);
-} else {
-  console.error('JAWSDB_URL environment variable not found');
-  process.exit(1);
-}
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+ if (process.env.JAWSDB_URL) {
+pool = mysql.createPool(process.env.JAWSDB_URL)
+ } else
+// Database connection pool
+pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 // API endpoints
@@ -81,7 +83,10 @@ app.delete('/posts/:postId', async (req, res) => {
   }
 });
 
-
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 
 
