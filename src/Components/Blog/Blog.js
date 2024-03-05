@@ -16,7 +16,7 @@ const port =  process.env.PORT || 3001;
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch(`http://localhost:${port}/posts`);
+      const response = await fetch(`/posts`);
       const data = await response.json();
       setPosts(data);
     } catch (error) {
@@ -30,7 +30,7 @@ const port =  process.env.PORT || 3001;
         // Get the current date in YYYY-MM-DD format
         const currentDate = new Date().toISOString().slice(0, 10);
         
-        const response = await fetch(`http://localhost:${port}/posts`, {
+        const response = await fetch(`/posts`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ const port =  process.env.PORT || 3001;
   
   const handleDelete = async (postId) => {
     try {
-      await fetch(`http://localhost:${port}/posts/${postId}`, {
+      await fetch(`/posts/${postId}`, {
         method: 'DELETE'
       });
       const updatedPosts = posts.filter((post) => post.id !== postId);
