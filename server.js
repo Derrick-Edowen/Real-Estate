@@ -24,13 +24,7 @@ pool = mysql.createPool({
   database: process.env.DB_DATABASE,
 });
 
-// API endpoints
-app.use(express.static(path.join(__dirname, 'build')));
 
-// Handles any requests that don't match the ones above
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 // Login endpoint
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
@@ -75,7 +69,6 @@ app.get('/posts', async (req, res) => {
 app.delete('/posts/:postId', async (req, res) => {
   const postId = req.params.postId;
   const userId = 1; // Assuming user_id is always 1 in this case
-
   try {
     const result = await pool.query('DELETE FROM posts WHERE id = ? AND user_id = ?', [postId, userId]);
     if (result.affectedRows > 0) {
@@ -88,7 +81,13 @@ app.delete('/posts/:postId', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete post' });
   }
 });
+// API endpoints
+app.use(express.static(path.join(__dirname, 'build')));
 
+// Handles any requests that don't match the ones above
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
