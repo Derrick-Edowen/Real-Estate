@@ -1,75 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import placeHolder  from '../../Assets/Images/rahlogo-placeholder.png'
+import placeHolder from '../../Assets/Images/rahlogo-placeholder.png'
 import './Index.css'
-import manH from  '../../Assets/Images/man1-PhotoRoom2.png'
-
+import manH from '../../Assets/Images/man1-PhotoRoom2.png'
 
 function Header() {
-  const [arrowRotation, setArrowRotation] = useState(0);
-  const [dropdownVisible, setDropdownVisible] = useState(false); // Add state for dropdown visibility
-  const [dropdownVisible2, setDropdownVisible2] = useState(false); // Add state for dropdown visibility
-
+  const [dropdownVisible1, setDropdownVisible1] = useState(false);
+  const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [navActive, setNavActive] = useState(false);
 
   const toggleNav = () => {
     setNavActive(!navActive);
-    setDropdownVisible(!dropdownVisible);
-    setDropdownVisible(false);
-    setDropdownVisible2(!dropdownVisible2);
+    setDropdownVisible1(false);
     setDropdownVisible2(false);
   };
 
   const closeMenu = () => {
     setNavActive(false);
-    setDropdownVisible(false);
+    setDropdownVisible1(false);
     setDropdownVisible2(false);
-
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 500) {
-        closeMenu();
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (window.innerWidth <= 1360) {
-      closeMenu();
-    }
-  }, []);
-  const handleClick = () => {
-    // Action 1: Increment counter
-    setDropdownVisible(!dropdownVisible);
-
-
+  const handleClick1 = () => {
+    setDropdownVisible1(!dropdownVisible1);
+    setDropdownVisible2(false);
   };
+
   const handleClick2 = () => {
-    // Action 1: Increment counter
     setDropdownVisible2(!dropdownVisible2);
-
-
+    setDropdownVisible1(false);
   };
+
   return (
-    
+
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">
         <img src={manH} className="headerImg"></img>
         <h2>John Smith <br />
         Sales Representative</h2>
-        <div  className="transLate" id="google_translate_element"></div>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
-        onClick={toggleNav} 
+        onClick={toggleNav}
       >
         <span className="nav__hamburger__line"></span>
         <span className="nav__hamburger__line"></span>
@@ -91,15 +63,14 @@ function Header() {
               Home
             </NavLink>
           </li>
-          <li className={`dropdown ${dropdownVisible ? "active" : ""}`}>
+          <li className={`dropdown ${dropdownVisible1 ? "active" : ""}`}>
             <span
-              className={`navbar--content findingList ${dropdownVisible ? "arrow-rotate" : ""}`}
-              onClick={handleClick}
-              style={{ transform: `rotate(${arrowRotation}deg)` }}
+              className={`navbar--content findingList arrow-rotate ${dropdownVisible1 ? "active" : ""}`}
+              onClick={handleClick1} 
             >
               Find Listings <span className="arrow">&#9660;</span>
             </span>
-            <div className={`dropdown-content ${dropdownVisible ? "active" : ""}`}>
+            <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
               <Link
                 onClick={closeMenu}
                 to="/ForRent"
@@ -125,9 +96,8 @@ function Header() {
           </li>
           <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
             <span
-              className={`navbar--content findingList ${dropdownVisible2 ? "arrow-rotate" : ""}`}
-              onClick={handleClick2}
-              style={{ transform: `rotate(${arrowRotation}deg)` }}
+              className={`navbar--content findingList arrow-rotate ${dropdownVisible2 ? "active" : ""}`}
+              onClick={handleClick2} 
             >
               Calculators <span className="arrow">&#9660;</span>
             </span>
@@ -186,3 +156,5 @@ function Header() {
 }
 
 export default Header;
+
+

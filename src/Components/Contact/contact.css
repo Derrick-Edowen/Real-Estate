@@ -25,7 +25,7 @@ margin-right: 325px;
 
 .circle {
 position: absolute;
-border-radius: 50%;
+border-radius: 0px;
 width: fit-content;
 height: fit-content;
 background-color: rgba(0, 0, 0, 0.2);
@@ -36,9 +36,7 @@ left: 0;
 z-index: 1;
 }
 
-.right {
-right: 0;
-}
+
 
 /* Adjust positioning for overlap */
 .venn-diagram .circle {
@@ -52,12 +50,7 @@ transform: translateX(-70%);
 .right {
 transform: translateX(45%);
 }
-.mix {
-  background-color: rgb(10, 64, 112);
-  border-radius: 50px;
-  height: 400px;
-  width: 400px;
-}
+
 .conImg {
 padding: 0px;
 height: 300px;
@@ -66,12 +59,27 @@ padding-bottom: 0px;
 background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
 }
 .standIn {
-height: 600px;
-width: 550px;
-background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
-box-shadow: 0px 10px 48px 8px;
-border-radius: 25px;
+  position: relative;
+  height: 600px;
+  width: 550px;
+  background: linear-gradient(to right, var(--primary), rgba(52, 0, 83, 0.990), #520081fb, #663994);
+  box-shadow: 0px 10px 48px 8px;
+  border-radius: 0;
 }
+
+.standIn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  rotate: -90deg;
+  width: 220px;
+  height: 220px;
+  background-color: white;
+  border-radius: 0 0 0 100%;
+}
+
+
 .standOut {
 height: 525px;
 width: 475px;
@@ -79,7 +87,7 @@ background-color: rgb(247, 242, 252);
 margin-top: 38px;
 margin-right: 3.5px;
 border-radius: 5px;
-
+display: none;
 }
 
 .standOut p {
@@ -197,6 +205,8 @@ margin-bottom: 10px;
 box-shadow: 0 1px #666;
 transform: translateY(1px);
 }
+
+
 @media screen and (max-width: 1612px) {
 .underLay {
   display: flex;
@@ -211,7 +221,7 @@ transform: translateY(1px);
 
 .circle {
   position: absolute;
-  border-radius: 50%;
+  border-radius: 0;
   width: fit-content;
   height: fit-content;
   background-color: rgba(0, 0, 0, 0.2);

@@ -20,8 +20,9 @@ import Login from './Components/Login/Login';
 import Blog from './Components/Blog/Blog';
 
 function App() {
-  const [images] = useState([image1, image2, image3, image4, image5]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [image1, image2, image3, image4, image5];
+  const randomIndex = Math.floor(Math.random() * images.length);
+  const [currentIndex] = useState(randomIndex);
 
   // Preload images
   useEffect(() => {
@@ -29,16 +30,6 @@ function App() {
       const img = new Image();
       img.src = image;
     });
-  }, [images]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 25000);
-
-    return () => clearInterval(interval);
   }, [images]);
 
   const imageStyle = {
@@ -65,7 +56,6 @@ function App() {
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
         </div>
-        <Footer />
       </Router>
     </>
   );

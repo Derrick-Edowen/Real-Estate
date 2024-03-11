@@ -85,13 +85,13 @@ const port =  process.env.PORT || 3001;
           type="text"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="Enter post title"
+          placeholder="Enter announcement title"
         />
         <textarea
           className="text-area"
           value={newContent}
           onChange={(e) => setNewContent(e.target.value)}
-          placeholder="Enter your post content here..."
+          placeholder="Enter your announcement content here..."
           rows={5}
           cols={50}
         />

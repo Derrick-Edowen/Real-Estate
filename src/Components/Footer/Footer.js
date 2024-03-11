@@ -6,7 +6,9 @@ import './Index.css'
 function Footer() {
   
     return (
-      <footer className="footer--container">
+      <footer className="feet">
+        <div>Footer content</div>
+        <div className="transLate" id="google_translate_element"></div>
 
     </footer>
     );

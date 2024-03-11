@@ -1,0 +1,12 @@
+.feet {
+    display: flex;
+    height: 10%;
+    width: 100%;
+    background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+}
+.transLate {
+    width: fit-content;
+    height: 100px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }

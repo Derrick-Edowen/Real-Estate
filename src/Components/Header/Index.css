@@ -3,6 +3,7 @@
   background-color: rgb(196, 159, 233);
   border-radius: 5px;
 }
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -91,16 +92,12 @@
     align-items: center;
     gap: 38px;
     text-decoration: none;
-    padding-right: 80px;
+    padding-right: 35px;
     padding-left: 0px;
     transition: font-size 0.2s ease; /* Add transition effect */
 
   }
-  .transLate {
-    width: fit-content;
-    margin-left: 20px;
-    margin-top: 20px;
-  }
+ 
   
   .navbar--items ul > li > a {
     text-decoration: none;
@@ -152,14 +149,21 @@
   .holderImg {
     height:60px;
     width: 80px;
-
+padding: 0px;
   }
   li {
     text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
 
   }
-
-  @media screen and (max-width: 1465px) {
+  .arrow-rotate {
+    transition: transform 0.3s ease; /* Add transition for smooth rotation */
+  }
+  
+  .arrow-rotate.active {
+    transform: rotate(180deg); /* Rotate arrow when dropdown is active */
+  }
+  
+  @media screen and (max-width: 1430px) {
     .nav__hamburger {
       display: flex;
     }
