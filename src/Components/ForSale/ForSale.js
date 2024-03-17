@@ -10,6 +10,7 @@ import { faMagnifyingGlass, faChevronLeft, faChevronRight, faBed,
  faClock, faBath, faCircleXmark, faHouseUser,  faFire,  faWind,
 faSquareParking, faJugDetergent, faRepeat} from '@fortawesome/free-solid-svg-icons';
 import FadeLoader from "react-spinners/FadeLoader";
+import '../../search.css'
 
 
 function ForSale() {
@@ -28,7 +29,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0);
 const [searchTrigger, setSearchTrigger] = useState(false); // New state variable
 const [noResults, setNoResults] = useState(false); // New state variable
 const [page, setPage] = useState(1);
-
+const [showFilter, setShowFilter] = useState(false);
+const [isRotated, setIsRotated] = useState(false);
 
 const updateMapLocation = async (address) => {
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
@@ -65,18 +67,7 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
-  const handleReset = (e) => {
-    e.preventDefault();
-
-    // Select the input elements and reset their values
-    document.getElementById('search').value = '';
-    document.getElementById('sortList').value = '';
-    document.getElementById('choose-type').value = '';
-    document.getElementById('choose-beds').value = '';
-    document.getElementById('choose-baths').value = '';
-    document.getElementById('min-price').value = '';
-    document.getElementById('max-price').value = '';
-  };
+  
   const handleSearch = async (e) => {
     e.preventDefault();
 
@@ -112,7 +103,6 @@ const updateMapLocation = async (address) => {
     } else {
       window.alert('Location Not Found: Try Using More Descriptive Words!');
       setIsLoading(false); 
-      return;
     }
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
       params: {
@@ -135,7 +125,7 @@ const updateMapLocation = async (address) => {
           setApiData(estateResponse.data); 
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  const maxRequestsPerSecond = 3;
+  const maxRequestsPerSecond = 2;
   const delayBetweenRequests = 2000 / maxRequestsPerSecond;
 
   const infoDataArray = [];
@@ -221,13 +211,21 @@ if (apiData.props && apiData.props.length === 0) {
       const formatNumberWithCommas = (number) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    
+    const toggleFilter = () => {
+      setShowFilter(!showFilter);
+      setIsRotated(!isRotated);
+
+  };
     return (
       
         <div className='lists notranslate'>
         <div className='overlay notranslate'>
         <aside className='screen-1'>
-              <form className='supyo' onSubmit={handleSearch}>
+        <div className='starter'>For Sale Listings Search</div>
+        <button className="toggle" onClick={toggleFilter}> For Sale Listings Filter  
+          <div className={`changin ${isRotated && 'rotate'}`}>&#11164;</div>
+          </button>
+              <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
                   <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
                   <select
   className="notranslate"
@@ -326,8 +324,7 @@ if (apiData.props && apiData.props.length === 0) {
                     </select>
                   <input className='notranslate' type='number' id="min-price" placeholder='Price - Minimum' required />
                   <input className='notranslate' type='number' id="max-price" placeholder='Price - Maximum' required />
-                  <button className='searchBtn-1'><FontAwesomeIcon icon={faMagnifyingGlass} size="lg" /></button>
-                  <button className='resetBtn-1' onClick={handleReset}><FontAwesomeIcon icon={faRepeat} size="lg" /></button>
+                  <button className='searchBtn-1'>Search</button>
               </form>
     </aside> 
         <main className='fullStage notranslate'>
@@ -396,14 +393,14 @@ if (apiData.props && apiData.props.length === 0) {
                             <div className='pAddress notranslate'>{apiData.props[selectedCardIndex].address || "Undisclosed"}</div>
                             <div className='pPrice notranslate'>${formatNumberWithCommas(apiData.props[selectedCardIndex].price) || "Undisclosed"}</div>
                           <div className='heallin'>
-                            <div className='bedd'>&nbsp; {apiData.props[selectedCardIndex].bedrooms || "Undisclosed"}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                            <div className='bathh'>&nbsp; {apiData.props[selectedCardIndex].bathrooms || "Undisclosed"}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                            <div className='dayss'>&nbsp; Active ({infoData[selectedCardIndex]?.timeOnZillow || "Undisclosed"})</div>            
+                            <div className='bedd'>{apiData.props[selectedCardIndex].bedrooms || "Undisclosed"} Bed(s)</div>
+                            <div className='bathh'>{apiData.props[selectedCardIndex].bathrooms || "Undisclosed"} Bath(s)</div>
+                            <div className='dayss'>Active ({infoData[selectedCardIndex]?.timeOnZillow || "Undisclosed"})</div>            
                             </div>
-                            <div className='descText notranslate'>{infoData[selectedCardIndex]?.description}</div>
+                            <div className='descText notranslate'>{infoData[selectedCardIndex]?.description || "No Description Provided"}</div>
                             <div className='holding1 notranslate'>
-                              <div className='cardPark notranslate'>Parking Status - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity|| "Undisclosed Number of"} parking space(s) &nbsp;&nbsp;  </div>
-                              <div className='cardFire notranslate'>Heating Status - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1] || "Undisclosed"} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                              <div className='cardPark notranslate'>Parking Status - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity|| "Undisclosed Number of"} parking space(s)</div>
+                              <div className='cardFire notranslate'>Heating Status - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1] || "Undisclosed"}</div>
                               <div className='cardWind notranslate'>Cooling Status - {infoData[selectedCardIndex]?.resoFacts.cooling[0] || "Undisclosed"}</div>
                               <div className='cardMl notranslate'>MLS&reg;: {infoData[selectedCardIndex]?.mlsid || "Undisclosed"}</div>
                               <div className='cardBroke notranslate'>Listing Provided by: {infoData[selectedCardIndex]?.brokerageName || "Undisclosed"}</div>  

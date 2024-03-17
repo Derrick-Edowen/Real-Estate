@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
-import './Indexr.css'
+import '../../search.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,6 +27,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0);
 const [searchTrigger, setSearchTrigger] = useState(false); // New state variable
 const [noResults, setNoResults] = useState(false); // New state variable
 const [page, setPage] = useState(1);
+const [showFilter, setShowFilter] = useState(false);
+const [isRotated, setIsRotated] = useState(false);
 
 
 const updateMapLocation = async (address) => {
@@ -64,20 +66,10 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
-  const handleReset = (e) => {
-    e.preventDefault();
-
-    // Select the input elements and reset their values
-    document.getElementById('search').value = '';
-    document.getElementById('sortList').value = '';
-    document.getElementById('choose-type').value = '';
-    document.getElementById('choose-beds').value = '';
-    document.getElementById('choose-baths').value = '';
-    document.getElementById('min-price').value = '';
-    document.getElementById('max-price').value = '';
-  };
+ 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setShowFilter(false);
 
     const address = document.getElementById('search').value;
     const sort = document.getElementById('sortList').value;
@@ -111,7 +103,6 @@ const updateMapLocation = async (address) => {
     } else {
       window.alert('Location Not Found: Try Using More Descriptive Words!');
       setIsLoading(false); 
-      return;
     }
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
@@ -134,7 +125,7 @@ const updateMapLocation = async (address) => {
           setApiData(estateResponse.data); 
 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  const maxRequestsPerSecond = 3;
+  const maxRequestsPerSecond = 2;
   const delayBetweenRequests = 2000 / maxRequestsPerSecond;
 
   const infoDataArray = [];
@@ -220,13 +211,21 @@ if (apiData.props && apiData.props.length === 0) {
       const formatNumberWithCommas = (number) => {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    
+    const toggleFilter = () => {
+      setShowFilter(!showFilter);
+      setIsRotated(!isRotated);
+
+  };
     return (
       
         <div className='lists notranslate'>
         <div className='overlay notranslate'>
         <aside className='screen-1'>
-              <form className='supyo' onSubmit={handleSearch}>
+          <div className='starter'>For Lease Listings Search</div>
+          <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
+          <div className={`changin ${isRotated && 'rotate'}`}>&#11164;</div>
+          </button>
+              <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
                   <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
                   <select
   className="notranslate"
@@ -320,10 +319,9 @@ if (apiData.props && apiData.props.length === 0) {
                       <option value="4">4 Baths</option>
                       <option value="5">5 Baths</option>
                     </select>
-                  <input className='notranslate' type='number' id="min-price" placeholder='Price - Minimum' required />
-                  <input className='notranslate' type='number' id="max-price" placeholder='Price - Maximum' required />
-                  <button className='searchBtn-1'><FontAwesomeIcon icon={faMagnifyingGlass} size="lg" /></button>
-                  <button className='resetBtn-1' onClick={handleReset}><FontAwesomeIcon icon={faRepeat} size="lg" /></button>
+                  <input className='notranslate' type='number' id="min-price" placeholder='Minimum Price' required />
+                  <input className='notranslate' type='number' id="max-price" placeholder='Maximum Price' required />
+                  <button className='searchBtn-1'>Search</button>
               </form>
     </aside> 
         <main className='fullStage notranslate'>
@@ -380,11 +378,11 @@ if (apiData.props && apiData.props.length === 0) {
                       <div className='side-by-side-container notranslate'>
                         <div className='fixer notranslate'>
                           <button className="lightbox-left notranslate" onClick={handlePrevImage}>
-                            <FontAwesomeIcon icon={faChevronLeft} size="lg" />
+                          &#8678;
                           </button>
                           <img src={imageUrls[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Image Not Available!" />
                           <button className="lightbox-right notranslate" onClick={handleNextImage}>
-                            <FontAwesomeIcon icon={faChevronRight} size="lg" />
+                          &#8680;
                           </button> 
                         </div> 
                         <div className="cardText notranslate">

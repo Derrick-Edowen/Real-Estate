@@ -64,12 +64,14 @@ function Header() {
             </NavLink>
           </li>
           <li className={`dropdown ${dropdownVisible1 ? "active" : ""}`}>
-            <span
+          <div className="missin" onClick={handleClick1}>Find Listings
+            <li
               className={`navbar--content findingList arrow-rotate ${dropdownVisible1 ? "active" : ""}`}
-              onClick={handleClick1} 
+              
             >
-              Find Listings <span className="arrow">&#9660;</span>
-            </span>
+               &#11164;
+            </li>
+            </div>
             <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
               <Link
                 onClick={closeMenu}
@@ -95,12 +97,14 @@ function Header() {
             </div>
           </li>
           <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
-            <span
-              className={`navbar--content findingList arrow-rotate ${dropdownVisible2 ? "active" : ""}`}
-              onClick={handleClick2} 
+          <div className="missin" onClick={handleClick2}>Calculators
+            <li
+              className={`navbar--content findingList big-rotate2 ${dropdownVisible2 ? "active" : ""}`}
+              
             >
-              Calculators <span className="arrow">&#9660;</span>
-            </span>
+               &#11164;
+            </li>
+            </div>
             <div className={`dropdown-content ${dropdownVisible2 ? "active" : ""}`}>
               <Link
                 onClick={closeMenu}

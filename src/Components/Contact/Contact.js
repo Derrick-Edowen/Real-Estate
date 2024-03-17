@@ -3,12 +3,12 @@ import { useLocation } from 'react-router-dom'; // Import useLocation from react
 import man from  '../../Assets/Images/man2.png'
 import emailjs from '@emailjs/browser';
 import './contact.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import GoogleMapReact from 'google-map-react';
 
+const Marker = () => <div style={{ color: 'red' }}>📍</div>;
 
 function Contact() {
-    
+
     const [textVisible, setTextVisible] = useState(false);
   const handleButtonClick = () => {
     setTextVisible(!textVisible);
@@ -30,16 +30,36 @@ function Contact() {
   const address = queryParams.get('address') || '';
   const price = queryParams.get('price') || '';
 
+    // Add the Google Maps layer to the map
+    const cnTowerCoordinates = { lat: 43.6426, lng: -79.3871 };
+
     return (
 
-        <div className='underLay'>
-          <section className='venn-diagram'>
-      <img className='conImg circle left' src={man} alt='man'></img>
-      <div className='standIn circle right'></div>
-      <div className='standOut circle right'>
-      
+      <div className='underLay'>
+      <section className='venn-diagram'>
+        <div className='looki'>
+      <img className='conImg' src={man} alt='man'></img>
+      <div className='standIn2'> 
+      John Smith<br/>
+      TEL - 647-123-4567<br/>
+      smithrealestate@gmail.com
       </div>
-      
+      </div>
+      <div className='standIn'>
+        Office - 123-456-7890<br/>
+        Fax - 647-765-4321<br/><br/>
+        Office Location:
+        <div style={{ height: '200px', width: '528px' }}>
+      <GoogleMapReact
+        defaultCenter={cnTowerCoordinates}
+        defaultZoom={15}
+        bootstrapURLKeys={{ key: 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM' }} // Do not include API key
+      >
+        <Marker lat={cnTowerCoordinates.lat} lng={cnTowerCoordinates.lng} />
+      </GoogleMapReact>
+    </div>
+      </div>
+
       </section>
 
       <section id="Contact" className="contact--section">
@@ -85,17 +105,7 @@ function Contact() {
             <option>Purchase/Sell</option>
           </select>
         </label>
-        <label htmlFor="price-range" className="contact--label">
-        <span className="text-md">Price Range:</span>
-        <input
-          type="text"
-          className="contact--input text-md"
-          name="priceRange"
-          id="price-Range"
-          placeholder='Ex: Purchase for $1,500,000 / Lease for $2500'
-        
-        />
-      </label>
+
         <label htmlFor="message" className="contact--label">
           <span className="text-md">Message:</span>
           <textarea
@@ -111,8 +121,9 @@ function Contact() {
         <label htmlFor="checkboc" className="checkbox--label">
           <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
         </label>
-        <div>
+        <div className='confirm'>
           <button className="sendMe btn-primary"> Submit </button>
+          
         </div>
       </form>
     </section>
