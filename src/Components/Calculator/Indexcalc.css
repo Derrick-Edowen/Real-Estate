@@ -1,6 +1,7 @@
 .containerDad {
     display: flex;
     height: 100%;
+    gap: 24px;
     padding-top: 16px;
   }
   
@@ -80,9 +81,9 @@ color: white;
 }
 .drops {
     display: flex;
-    margin-right: auto;
-    margin-left: auto;
-    justify-content: space-between;
+    margin-right: 8px;
+    margin-left: 8px;
+    width: fit-content;
 }
 .popUp {
     flex: 1; /* Grow to fill remaining space */
@@ -218,8 +219,7 @@ margin-top: 14px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     font-size: 16px;
     margin-right: 0;
-float: right;
-    margin-left: 10px;
+    margin-left: 4px;
 }
 .annual  {
     background-color: rgba(30, 0, 48, 0.99);
@@ -274,7 +274,8 @@ th {
     display: none;
     overflow-y: auto;
     max-height: 355px; /* Adjust height as needed */
-    min-width: 810px;
+    min-width: 680px;
+    margin-left: 32px;
 }
 
 .dropdown-contentCalc.active {
@@ -296,4 +297,34 @@ th {
 .line-chart-container canvas {
 padding: 14px;
 
+}
+@media screen and (max-width: 1180px) {
+    .containerDad {
+        flex-direction: column;
+        height: 100%;
+        gap: 14px;
+        padding-top: 16px;
+      }
+      .split-container {
+        display: flex;
+        flex-direction: column;
+        height: 86%;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        margin: 8px;
+        margin-left: auto;
+    }
+    .drops {
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .scheduleButts {
+        display: flex;
+        margin-left: 5px;
+        width: 700px;
+        padding-left: 36px;
+        margin-top: 930px;
+    }
 }

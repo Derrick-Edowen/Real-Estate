@@ -426,7 +426,7 @@ const [showDrops, setShowDrops] = useState(false);
 
 
 
-<div className='drops' style={{ display: showDrops ? 'block' : 'none' }}>
+<div className='drops' style={{ display: showDrops ? 'inline-block' : 'none' }}>
             <div>
       <div className={`dropdown-contentCalc ${monthlyDropdownActive ? 'active' : ''}`}>
                         <table id='monthlyTable'>
@@ -504,7 +504,7 @@ const [showDrops, setShowDrops] = useState(false);
     </div>
     {/* Doughnut chart */}
     <div className='doughnut-chart-container'>
-        <canvas id="doughnutChart" width="300" height="250"></canvas>
+        <canvas id="doughnutChart" width="250" height="250"></canvas>
     </div>
 </div>
          
