@@ -141,7 +141,7 @@ const [showDrops, setShowDrops] = useState(false);
                 plugins: {
                     legend: {
                         display: true,
-                        position: 'right',
+                        position: 'bottom',
                         labels: {
                             fontFamily: "myriadpro-regular",
                             boxWidth: 30,
@@ -167,7 +167,7 @@ const [showDrops, setShowDrops] = useState(false);
                         },
                         color: '#fff',
                         font: {
-                            size: 18,
+                            size: 16,
                         },
                     }
                 }
@@ -344,7 +344,7 @@ const [showDrops, setShowDrops] = useState(false);
         <div  className='littlePlan'>
     <div className="form-row">
         <div className="form-group">
-            <label htmlFor="homePrice">Home Price ($):</label>
+            <label className='simpin' htmlFor="homePrice">Home Price ($):</label>
             <input
                 type="number"
                 id="homePrice"
@@ -355,7 +355,7 @@ const [showDrops, setShowDrops] = useState(false);
             />
         </div>
         <div className="form-group">
-            <label htmlFor="downPaymentPercentage">Down Payment (%):</label>
+            <label className='simpin' htmlFor="downPaymentPercentage">Down Payment (%):</label>
             <input
                 type="number"
                 id="downPaymentPercentage"
@@ -370,7 +370,7 @@ const [showDrops, setShowDrops] = useState(false);
     </div>
     <div className="form-row">
         <div className="form-group">
-            <label htmlFor="interestRate">Interest Rate (%):</label>
+            <label className='simpin' htmlFor="interestRate">Interest Rate (%):</label>
             <input
                 type="number"
                 id="interestRate"
@@ -383,7 +383,7 @@ const [showDrops, setShowDrops] = useState(false);
             />
         </div>
         <div className="form-group">
-            <label htmlFor="loanTerm">Loan Term (in years):</label>
+            <label className='simpin' htmlFor="loanTerm">Loan Term (in years):</label>
             <input
                 type="number"
                 id="loanTerm"
@@ -397,7 +397,7 @@ const [showDrops, setShowDrops] = useState(false);
     </div>
     <div className="form-row">
         <div className="form-group full-width">
-            <label htmlFor="loanAmount">Loan Amount ($):</label>
+            <label className='simpin' htmlFor="loanAmount">Loan Amount ($):</label>
             <div className="input-like" id="loanAmount">{loanAmount}</div>
         </div>
     </div>
@@ -504,7 +504,7 @@ const [showDrops, setShowDrops] = useState(false);
     </div>
     {/* Doughnut chart */}
     <div className='doughnut-chart-container'>
-        <canvas id="doughnutChart" width="250" height="250"></canvas>
+        <canvas id="doughnutChart" width="250" height="200"></canvas>
     </div>
 </div>
          

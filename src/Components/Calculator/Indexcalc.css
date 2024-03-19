@@ -103,7 +103,7 @@ margin-top: 14px;
 
 }
 .monPay {
-    font-size: 28px;
+    font-size: 24px;
     padding-top: 25px;
     padding-left: 12px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -291,6 +291,7 @@ th {
     position: absolute;
     top: 0;
     right: 0;
+    margin-top: 10px;
     margin-right: 50px;
 
 }
@@ -298,7 +299,7 @@ th {
 padding: 14px;
 
 }
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 1470px) {
     .containerDad {
         flex-direction: column;
         height: 100%;
@@ -327,4 +328,179 @@ padding: 14px;
         padding-left: 36px;
         margin-top: 930px;
     }
+    .calcForm {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+
+        border: 1px solid #000000;
+        background: rgba(30, 0, 48, 0.99);
+        color: #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        padding-top: 0px;
+        width: 100%;
+    }
+    .containerCalc {
+        width: 60%;
+        height: 50%;
+        margin-right: auto;
+        margin-left: auto;  }
+      .textChart {
+        display: flex;
+    }
+}
+@media screen and (max-width: 720px) {
+    .calcForm {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+
+        border: 1px solid #000000;
+    
+        background: rgba(30, 0, 48, 0.99);
+        color: #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        padding-top: 0px;
+        width: 100%;
+    }
+    .containerCalc {
+        width: 90%;
+        height: 42%;
+        margin-right: auto;
+        margin-left: auto;  }
+      .textChart {
+        display: flex;
+    }
+.simpin {  
+    font-size: 14px;
+}
+.popUp {
+    flex: 1; /* Grow to fill remaining space */
+    background: rgba(30, 0, 48, 0.99);
+    width: 96%;
+    border-radius: 5px;
+    color: #ffffff;
+    border: 1px solid #000000;
+margin-bottom: 10px;
+margin-left: auto;
+margin-right: auto;
+}
+.popUp2 {
+    flex: 1; /* Grow to fill remaining space */
+    background: rgba(30, 0, 48, 0.99);
+    width: 98%;
+    justify-content: flex-end;
+    border-radius: 5px;
+    border: 1px solid #000000;
+margin-left: auto;
+margin-right: auto;
+}
+#doughnutChart {
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+  }
+  #lineChart {
+    width: 250px;
+    height: 400px;
+    margin: 0px;
+  }
+.monPay {
+    font-size: 14px;
+    padding-top: 25px;
+    padding-left: 0px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.monPay2 {
+    font-size: 12px;
+    padding-top: 2px;
+    padding-left: 0px;
+    color: #d6d6d6;
+
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.monPay3 {
+    font-size: 12px;
+    padding-left: 0px;
+    color: #d6d6d6;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.doughnut-chart-container {
+    position: relative;
+    width: 300px; /* Or adjust to your desired width */
+    height: 225px; /* Or adjust to your desired height */
+    margin-top: 12px;
+}
+.dropdown-contentCalc {
+    display: none;
+    overflow-y: auto;
+    max-height: 355px; /* Adjust height as needed */
+    min-width: 450px;
+}
+.scheduleButts {
+    display: flex;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.annual  {
+    background-color: rgba(30, 0, 48, 0.99);
+    width: 30%;
+    color: rgb(255, 255, 255);
+    border: 1px solid #000000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+
+}
+.month {
+    background-color: rgba(30, 0, 48, 0.99);
+    width: 30%;
+    color: rgb(255, 255, 255);
+    border: 1px solid #000000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    margin-left: auto;
+}
+.downPDF {
+    background-color: rgba(30, 0, 48, 0.99);
+    width: 30%;
+    color: rgb(255, 255, 255);
+    border: 1px solid #000000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+}
+@media screen and (max-width: 420px) {
+    .calcForm {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+
+        border: 1px solid #000000;
+    
+        background: rgba(30, 0, 48, 0.99);
+        color: #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        padding-top: 0px;
+        width: 100%;
+    }
+    .containerCalc {
+        width: 90%;
+        height: 50%;
+        margin-right: auto;
+        margin-left: auto;  }
+      .textChart {
+        display: flex;
+    }
+.simpin {  
+    font-size: 10px;
+}
 }
