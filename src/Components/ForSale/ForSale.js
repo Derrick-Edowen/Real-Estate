@@ -70,6 +70,7 @@ const updateMapLocation = async (address) => {
   
   const handleSearch = async (e) => {
     e.preventDefault();
+    setShowFilter(false);
 
     const address = document.getElementById('search').value;
     const sort = document.getElementById('sortList').value;
@@ -223,7 +224,7 @@ if (apiData.props && apiData.props.length === 0) {
         <aside className='screen-1'>
         <div className='starter'>For Sale Listings Search</div>
         <button className="toggle" onClick={toggleFilter}> For Sale Listings Filter  
-          <div className={`changin ${isRotated && 'rotate'}`}>&#11164;</div>
+          <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
           </button>
               <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
                   <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />

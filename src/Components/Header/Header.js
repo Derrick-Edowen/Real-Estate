@@ -69,7 +69,7 @@ function Header() {
               className={`navbar--content findingList arrow-rotate ${dropdownVisible1 ? "active" : ""}`}
               
             >
-               &#11164;
+               &#9660;
             </li>
             </div>
             <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
@@ -102,7 +102,7 @@ function Header() {
               className={`navbar--content findingList big-rotate2 ${dropdownVisible2 ? "active" : ""}`}
               
             >
-               &#11164;
+               &#9660;
             </li>
             </div>
             <div className={`dropdown-content ${dropdownVisible2 ? "active" : ""}`}>

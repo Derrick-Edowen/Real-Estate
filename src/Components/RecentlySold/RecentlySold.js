@@ -69,7 +69,8 @@ const [isRotated, setIsRotated] = useState(false);
 
     const handleSearch = async (e) => {
       e.preventDefault();
-  
+      setShowFilter(false);
+
       const address = document.getElementById('search').value;
       const sort = document.getElementById('sortList').value;
       const propertyType = document.getElementById('choose-type').value;
@@ -223,7 +224,7 @@ const [isRotated, setIsRotated] = useState(false);
           <aside className='screen-1'>
           <div className='starter'>Recently Sold Listings Search</div>
           <button className="toggle" onClick={toggleFilter}> Recently Sold Listings Filter  
-          <div className={`changin ${isRotated && 'rotate'}`}>&#11164;</div>
+          <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
           </button>
               <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
                     <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />

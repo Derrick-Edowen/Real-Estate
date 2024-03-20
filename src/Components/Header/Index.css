@@ -169,18 +169,20 @@ padding: 0px;
 
   }
   .arrow-rotate {
+    transform: rotate(90deg); /* Rotate arrow when dropdown is active */
     transition: transform 0.3s ease; /* Add transition for smooth rotation */
   }
   
   .arrow-rotate.active {
-    transform: rotate(-90deg); /* Rotate arrow when dropdown is active */
+    transform: rotate(-1deg); /* Rotate arrow when dropdown is active */
   }
   .big-rotate2 {
+    transform: rotate(90deg); /* Rotate arrow when dropdown is active */
     transition: transform 0.3s ease; /* Add transition for smooth rotation */
   }
   
   .big-rotate2.active {
-    transform: rotate(-90deg); /* Rotate arrow when dropdown is active */
+    transform: rotate(-1deg); /* Rotate arrow when dropdown is active */
   }
   
   @media screen and (max-width: 1430px) {

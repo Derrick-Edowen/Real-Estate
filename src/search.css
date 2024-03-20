@@ -656,12 +656,13 @@ transform: translateY(-50%);
   display: flex;
 }
 .changin {
+  transform: rotate(90deg);
   transition: transform 0.4s ease; /* Add transition for smooth rotation */
 
 }
 .rotate {
   transition: transform 0.4s ease; /* Add transition for smooth rotation */
-  transform: rotate(-90deg);
+  transform: rotate(-1deg);
 }
   .starter {
     display: none;
