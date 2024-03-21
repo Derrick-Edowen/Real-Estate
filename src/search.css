@@ -640,14 +640,14 @@ transform: translateY(-50%);
 @media screen and (max-width: 1180px) {
   .supyo {
     background: var(--primary); 
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
     padding: 12px;
     flex-direction: column;
     gap: 4px;
     display: none;
     z-index: 3;
-    width: 100%;
+    width: 98.5%;
     position: absolute;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
 

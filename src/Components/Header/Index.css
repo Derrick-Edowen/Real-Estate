@@ -169,6 +169,7 @@ padding: 0px;
 
   }
   .arrow-rotate {
+    font-size: 17px;
     transform: rotate(90deg); /* Rotate arrow when dropdown is active */
     transition: transform 0.3s ease; /* Add transition for smooth rotation */
   }
@@ -177,6 +178,7 @@ padding: 0px;
     transform: rotate(-1deg); /* Rotate arrow when dropdown is active */
   }
   .big-rotate2 {
+    font-size: 17px;
     transform: rotate(90deg); /* Rotate arrow when dropdown is active */
     transition: transform 0.3s ease; /* Add transition for smooth rotation */
   }
