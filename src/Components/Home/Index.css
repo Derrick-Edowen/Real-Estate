@@ -47,32 +47,34 @@ padding: 0px;
   float: left;
   text-align:left;
   padding-left: 0px;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offset, blur radius, color */
 
 }
 .textBox  h2{
   font-size: 40px;
   float: left;
   text-align:left;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offset, blur radius, color */
 
 }
 .textBox p {
   font-size: 30px;
   float: left;
   text-align:left;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offset, blur radius, color */
 
 }
 .contactBtn {
   width: 200px;
   float: left;
 font-size: 20px;
-  border: none;
   color: #fff;
+  padding: 6px;
   background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
   cursor: pointer;
-
+  border: 1px solid #afafaf2f;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+border-radius: 5px;
 }
 .contactBtn:hover {
   background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);

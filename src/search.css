@@ -27,6 +27,15 @@ font-style: italic;
 .searchBtn-1 {
   background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
   color: white;
+  border: 1px solid #afafaf2f;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+border-radius: 5px;
+padding-left: 30px;
+padding-right: 30px;
+margin-left: 4px;
+}
+.searchBtn-1:hover {
+  background: linear-gradient(to right, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
 
 }
 .supyo {

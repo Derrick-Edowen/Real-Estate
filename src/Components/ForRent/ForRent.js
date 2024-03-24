@@ -72,6 +72,7 @@ const updateMapLocation = async (address) => {
     setShowFilter(false);
 
     const address = document.getElementById('search').value;
+    const state = document.getElementById('state').value;
     const sort = document.getElementById('sortList').value;
     const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
@@ -106,8 +107,8 @@ const updateMapLocation = async (address) => {
     }
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
-              location: address +",ontario",
-              page: page, // Use the current page number
+              location: address+","+state,
+              page: 1,
               status_type: "ForRent",
               home_type: propertyType,
               sort: sort,
@@ -188,6 +189,7 @@ if (apiData.props && apiData.props.length === 0) {
       const handleOpenLightbox = (index) => {
         setSelectedCardIndex(index);
         setLightboxActive(true);
+        setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
         (async () => {
       // Update map location when a card is clicked
       const selectedProperty = apiData.props[index];
@@ -225,8 +227,129 @@ if (apiData.props && apiData.props.length === 0) {
           <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
           </button>
-              <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
+          <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
                   <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
+                  <select
+  className="notranslate"
+  id="country"
+  name="country"
+  placeholder="Select a Country"
+  required
+  onChange={(e) => {
+    const selectElement = e.target;
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    // Remove the green check mark from all options
+    selectElement.querySelectorAll('option').forEach(option => {
+      option.textContent = option.textContent.replace('✅', '');
+    });
+    // Add the green check mark to the selected option
+    selectedOption.textContent = `${selectedOption.textContent}        ✅`;
+
+    // Add logic to show/hide the province/state select based on the selected country
+    const provinceSelect = document.getElementById('province');
+    const stateSelect = document.getElementById('state');
+    if (selectedOption.value === 'Canada') {
+      provinceSelect.style.display = 'block'; // Show the province select
+      provinceSelect.setAttribute('name', 'province'); // Set name to province
+      stateSelect.style.display = 'none'; // Hide the state select
+      stateSelect.removeAttribute('name'); // Remove name attribute
+    } else if (selectedOption.value === 'USA') {
+      provinceSelect.style.display = 'none'; // Hide the province select
+      provinceSelect.removeAttribute('name'); // Remove name attribute
+      stateSelect.style.display = 'block'; // Show the state select
+      stateSelect.setAttribute('name', 'state'); // Set name to state
+    } else {
+      provinceSelect.style.display = 'none'; // Hide both selects if neither Canada nor USA is selected
+      provinceSelect.removeAttribute('name'); // Remove name attribute
+      stateSelect.style.display = 'none';
+      stateSelect.removeAttribute('name'); // Remove name attribute
+    }
+  }}
+>
+  <option value="Canada">Canada</option>
+  <option value="USA">USA</option>
+</select>
+<select
+  className="notranslate"
+  id="state"
+  placeholder="Select a Province"
+  style={{ display: 'block' }} // Initially hide the province select
+  required
+>
+  <option value="Alberta">Alberta</option>
+  <option value="British Columbia">British Columbia</option>
+  <option value="Manitoba">Manitoba</option>
+  <option value="New Brunswick">New Brunswick</option>
+  <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+  <option value="Nova Scotia">Nova Scotia</option>
+  <option value="Ontario">Ontario</option>
+  <option value="Prince Edward Island">Prince Edward Island</option>
+  <option value="Quebec">Quebec</option>
+  <option value="Saskatchewan">Saskatchewan</option>
+  <option value="Northwest Territories">Northwest Territories</option>
+  <option value="Nunavut">Nunavut</option>
+  <option value="Yukon">Yukon</option>
+</select>
+<select
+  className="notranslate"
+  id="state"
+  placeholder="Select a State"
+  style={{ display: 'none' }} // Initially hide the state select
+  required
+>
+    {/* Options for USA states */}
+    <option value="AL">Alabama</option>
+<option value="AK">Alaska</option>
+<option value="AZ">Arizona</option>
+<option value="AR">Arkansas</option>
+<option value="CA">California</option>
+<option value="CO">Colorado</option>
+<option value="CT">Connecticut</option>
+<option value="DE">Delaware</option>
+<option value="FL">Florida</option>
+<option value="GA">Georgia</option>
+<option value="HI">Hawaii</option>
+<option value="ID">Idaho</option>
+<option value="IL">Illinois</option>
+<option value="IN">Indiana</option>
+<option value="IA">Iowa</option>
+<option value="KS">Kansas</option>
+<option value="KY">Kentucky</option>
+<option value="LA">Louisiana</option>
+<option value="ME">Maine</option>
+<option value="MD">Maryland</option>
+<option value="MA">Massachusetts</option>
+<option value="MI">Michigan</option>
+<option value="MN">Minnesota</option>
+<option value="MS">Mississippi</option>
+<option value="MO">Missouri</option>
+<option value="MT">Montana</option>
+<option value="NE">Nebraska</option>
+<option value="NV">Nevada</option>
+<option value="NH">New Hampshire</option>
+<option value="NJ">New Jersey</option>
+<option value="NM">New Mexico</option>
+<option value="NY">New York</option>
+<option value="NC">North Carolina</option>
+<option value="ND">North Dakota</option>
+<option value="OH">Ohio</option>
+<option value="OK">Oklahoma</option>
+<option value="OR">Oregon</option>
+<option value="PA">Pennsylvania</option>
+<option value="RI">Rhode Island</option>
+<option value="SC">South Carolina</option>
+<option value="SD">South Dakota</option>
+<option value="TN">Tennessee</option>
+<option value="TX">Texas</option>
+<option value="UT">Utah</option>
+<option value="VT">Vermont</option>
+<option value="VA">Virginia</option>
+<option value="WA">Washington</option>
+<option value="WV">West Virginia</option>
+<option value="WI">Wisconsin</option>
+<option value="WY">Wyoming</option>
+    {/* Add more options for other states */}
+  </select>
                   <select
   className="notranslate"
   id="sortList"
@@ -333,85 +456,87 @@ if (apiData.props && apiData.props.length === 0) {
         ) : (
           <>
             {apiData.props && apiData.props.length > 0 ? (
-              <div className="cardContainer notranslate">
-                {searchClicked && infoData && infoData.length > 0 && (
-                  apiData.props.map((property, index) => (
-                    <div
-                      className="cardi1 notranslate"
-                      key={index}
-                      onClick={() => handleOpenLightbox(index)}
-                    >
-                    <img src={property.imgSrc || noImg} alt={'No Available Image'} style={{ color: 'white', fontSize: '44px', textAlign: 'center', width: '100%'}}/>                      
-                        <div className="cardText1 notranslate">
-                        <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Undisclosed"}<br /></div>
-                        <div className='cPrice1 notranslate'>{property.address || "Undisclosed"}</div>
-                        <div className='holding2 notranslate'>
-                          <div className='cardBed notranslate'>{property.bedrooms || "Undisclosed Number of"} Beds&nbsp;</div>
-                          <div className='cardBaths notranslate'>{property.bathrooms || "Undisclosed Number of"} Baths&nbsp;</div>
-                          <div className='cardMls notranslate'>MLS&reg;: {infoData[index]?.mlsid || "Unknown"}</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
+  <div className="cardContainer notranslate">
+    {searchClicked && infoData && infoData.length > 0 && (
+      apiData.props.map((property, index) => (
+        property && ( // Check if property is not null/undefined
+          <div
+            className="cardi1 notranslate"
+            key={index}
+            onClick={() => handleOpenLightbox(index)}
+          >
+            <img src={property.imgSrc || noImg} alt={'No Available Image'} style={{ color: 'white', fontSize: '44px', textAlign: 'center', width: '100%'}}/>                      
+            <div className="cardText1 notranslate">
+              <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Unavailable"}<br /></div>
+              <div className='cPrice1 notranslate'>{property.address || "Unavailable"}</div>
+              <div className='holding2 notranslate'>
+                <div className='cardBed notranslate'>{property.bedrooms || "Unavailable"} Beds&nbsp;</div>
+                <div className='cardBaths notranslate'>{property.bathrooms || "Unavailable"} Baths&nbsp;</div>
+                <div className='cardMls notranslate'>MLS&reg;: {infoData[index]?.mlsid || "Unavailable"}</div>
               </div>
-            ) : (
-              searchClicked && (
-                <div className="noResultsMessage">
-                  Sorry, No results found! Try different search parameters!
-                </div>
-              )
-            )}
+            </div>
+          </div>
+        )
+      ))
+    )}
+  </div>
+) : (
+  searchClicked && (
+    <div className="noResultsMessage">
+      Sorry, No results found! Try different search parameters!
+    </div>
+  )
+)}
 
-            {lightboxActive && selectedCardIndex !== null && (
-              <div className="lightbox notranslate" onClick={handleCloseLightbox}>
-                <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
-                  {/* Lightbox content goes here */}
-                  {infoData[selectedCardIndex] && imageUrls[selectedCardIndex] && imageUrls[selectedCardIndex].images && (
-                    <>
-                    <div className='aver'>
-                      <div className='pAddress-1 notranslate'>{apiData.props[selectedCardIndex].address || "Undisclosed"}</div>
-                      <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
-                        Close
-                      </button>
-                      </div>
-                      <div className='side-by-side-container notranslate'>
-                        <div className='fixer notranslate'>
-                          <button className="lightbox-left notranslate" onClick={handlePrevImage}>
-                          &#8678;
-                          </button>
-                          <img src={imageUrls[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Image Not Available!" />
-                          <button className="lightbox-right notranslate" onClick={handleNextImage}>
-                          &#8680;
-                          </button> 
-                        </div> 
-                        <div className="cardText notranslate">
-                          <div className='containText notranslate'>
-                            <div className='pAddress notranslate'>{apiData.props[selectedCardIndex].address || "Undisclosed"}</div>
-                            <div className='pPrice notranslate'>${apiData.props[selectedCardIndex].price || "Undisclosed"}/Month</div>
-                          <div className='heallin'>
-                            <div className='bedd'>&nbsp; {apiData.props[selectedCardIndex].bedrooms || "Undisclosed"}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                            <div className='bathh'>&nbsp; {apiData.props[selectedCardIndex].bathrooms || "Undisclosed"}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                            <div className='dayss'>&nbsp; Active ({infoData[selectedCardIndex]?.timeOnZillow || "Undisclosed"})</div>            
-                            </div>
-                            <div className='descText notranslate'>{infoData[selectedCardIndex]?.description}</div>
-                            <div className='holding1 notranslate'>
-                              <div className='cardPark notranslate'>Parking Status - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity|| "Undisclosed Number of"} parking space(s) &nbsp;&nbsp;  </div>
-                              <div className='cardFire notranslate'>Heating Status - {infoData[selectedCardIndex]?.resoFacts.heating[0]}/{infoData[selectedCardIndex]?.resoFacts.heating[1] || "Undisclosed"} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                              <div className='cardWind notranslate'>Cooling Status - {infoData[selectedCardIndex]?.resoFacts.cooling[0] || "Undisclosed"}</div>
-                              <div className='cardMl notranslate'>MLS&reg;: {infoData[selectedCardIndex]?.mlsid || "Undisclosed"}</div>
-                              <div className='cardBroke notranslate'>Listing Provided by: {infoData[selectedCardIndex]?.brokerageName || "Undisclosed"}</div>  
-                            </div> 
-                          </div>
-                        </div>
-                      </div>
-                      <div className='map notranslate'>
-                        <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
-                          <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >
-                            <Marker position={position}/>
-                          </Map>
-                        </APIProvider>
-                      </div>
+{lightboxActive && selectedCardIndex !== null && (
+  <div className="lightbox notranslate" onClick={handleCloseLightbox}>
+    <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
+      {/* Lightbox content goes here */}
+      {infoData[selectedCardIndex] && imageUrls[selectedCardIndex] && imageUrls[selectedCardIndex].images && (
+        <>
+        <div className='aver'>
+          <div className='pAddress-1 notranslate'>{apiData.props[selectedCardIndex]?.address || "Unavailable"}</div>
+          <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
+            Close
+          </button>
+          </div>
+          <div className='side-by-side-container notranslate'>
+            <div className='fixer notranslate'>
+              <button className="lightbox-left notranslate" onClick={handlePrevImage}>
+              &#8678;
+              </button>
+              <img src={imageUrls[selectedCardIndex]?.images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
+              <button className="lightbox-right notranslate" onClick={handleNextImage}>
+              &#8680;
+              </button> 
+            </div> 
+            <div className="cardText notranslate">
+              <div className='containText notranslate'>
+                <div className='pAddress notranslate'>{apiData.props[selectedCardIndex]?.address || "Unavailable"}</div>
+                <div className='pPrice notranslate'>${apiData.props[selectedCardIndex]?.price || "Unavailable"}/Month</div>
+              <div className='heallin'>
+                <div className='bedd'>&nbsp;{apiData.props[selectedCardIndex]?.bedrooms ? `${apiData.props[selectedCardIndex]?.bedrooms} Bedrooms` : "Unavailable"}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='bathh'>&nbsp;{apiData.props[selectedCardIndex]?.bathrooms ? `${apiData.props[selectedCardIndex]?.bathrooms} Bathrooms` : "Unavailable"}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='dayss'>&nbsp; Active ({infoData[selectedCardIndex]?.timeOnZillow ? infoData[selectedCardIndex]?.timeOnZillow : "Unavailable"})</div>            
+                </div>
+                <div className='descText notranslate'>{infoData[selectedCardIndex]?.description}</div>
+                <div className='holding1 notranslate'>
+                  <div className='cardPark notranslate'>Parking Status - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity ? infoData[selectedCardIndex]?.resoFacts.parkingCapacity : "Undisclosed Number of"} parking space(s) &nbsp;&nbsp;  </div>
+                  <div className='cardFire notranslate'>Heating Status - {infoData[selectedCardIndex]?.resoFacts.heating[0] ? infoData[selectedCardIndex]?.resoFacts.heating[0] : "Unavailable"}/{infoData[selectedCardIndex]?.resoFacts.heating[1] ? infoData[selectedCardIndex]?.resoFacts.heating[1] : "Unavailable"} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                  <div className='cardWind notranslate'>Cooling Status - {infoData[selectedCardIndex]?.resoFacts.cooling[0] ? infoData[selectedCardIndex]?.resoFacts.cooling[0] : "Unavailable"}</div>
+                  <div className='cardMl notranslate'>MLS&reg;: {infoData[selectedCardIndex]?.mlsid ? infoData[selectedCardIndex]?.mlsid : "Unavailable"}</div>
+                  <div className='cardBroke notranslate'>Listing Provided by: {infoData[selectedCardIndex]?.brokerageName ? infoData[selectedCardIndex]?.brokerageName : "Unavailable"}</div>  
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div className='map notranslate'>
+            <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
+              <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >
+                <Marker position={position}/>
+              </Map>
+            </APIProvider>
+          </div>
                       
                                
                     </>

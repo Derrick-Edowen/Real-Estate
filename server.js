@@ -81,6 +81,7 @@ app.delete('/posts/:postId', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete post' });
   }
 });
+
 // API endpoints
 app.use(express.static(path.join(__dirname, 'build')));
 

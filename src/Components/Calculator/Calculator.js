@@ -409,13 +409,13 @@ const [showDrops, setShowDrops] = useState(false);
 </form>
 
 
-
+<div className='tableHold'>
 <div className='scheduleButts' style={{ display: showScheduleButts ? 'block' : 'none' }}>
     <button className={`annual ${annualClass}`} onClick={toggleAnnualDropdown}>
-        Annual Amortization Schedule
+        Annual Schedule
         </button>
     <button className={`month ${monthlyClass}`} onClick={toggleMonthlyDropdown}>
-        Monthly Amortization Schedule
+        Monthly Schedule
     </button>
     <button className='downPDF' onClick={downloadPDF}>Download Table&nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faDownload} size="lg" />
 
@@ -482,7 +482,7 @@ const [showDrops, setShowDrops] = useState(false);
 
 
 
-
+</div>
             </div>
 
 {/*Other side / own div*/}
