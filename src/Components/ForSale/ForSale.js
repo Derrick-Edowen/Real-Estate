@@ -382,11 +382,11 @@ if (apiData.props && apiData.props.length === 0) {
                       <div className='side-by-side-container notranslate'>
                         <div className='fixer notranslate'>
                           <button className="lightbox-left notranslate" onClick={handlePrevImage}>
-                            <FontAwesomeIcon icon={faChevronLeft} size="lg" />
+                          &#8678;
                           </button>
                           <img src={imageUrls[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Image Not Available!" />
                           <button className="lightbox-right notranslate" onClick={handleNextImage}>
-                            <FontAwesomeIcon icon={faChevronRight} size="lg" />
+                          &#8680;
                           </button> 
                         </div> 
                         <div className="cardText notranslate">

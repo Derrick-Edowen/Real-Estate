@@ -451,7 +451,7 @@ transform: scale(1.04);
 	align-content: center;
 	font-size: 40px;
 	color: #ffffff;
-	margin-top: 350px;
+	margin-top: 285px;
 	text-shadow: 2px 2px 6px #000000;
 	margin-bottom: auto; /* Set bottom margin to auto */
 }
@@ -472,6 +472,7 @@ transform: scale(1.04);
 .lightbox-content {
   position: relative;
   max-width: 100%;
+  min-width: 50%;
   height: 100%;
   overflow: scroll;
   background-color: #ebe7e7;
@@ -566,6 +567,7 @@ transform: translateY(-50%);
 }
 .lightbox img {
  min-width: 65%;
+ max-width: 65%;
  margin-right: auto;
  margin-left: auto;
  height: 500px;
@@ -589,7 +591,7 @@ transform: translateY(-50%);
 
 }
 
-@media screen and (max-width: 1265px) {
+@media screen and (max-width: 1365px) {
   .cardi1 {
     position: relative; /* Ensure relative positioning for absolute positioning inside */
   
@@ -649,14 +651,14 @@ transform: translateY(-50%);
 @media screen and (max-width: 1180px) {
   .supyo {
     background: var(--primary); 
-    margin-left: auto;
+    margin-left: 22px;
     margin-right: auto;
     padding: 12px;
     flex-direction: column;
     gap: 4px;
     display: none;
     z-index: 3;
-    width: 98.5%;
+    width: 100%;
     position: absolute;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
 

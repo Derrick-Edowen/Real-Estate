@@ -124,9 +124,9 @@ const updateMapLocation = async (address) => {
           });
           
           setApiData(estateResponse.data); 
-
+console.log(estateResponse.data)
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  const maxRequestsPerSecond = 2;
+  const maxRequestsPerSecond = 4;
   const delayBetweenRequests = 2000 / maxRequestsPerSecond;
 
   const infoDataArray = [];
@@ -155,7 +155,10 @@ const fetchPropertyData = async (zpid) => {
       'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
     }
   });
+  console.log(propertyResponse.data)
+
   return { property: propertyResponse.data, images: imageResponse.data };
+
 };
 
 for (let i = 0; i < zpidList.length; i++) {
@@ -218,6 +221,12 @@ if (apiData.props && apiData.props.length === 0) {
       setIsRotated(!isRotated);
 
   };
+  function safeAccess(obj, path) {
+    if (!path || typeof path !== 'string') {
+      return "Unavailable";
+    }
+    return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Unavailable"), obj);
+  }
     return (
       
         <div className='lists notranslate'>
@@ -235,43 +244,43 @@ if (apiData.props && apiData.props.length === 0) {
   name="country"
   placeholder="Select a Country"
   required
-  onChange={(e) => {
-    const selectElement = e.target;
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    // Remove the green check mark from all options
-    selectElement.querySelectorAll('option').forEach(option => {
-      option.textContent = option.textContent.replace('✅', '');
-    });
-    // Add the green check mark to the selected option
-    selectedOption.textContent = `${selectedOption.textContent}        ✅`;
+ onChange={(e) => {
+  const selectElement = e.target;
+  const selectedOption = selectElement.options[selectElement.selectedIndex];
+  // Remove the green check mark from all options
+  selectElement.querySelectorAll('option').forEach(option => {
+    option.textContent = option.textContent.replace('✅', '');
+  });
+  // Add the green check mark to the selected option
+  selectedOption.textContent = `${selectedOption.textContent}        ✅`;
 
-    // Add logic to show/hide the province/state select based on the selected country
-    const provinceSelect = document.getElementById('province');
-    const stateSelect = document.getElementById('state');
-    if (selectedOption.value === 'Canada') {
-      provinceSelect.style.display = 'block'; // Show the province select
-      provinceSelect.setAttribute('name', 'province'); // Set name to province
-      stateSelect.style.display = 'none'; // Hide the state select
-      stateSelect.removeAttribute('name'); // Remove name attribute
-    } else if (selectedOption.value === 'USA') {
-      provinceSelect.style.display = 'none'; // Hide the province select
-      provinceSelect.removeAttribute('name'); // Remove name attribute
-      stateSelect.style.display = 'block'; // Show the state select
-      stateSelect.setAttribute('name', 'state'); // Set name to state
-    } else {
-      provinceSelect.style.display = 'none'; // Hide both selects if neither Canada nor USA is selected
-      provinceSelect.removeAttribute('name'); // Remove name attribute
-      stateSelect.style.display = 'none';
-      stateSelect.removeAttribute('name'); // Remove name attribute
-    }
-  }}
+  // Add logic to show/hide and update the id attribute of the province/state select based on the selected country
+  const provinceSelect = document.getElementById('province');
+  const stateSelect = document.getElementById('state');
+  if (selectedOption.value === 'Canada') {
+    provinceSelect.style.display = 'block'; // Show the province select
+    provinceSelect.setAttribute('id', 'province'); // Update id to province
+    stateSelect.style.display = 'none'; // Hide the state select
+    stateSelect.removeAttribute('id'); // Remove id attribute
+  } else if (selectedOption.value === 'USA') {
+    provinceSelect.style.display = 'none'; // Hide the province select
+    provinceSelect.removeAttribute('id'); // Remove id attribute
+    stateSelect.style.display = 'block'; // Show the state select
+    stateSelect.setAttribute('id', 'state'); // Update id to state
+  } else {
+    provinceSelect.style.display = 'none'; // Hide both selects if neither Canada nor USA is selected
+    provinceSelect.removeAttribute('id'); // Remove id attribute
+    stateSelect.style.display = 'none';
+    stateSelect.removeAttribute('id'); // Remove id attribute
+  }
+}}
 >
   <option value="Canada">Canada</option>
   <option value="USA">USA</option>
 </select>
 <select
   className="notranslate"
-  id="state"
+  id="province"
   placeholder="Select a Province"
   style={{ display: 'block' }} // Initially hide the province select
   required
@@ -465,7 +474,7 @@ if (apiData.props && apiData.props.length === 0) {
             key={index}
             onClick={() => handleOpenLightbox(index)}
           >
-            <img src={property.imgSrc || noImg} alt={'No Available Image'} style={{ color: 'white', fontSize: '44px', textAlign: 'center', width: '100%'}}/>                      
+            <img src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'white', fontSize: '44px', textAlign: 'center', width: '100%'}}/>                      
             <div className="cardText1 notranslate">
               <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Unavailable"}<br /></div>
               <div className='cPrice1 notranslate'>{property.address || "Unavailable"}</div>
@@ -483,7 +492,7 @@ if (apiData.props && apiData.props.length === 0) {
 ) : (
   searchClicked && (
     <div className="noResultsMessage">
-      Sorry, No results found! Try different search parameters!
+      Sorry, No results found!
     </div>
   )
 )}
@@ -495,7 +504,7 @@ if (apiData.props && apiData.props.length === 0) {
       {infoData[selectedCardIndex] && imageUrls[selectedCardIndex] && imageUrls[selectedCardIndex].images && (
         <>
         <div className='aver'>
-          <div className='pAddress-1 notranslate'>{apiData.props[selectedCardIndex]?.address || "Unavailable"}</div>
+          <div className='pAddress-1 notranslate'>{safeAccess(apiData.props[selectedCardIndex], 'address')}</div>
           <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
             Close
           </button>
@@ -512,20 +521,20 @@ if (apiData.props && apiData.props.length === 0) {
             </div> 
             <div className="cardText notranslate">
               <div className='containText notranslate'>
-                <div className='pAddress notranslate'>{apiData.props[selectedCardIndex]?.address || "Unavailable"}</div>
-                <div className='pPrice notranslate'>${apiData.props[selectedCardIndex]?.price || "Unavailable"}/Month</div>
+                <div className='pAddress notranslate'>{safeAccess(apiData.props[selectedCardIndex], 'address')}</div>
+                <div className='pPrice notranslate'>${safeAccess(apiData.props[selectedCardIndex], 'price')}/Month</div>
               <div className='heallin'>
-                <div className='bedd'>&nbsp;{apiData.props[selectedCardIndex]?.bedrooms ? `${apiData.props[selectedCardIndex]?.bedrooms} Bedrooms` : "Unavailable"}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='bathh'>&nbsp;{apiData.props[selectedCardIndex]?.bathrooms ? `${apiData.props[selectedCardIndex]?.bathrooms} Bathrooms` : "Unavailable"}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='dayss'>&nbsp; Active ({infoData[selectedCardIndex]?.timeOnZillow ? infoData[selectedCardIndex]?.timeOnZillow : "Unavailable"})</div>            
+                <div className='bedd'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='bathh'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>            
                 </div>
-                <div className='descText notranslate'>{infoData[selectedCardIndex]?.description}</div>
+                <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
-                  <div className='cardPark notranslate'>Parking Status - {infoData[selectedCardIndex]?.resoFacts.parkingCapacity ? infoData[selectedCardIndex]?.resoFacts.parkingCapacity : "Undisclosed Number of"} parking space(s) &nbsp;&nbsp;  </div>
-                  <div className='cardFire notranslate'>Heating Status - {infoData[selectedCardIndex]?.resoFacts.heating[0] ? infoData[selectedCardIndex]?.resoFacts.heating[0] : "Unavailable"}/{infoData[selectedCardIndex]?.resoFacts.heating[1] ? infoData[selectedCardIndex]?.resoFacts.heating[1] : "Unavailable"} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                  <div className='cardWind notranslate'>Cooling Status - {infoData[selectedCardIndex]?.resoFacts.cooling[0] ? infoData[selectedCardIndex]?.resoFacts.cooling[0] : "Unavailable"}</div>
-                  <div className='cardMl notranslate'>MLS&reg;: {infoData[selectedCardIndex]?.mlsid ? infoData[selectedCardIndex]?.mlsid : "Unavailable"}</div>
-                  <div className='cardBroke notranslate'>Listing Provided by: {infoData[selectedCardIndex]?.brokerageName ? infoData[selectedCardIndex]?.brokerageName : "Unavailable"}</div>  
+                  <div className='cardPark notranslate'>Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')} parking space(s) &nbsp;&nbsp;  </div>
+                  <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                  <div className='cardWind notranslate'>Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}</div>
+                  <div className='cardMl notranslate'>MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}</div>
+                  <div className='cardBroke notranslate'>Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}</div>  
                 </div> 
               </div>
             </div>
