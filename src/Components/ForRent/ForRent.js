@@ -124,9 +124,8 @@ const updateMapLocation = async (address) => {
           });
           
           setApiData(estateResponse.data); 
-console.log(estateResponse.data)
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  const maxRequestsPerSecond = 4;
+  const maxRequestsPerSecond = 6;
   const delayBetweenRequests = 2000 / maxRequestsPerSecond;
 
   const infoDataArray = [];
@@ -155,7 +154,6 @@ const fetchPropertyData = async (zpid) => {
       'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
     }
   });
-  console.log(propertyResponse.data)
 
   return { property: propertyResponse.data, images: imageResponse.data };
 
@@ -530,7 +528,7 @@ if (apiData.props && apiData.props.length === 0) {
                 </div>
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
-                  <div className='cardPark notranslate'>Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')} parking space(s) &nbsp;&nbsp;  </div>
+                  <div className='cardPark notranslate'>Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
                   <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                   <div className='cardWind notranslate'>Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}</div>
                   <div className='cardMl notranslate'>MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}</div>
