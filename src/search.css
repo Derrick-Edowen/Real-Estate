@@ -32,7 +32,7 @@ font-style: italic;
 border-radius: 5px;
 padding-left: 30px;
 padding-right: 30px;
-margin-left: 4px;
+margin-left: 2px;
 }
 .searchBtn-1:hover {
   background: linear-gradient(to right, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
@@ -449,7 +449,7 @@ transform: scale(1.04);
 	display: flex;
 	justify-content: center;
 	align-content: center;
-	font-size: 40px;
+	font-size: 48px;
 	color: #ffffff;
 	margin-top: 285px;
 	text-shadow: 2px 2px 6px #000000;

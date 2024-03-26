@@ -79,6 +79,8 @@ const updateMapLocation = async (address) => {
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
+    console.log(state)
+    console.log(address)
     setSearchClicked(true);
 
     if (minPrice > maxPrice) {
@@ -125,7 +127,7 @@ const updateMapLocation = async (address) => {
           
           setApiData(estateResponse.data); 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  const maxRequestsPerSecond = 6;
+  const maxRequestsPerSecond = 8;
   const delayBetweenRequests = 2000 / maxRequestsPerSecond;
 
   const infoDataArray = [];
@@ -221,69 +223,71 @@ if (apiData.props && apiData.props.length === 0) {
   };
   function safeAccess(obj, path) {
     if (!path || typeof path !== 'string') {
-      return "Unavailable";
+      return "Information Unavailable";
     }
-    return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Unavailable"), obj);
+    return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Information Unavailable"), obj);
   }
-    return (
-      
-        <div className='lists notranslate'>
-        <div className='overlay notranslate'>
-        <aside className='screen-1'>
-          <div className='starter'>For Lease Listings Search</div>
-          <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
-          <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
-          </button>
-          <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
-                  <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
-                  <select
-  className="notranslate"
-  id="country"
-  name="country"
-  placeholder="Select a Country"
-  required
- onChange={(e) => {
-  const selectElement = e.target;
-  const selectedOption = selectElement.options[selectElement.selectedIndex];
-  // Remove the green check mark from all options
-  selectElement.querySelectorAll('option').forEach(option => {
-    option.textContent = option.textContent.replace('✅', '');
-  });
-  // Add the green check mark to the selected option
-  selectedOption.textContent = `${selectedOption.textContent}        ✅`;
+  let state = '';
 
-  // Add logic to show/hide and update the id attribute of the province/state select based on the selected country
-  const provinceSelect = document.getElementById('province');
-  const stateSelect = document.getElementById('state');
-  if (selectedOption.value === 'Canada') {
-    provinceSelect.style.display = 'block'; // Show the province select
-    provinceSelect.setAttribute('id', 'province'); // Update id to province
-    stateSelect.style.display = 'none'; // Hide the state select
-    stateSelect.removeAttribute('id'); // Remove id attribute
-  } else if (selectedOption.value === 'USA') {
-    provinceSelect.style.display = 'none'; // Hide the province select
-    provinceSelect.removeAttribute('id'); // Remove id attribute
-    stateSelect.style.display = 'block'; // Show the state select
-    stateSelect.setAttribute('id', 'state'); // Update id to state
-  } else {
-    provinceSelect.style.display = 'none'; // Hide both selects if neither Canada nor USA is selected
-    provinceSelect.removeAttribute('id'); // Remove id attribute
-    stateSelect.style.display = 'none';
-    stateSelect.removeAttribute('id'); // Remove id attribute
-  }
-}}
->
-  <option value="Canada">Canada</option>
-  <option value="USA">USA</option>
-</select>
-<select
-  className="notranslate"
-  id="province"
-  placeholder="Select a Province"
-  style={{ display: 'block' }} // Initially hide the province select
-  required
->
-  <option value="Alberta">Alberta</option>
+return (
+  <div className='lists notranslate'>
+    <div className='overlay notranslate'>
+      <aside className='screen-1'>
+        <div className='starter'>For Lease Listings Search</div>
+        <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
+          <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
+        </button>
+        <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
+          <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
+          
+          <select
+            className="notranslate"
+            id="country"
+            name="country"
+            placeholder="Select a Country"
+            required
+            onChange={(e) => {
+              const selectElement = e.target;
+              const selectedOption = selectElement.options[selectElement.selectedIndex];
+              
+              // Remove the green check mark from all options
+              selectElement.querySelectorAll('option').forEach(option => {
+                option.textContent = option.textContent.replace('✅', '');
+              });
+              
+              // Add the green check mark to the selected option
+              selectedOption.textContent = `${selectedOption.textContent}        ✅`;
+
+              // Update state variable based on selected country
+              if (selectedOption.value === 'Canada') {
+                state = document.getElementById('province').value; // Update state with province value
+                document.getElementById('province').style.display = 'block'; // Show the province select
+                document.getElementById('state').style.display = 'none'; // Hide the state select
+              } else if (selectedOption.value === 'USA') {
+                state = document.getElementById('state').value; // Update state with state value
+                document.getElementById('province').style.display = 'none'; // Hide the province select
+                document.getElementById('state').style.display = 'block'; // Show the state select
+              } else {
+                state = ''; // Reset state if neither Canada nor USA is selected
+                document.getElementById('province').style.display = 'none'; // Hide both selects
+                document.getElementById('state').style.display = 'none';
+              }
+            }}
+          >
+            <option value="Canada">Canada</option>
+            <option value="USA">USA</option>
+          </select>
+          <select
+            className="notranslate"
+            id="province"
+            placeholder="Select a Province"
+            style={{ display: 'none' }} // Initially hide the province select
+            required
+            onChange={(e) => {
+              state = e.target.value; // Update state with selected province value
+            }}
+          >
+<option value="Alberta">Alberta</option>
   <option value="British Columbia">British Columbia</option>
   <option value="Manitoba">Manitoba</option>
   <option value="New Brunswick">New Brunswick</option>
@@ -295,17 +299,18 @@ if (apiData.props && apiData.props.length === 0) {
   <option value="Saskatchewan">Saskatchewan</option>
   <option value="Northwest Territories">Northwest Territories</option>
   <option value="Nunavut">Nunavut</option>
-  <option value="Yukon">Yukon</option>
-</select>
-<select
-  className="notranslate"
-  id="state"
-  placeholder="Select a State"
-  style={{ display: 'none' }} // Initially hide the state select
-  required
->
-    {/* Options for USA states */}
-    <option value="AL">Alabama</option>
+  <option value="Yukon">Yukon</option></select>
+  <select
+            className="notranslate"
+            id="state"
+            placeholder="Select a State"
+            style={{ display: 'none' }} // Initially hide the state select
+            required
+            onChange={(e) => {
+              state = e.target.value; // Update state with selected state value
+            }}
+          >
+<option value="AL">Alabama</option>
 <option value="AK">Alaska</option>
 <option value="AZ">Arizona</option>
 <option value="AR">Arkansas</option>
@@ -354,9 +359,7 @@ if (apiData.props && apiData.props.length === 0) {
 <option value="WA">Washington</option>
 <option value="WV">West Virginia</option>
 <option value="WI">Wisconsin</option>
-<option value="WY">Wyoming</option>
-    {/* Add more options for other states */}
-  </select>
+<option value="WY">Wyoming</option></select>
                   <select
   className="notranslate"
   id="sortList"

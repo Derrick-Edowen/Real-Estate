@@ -1,7 +1,7 @@
 
 .active {
-background-color: rgb(60, 39, 80);
-border-radius: 2px;
+background-color: rgba(60, 39, 80, 0.753);
+border-radius: 5px;
 }
 .missin {
   display: flex;
@@ -24,6 +24,8 @@ border-radius: 2px;
   top: 0;
   left: 0;
   width: 100%;
+  border-bottom: 1px solid #afafaf2f;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5) ;
   }
   .dropdown {
     position: relative;
