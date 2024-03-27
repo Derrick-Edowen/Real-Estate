@@ -72,8 +72,13 @@ const updateMapLocation = async (address) => {
     setShowFilter(false);
 
     const address = document.getElementById('search').value;
-    const state = document.getElementById('state').value;
-    const sort = document.getElementById('sortList').value;
+    let state = '';
+    const country = document.getElementById('country').value;
+    if (country === 'Canada') {
+      state = document.getElementById('province').value;
+    } else if (country === 'USA') {
+      state = document.getElementById('state').value;
+    }    const sort = document.getElementById('sortList').value;
     const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
@@ -81,6 +86,9 @@ const updateMapLocation = async (address) => {
     const maxBaths = document.getElementById('choose-baths').value;
     console.log(state)
     console.log(address)
+    console.log(sort)
+    console.log(propertyType)
+
     setSearchClicked(true);
 
     if (minPrice > maxPrice) {
@@ -127,7 +135,7 @@ const updateMapLocation = async (address) => {
           
           setApiData(estateResponse.data); 
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  const maxRequestsPerSecond = 8;
+  const maxRequestsPerSecond = 4;
   const delayBetweenRequests = 2000 / maxRequestsPerSecond;
 
   const infoDataArray = [];
@@ -213,9 +221,13 @@ if (apiData.props && apiData.props.length === 0) {
         const prevIndex = (currentImageIndex - 1 + imageUrls[selectedCardIndex].images.length) % imageUrls[selectedCardIndex].images.length;
         setCurrentImageIndex(prevIndex);
       };
-      const formatNumberWithCommas = (number) => {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
+      function formatNumberWithCommas(number) {
+        if (typeof number === 'undefined' || number === null) {
+          return;
+        }
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+      
     const toggleFilter = () => {
       setShowFilter(!showFilter);
       setIsRotated(!isRotated);
@@ -257,7 +269,7 @@ return (
               
               // Add the green check mark to the selected option
               selectedOption.textContent = `${selectedOption.textContent}        ✅`;
-
+            
               // Update state variable based on selected country
               if (selectedOption.value === 'Canada') {
                 state = document.getElementById('province').value; // Update state with province value
@@ -274,6 +286,7 @@ return (
               }
             }}
           >
+            <option value="">Select a Country</option>
             <option value="Canada">Canada</option>
             <option value="USA">USA</option>
           </select>
