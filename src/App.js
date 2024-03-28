@@ -4,7 +4,7 @@ import image3 from './Assets/Images/yard1.jpg'
 import image4 from './Assets/Images/house1.jpg'
 import image5 from './Assets/Images/kitchen1.jpg'
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
@@ -20,6 +20,7 @@ import Login from './Components/Login/Login';
 import Blog from './Components/Blog/Blog';
 
 function App() {
+
   const images = [image1, image2, image3, image4, image5];
   const randomIndex = Math.floor(Math.random() * images.length);
   const [currentIndex] = useState(randomIndex);

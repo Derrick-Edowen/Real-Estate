@@ -168,19 +168,19 @@ const tips = [
             </div>
             <div className='riskL'>
             <h4 className='rentCalchead'>Understanding Risk Levels</h4>
-            <h5>- Recommended Risk (30% of Monthly Income):</h5>
+            <h5 className='rentCalchead'>Recommended Risk (30% of Monthly Income):</h5>
 
 This level is considered low risk because it suggests allocating only 30% of your gross monthly income to rent. It ensures that a significant portion of your income is available for other essential expenses and savings.
 Rationale: The 30% threshold is a widely accepted guideline in financial planning. It originated from the U.S. Department of Housing and Urban Development (HUD) as a benchmark for affordable housing costs. It's based on the idea that spending more than 30% of your income on rent may lead to financial stress and difficulty meeting other financial obligations.
 <br />
               <br />
-              <h5>- Medium Risk (40% of Monthly Income):</h5>
+              <h5 className='rentCalchead'>Medium Risk (40% of Monthly Income):</h5>
 
 This level indicates a moderate risk, suggesting that up to 40% of your gross monthly income can be allocated to rent. While it provides more flexibility, it also reduces the amount available for savings and other expenses.
 Rationale: The 40% threshold acknowledges that in some high-cost areas or situations, individuals may need to allocate a higher percentage of their income to rent. However, it also emphasizes the importance of balancing rent affordability with other financial priorities.
               <br />
               <br />
-              <h5>- High Risk (50% of Monthly Income):</h5>
+              <h5 className='rentCalchead'>High Risk (50% of Monthly Income):</h5>
 
 This level represents a high risk, as it suggests allocating up to 50% of your gross monthly income to rent. While it may be necessary in certain circumstances, such as living in expensive cities, it leaves little room for savings or unexpected expenses.
 Rationale: The 50% threshold is a cautionary level, indicating that spending such a significant portion of your income on rent could lead to financial strain. It highlights the importance of exploring alternative housing options or increasing income to reduce this risk.

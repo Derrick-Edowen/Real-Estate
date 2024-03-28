@@ -84,17 +84,13 @@ const updateMapLocation = async (address) => {
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
-    console.log(state)
-    console.log(address)
-    console.log(sort)
-    console.log(propertyType)
-
     setSearchClicked(true);
 
-    if (minPrice > maxPrice) {
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
       window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
       return;
     }
+    
 
 
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
@@ -164,7 +160,7 @@ const fetchPropertyData = async (zpid) => {
       'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
     }
   });
-
+console.log(propertyResponse.data)
   return { property: propertyResponse.data, images: imageResponse.data };
 
 };
@@ -286,7 +282,6 @@ return (
               }
             }}
           >
-            <option value="">Select a Country</option>
             <option value="Canada">Canada</option>
             <option value="USA">USA</option>
           </select>
@@ -294,7 +289,7 @@ return (
             className="notranslate"
             id="province"
             placeholder="Select a Province"
-            style={{ display: 'none' }} // Initially hide the province select
+            style={{ display: 'block' }} // Initially hide the province select
             required
             onChange={(e) => {
               state = e.target.value; // Update state with selected province value

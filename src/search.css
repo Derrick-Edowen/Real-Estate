@@ -185,8 +185,8 @@ padding-left: 3px;
 padding-right: 8px;
 border-radius: 4px;
 text-shadow: 2px 2px 6px #000000;
-box-shadow: 0px 0.1px ;
-
+box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
+margin-bottom: 4px;
 }
 
 .cPrice1{
@@ -198,7 +198,7 @@ padding-left: 3px;
 padding-right: 3px;
 border-radius: 4px;
 text-shadow: 2px 2px 6px #000000;
-box-shadow: 0px 0.1px;
+box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
 width: fit-content;
 
 }
@@ -276,7 +276,6 @@ font-weight: 600;
   flex: 0 0 calc(33.3% - 6px); /* Calculate width for three columns with gap */
   align-items: flex-start;
   background-color: transparent;
-  box-shadow: 0px 2px 12px 2px;
   border-radius: 3px;
   margin-bottom: 2px; /* Add margin to create gap between rows */
  max-height: 340px;
@@ -313,6 +312,7 @@ font-weight: 600;
 	padding-right: 3px;
 	font-size: 18px;
 	text-shadow: 2px 2px 6px #000000;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
 
   }
   .bedd,
@@ -536,7 +536,7 @@ padding: 6px;
   transform: translateY(-50%);
   left: 10px;
   height: 90%;
-  width: 50px;
+  width: fit-content;
   background-color: rgba(54, 52, 52, 0.4);
   border: 1px solid #afafaf2f;
   border-radius: 3px;
@@ -544,6 +544,9 @@ padding: 6px;
   color: #fff;
   font-size: 44px;
   cursor: pointer;
+  padding: 6px;
+  margin-right: 4px;
+  margin-left: 12px;
   outline: none;
   transition: background-color 0.3s ease;
 }
@@ -555,10 +558,13 @@ padding: 6px;
   position: absolute;
 right: 10px;  
 top: 50%;
-width: 50px;
+width: fit-content;
 transform: translateY(-50%);
   bottom: 0;
   height: 90%;
+  padding: 6px;
+  margin-right: 12px;
+  margin-left: 4px;
   background-color: rgba(54, 52, 52, 0.4); /* Adjust the hover opacity as needed */
   border: 1px solid #afafaf2f;
   border-radius: 3px;
