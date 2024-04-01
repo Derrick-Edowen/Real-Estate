@@ -475,6 +475,7 @@ if (apiData.props && apiData.props.length === 0) {
           </div>
         ) : (
           <>
+            <div className='alone'>{apiData.totalResultCount} Results - Page {apiData.currentPage} of {apiData.totalPages} </div>
             {apiData.props && apiData.props.length > 0 ? (
   <div className="cardContainer notranslate">
     {searchClicked && infoData && infoData.length > 0 && (
@@ -487,7 +488,7 @@ if (apiData.props && apiData.props.length === 0) {
           >
             <img src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'white', fontSize: '44px', textAlign: 'center', width: '100%'}}/>                      
             <div className="cardText1 notranslate">
-              <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Unavailable"}{selectedCountry === 'Canada' ? ' CAD' : ' USD'}<br /></div>
+              <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Unavailable"} <span style={{ fontSize: 'smaller' }}>{selectedCountry === 'Canada' ? 'CAD' : 'USD'}</span><br /></div>
               <div className='cPrice1 notranslate'>{property.address || "Unavailable"}</div>
               <div className='holding2 notranslate'>
                 <div className='cardBed notranslate'>{property.bedrooms || "Unavailable"} Beds&nbsp;</div>
@@ -536,18 +537,18 @@ if (apiData.props && apiData.props.length === 0) {
                 <div className='pPrice notranslate'>${formatNumberWithCommas(safeAccess(apiData.props[selectedCardIndex], 'price'))}  <span style={{ fontSize: 'smaller' }}>{selectedCountry === 'Canada' ? 'CAD' : 'USD'}</span>
 </div>
               <div className='heallin'>
-                <div className='bedd'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='bathh'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>   
+                <div className='bedd'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;</div>
+                <div className='bathh'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;</div>
+                <div className='dayss'>&nbsp;Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>   
                 <div className='dayss notranslate'>Square Footage(sqft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
                 </div>
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
-                  <div className='cardPark notranslate'>Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')} Space(s)</div>
-                  <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                  <div className='cardWind notranslate'>Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}</div>
-                  <div className='cardMl notranslate'>MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}</div>
-                  <div className='cardBroke notranslate'>Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}</div>  
+                  <div className='cardPark notranslate'>&nbsp;Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')} Space(s)&nbsp;</div>
+                  <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')} &nbsp;</div>
+                  <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
+                  <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}&nbsp;</div>
+                  <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}&nbsp;</div>  
                 </div> 
               </div>
             </div>

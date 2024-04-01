@@ -66,7 +66,10 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
- 
+  const maxRequestsPerSecond = 4;
+  const delayBetweenRequests = 2000 / maxRequestsPerSecond;
+
+
   const handleSearch = async (e) => {
     e.preventDefault();
     setShowFilter(false);
@@ -84,6 +87,8 @@ const updateMapLocation = async (address) => {
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
+    console.log(page);
+
     setSearchClicked(true);
 
     if (parseInt(minPrice) > parseInt(maxPrice)) {
@@ -114,7 +119,7 @@ const updateMapLocation = async (address) => {
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
             params: {
               location: address+","+state,
-              page: 1,
+              page: page,
               status_type: "ForRent",
               home_type: propertyType,
               sort: sort,
@@ -130,9 +135,9 @@ const updateMapLocation = async (address) => {
           });
           
           setApiData(estateResponse.data); 
+          console.log(estateResponse.data);
           const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  const maxRequestsPerSecond = 4;
-  const delayBetweenRequests = 2000 / maxRequestsPerSecond;
+
 
   const infoDataArray = [];
 const imageUrlsArray = [];
@@ -160,7 +165,6 @@ const fetchPropertyData = async (zpid) => {
       'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
     }
   });
-console.log(propertyResponse.data)
   return { property: propertyResponse.data, images: imageResponse.data };
 
 };
@@ -191,6 +195,7 @@ if (apiData.props && apiData.props.length === 0) {
 } else {
   setNoResults(false); // Set noResults to false if results are available
 }
+
 };
 
       const handleOpenLightbox = (index) => {
@@ -235,8 +240,27 @@ if (apiData.props && apiData.props.length === 0) {
     }
     return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Information Unavailable"), obj);
   }
-  let state = '';
 
+  const handleNextPage = (e) => {
+    e.preventDefault(); // Prevent the default behavior of the event
+    const nextPage = (page + 1);
+    setPage(nextPage);
+    console.log(page);
+    handleSearch(e); // Trigger handleSearch with the updated page number
+    
+  };
+
+  
+  
+  const handlePrevPage = (e) => {
+    e.preventDefault(); // Prevent the default behavior of the event
+    const prevPage = page - 1;
+    setPage(prevPage);
+    handleSearch(e); // Assuming handleSearch does not need the event object
+
+  };
+  
+let state = '';
 return (
   <div className='lists notranslate'>
     <div className='overlay notranslate'>
@@ -473,11 +497,31 @@ return (
           </div>
         ) : (
           <>
+          <div className='manual'>
+          {searchClicked && (
+          <div className='alone'>{apiData.totalResultCount} Results - Page {apiData.currentPage} of {apiData.totalPages} </div>
+          )}
+          {apiData.totalPages > 1 && (
+            <button 
+  className={`prevButton ${page === 1 ? 'disabled' : ''}`}
+  onClick={handlePrevPage}
+    disabled={page === 1}
+>
+  Previous Page
+</button>)}
+          {apiData.totalPages > 1 && (
+            <button 
+  onClick={handleNextPage}
+>
+  Next Page
+</button>)}
+</div>
             {apiData.props && apiData.props.length > 0 ? (
   <div className="cardContainer notranslate">
     {searchClicked && infoData && infoData.length > 0 && (
       apiData.props.map((property, index) => (
         property && ( // Check if property is not null/undefined
+        
           <div
             className="cardi1 notranslate"
             key={index}
@@ -485,12 +529,12 @@ return (
           >
             <img src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'white', fontSize: '44px', textAlign: 'center', width: '100%'}}/>                      
             <div className="cardText1 notranslate">
-              <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Unavailable"}<br /></div>
-              <div className='cPrice1 notranslate'>{property.address || "Unavailable"}</div>
+              <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}<br /></div>
+              <div className='cPrice1 notranslate'>{property.address || "Information Unavailable"}</div>
               <div className='holding2 notranslate'>
-                <div className='cardBed notranslate'>{property.bedrooms || "Unavailable"} Beds&nbsp;</div>
-                <div className='cardBaths notranslate'>{property.bathrooms || "Unavailable"} Baths&nbsp;</div>
-                <div className='cardMls notranslate'>MLS&reg;: {infoData[index]?.mlsid || "Unavailable"}</div>
+                <div className='cardBed notranslate'>{property.bedrooms || "Information Unavailable"} Beds&nbsp;</div>
+                <div className='cardBaths notranslate'>{property.bathrooms || "Information Unavailable"} Baths&nbsp;</div>
+                <div className='cardMls notranslate'>MLS&reg;: {infoData[index]?.mlsid || "Information Unavailable"}</div>
               </div>
             </div>
           </div>
@@ -540,7 +584,7 @@ return (
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
                   <div className='cardPark notranslate'>Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
-                  <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                  <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')}</div>
                   <div className='cardWind notranslate'>Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}</div>
                   <div className='cardMl notranslate'>MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}</div>
                   <div className='cardBroke notranslate'>Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}</div>  
