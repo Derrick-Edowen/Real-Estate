@@ -50,7 +50,7 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="togin" onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Name"

@@ -34,6 +34,28 @@ padding-left: 30px;
 padding-right: 30px;
 margin-left: 2px;
 }
+.prevButton {
+  background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+  color: white;
+  float: right;
+  gap: 4px;
+  border: 1px solid #afafaf2f;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+border-radius: 5px;
+padding-left: 30px;
+padding-right: 30px;
+margin-left: 4px;
+}
+.prevButton.disabled {
+  background: #333;
+}
+.prevButton.disabled:hover {
+  background: #333;
+}
+.prevButton:hover {
+  background: linear-gradient(to right, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+
+}
 .searchBtn-1:hover {
   background: linear-gradient(to right, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
 
@@ -46,6 +68,7 @@ margin-left: 2px;
 	margin-left: auto;
 padding-top: 12px;
 margin-right: auto;
+gap: 1px;
 }
   
   .supyo > div {
@@ -67,7 +90,9 @@ margin-right: auto;
 	flex: 1;
 	margin-right: 2px; /* Adjust spacing between elements */
 	font-weight: 600;
-
+  border: 1px solid #afafaf2f;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+  border-radius: 5px;
   }
 .fullStage {
 width: 97%;
@@ -184,28 +209,23 @@ input::-webkit-inner-spin-button {
 }
 
 .cDress1{
-font-size: 22px;
+font-size: 28px;
 color: rgb(236, 236, 236);
-background-color: #252525a1;
 width: fit-content;
-padding-left: 3px;
+padding-left: 6px;
 padding-right: 8px;
 border-radius: 4px;
-text-shadow: 2px 2px 6px #000000;
-box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
-margin-bottom: 4px;
+top: 82%;
+position: absolute;
+text-shadow: 2px 2px 1px #000000;
 }
 
 .cPrice1{
-  font-size: 22px;
-  color: rgb(236, 236, 236);
-  background-color: #252525a1;
+  font-size: 15px;
+  color: rgb(0, 0, 0);
   margin-top: 1px;
-padding-left: 3px;
-padding-right: 3px;
 border-radius: 4px;
-text-shadow: 2px 2px 6px #000000;
-box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
+text-shadow: 0px 0px 1px #000000;
 width: fit-content;
 
 }
@@ -231,9 +251,9 @@ width: fit-content;
 .cardContainer {
   display: flex;
   flex-wrap: wrap; /* Allow cards to wrap to the next line */
-  gap: 6.5px;
+  gap: 6px;
   overflow:auto;
-  max-height: 750px;
+  max-height: 715px;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
 }
 
@@ -270,6 +290,7 @@ font-weight: 600;
 }
 .manual {
   display: flex;
+  margin-bottom: 6px;
 }
 .pAddress-1 {
 	font-size: 18px;
@@ -283,17 +304,19 @@ font-weight: 600;
 .cardi1 {
 	position: relative; /* Ensure relative positioning for absolute positioning inside */
 
-  flex: 0 0 calc(33.3% - 6px); /* Calculate width for three columns with gap */
+  flex: 0 0 calc(25% - 6px); /* Calculate width for three columns with gap */
   align-items: flex-start;
-  background-color: transparent;
-  border-radius: 3px;
+  background: linear-gradient(to right, rgba(230, 230, 230, 0.95),rgba(255, 255, 255, 0.9));
+  border-radius: 2px;
   margin-bottom: 2px; /* Add margin to create gap between rows */
  max-height: 340px;
+ min-height: 340px;
+
  overflow: hidden;
  transition: all 1s ease-in-out;
  cursor: pointer;
  transition: transform 0.3s ease-in-out;
- box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.9) ;
+ box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
 }
 .heallin {
 	display: flex;
@@ -307,23 +330,18 @@ font-weight: 600;
   .holding2 {
 	display: flex;
 	max-width: 100%;
-	margin-top: 6px;
 	margin-bottom: 4px;
   }
   .cardBed,
   .cardBaths,
   .cardMls {
-	margin-right: 8px; /* Adjust margin as needed */
-	background-color: #252525a1;
 	border-radius: 4px;
-	color: rgb(236, 236, 236);
+	color: rgb(0, 0, 0);
 	padding: 1px;
-	padding-left: 2px;
 	padding-right: 3px;
-	font-size: 18px;
-	text-shadow: 2px 2px 6px #000000;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
-
+	font-size: 16.5px;
+  text-shadow: 0px 0px 2px #000000;
+font-weight: 500;
   }
   .bedd,
   .bathh,
@@ -423,15 +441,19 @@ font-weight: 600;
 transform: scale(1.02);
 
 }
+.indigo {
+  position: relative;
+  height: 75%;
+  
+}
 .cardi1 img {
 	width: 100%;
 	height: 100%;
-	padding: 1px;
 	object-fit: fill;
 	transition: 275ms transform ease-in-out;
 	z-index: -1; 
-  border-radius: 3px;
-
+  border-radius: 2px;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.45) ;
 }
 .cardText {
   font-size: 1rem; /* Initial font size */
@@ -455,7 +477,7 @@ transform: scale(1.02);
 	bottom: 0; /* Align to the top of the parent container */
 	left: 0; /* Align to the left of the parent container */
 	z-index: 2;
-	
+	width: fit-content;
   }
 .containText {
   height: 50%;

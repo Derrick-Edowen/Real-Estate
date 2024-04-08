@@ -29,7 +29,7 @@ const [noResults, setNoResults] = useState(false); // New state variable
 const [page, setPage] = useState(1);
 const [showFilter, setShowFilter] = useState(false);
 const [isRotated, setIsRotated] = useState(false);
-
+const [nextPage, setNextPage] = useState(1);
 
 const updateMapLocation = async (address) => {
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
@@ -66,11 +66,13 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
-  const maxRequestsPerSecond = 4;
+  const maxRequestsPerSecond = 3;
   const delayBetweenRequests = 2000 / maxRequestsPerSecond;
 
 
   const handleSearch = async (e) => {
+    console.log(page);
+setNextPage(1);
     e.preventDefault();
     setShowFilter(false);
 
@@ -87,7 +89,6 @@ const updateMapLocation = async (address) => {
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
-    console.log(page);
 
     setSearchClicked(true);
 
@@ -125,8 +126,8 @@ const updateMapLocation = async (address) => {
               sort: sort,
               rentMinPrice: minPrice,
               rentMaxPrice: maxPrice,
-              bathsMax: maxBaths,
-              bedsMax: maxBeds
+              bathsMin: maxBaths,
+              bedsMin: maxBeds
             },
             headers: {
               'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
@@ -165,6 +166,8 @@ const fetchPropertyData = async (zpid) => {
       'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
     }
   });
+  console.log(propertyResponse.data)
+  console.log(imageResponse.data)
   return { property: propertyResponse.data, images: imageResponse.data };
 
 };
@@ -198,6 +201,250 @@ if (apiData.props && apiData.props.length === 0) {
 
 };
 
+const handleNPage = async (e) => {
+ console.log(nextPage);
+
+  e.preventDefault();
+  setShowFilter(false);
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }    const sort = document.getElementById('sortList').value;
+  const propertyType = document.getElementById('choose-type').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
+
+  setSearchClicked(true);
+
+const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
+const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+try {
+  setIsLoading(true); 
+
+  const response = await fetch(geocodeUrl);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  const data = await response.json();
+  const { results } = data;
+  if (results && results.length > 0) {
+    const { lat, lng } = results[0].geometry.location;
+    setPosition({ lat, lng });
+  } else {
+    window.alert('Location Not Found: Try Using More Descriptive Words!');
+    setIsLoading(false); 
+  }
+  const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
+          params: {
+            location: address+","+state,
+            page: page + nextPage,
+            status_type: "ForRent",
+            home_type: propertyType,
+            sort: sort,
+            rentMinPrice: minPrice,
+            rentMaxPrice: maxPrice,
+            bathsMin: maxBaths,
+              bedsMin: maxBeds
+          },
+          headers: {
+            'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          },
+        });
+        
+        setApiData(estateResponse.data); 
+        console.log(estateResponse.data);
+        const zpidList = estateResponse.data.props.map((item) => item.zpid);
+
+
+const infoDataArray = [];
+const imageUrlsArray = [];
+
+const fetchPropertyData = async (zpid) => {
+const apiKey = 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7';
+const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+
+const propertyResponse = await axios.get(propertyUrl, {
+  params: { zpid },
+  headers: {
+    'X-RapidAPI-Key': apiKey,
+    'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+  }
+});
+
+// Introduce a delay before making the second request
+await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
+
+const imageResponse = await axios.get(imagesUrl, {
+  params: { zpid },
+  headers: {
+    'X-RapidAPI-Key': apiKey,
+    'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+  }
+});
+console.log(propertyResponse.data)
+return { property: propertyResponse.data, images: imageResponse.data };
+
+};
+
+for (let i = 0; i < zpidList.length; i++) {
+const zpid = zpidList[i];
+const { property, images } = await fetchPropertyData(zpid);
+
+// Use property and images data as needed
+infoDataArray.push({ ...property, images });
+imageUrlsArray.push(images);
+
+if (i < zpidList.length - 1) {
+  await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
+}
+}
+
+setInfoData(infoDataArray);
+setImageUrls(imageUrlsArray);
+setIsLoading(false);
+} catch (error) {
+console.error('Error fetching data:', error);
+setIsLoading(false);
+}
+setSearchTrigger(prevState => !prevState); // Toggle the state variable to trigger re-render
+if (apiData.props && apiData.props.length === 0) {
+setNoResults(true); // Set noResults to true if no results are available
+} else {
+setNoResults(false); // Set noResults to false if results are available
+}
+
+};
+const handlePPage = async (e) => {
+  console.log(nextPage);
+
+  e.preventDefault();
+  setShowFilter(false);
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }    const sort = document.getElementById('sortList').value;
+  const propertyType = document.getElementById('choose-type').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
+
+  setSearchClicked(true);
+
+const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
+const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+try {
+  setIsLoading(true); 
+
+  const response = await fetch(geocodeUrl);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  const data = await response.json();
+  const { results } = data;
+  if (results && results.length > 0) {
+    const { lat, lng } = results[0].geometry.location;
+    setPosition({ lat, lng });
+  } else {
+    window.alert('Location Not Found: Try Using More Descriptive Words!');
+    setIsLoading(false); 
+  }
+  const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
+          params: {
+            location: address+","+state,
+            page: nextPage - page,
+            status_type: "ForRent",
+            home_type: propertyType,
+            sort: sort,
+            rentMinPrice: minPrice,
+            rentMaxPrice: maxPrice,
+            bathsMin: maxBaths,
+              bedsMin: maxBeds
+          },
+          headers: {
+            'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          },
+        });
+        
+        setApiData(estateResponse.data); 
+        console.log(estateResponse.data);
+        const zpidList = estateResponse.data.props.map((item) => item.zpid);
+
+
+const infoDataArray = [];
+const imageUrlsArray = [];
+
+const fetchPropertyData = async (zpid) => {
+const apiKey = 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7';
+const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+
+const propertyResponse = await axios.get(propertyUrl, {
+  params: { zpid },
+  headers: {
+    'X-RapidAPI-Key': apiKey,
+    'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+  }
+});
+
+// Introduce a delay before making the second request
+await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
+
+const imageResponse = await axios.get(imagesUrl, {
+  params: { zpid },
+  headers: {
+    'X-RapidAPI-Key': apiKey,
+    'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+  }
+});
+console.log(propertyResponse.data)
+return { property: propertyResponse.data, images: imageResponse.data };
+
+};
+
+for (let i = 0; i < zpidList.length; i++) {
+const zpid = zpidList[i];
+const { property, images } = await fetchPropertyData(zpid);
+
+// Use property and images data as needed
+infoDataArray.push({ ...property, images });
+imageUrlsArray.push(images);
+
+if (i < zpidList.length - 1) {
+  await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
+}
+}
+
+setInfoData(infoDataArray);
+setImageUrls(imageUrlsArray);
+setIsLoading(false);
+} catch (error) {
+console.error('Error fetching data:', error);
+setIsLoading(false);
+}
+setSearchTrigger(prevState => !prevState); // Toggle the state variable to trigger re-render
+if (apiData.props && apiData.props.length === 0) {
+setNoResults(true); // Set noResults to true if no results are available
+} else {
+setNoResults(false); // Set noResults to false if results are available
+}
+
+};
       const handleOpenLightbox = (index) => {
         setSelectedCardIndex(index);
         setLightboxActive(true);
@@ -241,23 +488,14 @@ if (apiData.props && apiData.props.length === 0) {
     return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Information Unavailable"), obj);
   }
 
-  const handleNextPage = (e) => {
-    e.preventDefault(); // Prevent the default behavior of the event
-    const nextPage = (page + 1);
-    setPage(nextPage);
-    console.log(page);
-    handleSearch(e); // Trigger handleSearch with the updated page number
-    
+  const handlePrevPage = (e) => {
+    setNextPage(nextPage - 1);
+    handlePPage(e); // Trigger handleSearch with the updated page number
   };
 
-  
-  
-  const handlePrevPage = (e) => {
-    e.preventDefault(); // Prevent the default behavior of the event
-    const prevPage = page - 1;
-    setPage(prevPage);
-    handleSearch(e); // Assuming handleSearch does not need the event object
-
+  const handleNextPage = (e) => {
+    setNextPage(nextPage + 1);
+    handleNPage(e); // Trigger handleSearch with the updated page number
   };
   
 let state = '';
@@ -491,30 +729,30 @@ return (
     </aside> 
         <main className='fullStage notranslate'>
         {isLoading ? (
-          <div className="loadingMessage1 translate">
-            Please wait...&nbsp;&nbsp;
-            <FadeLoader color="#f5fcff" margin={0} />
+          <div className="loadingMessage1 translate"> Retrieving Properties &nbsp;
+            <FadeLoader color="#f5fcff" margin={6} />
           </div>
         ) : (
           <>
           <div className='manual'>
-          {searchClicked && (
+          {searchClicked && apiData.props && apiData.props.length > 0 && (
           <div className='alone'>{apiData.totalResultCount} Results - Page {apiData.currentPage} of {apiData.totalPages} </div>
           )}
           {apiData.totalPages > 1 && (
             <button 
-  className={`prevButton ${page === 1 ? 'disabled' : ''}`}
+  className={`prevButton ${page === apiData.currentPage ? 'disabled' : ''}`}
   onClick={handlePrevPage}
-    disabled={page === 1}
+    disabled={apiData.currentPage === 1}
 >
   Previous Page
 </button>)}
           {apiData.totalPages > 1 && (
             <button 
-  onClick={handleNextPage}
->
-  Next Page
-</button>)}
+            className={`prevButton ${apiData.currentPage === apiData.totalPages ? 'disabled' : ''}`}
+            onClick={handleNextPage}
+            disabled={apiData.currentPage === apiData.totalPages}
+            >Next Page</button>
+      )}
 </div>
             {apiData.props && apiData.props.length > 0 ? (
   <div className="cardContainer notranslate">
@@ -527,15 +765,17 @@ return (
             key={index}
             onClick={() => handleOpenLightbox(index)}
           >
-            <img src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'white', fontSize: '44px', textAlign: 'center', width: '100%'}}/>                      
+            <div className='indigo'>
+            <img className='mommy' src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '44px', textAlign: 'center', width: '100%'}}/>     
+            <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}<span style={{ fontSize: 'smaller' }}>/Month</span><br /></div> 
+            </div>                
             <div className="cardText1 notranslate">
-              <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}<br /></div>
-              <div className='cPrice1 notranslate'>{property.address || "Information Unavailable"}</div>
-              <div className='holding2 notranslate'>
-                <div className='cardBed notranslate'>{property.bedrooms || "Information Unavailable"} Beds&nbsp;</div>
-                <div className='cardBaths notranslate'>{property.bathrooms || "Information Unavailable"} Baths&nbsp;</div>
-                <div className='cardMls notranslate'>MLS&reg;: {infoData[index]?.mlsid || "Information Unavailable"}</div>
+            <div className='holding2 notranslate'>
+                <div className='cardBed notranslate'>{property.bedrooms || "Undisclosed # of"} Beds&nbsp;|</div>
+                <div className='cardBaths notranslate'>{property.bathrooms || "Undisclosed # of"} Baths&nbsp;|</div>
+                <div className='cardMls notranslate'>MLS&reg;:{infoData[index]?.mlsid || "Undisclosed"}</div>
               </div>
+              <div className='cPrice1 notranslate'>{property.address || "Information Unavailable"}</div>
             </div>
           </div>
         )
@@ -584,7 +824,7 @@ return (
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
                   <div className='cardPark notranslate'>Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
-                  <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')}</div>
+                  <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}</div>
                   <div className='cardWind notranslate'>Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}</div>
                   <div className='cardMl notranslate'>MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}</div>
                   <div className='cardBroke notranslate'>Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}</div>  

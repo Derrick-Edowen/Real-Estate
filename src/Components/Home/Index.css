@@ -10,11 +10,7 @@
   background-position: center;
   transition: background 6s ease-in-out ;
 }
-.overLay {
-  background-color: rgba(0, 0, 0, 0.18);
-  height: 100%;
-  width: 100%;
-}
+
 .imgContainer {
 padding: 0px;
 }
