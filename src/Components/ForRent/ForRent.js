@@ -75,7 +75,14 @@ const updateMapLocation = async (address) => {
 setNextPage(1);
     e.preventDefault();
     setShowFilter(false);
-
+    const progressBar = document.querySelector('.progress-bar');
+    progressBar.style.width = '0%';
+    const interval = setInterval(() => {
+      progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
+      if (parseInt(progressBar.style.width) >= 100) {
+        clearInterval(interval);
+      }
+    }, 5);
     const address = document.getElementById('search').value;
     let state = '';
     const country = document.getElementById('country').value;
@@ -183,14 +190,23 @@ for (let i = 0; i < zpidList.length; i++) {
   if (i < zpidList.length - 1) {
     await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
   }
+  progressBar.style.width = `${((i + 1) / zpidList.length) * 100}%`;
+
 }
 
 setInfoData(infoDataArray);
 setImageUrls(imageUrlsArray);
+
   setIsLoading(false);
+  progressBar.style.width = '100%';
+  setTimeout(() => {
+    progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
+  }, 2000);
 } catch (error) {
   console.error('Error fetching data:', error);
   setIsLoading(false);
+  clearInterval(interval);
+
 }
 setSearchTrigger(prevState => !prevState); // Toggle the state variable to trigger re-render
 if (apiData.props && apiData.props.length === 0) {
@@ -206,7 +222,14 @@ const handleNPage = async (e) => {
 
   e.preventDefault();
   setShowFilter(false);
-
+  const progressBar = document.querySelector('.progress-bar');
+  progressBar.style.width = '0%';
+  const interval = setInterval(() => {
+    progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
+    if (parseInt(progressBar.style.width) >= 100) {
+      clearInterval(interval);
+    }
+  }, 5);
   const address = document.getElementById('search').value;
   let state = '';
   const country = document.getElementById('country').value;
@@ -306,11 +329,17 @@ imageUrlsArray.push(images);
 if (i < zpidList.length - 1) {
   await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
 }
+progressBar.style.width = `${((i + 1) / zpidList.length) * 100}%`;
+
 }
 
 setInfoData(infoDataArray);
 setImageUrls(imageUrlsArray);
 setIsLoading(false);
+progressBar.style.width = '100%';
+  setTimeout(() => {
+    progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
+  }, 2000);
 } catch (error) {
 console.error('Error fetching data:', error);
 setIsLoading(false);
@@ -328,7 +357,14 @@ const handlePPage = async (e) => {
 
   e.preventDefault();
   setShowFilter(false);
-
+  const progressBar = document.querySelector('.progress-bar');
+  progressBar.style.width = '0%';
+  const interval = setInterval(() => {
+    progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
+    if (parseInt(progressBar.style.width) >= 100) {
+      clearInterval(interval);
+    }
+  }, 5);
   const address = document.getElementById('search').value;
   let state = '';
   const country = document.getElementById('country').value;
@@ -428,11 +464,17 @@ imageUrlsArray.push(images);
 if (i < zpidList.length - 1) {
   await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
 }
+progressBar.style.width = `${((i + 1) / zpidList.length) * 100}%`;
+
 }
 
 setInfoData(infoDataArray);
 setImageUrls(imageUrlsArray);
 setIsLoading(false);
+progressBar.style.width = '100%';
+  setTimeout(() => {
+    progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
+  }, 2000);
 } catch (error) {
 console.error('Error fetching data:', error);
 setIsLoading(false);
@@ -522,11 +564,11 @@ return (
               
               // Remove the green check mark from all options
               selectElement.querySelectorAll('option').forEach(option => {
-                option.textContent = option.textContent.replace('✅', '');
+                option.style.color = 'black'; // Reset color to black for all options
               });
-              
-              // Add the green check mark to the selected option
-              selectedOption.textContent = `${selectedOption.textContent}        ✅`;
+              // Change color of the selected option
+              selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
+            
             
               // Update state variable based on selected country
               if (selectedOption.value === 'Canada') {
@@ -630,7 +672,7 @@ return (
 <option value="WV">West Virginia</option>
 <option value="WI">Wisconsin</option>
 <option value="WY">Wyoming</option></select>
-                  <select
+       <select
   className="notranslate"
   id="sortList"
   name="sort"
@@ -639,20 +681,22 @@ return (
   onChange={(e) => {
     const selectElement = e.target;
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    // Remove the green check mark from all options
+    // Reset color of all options
     selectElement.querySelectorAll('option').forEach(option => {
-      option.textContent = option.textContent.replace('✅', '');
+      option.style.color = 'black'; // Reset color to black for all options
     });
-    // Add the green check mark to the selected option
-    selectedOption.textContent = `${selectedOption.textContent}        ✅`;
+    // Change color of the selected option
+    selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
   }}
->                      <option value="" disabled selected>Sort Listings</option>
-                      <option value="Newest">Newest</option>
-                      <option value="Payment_High_Low">Ascending - Price</option>
-                      <option value="Payment_Low_High">Descending - Price</option>
-                      <option value="Lot_Size">Lot Size</option>
-                      <option value="Square_Feet">Square Footage</option>
-                    </select>
+>
+  <option value="" disabled selected>Sort Listings</option>
+  <option value="Newest">Newest</option>
+  <option value="Payment_High_Low">Ascending - Price</option>
+  <option value="Payment_Low_High">Descending - Price</option>
+  <option value="Lot_Size">Lot Size</option>
+  <option value="Square_Feet">Square Footage</option>
+</select>
+
                     <select className='notranslate' 
                     id="choose-type" 
                     name="propertyType" 
@@ -663,11 +707,11 @@ return (
                       const selectedOption = selectElement.options[selectElement.selectedIndex];
                       // Remove the green check mark from all options
                       selectElement.querySelectorAll('option').forEach(option => {
-                        option.textContent = option.textContent.replace('✅', '');
-                      });
-                      // Add the green check mark to the selected option
-                      selectedOption.textContent = `${selectedOption.textContent}        ✅`;
-                    }}
+                        option.style.color = 'black'; // Reset color to black for all options
+    });
+    // Change color of the selected option
+    selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
+  }}
                     >
                       <option value="" disabled selected>Property Type</option>
                       <option value="Houses">Houses</option>
@@ -684,10 +728,10 @@ return (
                       const selectedOption = selectElement.options[selectElement.selectedIndex];
                       // Remove the green check mark from all options
                       selectElement.querySelectorAll('option').forEach(option => {
-                        option.textContent = option.textContent.replace('✅', '');
+                        option.style.color = 'black'; // Reset color to black for all options
                       });
-                      // Add the green check mark to the selected option
-                      selectedOption.textContent = `${selectedOption.textContent}        ✅`;
+                      // Change color of the selected option
+                      selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
                     }}
                     >
                       <option value="" disabled selected>Beds</option>
@@ -708,10 +752,10 @@ return (
                       const selectedOption = selectElement.options[selectElement.selectedIndex];
                       // Remove the green check mark from all options
                       selectElement.querySelectorAll('option').forEach(option => {
-                        option.textContent = option.textContent.replace('✅', '');
+                        option.style.color = 'black'; // Reset color to black for all options
                       });
-                      // Add the green check mark to the selected option
-                      selectedOption.textContent = `${selectedOption.textContent}      ✅`;
+                      // Change color of the selected option
+                      selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
                     }}
                     >
                       <option value="" disabled selected>Baths</option>
@@ -729,7 +773,7 @@ return (
     </aside> 
         <main className='fullStage notranslate'>
         {isLoading ? (
-          <div className="loadingMessage1 translate"> Retrieving Properties &nbsp;
+          <div className="loadingMessage1 translate">
             <FadeLoader color="#f5fcff" margin={6} />
           </div>
         ) : (
@@ -738,6 +782,7 @@ return (
           {searchClicked && apiData.props && apiData.props.length > 0 && (
           <div className='alone'>{apiData.totalResultCount} Results - Page {apiData.currentPage} of {apiData.totalPages} </div>
           )}
+          <div className='capture'>
           {apiData.totalPages > 1 && (
             <button 
   className={`prevButton ${page === apiData.currentPage ? 'disabled' : ''}`}
@@ -753,6 +798,7 @@ return (
             disabled={apiData.currentPage === apiData.totalPages}
             >Next Page</button>
       )}
+      </div>
 </div>
             {apiData.props && apiData.props.length > 0 ? (
   <div className="cardContainer notranslate">
@@ -766,7 +812,7 @@ return (
             onClick={() => handleOpenLightbox(index)}
           >
             <div className='indigo'>
-            <img className='mommy' src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '44px', textAlign: 'center', width: '100%'}}/>     
+            <img className='mommy' src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
             <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}<span style={{ fontSize: 'smaller' }}>/Month</span><br /></div> 
             </div>                
             <div className="cardText1 notranslate">
@@ -785,7 +831,7 @@ return (
 ) : (
   searchClicked && (
     <div className="noResultsMessage">
-      Sorry, No results found!
+      Sorry, No Listings Found!
     </div>
   )
 )}
@@ -823,7 +869,7 @@ return (
                 </div>
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
-                  <div className='cardPark notranslate'>Parking Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
+                  <div className='cardPark notranslate'>Allocated Parking Spaces - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
                   <div className='cardFire notranslate'>Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}</div>
                   <div className='cardWind notranslate'>Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}</div>
                   <div className='cardMl notranslate'>MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}</div>
@@ -849,6 +895,9 @@ return (
           </>
         )}
       </main>
+      <div className="progress-container">
+  <div className="progress-bar"></div>
+</div>
 
   </div>
   
