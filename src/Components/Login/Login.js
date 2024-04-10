@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import "./login.css"
 function Login() {
   const [name, setName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
@@ -50,6 +50,7 @@ function Login() {
   };
 
   return (
+    
     <form className="togin" onSubmit={handleSubmit}>
       <input
         type="text"

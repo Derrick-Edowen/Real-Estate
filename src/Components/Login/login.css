@@ -1,0 +1,16 @@
+.togin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px; /* Full viewport height */
+    width: 300px;
+    background-color: rgb(209, 209, 209);
+  }
+  
+  .togin input {
+    margin-bottom: 10px; /* Spacing between inputs */
+    padding: 5px;
+    width: 200px; /* Set the width of the inputs */
+  }
+  

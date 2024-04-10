@@ -10,7 +10,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 6px;
+  height: 5px;
   margin: 0;
   padding: 0;
   border-radius: 5px;
@@ -18,12 +18,15 @@
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.9) ;
   z-index: 1000; /* Ensure it's above other content */
 }
-
+.screen-1 {
+  padding-top: 16px;
+}
 .progress-bar {
   height: 100%;
   background: linear-gradient(to right, var(--primary),rgb(52, 0, 83), rgb(82, 0, 129),rgb(115, 90, 139));
   width: 0;
   transition: width 0.3s ease;
+  border: 1px solid #0000002f;
 
 }
 
@@ -45,11 +48,23 @@ select {
 .starter {
 text-align:center;
 font-style: italic;
-  font-size: 34px;
+background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+border: 1px solid #afafaf2f;  font-size: 34px;
 	color: #ffffff;
   font-weight: 600;
-	text-shadow: 3px 3px 6px var(--primary);
+	text-shadow: 2px 2px 1px black;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+  background-size: 100% 50%; /* 50% height */
+width: fit-content;
+margin-left: auto;
+margin-right: auto;
+padding-right: 80px;
+padding-left: 80px;
+padding-top: 2px;
+padding-bottom: 2px;
+border-radius: 150px;
 }
+
 .searchBtn-1 {
   background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
   color: white;
@@ -685,71 +700,32 @@ transform: translateY(-50%);
 @media screen and (max-width: 1365px) {
   .cardi1 {
     position: relative; /* Ensure relative positioning for absolute positioning inside */
-  
     flex: 0 0 calc(50% - 4px); /* Calculate width for three columns with gap */
-    align-items: flex-start;
-    background-color: transparent;
-    box-shadow: 0px 2px 12px 2px;
-    border-radius: 5px;
-    margin-bottom: 2px; /* Add margin to create gap between rows */
-   max-height: 340px;
-   overflow: hidden;
-   transition: all 1s ease-in-out;
-   cursor: pointer;
-   transition: transform 0.3s ease-in-out;
-  
   }
   .cDress1{
-    font-size: 18px;
-    color: rgb(236, 236, 236);
-    background-color: #252525a1;
-    width: fit-content;
-    padding-left: 3px;
-    padding-right: 8px;
-    border-radius: 4px;
-    text-shadow: 2px 2px 6px #000000;
-    box-shadow: 0px 0.1px ;
-    
+    font-size: 26px;
+
     }
     .cPrice1{
       font-size: 18px;
-      color: rgb(236, 236, 236);
-      background-color: #252525a1;
-      margin-top: 1px;
-    padding-left: 3px;
-    padding-right: 3px;
-    border-radius: 4px;
-    text-shadow: 2px 2px 6px #000000;
-    box-shadow: 0px 0.1px;
-    width: fit-content;
-    
     }
     .cardBed,
     .cardBaths,
     .cardMls {
-    margin-right: 8px; /* Adjust margin as needed */
-    background-color: #252525a1;
-    border-radius: 4px;
-    color: rgb(236, 236, 236);
-    padding: 1px;
-    padding-left: 2px;
-    padding-right: 3px;
+
     font-size: 16px;
-    text-shadow: 2px 2px 6px #000000;
-  
+
     }
 }
 @media screen and (max-width: 1180px) {
   .supyo {
     background: var(--primary); 
-    margin-left: 22px;
-    margin-right: auto;
     padding: 12px;
     flex-direction: column;
     gap: 4px;
     display: none;
     z-index: 3;
-    width: 100%;
+    min-width: 100%;
     position: absolute;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
 
@@ -808,19 +784,7 @@ display:inline-flex;
 
   .cardi1 {
     position: relative; /* Ensure relative positioning for absolute positioning inside */
-  
-    flex: 0 0 calc(100% - 0px); /* Calculate width for three columns with gap */
-    align-items: flex-start;
-    background-color: transparent;
-    box-shadow: 0px 2px 12px 2px;
-    border-radius: 5px;
-    margin-bottom: 2px; /* Add margin to create gap between rows */
-   max-height: 340px;
-   overflow: hidden;
-   transition: all 1s ease-in-out;
-   cursor: pointer;
-   transition: transform 0.3s ease-in-out;
-  
+    flex: 0 0 calc(100% - 2px); /* Calculate width for three columns with gap */
   }
 }
 @media screen and (max-width: 740px) {
@@ -897,9 +861,9 @@ display:inline-flex;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 10px;
+    left: 2px;
     height: 90%;
-    width: 50px;
+    width: fit-content;
     background-color: rgba(54, 52, 52, 0.4);
     border-radius: 5px;
     border: 0.1px solid #0000006e;
@@ -915,9 +879,9 @@ display:inline-flex;
   
   .lightbox-right {
     position: absolute;
-  right: 10px;  
+  right: 2px;  
   top: 50%;
-  width: 50px;
+  width: fit-content;
   transform: translateY(-50%);
     bottom: 0;
     height: 90%;
@@ -1109,40 +1073,23 @@ font-weight: 600;
     padding: 14px;
   }
   .cDress1{
-    font-size: 16px;
-    color: rgb(236, 236, 236);
-    background-color: #252525a1;
-    width: fit-content;
-    padding-left: 3px;
-    padding-right: 8px;
-    border-radius: 4px;
-    text-shadow: 2px 2px 6px #000000;
-    box-shadow: 0px 0.1px ;
-    
+    font-size: 26px;
+
     }
     
     .cPrice1{
       font-size: 16px;
-      color: rgb(236, 236, 236);
-      background-color: #252525a1;
-      margin-top: 1px;
-    padding-left: 3px;
-    padding-right: 3px;
-    border-radius: 4px;
-    text-shadow: 2px 2px 6px #000000;
-    box-shadow: 0px 0.1px;
-    width: fit-content;
-    
     }
   .bedd,
   .bathh,
   .dayss {
 	font-family: 'Arial', sans-serif;
-    font-size: 11px;
+    font-size: 9px;
+    font-weight: 700;
     color: #333;
     text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
     letter-spacing: 1px;
-    padding: 10px;
+    padding: auto;
     background-color: #f8f8f8;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -1152,9 +1099,9 @@ font-weight: 600;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 10px;
+    left: 2px;
     height: 90%;
-    width: 25px;
+    width: fit-content;
     background-color: rgba(54, 52, 52, 0.4);
     border-radius: 5px;
     border: 0.1px solid #0000006e;
@@ -1166,9 +1113,9 @@ font-weight: 600;
   }
   .lightbox-right {
     position: absolute;
-  right: 10px;  
+  right: 2px;  
   top: 50%;
-  width: 25px;
+  width: fit-content;
   transform: translateY(-50%);
     bottom: 0;
     height: 90%;
@@ -1184,15 +1131,7 @@ font-weight: 600;
   .cardBed,
   .cardBaths,
   .cardMls {
-	margin-right: 8px; /* Adjust margin as needed */
-	background-color: #252525a1;
-	border-radius: 4px;
-	color: rgb(236, 236, 236);
-	padding: 1px;
-	padding-left: 2px;
-	padding-right: 3px;
 	font-size: 14px;
-	text-shadow: 2px 2px 6px #000000;
 
   }
   .holding1 {

@@ -118,7 +118,7 @@ function Header() {
                 to="/RentCalculator"
                 className="navbar--content"
               >
-                Rent Affordability Calculator
+                Lease Calculator
               </Link>
             </div>
           </li>

@@ -6,7 +6,7 @@ import '../../search.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faChevronLeft, faChevronRight, faRepeat} from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faChevronLeft, faChevronRight, faRepeat, faCalendarDays, faKey} from '@fortawesome/free-solid-svg-icons';
 import FadeLoader from "react-spinners/FadeLoader";
 
 
@@ -71,8 +71,8 @@ const updateMapLocation = async (address) => {
 
 
   const handleSearch = async (e) => {
-    console.log(page);
-setNextPage(1);
+    setIsRotated(!isRotated);
+    setNextPage(1);
     e.preventDefault();
     setShowFilter(false);
     const progressBar = document.querySelector('.progress-bar');
@@ -545,7 +545,7 @@ return (
   <div className='lists notranslate'>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
-        <div className='starter'>For Lease Listings Search</div>
+        <div className='starter'><FontAwesomeIcon icon={faKey} size="sm" />&nbsp;&nbsp;Properties For Lease&nbsp;&nbsp;<FontAwesomeIcon icon={faCalendarDays} size="sm" /></div>
         <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
