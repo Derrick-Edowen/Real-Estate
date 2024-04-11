@@ -155,6 +155,7 @@ gap: 1px;
 .fullStage {
 width: 98%;
 margin-top: 8px;
+
 position: relative;
 margin-right: auto; 
 margin-left: auto;
@@ -312,6 +313,8 @@ width: fit-content;
   flex-wrap: wrap; /* Allow cards to wrap to the next line */
   gap: 6px;
   overflow:auto;
+  padding-bottom: 50px;
+
   max-height: 715px;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
 }
@@ -691,7 +694,7 @@ transform: translateY(-50%);
   margin: 6px;
   gap: 10px;
   margin-bottom: 4px;
-  width: 97%;
+  width: 97.5%;
   justify-content: center;
   text-shadow: 2px 2px 6px #000000;
 
@@ -788,7 +791,22 @@ display:inline-flex;
   }
 }
 @media screen and (max-width: 740px) {
-
+  .prevButton {
+    background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+    color: white;
+    float: right;
+    gap: 4px;
+    height: 100%;
+    width: 150px;
+    text-shadow: 2px 2px 1px #000000;
+  font-size: 14px;
+    border: 1px solid #afafaf2f;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+  border-radius: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 4px;
+  }
   .lightbox {
     display: flex;
     align-items: center;
@@ -1044,6 +1062,25 @@ font-weight: 600;
   }
 }
 @media screen and (max-width: 580px) {
+  .prevButton {
+    background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+    color: white;
+    float: right;
+    gap: 4px;
+    height: 100%;
+    width: fit-content;
+    text-shadow: 2px 2px 1px #000000;
+  font-size: 10px;
+    border: 1px solid #afafaf2f;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+  border-radius: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 4px;
+  }
+  .alone {
+    font-size: 16px;
+  }
   .pAddress-1 {
     font-size: 14px;
     text-shadow: 1px 1px 2px #000000;
@@ -1059,6 +1096,26 @@ font-weight: 600;
     }
 }
 @media screen and (max-width: 435px) {
+  .prevButton {
+    background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+    color: white;
+    float: right;
+    gap: 4px;
+    height: 100%;
+    width: fit-content;
+    text-shadow: 2px 2px 1px #000000;
+  font-size: 12px;
+    border: 1px solid #afafaf2f;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+  border-radius: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 4px;
+  }
+  .alone {
+    font-size: 13px;
+    margin-left: 2px;
+  }
   .lightbox {
     display: flex;
     align-items: center;
