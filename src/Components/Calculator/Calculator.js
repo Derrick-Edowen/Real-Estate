@@ -3,7 +3,7 @@ import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './Indexcalc.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faPrint, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -409,7 +409,46 @@ const [showDrops, setShowDrops] = useState(false);
 </form>
 
 
-<div className='tableHold'>
+            </div>
+
+
+{/*Other side / own div*/}
+
+
+<div className='popUp' style={{ display: showPopUp ? 'block' : 'none' }}>
+            <div className='impData'>
+            <h4 className='amortTitle'>Equated Monthly Instalment (EMI) Details</h4>
+
+            <div className='textChart'>
+    <div className='text-container'>
+    <div className='monPay'>Monthly Payment: ${formatNumberWithCommas(monthlyAmortization.length) > 0 ? formatNumberWithCommas((monthlyAmortization[0].mortgagePayment || 0).toFixed(2)) : '-'}</div>
+    <div className='monPay3'>Home Price: ${formatNumberWithCommas(homePrice)}</div>
+    <div className='monPay3'>Down Payment: ${formatNumberWithCommas((homePrice * downPaymentPercentage / 100).toFixed(0))}</div>
+    <div className='monPay3'>Loan Amount: ${formatNumberWithCommas(loanAmount)}</div>
+    <div className='monPay2'>Total Interest: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas((annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2)) : '-'}</div>
+    <div className='monPay3'>Total Amount: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas(((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2)) : '-'}</div>
+    </div>
+    {/* Doughnut chart */}
+    <div className='doughnut-chart-container'>
+        <canvas id="doughnutChart" width="250" height="200"></canvas>
+    </div>
+</div>
+         
+</div>
+
+                </div>
+                {/* Line Chart */}
+                <div className='popUp2' style={{ display: showPopUp2 ? 'block' : 'none' }}>
+                <h4 className='amortTitle'>Annual Amortization Graph</h4>
+<div className='line-chart-container'>
+<canvas id="lineChart" width="300" height="415"></canvas>
+                </div>   
+                </div>
+
+
+
+
+                <div className='tableHold'>
 <div className='scheduleButts' style={{ display: showScheduleButts ? 'block' : 'none' }}>
     <button className={`annual ${annualClass}`} onClick={toggleAnnualDropdown}>
         Annual Schedule
@@ -417,7 +456,7 @@ const [showDrops, setShowDrops] = useState(false);
     <button className={`month ${monthlyClass}`} onClick={toggleMonthlyDropdown}>
         Monthly Schedule
     </button>
-    <button className='downPDF' onClick={downloadPDF}>Download Table&nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faDownload} size="lg" />
+    <button className='downPDF' onClick={downloadPDF}><FontAwesomeIcon icon={faFilePdf} size="lg"/>
 
 
     </button>
@@ -426,7 +465,7 @@ const [showDrops, setShowDrops] = useState(false);
 
 
 
-<div className='drops' style={{ display: showDrops ? 'inline-block' : 'none' }}>
+<div className='drops' style={{ display: showDrops ? 'block' : 'none' }}>
             <div>
       <div className={`dropdown-contentCalc ${monthlyDropdownActive ? 'active' : ''}`}>
                         <table id='monthlyTable'>
@@ -483,43 +522,7 @@ const [showDrops, setShowDrops] = useState(false);
 
 
 </div>
-            </div>
-
-{/*Other side / own div*/}
-
-<div className='split-container'>
-
-<div className='popUp' style={{ display: showPopUp ? 'block' : 'none' }}>
-            <div className='impData'>
-            <h4 className='amortTitle'>Equated Monthly Instalment (EMI) Details</h4>
-
-            <div className='textChart'>
-    <div className='text-container'>
-    <div className='monPay'>Monthly Payment: ${formatNumberWithCommas(monthlyAmortization.length) > 0 ? formatNumberWithCommas((monthlyAmortization[0].mortgagePayment || 0).toFixed(2)) : '-'}</div>
-    <div className='monPay3'>Home Price: ${formatNumberWithCommas(homePrice)}</div>
-    <div className='monPay3'>Down Payment: ${formatNumberWithCommas((homePrice * downPaymentPercentage / 100).toFixed(0))}</div>
-    <div className='monPay3'>Loan Amount: ${formatNumberWithCommas(loanAmount)}</div>
-    <div className='monPay2'>Total Interest: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas((annualAmortization[annualAmortization.length - 1].totalInterest || 0).toFixed(2)) : '-'}</div>
-    <div className='monPay3'>Total Amount: ${formatNumberWithCommas(annualAmortization.length) > 0 ? formatNumberWithCommas(((annualAmortization[annualAmortization.length - 1].totalPrincipal || 0) + (annualAmortization[annualAmortization.length - 1].totalInterest || 0)).toFixed(2)) : '-'}</div>
-    </div>
-    {/* Doughnut chart */}
-    <div className='doughnut-chart-container'>
-        <canvas id="doughnutChart" width="250" height="200"></canvas>
-    </div>
-</div>
-         
-</div>
-
-                </div>
-                {/* Line Chart */}
-                <div className='popUp2' style={{ display: showPopUp2 ? 'block' : 'none' }}>
-                <h4 className='amortTitle'>Annual Amortization Graph</h4>
-<div className='line-chart-container'>
-<canvas id="lineChart" width="300" height="415"></canvas>
-                </div>   
-                </div>
                 
-        </div>
         </div>
     );
 }

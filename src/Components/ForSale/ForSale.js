@@ -549,7 +549,7 @@ function ForSale() {
     <div className='lists notranslate'>
       <div className='overlay notranslate'>
         <aside className='screen-1'>
-          <div className='starter'><FontAwesomeIcon icon={faHouseChimney} size="sm" />&nbsp;&nbsp;Properties For Sale&nbsp;&nbsp;<FontAwesomeIcon icon={faSignHanging} size="sm" /></div>
+          <div className='starter'>Properties For Sale</div>
           <button className="toggle" onClick={toggleFilter}> For Sale Property Filter  
             <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
           </button>
@@ -873,8 +873,8 @@ function ForSale() {
               <div className='heallin'>
                 <div className='bedd'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;</div>
                 <div className='bathh'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;</div>
+                <div className='dayss notranslate'>Square Footage - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}sq.ft</div>         
                 <div className='dayss'>&nbsp;Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>   
-                <div className='dayss notranslate'>Square Footage(sqft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
                 </div>
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>

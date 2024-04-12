@@ -545,7 +545,7 @@ return (
   <div className='lists notranslate'>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
-        <div className='starter'><FontAwesomeIcon icon={faKey} size="sm" />&nbsp;&nbsp;Properties For Lease&nbsp;&nbsp;<FontAwesomeIcon icon={faCalendarDays} size="sm" /></div>
+        <div className='starter'>Properties For Lease</div>
         <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
