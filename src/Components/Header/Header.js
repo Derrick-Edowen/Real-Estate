@@ -111,14 +111,14 @@ function Header() {
                 to="/Calculator"
                 className="navbar--content transformer"
               >
-                Mortgage Calculator
+                MORTGAGE CALCULATOR
               </Link>
               <Link
                 onClick={closeMenu}
                 to="/RentCalculator"
                 className="navbar--content transformer"
               >
-                Lease Calculator
+                LEASE CALCULATOR
               </Link>
             </div>
           </li>

@@ -275,10 +275,10 @@ function ForSale() {
               status_type: "ForSale",
               home_type: propertyType,
               sort: sort,
-              rentMinPrice: minPrice,
-              rentMaxPrice: maxPrice,
+              minPrice: minPrice,
+          maxPrice: maxPrice,
               bathsMin: maxBaths,
-                bedsMin: maxBeds
+              bedsMin: maxBeds
             },
             headers: {
               'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
@@ -410,10 +410,10 @@ function ForSale() {
               status_type: "ForSale",
               home_type: propertyType,
               sort: sort,
-              rentMinPrice: minPrice,
-              rentMaxPrice: maxPrice,
+              minPrice: minPrice,
+          maxPrice: maxPrice,
               bathsMin: maxBaths,
-                bedsMin: maxBeds
+              bedsMin: maxBeds
             },
             headers: {
               'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
@@ -784,7 +784,7 @@ function ForSale() {
       <main className='fullStage notranslate'>
         {isLoading ? (
           <div className="loadingMessage1 translate">
-            <FadeLoader color="#f5fcff" margin={6} />
+            <FadeLoader color="#f5fcff" margin={8} />
           </div>
         ) : (
           <>
@@ -873,7 +873,7 @@ function ForSale() {
               <div className='heallin'>
                 <div className='bedd'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;</div>
                 <div className='bathh'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;</div>
-                <div className='dayss notranslate'>Square Footage - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}sq.ft</div>         
+                <div className='dayss notranslate'>Square Footage(sq.ft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
                 <div className='dayss'>&nbsp;Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>   
                 </div>
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>

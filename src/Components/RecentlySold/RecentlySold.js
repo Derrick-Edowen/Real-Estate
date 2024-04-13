@@ -274,10 +274,10 @@ function RecentlySold() {
               status_type: "RecentlySold",
               home_type: propertyType,
               sort: sort,
-              rentMinPrice: minPrice,
-              rentMaxPrice: maxPrice,
+              minPrice: minPrice,
+          maxPrice: maxPrice,
               bathsMin: maxBaths,
-                bedsMin: maxBeds
+              bedsMin: maxBeds
             },
             headers: {
               'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
@@ -409,10 +409,10 @@ function RecentlySold() {
               status_type: "RecentlySold",
               home_type: propertyType,
               sort: sort,
-              rentMinPrice: minPrice,
-              rentMaxPrice: maxPrice,
+              minPrice: minPrice,
+          maxPrice: maxPrice,
               bathsMin: maxBaths,
-                bedsMin: maxBeds
+              bedsMin: maxBeds
             },
             headers: {
               'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
