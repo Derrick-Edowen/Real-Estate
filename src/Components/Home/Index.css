@@ -43,21 +43,21 @@ padding: 0px;
   float: left;
   text-align:left;
   padding-left: 0px;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offset, blur radius, color */
+  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
 }
 .textBox  h2{
   font-size: 40px;
   float: left;
   text-align:left;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offset, blur radius, color */
+  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
 }
 .textBox p {
   font-size: 30px;
   float: left;
   text-align:left;
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offset, blur radius, color */
+  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
 }
 .contactBtn {

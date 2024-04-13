@@ -545,7 +545,7 @@ return (
   <div className='lists notranslate'>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
-        <div className='starter'>Properties For Lease</div>
+        <div className='starter'>Find Listings - For Lease</div>
         <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
@@ -774,7 +774,7 @@ return (
         <main className='fullStage notranslate'>
         {isLoading ? (
           <div className="loadingMessage1 translate">
-            <FadeLoader color="#f5fcff" margin={6} />
+            <FadeLoader color="#f5fcff" margin={7} />
           </div>
         ) : (
           <>

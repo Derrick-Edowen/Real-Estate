@@ -549,7 +549,7 @@ function ForSale() {
     <div className='lists notranslate'>
       <div className='overlay notranslate'>
         <aside className='screen-1'>
-          <div className='starter'>Properties For Sale</div>
+          <div className='starter'>Find Listings - For Sale</div>
           <button className="toggle" onClick={toggleFilter}> For Sale Property Filter  
             <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
           </button>

@@ -75,24 +75,24 @@ function Header() {
             <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
               <Link
                 onClick={closeMenu}
-                to="/ForRent"
-                className="navbar--content"
+                to="/ForSale"
+                className="navbar--content transformer"
               >
-                For Lease
+                FOR SALE
               </Link>
               <Link
                 onClick={closeMenu}
-                to="/ForSale"
-                className="navbar--content"
+                to="/ForRent"
+                className="navbar--content transformer"
               >
-                For Sale
+                FOR LEASE
               </Link>
               <Link
                 onClick={closeMenu}
                 to="/RecentlySold"
-                className="navbar--content"
+                className="navbar--content transformer"
               >
-                Recently Sold
+                RECENTLY SOLD
               </Link>
             </div>
           </li>
@@ -109,14 +109,14 @@ function Header() {
               <Link
                 onClick={closeMenu}
                 to="/Calculator"
-                className="navbar--content"
+                className="navbar--content transformer"
               >
                 Mortgage Calculator
               </Link>
               <Link
                 onClick={closeMenu}
                 to="/RentCalculator"
-                className="navbar--content"
+                className="navbar--content transformer"
               >
                 Lease Calculator
               </Link>

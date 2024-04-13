@@ -450,10 +450,12 @@ const [showDrops, setShowDrops] = useState(false);
 
                 <div className='tableHold'>
 <div className='scheduleButts' style={{ display: showScheduleButts ? 'block' : 'none' }}>
-    <button className={`annual ${annualClass}`} onClick={toggleAnnualDropdown}>
+    <button className={`annual ${annualClass}`} onClick={toggleAnnualDropdown}   disabled={annualClass !== 'inactive'} // Disable if the annualClass is 'active'
+>
         Annual Schedule
         </button>
-    <button className={`month ${monthlyClass}`} onClick={toggleMonthlyDropdown}>
+    <button className={`month ${monthlyClass}`} onClick={toggleMonthlyDropdown}   disabled={monthlyClass !== 'inactive'} // Disable if the monthlyClass is 'active'
+>
         Monthly Schedule
     </button>
     <button className='downPDF' onClick={downloadPDF}><FontAwesomeIcon icon={faFilePdf} size="lg"/>

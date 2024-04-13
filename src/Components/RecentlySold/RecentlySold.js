@@ -548,7 +548,7 @@ function RecentlySold() {
     <div className='lists notranslate'>
       <div className='overlay notranslate'>
         <aside className='screen-1'>
-          <div className='starter'>Recently Sold Listings</div>
+          <div className='starter'>Find Listings - Recently Sold</div>
           <button className="toggle" onClick={toggleFilter}> Recently Sold Property Filter  
             <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
           </button>
