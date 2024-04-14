@@ -119,7 +119,7 @@ const port =  process.env.PORT || 3001;
     <div className='moore'>Click to Learn More!</div>
     <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
     {isLoggedIn && (
-    <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete this Post</button>
+    <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete this post?</button>
     )}
   </div>
 ))}
@@ -128,7 +128,7 @@ const port =  process.env.PORT || 3001;
   <div className="lightboxB" onClick={handleClose}>
     <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
     <div className="chasser" onClick={handleClose}>
-    <FontAwesomeIcon icon={faXmark} />
+    <FontAwesomeIcon icon={faXmark} size='2xl'/>
           </div>
       <h3 className='blogHead'>{selectedPost.title}</h3>
       {selectedPost.type && (
@@ -149,52 +149,6 @@ const port =  process.env.PORT || 3001;
     </div>
   </div>
 )}
-
-
-    {/* Delete later - Temp to help  CSS- start*/}
-    <div className="posts-container">
-  <div className="post">
-  <img className='windows' src={sample1} alt="Open House" />
-  <div className='finalss'>
-  <div className="chasser" onClick={handleClose}>
-    <FontAwesomeIcon icon={faXmark} size='2xl'/>
-          </div>
-    <h3 className='blogHead'>Sample Annoucement - Join Us for an Open House this Weekend at 123 Realestate Drive!</h3>
-    <p className='blogCont'>{(content)}</p>
-    </div>
-    <div className='moore'>Click to Learn More!</div>
-    <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
-
-  </div>
-  <div className="post">
-  <img className='windows' src={sample2} alt="Open House" />
-    <h3 className='blogHead'>Header fwfwefsrbsrHeader fwfwefsrbsr</h3>
-    <p className='blogCont'>{(content)}</p>
-
-    <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
-
-  </div>
-  <div className="post">
-  <img className='windows' src={sample4} alt="Open House" />
-  <div className='finalss'>
-    <h3 className='blogHead'>Sample Annoucement - Join Us for an Open House this Weekend at 123 Realestate Drive!</h3>
-    <p className='blogCont'>{(content)}</p>
-    </div>
-    <div className='moore'>Click to Learn More!</div>
-    <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
-
-  </div>
-
-  
-    </div>
-    {/* Temp to help - end*/}
-
-
-
-
-
-
-
 
 
     {isLoggedIn && (
@@ -244,7 +198,7 @@ const port =  process.env.PORT || 3001;
 
     <br />
         
-        <button className='postbutt' onClick={handlePost}>Post</button>
+        <button className='postbutt' onClick={handlePost}>Create Post</button>
       </div>
     )}
   </div>
