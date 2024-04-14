@@ -73,6 +73,7 @@ const port =  process.env.PORT || 3001;
   <div key={index} className="post">
     <h3 className='blogHead'>{post.title}</h3>
     <p className='blogCont'>{post.content}</p>
+    <div className='timer'>{post.created_at}</div>
     {isLoggedIn && (
     <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete</button>
     )}
@@ -82,12 +83,7 @@ const port =  process.env.PORT || 3001;
 
 
 
-
-
-
-
-
-    {/* Delete later - Temp to help  CSS- start*/}
+    {/* Delete later - Temp to help  CSS- start}
     <div className="posts-container">
   <div className="post">
     <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
