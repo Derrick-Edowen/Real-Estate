@@ -47,7 +47,7 @@
     "start": "node server.js",
     "build": "react-scripts build",
     "heroku-postbuild": "npm run build",
-    "dev": "npm-run-all --parallel start dev-client",
+    "dev": "npm-run-all --parallel  dev-client start",
     "dev-client": "react-scripts start"
   }
   ,

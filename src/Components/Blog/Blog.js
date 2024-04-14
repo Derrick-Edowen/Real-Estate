@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Blog.css';
 import { useLocation } from 'react-router-dom';
+import man from  '../../Assets/Images/living1.jpg'
 
 function Blog() {
   const [posts, setPosts] = useState([]);
@@ -73,16 +74,65 @@ const port =  process.env.PORT || 3001;
     <h3 className='blogHead'>{post.title}</h3>
     <p className='blogCont'>{post.content}</p>
     {isLoggedIn && (
-    <button onClick={() => handleDelete(post.id)}>Delete</button>
+    <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete</button>
     )}
   </div>
 ))}
-
     </div>
+
+
+
+
+
+
+
+
+    {/* Delete later - Temp to help  CSS- start*/}
+    <div className="posts-container">
+  <div className="post">
+    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
+    <p className='blogCont'>content EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
+    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzb</p>
+  </div>
+  <div className="post">
+    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
+    <p className='blogCont'>ekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
+    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzbekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerev
+    ekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerev
+    ekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerev</p>
+  </div>
+  <div className="post">
+    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
+    <p className='blogCont'>content EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
+    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzb</p>
+  </div>
+  <div className="post">
+    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
+    <p className='blogCont'>content EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
+    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzb</p>
+  </div>
+  <div className="post">
+    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
+    <p className='blogCont'>content EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
+    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzb</p>
+  </div>
+  
+    </div>
+    {/* Temp to help - end*/}
+
+
+
+
+
+
+
+
+
     {isLoggedIn && (
       <div className="text-area-container">
         <input
           type="text"
+          className="text-title"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
           placeholder="Enter announcement title"
@@ -96,7 +146,7 @@ const port =  process.env.PORT || 3001;
           cols={50}
         />
         <br />
-        <button onClick={handlePost}>Post</button>
+        <button className='postbutt' onClick={handlePost}>Post</button>
       </div>
     )}
   </div>

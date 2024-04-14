@@ -50,8 +50,9 @@ function Login() {
   };
 
   return (
-    
+    <div className='logginCont'>
     <form className="togin" onSubmit={handleSubmit}>
+      <h4 className='idekk'>Login to Update Announcement Content!</h4>
       <input
         type="text"
         placeholder="Name"
@@ -73,8 +74,9 @@ function Login() {
         onChange={handlePasswordChange}
         required
       />
-      <button type="submit">Login</button>
+      <button className='loggg' type="submit">Login</button>
     </form>
+    </div>
   );
 }
 
