@@ -130,7 +130,7 @@ const port =  process.env.PORT || 3001;
   <div className="lightbox" onClick={handleClose}>
     <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
       <h3 className='blogHead'>{selectedPost.title}</h3>
-      <p className='blogCont'>{selectedPost.content}</p>
+      <p className='blogContl'>{selectedPost.content}</p>
       <div className='timer'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
     </div>
   </div>
@@ -202,19 +202,19 @@ const port =  process.env.PORT || 3001;
       <option value="General">General</option>
     </select>
     {newType === "Open House" && (
-      <img className='windows' src={sample1} alt="Open House" />
+      <img className='windows1' src={sample1} alt="Open House" />
     )}
     {newType === "Home for Sale" && (
-      <img className='windows' src={sample2} alt="Home for Sale" />
+      <img className='windows1' src={sample2} alt="Home for Sale" />
     )}
     {newType === "Looking for Clients" && (
-      <img className='windows' src={sample3} alt="Looking for Clients" />
+      <img className='windows1' src={sample3} alt="Looking for Clients" />
     )}
     {newType === "Home Evaluations" && (
-      <img className='windows' src={sample4} alt="Home Evaluations" />
+      <img className='windows1' src={sample4} alt="Home Evaluations" />
     )}
     {newType === "General" && (
-      <img className='windows' src={sample1} alt="General" />
+      <img className='windows1' src={sample1} alt="General" />
     )}
     <br />
         
