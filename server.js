@@ -43,10 +43,10 @@ app.post('/login', async (req, res) => {
 
 // Create a post
 app.post('/posts', async (req, res) => {
-  const { title, content, user_id, created_at } = req.body;
+  const { title, content, user_id, created_at, type } = req.body;
 
   try {
-    await pool.query('INSERT INTO posts (title, content, user_id, created_at) VALUES (?, ?, ?, ?)', [title, content, 1, created_at]);
+    await pool.query('INSERT INTO posts (title, content, user_id, created_at, type) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, type]);
     res.status(201).json({ message: 'Post created successfully' });
   } catch (error) {
     console.error('Error creating post:', error);
