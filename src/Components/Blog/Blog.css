@@ -13,7 +13,10 @@
     text-align: center;
     padding: 20px;
   }
-  
+  .finalss {
+    flex-direction: row;
+    width: 100%;
+  }
   .text-area {
     width: 80%;
     min-height: 100px;
@@ -23,6 +26,7 @@
   .text-title {
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 4px;
   }
   .posts-container {
     width:96%;
@@ -30,7 +34,7 @@
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    max-height: 70vh;
+    max-height: 80vh;
     overflow-y: scroll;
   }
   .nerfme {
@@ -46,42 +50,56 @@
   .postbutt {
     background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
     color: white;
+    padding-left: 14px;
+    padding-right: 14px;
+    width: fit-content;
     border: 1px solid #afafaf2f;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
   }
   .post {
-    width: 80%;
+    width: 65%;
+    display: flex;
     margin-bottom: 20px;
     position: relative;
-    padding: 15px;
+    padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
     border: 1px solid #afafaf2f;
-
+border-radius: 3px;
   }
   
   .post:nth-child(even) {
     float: right;
-    background: white;
+    background: rgb(240, 240, 240);
     margin-right: 16px;
 
   }
   
   .post:nth-child(odd) {
     float: left;
-    background: white;
+    background: rgb(250, 250, 250);
     margin-left: 16px;
 
   }
   .timer {
-    font-size: 12px;
+    font-size: 14px;
     color: rgb(0, 0, 0);
     text-align: end;
     text-shadow: 0px 0px 1px black;
-
-  }
+width: fit-content;
+height: fit-content;  
+position: absolute;
+bottom: 0px;
+right: 0px;
+padding:6px;
+}
   .windows {
-    width: 300px;
-    height: 300px;
+    width: 35%;
+    height: 180px;
+    margin-right: 6px;
+    border-radius: 2px;
   }
   .blogHead {
 text-align: center;
@@ -89,13 +107,23 @@ color: rgb(37, 37, 37);
 text-shadow: 0px 0px 1px black;
 font-weight:500;
 font-size: 28px;
+margin-left: auto;
+padding-top: 10px;
+margin-right: auto;
+width: 100%;
   }
   .blogCont {
 font-size: 20px;
 text-shadow: 0px 0px 1px black;
 color: rgb(0, 0, 0);
+margin-left: auto;
+margin-right: auto;
 text-align: center;
 padding: 4px;
+white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 50ch; 
   }
   .lightbox {
     position: fixed;

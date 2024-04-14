@@ -60,7 +60,7 @@ const port =  process.env.PORT || 3001;
       }
     }
   };
-  
+  const content = ["THIS IS JUST A TEST OF THE CONTENT SO  i KNOW HOW IT WILL LOOK AND FEEL. Kinda got a headache ngl fam.THIS IS JUST A TEST OF THE CONTENT SO  i KNOW HOW IT WILL LOOK AND FEEL. Kinda got a headache ngl fam."]
   const handleDelete = async (postId) => {
     try {
       await fetch(`/posts/${postId}`, {
@@ -82,7 +82,7 @@ const port =  process.env.PORT || 3001;
   }
   
   function formatCreatedAt(dateString) {
-    return `(${formatDate(dateString)})`;
+    return `${formatDate(dateString)}`;
   }
   
     const handleClick = (index) => {
@@ -92,30 +92,34 @@ const port =  process.env.PORT || 3001;
     const handleClose = () => {
       setSelectedPost(null);
     };
+
   return (
     <div className="blog-container">
     <div className="posts-container">
     {posts.map((post, index) => (
   <div key={index} className="post">
-    {newType && (
-    <img className='windows'
+    {post.type && (
+    <img
+      className='windows'
       src={
-        newType === "Open House"
-          ? {sample1}
-          : newType === "Home for Sale"
-          ? {sample2}
-          : newType === "Looking for Clients"
-          ? {sample3}
-          : newType === "Home Evaluations"
-          ? {sample4}
-          : {sample1}
+        post.type === "Open House"
+          ? sample1
+          : post.type === "Home for Sale"
+          ? sample2
+          : post.type === "Looking for Clients"
+          ? sample3
+          : post.type === "Home Evaluations"
+          ? sample4
+          : sample1
       }
-      alt={newType}
+      alt={post.type}
     />
   )}
-  <div>{post.type}</div>
+    <div className='finalss'>
     <h3 className='blogHead'>{post.title}</h3>
-    <div className='timer'>{formatCreatedAt(post.created_at)}</div>
+    <p className='blogCont'>{post.content}</p>
+    </div>
+    <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
     {isLoggedIn && (
     <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete</button>
     )}
@@ -123,38 +127,35 @@ const port =  process.env.PORT || 3001;
 ))}
     </div>
     {selectedPost && (
-        <div className="lightbox" onClick={handleClose}>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <h3 className='blogHead'>{selectedPost.title}</h3>
-            <p className='blogCont'>{selectedPost.content}</p>
-            <div className='timer'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
-          </div>
-        </div>
-      )}
+  <div className="lightbox" onClick={handleClose}>
+    <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+      <h3 className='blogHead'>{selectedPost.title}</h3>
+      <p className='blogCont'>{selectedPost.content}</p>
+      <div className='timer'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
+    </div>
+  </div>
+)}
 
 
     {/* Delete later - Temp to help  CSS- start*/}
     <div className="posts-container">
   <div className="post">
+  <img className='windows' src={sample1} alt="Open House" />
+  <div className='finalss'>
     <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
-    <p className='blogCont'>content EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
-    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzb</p>
+    <p className='blogCont'>{(content)}</p>
+    </div>
+    <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
+  </div>
+  <div className="post">
+  <img className='windows' src={sample2} alt="Open House" />
+    <h3 className='blogHead'>Header fwfwefsrbsrHeader fwfwefsrbsr</h3>
     <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
 
   </div>
   <div className="post">
-    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
-    <p className='blogCont'>ekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
-    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzbekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerev
-    ekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerev
-    ekjnjveongioe4vjnmeaoivnqerovnmqevkqolekvmqlekvmqevecontent EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerev</p>
-    <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
-
-  </div>
-  <div className="post">
-    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
-    <p className='blogCont'>content EGRFGERGASRGEARSGGERGDFrewgerge3rgqaergaegaegearqrgaedgaergaegedgbhgbjtjkykykjtjywshsgzdfgaerevzdgveghsrhfrhntyjtjntdyujm
-    tntdnbstbrbsfbsfbsfbszfdbsafrgbhasrbsfbasrbsbsfbsbnsfbsb sfbsfbsfbsbfzb</p>
+  <img className='windows' src={sample3} alt="Open House" />
+    <h3 className='blogHead'>Header fwfwefsrbsr</h3>
     <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
 
   </div>
@@ -193,6 +194,7 @@ const port =  process.env.PORT || 3001;
       value={newType}
       onChange={(e) => setNewType(e.target.value)}
     >
+      <option value="" disabled selected>Select an Image</option>
       <option value="Open House">Open House</option>
       <option value="Home for Sale">Home for Sale</option>
       <option value="Looking for Clients">Looking for Clients</option>
@@ -200,19 +202,19 @@ const port =  process.env.PORT || 3001;
       <option value="General">General</option>
     </select>
     {newType === "Open House" && (
-      <img src={sample1} alt="Open House" />
+      <img className='windows' src={sample1} alt="Open House" />
     )}
     {newType === "Home for Sale" && (
-      <img src={sample2} alt="Home for Sale" />
+      <img className='windows' src={sample2} alt="Home for Sale" />
     )}
     {newType === "Looking for Clients" && (
-      <img src={sample3} alt="Looking for Clients" />
+      <img className='windows' src={sample3} alt="Looking for Clients" />
     )}
     {newType === "Home Evaluations" && (
-      <img src={sample4} alt="Home Evaluations" />
+      <img className='windows' src={sample4} alt="Home Evaluations" />
     )}
     {newType === "General" && (
-      <img src={sample1} alt="General" />
+      <img className='windows' src={sample1} alt="General" />
     )}
     <br />
         
