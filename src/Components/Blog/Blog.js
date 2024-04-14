@@ -98,7 +98,7 @@ const port =  process.env.PORT || 3001;
     {posts.map((post, index) => (
   <div key={index} className="post">
     {newType && (
-    <img
+    <img className='windows'
       src={
         newType === "Open House"
           ? {sample1}
@@ -113,6 +113,7 @@ const port =  process.env.PORT || 3001;
       alt={newType}
     />
   )}
+  <div>{post.type}</div>
     <h3 className='blogHead'>{post.title}</h3>
     <div className='timer'>{formatCreatedAt(post.created_at)}</div>
     {isLoggedIn && (
