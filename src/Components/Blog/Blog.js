@@ -5,7 +5,8 @@ import sample1 from  '../../Assets/Images/living1.jpg'
 import sample2 from  '../../Assets/Images/kitchen1.jpg'
 import sample3 from  '../../Assets/Images/backyard1.jpg'
 import sample4 from  '../../Assets/Images/yard1.jpg'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 function Blog() {
   const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState('');
@@ -126,9 +127,9 @@ const port =  process.env.PORT || 3001;
     {selectedPost && (
   <div className="lightboxB" onClick={handleClose}>
     <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
-    <button className="chasser" onClick={handleClose}>
-            Close
-          </button>
+    <div className="chasser" onClick={handleClose}>
+    <FontAwesomeIcon icon={faXmark} />
+          </div>
       <h3 className='blogHead'>{selectedPost.title}</h3>
       {selectedPost.type && (
     <img
@@ -155,6 +156,9 @@ const port =  process.env.PORT || 3001;
   <div className="post">
   <img className='windows' src={sample1} alt="Open House" />
   <div className='finalss'>
+  <div className="chasser" onClick={handleClose}>
+    <FontAwesomeIcon icon={faXmark} size='2xl'/>
+          </div>
     <h3 className='blogHead'>Sample Annoucement - Join Us for an Open House this Weekend at 123 Realestate Drive!</h3>
     <p className='blogCont'>{(content)}</p>
     </div>
