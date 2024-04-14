@@ -30,7 +30,7 @@
     width: 50%;
   }
   .posts-container {
-    width:96%;
+    width:80%;
     padding: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -64,16 +64,15 @@
 right: 150px;
   }
   .post {
-    width: 65%;
-    display: flex;
+    width: 55%;
     margin-bottom: 20px;
     position: relative;
     padding-left: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-
+height: fit-content;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-    border: 1px solid #afafaf2f;
+    border: 1px solid #8585852f;
 border-radius: 3px;
   }
   
@@ -102,9 +101,22 @@ bottom: 0px;
 right: 0px;
 padding:6px;
 }
+.moore {
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  text-align:start;
+  text-decoration: underline;
+  text-shadow: 0px 0px 1px black;
+width: fit-content;
+height: fit-content;  
+position: absolute;
+bottom: 0px;
+left: 0px;
+padding:6px;
+}
   .windows {
-    width: 35%;
-    height: 180px;
+    width: 100%;
+    height: 250px;
     margin-right: 6px;
     border-radius: 2px;
   }
@@ -138,6 +150,7 @@ white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 50ch; 
+  margin-bottom: 40px;
   }
   .blogContl {
     font-size: 20px;
@@ -148,19 +161,20 @@ margin-right: auto;
 text-align: center;
 padding: 4px;
   }
-  .lightbox {
+  .lightboxB {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    z-index: 5000; /* Ensure it appears above other elements */
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
-  .lightbox-content {
+  .lightbox-contentB {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -169,18 +183,18 @@ padding: 4px;
     overflow-y: auto;
   }
   
-  .lightbox-content h3 {
+  .lightbox-contentB h3 {
     font-size: 24px;
     margin-bottom: 10px;
   }
   
-  .lightbox-content p {
+  .lightbox-contentB p {
     font-size: 16px;
     line-height: 1.5;
     margin-bottom: 20px;
   }
   
-  .lightbox-content .timer {
+  .lightbox-contentB .timer {
     font-size: 14px;
     color: #666;
   }

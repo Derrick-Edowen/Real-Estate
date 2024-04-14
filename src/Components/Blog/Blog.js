@@ -12,11 +12,11 @@ function Blog() {
   const [newContent, setNewContent] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
   const [newType, setNewType] = useState('');
-
   const location = useLocation();
   const currentUserID = location.state?.currentUserID || '';
   const isLoggedIn = location.state?.isLoggedIn || false;
 const port =  process.env.PORT || 3001;
+
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -60,7 +60,7 @@ const port =  process.env.PORT || 3001;
       }
     }
   };
-  const content = ["THIS IS JUST A TEST OF THE CONTENT SO  i KNOW HOW IT WILL LOOK AND FEEL. Kinda got a headache ngl fam.THIS IS JUST A TEST OF THE CONTENT SO  i KNOW HOW IT WILL LOOK AND FEEL. Kinda got a headache ngl fam."]
+  const content = [" Kinda got a headache ngl fam.THIS IS JUST A TEST OF THE CONTENT SO  i KNOW HOW IT WILL LOOK AND FEEL. Kinda got a headache ngl fam."]
   const handleDelete = async (postId) => {
     try {
       await fetch(`/posts/${postId}`, {
@@ -97,20 +97,16 @@ const port =  process.env.PORT || 3001;
     <div className="blog-container">
     <div className="posts-container">
     {posts.map((post, index) => (
-  <div key={index} className="post">
+  <div key={index} className="post" onClick={() => handleClick(index)}>
     {post.type && (
     <img
       className='windows'
       src={
-        post.type === "Open House"
-          ? sample1
-          : post.type === "Home for Sale"
-          ? sample2
-          : post.type === "Looking for Clients"
-          ? sample3
-          : post.type === "Home Evaluations"
-          ? sample4
-          : sample1
+        post.type === "Open House" ? sample1 :
+                post.type === "Home for Sale" ? sample2 :
+                post.type === "Looking for Clients" ? sample3 :
+                post.type === "Home Evaluations" ? sample4 :
+                sample1
       }
       alt={post.type}
     />
@@ -119,16 +115,17 @@ const port =  process.env.PORT || 3001;
     <h3 className='blogHead'>{post.title}</h3>
     <p className='blogCont'>{post.content}</p>
     </div>
+    <div className='moore'>Click to Learn More!</div>
     <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
     {isLoggedIn && (
-    <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete</button>
+    <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete this Post</button>
     )}
   </div>
 ))}
     </div>
     {selectedPost && (
-  <div className="lightbox" onClick={handleClose}>
-    <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+  <div className="lightboxB" onClick={handleClose}>
+    <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
       <h3 className='blogHead'>{selectedPost.title}</h3>
       <p className='blogContl'>{selectedPost.content}</p>
       <div className='timer'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
@@ -142,20 +139,28 @@ const port =  process.env.PORT || 3001;
   <div className="post">
   <img className='windows' src={sample1} alt="Open House" />
   <div className='finalss'>
-    <h3 className='blogHead'>Header rsbsrbrbhsrbsrbsrbsr</h3>
+    <h3 className='blogHead'>Sample Annoucement - Join Us for an Open House this Weekend at 123 Realestate Drive!</h3>
     <p className='blogCont'>{(content)}</p>
     </div>
-    <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
-  </div>
-  <div className="post">
-  <img className='windows' src={sample2} alt="Open House" />
-    <h3 className='blogHead'>Header fwfwefsrbsrHeader fwfwefsrbsr</h3>
+    <div className='moore'>Click to Learn More!</div>
     <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
 
   </div>
   <div className="post">
-  <img className='windows' src={sample3} alt="Open House" />
-    <h3 className='blogHead'>Header fwfwefsrbsr</h3>
+  <img className='windows' src={sample2} alt="Open House" />
+    <h3 className='blogHead'>Header fwfwefsrbsrHeader fwfwefsrbsr</h3>
+    <p className='blogCont'>{(content)}</p>
+
+    <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
+
+  </div>
+  <div className="post">
+  <img className='windows' src={sample4} alt="Open House" />
+  <div className='finalss'>
+    <h3 className='blogHead'>Sample Annoucement - Join Us for an Open House this Weekend at 123 Realestate Drive!</h3>
+    <p className='blogCont'>{(content)}</p>
+    </div>
+    <div className='moore'>Click to Learn More!</div>
     <div className='timer'>Posted on: 2024-03-25T00:00:00.000Z</div>
 
   </div>
@@ -216,6 +221,7 @@ const port =  process.env.PORT || 3001;
     {newType === "General" && (
       <img className='windows1' src={sample1} alt="General" />
     )}
+
     <br />
         
         <button className='postbutt' onClick={handlePost}>Post</button>
