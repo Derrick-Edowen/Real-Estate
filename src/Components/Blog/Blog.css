@@ -30,7 +30,7 @@
     width: 50%;
   }
   .posts-container {
-    width:80%;
+    width:100%;
     padding: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -64,7 +64,7 @@
 right: 150px;
   }
   .post {
-    width: 55%;
+    width: 50%;
     margin-bottom: 20px;
     position: relative;
     padding-left: 0px;
@@ -74,23 +74,28 @@ height: fit-content;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
     border: 1px solid #8585852f;
 border-radius: 3px;
+cursor: pointer;
   }
-  
+  .chasser {
+    position: relative;
+    top: 0px;
+    right: 0px;
+  }
   .post:nth-child(even) {
     float: right;
     background: rgb(240, 240, 240);
-    margin-right: 16px;
+    margin-right: 60px;
 
   }
   
   .post:nth-child(odd) {
     float: left;
     background: rgb(250, 250, 250);
-    margin-left: 16px;
+    margin-left: 60px;
 
   }
   .timer {
-    font-size: 14px;
+    font-size: 16px;
     color: rgb(0, 0, 0);
     text-align: end;
     text-shadow: 0px 0px 1px black;
@@ -101,8 +106,20 @@ bottom: 0px;
 right: 0px;
 padding:6px;
 }
+.timer1 {
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  text-align: end;
+  text-shadow: 0px 0px 1px black;
+width: fit-content;
+height: fit-content;  
+position: relative;
+bottom: 0px;
+right: 0px;
+padding:6px;
+}
 .moore {
-  font-size: 14px;
+  font-size: 16px;
   color: rgb(0, 0, 0);
   text-align:start;
   text-decoration: underline;
@@ -117,8 +134,9 @@ padding:6px;
   .windows {
     width: 100%;
     height: 250px;
-    margin-right: 6px;
     border-radius: 2px;
+    border: 1px solid #0000002f;
+
   }
   .windows1 {
     width: 35%;
@@ -137,6 +155,9 @@ margin-left: auto;
 padding-top: 10px;
 margin-right: auto;
 width: 100%;
+padding-left: 4px;
+padding-right: 4px;
+
   }
   .blogCont {
 font-size: 20px;
@@ -153,7 +174,7 @@ white-space: nowrap;
   margin-bottom: 40px;
   }
   .blogContl {
-    font-size: 20px;
+    font-size: 22px;
 text-shadow: 0px 0px 1px black;
 color: rgb(0, 0, 0);
 margin-left: auto;
@@ -167,7 +188,7 @@ padding: 4px;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
     z-index: 5000; /* Ensure it appears above other elements */
     display: flex;
     justify-content: center;
@@ -177,25 +198,27 @@ padding: 4px;
   .lightbox-contentB {
     background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 15px 0px 15px 0px;
     max-width: 80%;
     max-height: 80%;
+    min-width: 60%;
+    min-height: 60%;
     overflow-y: auto;
   }
   
   .lightbox-contentB h3 {
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 10px;
   }
   
   .lightbox-contentB p {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.5;
     margin-bottom: 20px;
   }
   
   .lightbox-contentB .timer {
-    font-size: 14px;
-    color: #666;
+    font-size: 16px;
+    color: #000000;
   }
   

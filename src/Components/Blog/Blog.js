@@ -126,9 +126,25 @@ const port =  process.env.PORT || 3001;
     {selectedPost && (
   <div className="lightboxB" onClick={handleClose}>
     <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
+    <button className="chasser" onClick={handleClose}>
+            Close
+          </button>
       <h3 className='blogHead'>{selectedPost.title}</h3>
+      {selectedPost.type && (
+    <img
+      className='windows'
+      src={
+        selectedPost.type === "Open House" ? sample1 :
+        selectedPost.type === "Home for Sale" ? sample2 :
+        selectedPost.type === "Looking for Clients" ? sample3 :
+        selectedPost.type === "Home Evaluations" ? sample4 :
+                sample1
+      }
+      alt={selectedPost.type}
+    />
+  )}
       <p className='blogContl'>{selectedPost.content}</p>
-      <div className='timer'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
+      <div className='timer1'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
     </div>
   </div>
 )}
