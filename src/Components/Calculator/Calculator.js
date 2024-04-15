@@ -338,7 +338,7 @@ const [showDrops, setShowDrops] = useState(false);
     return ( 
         <div className='containerDad'>
         <div className="containerCalc">
-            
+            <div className='doom'>
         <form className='calcForm' onSubmit={handleSubmit}>
         <h4 className='amortTitle'>Amortization Calculator</h4>
         <div  className='littlePlan'>
@@ -409,7 +409,6 @@ const [showDrops, setShowDrops] = useState(false);
 </form>
 
 
-            </div>
 
 
 {/*Other side / own div*/}
@@ -435,6 +434,9 @@ const [showDrops, setShowDrops] = useState(false);
 </div>
          
 </div>
+
+                </div>
+                </div>
 
                 </div>
                 {/* Line Chart */}

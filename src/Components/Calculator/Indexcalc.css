@@ -7,11 +7,16 @@
   }
   
   .containerCalc {
-    width: 50%;
+    width: 90%;
     margin-right: auto;
     margin-left: auto;  }
   .textChart {
     display: flex;
+}
+.simpin {  
+color: rgba(30, 0, 48, 0.99);
+font-size: 20px;
+font-weight: 500;
 }
 .impData {
     padding: 2px;
@@ -36,13 +41,14 @@
 .resetCalc {
     width: fit-content;
     height: fit-content;
-    background-color:#5b028ffb ;
+    background: rgba(30, 0, 48);
 padding: 8px;
 width: 25%;
 color: white;
 border-radius: 1px;
 text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
 font-size: 18px;
+border-radius: 3px;
 border: 1px solid #979797a6;
 }
 .resetCalc:hover {
@@ -55,14 +61,19 @@ border: 1px solid #979797a6;
 .calculate {
     width: fit-content;
     height: fit-content;
-    background-color:#5b028ffb ;
+    background: rgba(30, 0, 48);
 padding: 8px;
 width: 25%;
+border-radius: 3px;
 color: white;
-border-radius: 1px;
 text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
 font-size: 18px;
 border: 1px solid #979797a6;
+}
+.doom {
+    display: flex;
+    width: 100%;
+    gap: 60px;
 }
 .calculate:hover {
     background-color:#7800bdfb ;
@@ -83,14 +94,14 @@ border: 1px solid #979797a6;
 .amortTitle {
     border-radius: 5px;
     padding: 8px;
+    margin-bottom: 8px;
     padding-left: 10px;
     font-size: 22px;
     text-align: center;
-    background-color: #5b028ffb;
+    background-color: rgba(30, 0, 48, 0.99);
     line-height: 1.8;
     color: #f2f2f2;
     margin: 8px;
-    margin-bottom: 0px;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
 
 }
@@ -114,15 +125,16 @@ border: 1px solid #979797a6;
 }
 .popUp {
     flex: 1; /* Grow to fill remaining space */
-    background: rgba(30, 0, 48, 0.99);
+    background: linear-gradient(to right, rgba(230, 230, 230, 0.99),rgba(226, 226, 226, 0.969));
     width: 60%;
+    height: fit-content;
     border-radius: 5px;
     color: #ffffff;
     margin-left: auto;
     margin-right: auto;
     border: 1px solid #000000;
-margin-bottom: 10px;
-margin-top: 14px;
+margin-bottom: auto;
+margin-top: auto;
 box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.9) ;
 border: 1px solid #afafaf2f;
 }
@@ -135,21 +147,26 @@ border: 1px solid #afafaf2f;
     font-size: 30px;
     padding-top: 12px;
     padding-left: 12px;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    color: rgba(30, 0, 48, 0.99);
+font-weight: 500;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 .monPay2 {
     font-size: 20px;
     padding-top: 2px;
     padding-left: 12px;
-    color: #d6d6d6;
+    color: rgba(30, 0, 48, 0.99);
+    font-weight: 500;
 
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 .monPay3 {
     font-size: 20px;
+    font-weight: 500;
+
     padding-left: 12px;
-    color: #d6d6d6;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    color: rgba(30, 0, 48, 0.99);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 .input-like {
     display: inline-block;
@@ -168,8 +185,10 @@ border: 1px solid #afafaf2f;
 
 .popUp2 {
     flex: 1; /* Grow to fill remaining space */
-    background: rgba(30, 0, 48, 0.99);
+    background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
     width: 70%;
+    padding: 18px;
+    padding-top: 0px;
     margin-left: auto;
     margin-right: auto;
     justify-content: flex-end;
@@ -188,13 +207,12 @@ margin-bottom: 14px;
     margin-left: auto;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.9) ;
     border: 1px solid #afafaf2f;
-
-    background: rgba(30, 0, 48, 0.99);
+    background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
     color: #ddd;
     border-radius: 5px;
     padding: 10px;
     padding-top: 0px;
-    width: 100%;
+    width: 50%;
 }
 
 .form-row {
@@ -235,7 +253,7 @@ margin-bottom: 14px;
   border-radius: 5px;
 }
 .month:hover {
-    background-color: #5b028ffb;
+    background-color: #30004dfb;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
 
 }
@@ -260,7 +278,7 @@ margin-bottom: 14px;
     margin-left: 2px;
 }
 .downPDF:hover {
-    background-color: #330050fb;
+    background-color: #30004dfb;
 
 }
 .annual  {
@@ -276,7 +294,7 @@ margin-bottom: 14px;
 
 }
 .annual:hover  {
-    background-color: #490074fb;
+    background-color: #30004dfb;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
 
 }
@@ -331,6 +349,7 @@ box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
     position: relative;
     width: 300px; /* Or adjust to your desired width */
     height: 225px; /* Or adjust to your desired height */
+    
 }
 
 .doughnut-chart-container canvas {
@@ -339,11 +358,16 @@ box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
     right: 0;
     margin-top: 10px;
     margin-right: 50px;
+    background: rgba(30, 0, 48);
+padding: 8px;
+padding-top: 10px;
 
+border-radius: 5px;
 }
 .line-chart-container canvas {
-padding: 14px;
-
+background: rgba(30, 0, 48, 0.918);
+padding: 10px;
+border-radius: 5px;
 }
 .tableHold {
     justify-content: center;

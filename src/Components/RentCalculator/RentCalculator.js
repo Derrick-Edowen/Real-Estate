@@ -83,7 +83,7 @@ const tips = [
   <div className="input-section">
     <label htmlFor="groceries">Groceries ($):</label>
     <div className="input-with-icon">
-      <FontAwesomeIcon icon={faBasketShopping} size="lg" style={{ color: "#ffffff" }} />&nbsp;&nbsp;&nbsp;
+      <FontAwesomeIcon icon={faBasketShopping} size="lg" style={{ color: "#1e0030fc" }} />&nbsp;&nbsp;&nbsp;
       <input
         type="number"
         id="groceries"
@@ -98,7 +98,7 @@ const tips = [
   <div className="input-section">
     <label htmlFor="clothing">Clothing ($):</label>
     <div className="input-with-icon">
-      <FontAwesomeIcon icon={faShirt} size="lg" style={{ color: "#ffffff" }} />&nbsp;&nbsp;
+      <FontAwesomeIcon icon={faShirt} size="lg" style={{ color: "#1e0030fc" }} />&nbsp;&nbsp;
       <input
         type="number"
         id="clothing"
@@ -113,7 +113,7 @@ const tips = [
   <div className="input-section">
     <label htmlFor="transportation">Transportation ($):</label>
     <div className="input-with-icon">
-      <FontAwesomeIcon icon={faCarSide} size="lg" style={{ color: "#ffffff" }} />&nbsp;&nbsp;
+      <FontAwesomeIcon icon={faCarSide} size="lg" style={{ color: "#1e0030fc" }} />&nbsp;&nbsp;
       <input
         type="number"
         id="transportation"
@@ -128,7 +128,7 @@ const tips = [
   <div className="input-section">
     <label htmlFor="utilities">Utilities/Other ($):</label>
     <div className="input-with-icon">
-      <FontAwesomeIcon icon={faLightbulb} size="lg" style={{ color: "#ffffff" }} />&nbsp;&nbsp;&nbsp;&nbsp;
+      <FontAwesomeIcon icon={faLightbulb} size="lg" style={{ color: "#1e0030fc" }} />&nbsp;&nbsp;&nbsp;&nbsp;
       <input
         type="number"
         id="utilities"
