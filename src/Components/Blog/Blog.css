@@ -112,6 +112,7 @@ position: absolute;
 bottom: 0px;
 right: 0px;
 padding:6px;
+font-weight: 600;
 }
 .timer1 {
   font-size: 18px;
@@ -219,7 +220,7 @@ background-color: rgb(197, 197, 197);
   }
   
   .lightbox-contentB p {
-    font-size: 20px;
+    font-size: 22px;
     line-height: 1.5;
     margin-bottom: 20px;
   }
