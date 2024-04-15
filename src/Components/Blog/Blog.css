@@ -86,18 +86,19 @@ width: fit-content;
 float: right;  
 padding-right: 4px;
 padding-top: 4px;
+cursor: pointer;
 }
   .post:nth-child(even) {
     float: right;
     background: rgb(240, 240, 240);
-    margin-right: 60px;
+    margin-right: 160px;
 
   }
   
   .post:nth-child(odd) {
     float: left;
     background: rgb(250, 250, 250);
-    margin-left: 60px;
+    margin-left: 160px;
 
   }
   .timer {
@@ -141,7 +142,7 @@ padding:6px;
     height: 250px;
     border-radius: 2px;
     border: 1px solid #0000002f;
-
+margin-bottom: 6px;
   }
   .windows1 {
     width: 35%;
