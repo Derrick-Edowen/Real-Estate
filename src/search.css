@@ -103,6 +103,10 @@ margin-left: 4px;
   background: linear-gradient(to right, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
 
 }
+.searchBtn-1:active {
+  box-shadow: 0 1px #666;
+  transform: translateY(1px);
+}
 .supyo {
 	display: flex;
 	flex-wrap: wrap;

@@ -60,12 +60,21 @@ padding: 0px;
   text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
 }
+.meat {
+  width: fit-content;
+}
 .contactBtn {
-  width: 200px;
+  width: fit-content;
   float: left;
 font-size: 20px;
   color: #fff;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   padding: 6px;
+  padding-left: 44px;
+  padding-right: 44px;
+
   background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#663994);
   cursor: pointer;
   border: 1px solid #afafaf2f;
@@ -140,7 +149,7 @@ margin-bottom: 0px;
     border-radius: 200px;
     height: 400px;
     top: 450px; 
-    margin-top: 5px;
+    margin-top: 18px;
     padding-top: 15px;
 }
 
@@ -162,6 +171,8 @@ margin-bottom: 0px;
   }
   .contactBtn {
     margin-top: 5px;
+    margin-bottom: 8px;
+
 width: 200px;
   }
 

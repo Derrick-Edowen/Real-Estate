@@ -440,6 +440,7 @@ const [showDrops, setShowDrops] = useState(false);
 
                 </div>
                 {/* Line Chart */}
+                <div className='mince'>
                 <div className='popUp2' style={{ display: showPopUp2 ? 'block' : 'none' }}>
                 <h4 className='amortTitle'>Annual Amortization Graph</h4>
 <div className='line-chart-container'>
@@ -526,7 +527,7 @@ const [showDrops, setShowDrops] = useState(false);
 
 
 </div>
-                
+</div>          
         </div>
     );
 }

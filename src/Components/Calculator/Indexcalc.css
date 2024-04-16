@@ -73,7 +73,10 @@ border: 1px solid #979797a6;
 .doom {
     display: flex;
     width: 100%;
-    gap: 60px;
+    gap: 30px;
+}
+.mince {
+    display: flex;
 }
 .calculate:hover {
     background-color:#7800bdfb ;
@@ -170,7 +173,7 @@ font-weight: 500;
 }
 .input-like {
     display: inline-block;
-    width: 96.5%;
+    width: 97.5%;
     height: 46px;
     padding: 10px;
     font-size: 16px;
@@ -186,13 +189,14 @@ font-weight: 500;
 .popUp2 {
     flex: 1; /* Grow to fill remaining space */
     background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
-    width: 70%;
+    width: 50%;
     padding: 18px;
     padding-top: 0px;
     margin-left: auto;
     margin-right: auto;
     justify-content: flex-end;
     border-radius: 5px;
+    margin-left: 8px;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.9) ;
     border: 1px solid #afafaf2f;
 margin-bottom: 14px;
@@ -335,8 +339,8 @@ th {
     overflow-y: auto;
     margin-left: auto;
     margin-right: auto;
-    max-height: 350px; /* Adjust height as needed */
-width: 1400px;
+    max-height: 380px; /* Adjust height as needed */
+width: 870px;
 margin-bottom: 60px;
 box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
 
@@ -371,6 +375,7 @@ border-radius: 5px;
 }
 .tableHold {
     justify-content: center;
+    width: 50%;
 }
 @media screen and (max-width: 1470px) {
     .containerDad {

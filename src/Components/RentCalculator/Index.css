@@ -138,7 +138,7 @@ font-weight: 600;
 
   }
 .headie1 {
-  width: 94%;
+  width: 100%;
   background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
   padding: 8px;
   margin-left: auto;
@@ -152,7 +152,7 @@ font-weight: 500;
 
 }
 .headie2 {
-  width: 96%;
+  width: 100%;
   background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
   padding: 8px;
   color: #1e0030fc;

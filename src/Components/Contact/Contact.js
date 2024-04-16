@@ -4,7 +4,8 @@ import man from  '../../Assets/Images/man2.png'
 import emailjs from '@emailjs/browser';
 import './contact.css'
 import GoogleMapReact from 'google-map-react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 const Marker = () => <div style={{ color: 'red' }}>📍</div>;
 
 function Contact() {
@@ -39,17 +40,24 @@ function Contact() {
       <section className='venn-diagram'>
         <div className='looki'>
       <img className='conImg' src={man} alt='man'></img>
+      <div className='dober'>
       <div className='standIn2'> 
-      John Smith<br/>
-      TEL - 647-123-4567<br/>
-      smithrealestate@gmail.com
+      Lets Start a Conversation!
+      </div>
+      <p className='arizona'>Looking for expert guidance with your real estate needs? 
+      Look no further! Our team is here to assist you every step of the way. Whether 
+      you're buying, selling, or looking for investment opportunities, we've got you covered. 
+      Contact us today to get started!</p>
       </div>
       </div>
       <div className='standIn'>
-        Office - 123-456-7890<br/>
-        Fax - 647-765-4321<br/><br/>
-        Office Location:
-        <div style={{ height: '200px', width: '528px' }}>
+      <FontAwesomeIcon icon={faPhone} size='lg'/> 123-456-7890 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <FontAwesomeIcon icon={faEnvelope} size='lg'/> smithrealestate@outlook.com
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;
+      <FontAwesomeIcon icon={faLocationDot} size='lg'/> 123 Real Estate Drive
+              <div style={{ height: '200px', width: '100%' }}>
       <GoogleMapReact
         defaultCenter={cnTowerCoordinates}
         defaultZoom={15}
@@ -122,7 +130,7 @@ function Contact() {
           <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
         </label>
         <div className='confirm'>
-          <button className="sendMe btn-primary"> Submit </button>
+          <button className="sendMe btn-primary"> Send Message </button>
           
         </div>
       </form>
