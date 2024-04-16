@@ -124,7 +124,7 @@ const port =  process.env.PORT || 3001;
   </div>
 ))}
     </div>
-    {selectedPost && (
+    {selectedPost && !isLoggedIn && (
   <div className="lightboxB" onClick={handleClose}>
     <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
     <div className="chasser" onClick={handleClose}>
