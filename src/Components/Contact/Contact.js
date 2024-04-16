@@ -51,13 +51,12 @@ function Contact() {
       </div>
       </div>
       <div className='standIn'>
-      <FontAwesomeIcon icon={faPhone} size='lg'/> 123-456-7890 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <FontAwesomeIcon icon={faEnvelope} size='lg'/> smithrealestate@outlook.com
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;
-      <FontAwesomeIcon icon={faLocationDot} size='lg'/> 123 Real Estate Drive
-              <div style={{ height: '200px', width: '100%' }}>
+        <div className='mines'>
+          <div><FontAwesomeIcon icon={faPhone} size='lg'/> 123-456-7890 </div>
+      <div><FontAwesomeIcon icon={faEnvelope} size='lg'/> smithrealestate@outlook.com</div>
+      <div><FontAwesomeIcon icon={faLocationDot} size='lg'/> 123 Real Estate Drive</div>
+      </div>
+              <div className='buzi' style={{ height: '200px', width: '100%' }}>
       <GoogleMapReact
         defaultCenter={cnTowerCoordinates}
         defaultZoom={15}
