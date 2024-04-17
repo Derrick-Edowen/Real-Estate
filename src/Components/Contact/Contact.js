@@ -5,8 +5,9 @@ import emailjs from '@emailjs/browser';
 import './contact.css'
 import GoogleMapReact from 'google-map-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faFacebook, faLinkedin, faXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-const Marker = () => <div style={{ color: 'red' }}>📍</div>;
+
 
 function Contact() {
 
@@ -37,6 +38,7 @@ function Contact() {
     return (
 
       <div className='underLay'>
+        {/*
       <section className='venn-diagram'>
         <div className='looki'>
       <img className='conImg' src={man} alt='man'></img>
@@ -134,7 +136,94 @@ function Contact() {
         </div>
       </form>
     </section>
+    */}
+   
+<section>
+<div className='container'>
+<div className='contactinfo'>
+<div>
+  <h2>Contact Info</h2>
+  <ul className='info'>
+    <li>
+      <span><FontAwesomeIcon icon={faLocationDot} style={{color: "#ffffff",}} size='2xl'/></span>
+      <span>123 Real Estate Drive <br/>
+      Toronto, ON <br/>
+      </span>
+    </li>
+    <li>
+      <span><FontAwesomeIcon icon={faEnvelope} style={{color: "#ffffff",}} size='xl'/></span>
+      <span>smithrealestate@gmail.com
+      </span>
+    </li>
+    <li>
+      <span><FontAwesomeIcon icon={faPhone} style={{color: "#ffffff",}} size='xl'/></span>
+      <span>123-456-7890
+      </span>
+    </li>
+  </ul>
+  </div>
+
+  <ul className='sci'>
+    <li><a href='#'><FontAwesomeIcon icon={faInstagram} style={{color: "#ffffff",}} size='2xl'/></a></li>
+    <li><a href='#'><FontAwesomeIcon icon={faFacebook} style={{color: "#ffffff",}} size='2xl'/></a></li>
+    <li><a href='#'><FontAwesomeIcon icon={faLinkedin} style={{color: "#ffffff",}} size='2xl'/></a></li>
+    <li><a href='#'><FontAwesomeIcon icon={faXTwitter} style={{color: "#ffffff",}} size='2xl'/></a></li>
+    <li><a href='#'><FontAwesomeIcon icon={faTiktok} style={{color: "#ffffff",}} size='2xl'/></a></li>
+  </ul>
+
+</div>
+<div className='contactForm'>
+  <div className='lostboy'>
+  <h2>Lets Start A Conversation!</h2>
+  <img src={man}></img>
+  </div>
+  <div className='formBox'>
+    <div className='inputBox w50'>
+      <input type='text'name='' required></input>
+      <span>First name</span>
     </div>
+    <div className='inputBox w50'>
+      <input type='text'name='' required></input>
+      <span>Last name</span>
+    </div>
+    <div className='inputBox w50'>
+      <input type='text'name='' required></input>
+      <span>Email Address</span>
+    </div>    <div className='inputBox w50'>
+      <input type='text'name='' required></input>
+      <span>Mobile Number</span>
+    </div>
+    <div className='inputBox w100'>
+      <textarea name='' required></textarea>
+      <span>Write your message here...</span>
+    </div>
+    <div className='inputBox w100'>
+      <input type='submit' value="Send" name='' required></input>
+    </div>
+  </div>
+</div>
+  </div>
+  </section>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
     );
 }
 
