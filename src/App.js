@@ -40,9 +40,13 @@ function App() {
 
   const location = useLocation();
   useEffect(() => {
-    const pageTitle = decodeURIComponent(location.pathname.replace(/^\/+/, '')); // Remove leading '/'
+    let pageTitle = decodeURIComponent(location.pathname.replace(/^\/+/, '')); // Remove leading '/'
+    if (pageTitle === "") {
+      pageTitle = "Home";
+    }
     document.title = `${pageTitle} - John Smith Real Estate`;
   }, [location]);
+  
   
   
 
