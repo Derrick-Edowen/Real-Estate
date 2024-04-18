@@ -30,11 +30,24 @@ function Header() {
     setDropdownVisible2(!dropdownVisible2);
     setDropdownVisible1(false);
   };
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (!e.target.closest(".dropdown")) {
+        setDropdownVisible1(false);
+        setDropdownVisible2(false);
+      }
+    };
 
+    document.body.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.body.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
   return (
 
     <nav className={`navbar ${navActive ? "active" : ""}`}>
-      <div className="heading">
+    <div className="heading">
         <img src={manH} className="headerImg"></img>
         <h2>John Smith <br />
         Sales Representative</h2>
@@ -73,27 +86,28 @@ function Header() {
             </li>
             </div>
             <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
-              <Link
+              <NavLink
                 onClick={closeMenu}
-                to="/ForSale"
+                
+                to="/Find Listings | For Sale"
                 className="navbar--content transformer"
               >
                 FOR SALE
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 onClick={closeMenu}
-                to="/ForRent"
+                to="/Find Listings | For Lease"
                 className="navbar--content transformer"
               >
                 FOR LEASE
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 onClick={closeMenu}
-                to="/RecentlySold"
+                to="/Find Listings | Recently Sold"
                 className="navbar--content transformer"
               >
                 RECENTLY SOLD
-              </Link>
+              </NavLink>
             </div>
           </li>
           <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
@@ -106,20 +120,20 @@ function Header() {
             </li>
             </div>
             <div className={`dropdown-content ${dropdownVisible2 ? "active" : ""}`}>
-              <Link
+              <NavLink
                 onClick={closeMenu}
-                to="/Calculator"
+                to="/Mortgage Calculator"
                 className="navbar--content transformer"
               >
                 MORTGAGE CALCULATOR
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 onClick={closeMenu}
-                to="/RentCalculator"
+                to="/Rent Affordability Calculator"
                 className="navbar--content transformer"
               >
                 LEASE CALCULATOR
-              </Link>
+              </NavLink>
             </div>
           </li>
           <li>
@@ -130,7 +144,7 @@ function Header() {
               smooth={true}
               offset={-70}
               duration={1000}
-              to="/Blog"
+              to="/Announcements"
               className="navbar--content"
             >
               Announcements
@@ -144,7 +158,7 @@ function Header() {
               smooth={true}
               offset={-70}
               duration={1000}
-              to="/Contact"
+              to="/Contact Me"
               className="navbar--content"
             >
               Contact

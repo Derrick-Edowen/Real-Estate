@@ -206,9 +206,9 @@ background: transparent;
 .lostboy img {
   width: 120px;
   position: absolute;
-  top: 20px;
+  top: 18px;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.7) ;
-  right: 30px;
+  right: 22px;
   background: var(--primary);
   height: 120px;
   border-radius: 50%;
@@ -316,9 +316,9 @@ section .container .contactForm {
 }
 section .container .contactForm h2 {
 color: var(--primary);
-font-size: 28px;
+font-size: 32px;
 font-weight: 700;
-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.486);
+text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
 
 font-style: italic;
 }

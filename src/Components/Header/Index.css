@@ -1,8 +1,5 @@
 
-.active {
-background-color: rgba(60, 39, 80, 0.753);
-border-radius: 5px;
-}
+
 .missin {
   display: flex;
   color: var(--white);
@@ -47,7 +44,6 @@ border-radius: 5px;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 100;
-    border-radius: 2px;
   }
   
   /* Style for the dropdown links */
@@ -204,7 +200,9 @@ padding: 0px;
   .big-rotate2.active {
     transform: rotate(-1deg); /* Rotate arrow when dropdown is active */
   }
-  
+  .active {
+    color:rgba(255, 232, 103, 0.877);
+    }
   @media screen and (max-width: 1430px) {
     .nav__hamburger {
       display: flex;

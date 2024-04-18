@@ -4,7 +4,8 @@ import image3 from './Assets/Images/yard1.jpg'
 import image4 from './Assets/Images/house1.jpg'
 import image5 from './Assets/Images/kitchen1.jpg'
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'
 import './App.css';
 import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
@@ -32,32 +33,39 @@ function App() {
       img.src = image;
     });
   }, [images]);
-
   const imageStyle = {
     backgroundImage: `url(${images[currentIndex]})`,
   };
 
+
+  const location = useLocation();
+  useEffect(() => {
+    const pageTitle = decodeURIComponent(location.pathname.replace(/^\/+/, '')); // Remove leading '/'
+    document.title = `${pageTitle} - John Smith Real Estate`;
+  }, [location]);
+  
+  
+
+
+
   return (
     <>
-      <Router>
         <Header />
         <div className="App" style={imageStyle}>
-          <Routes>
+          <Routes >
             <Route path="/" element={<Home />} />
             <Route path="/Home" element={<Home />} />
-            <Route path="/Calculator" element={<Calculator />} />
-            <Route path="/Blog" element={<Blog />} />
-            <Route path="/ForSale" element={<ForSale />} />
-            <Route path="/ForRent" element={<ForRent />} />
-            <Route path="/RecentlySold" element={<RecentlySold />} />
-            <Route path="/RentCalculator" element={<RentCalculator />} />
-            <Route path="/Contact" element={<Contact />} />
-            <Route path="/Questions" element={<Questions />} />
+            <Route path="/Mortgage Calculator" element={<Calculator />} />
+            <Route path="/Announcements" element={<Blog />} />
+            <Route path="/Find Listings | For Sale" element={<ForSale />} />
+            <Route path="/Find Listings | For Lease" element={<ForRent />} />
+            <Route path="/Find Listings | Recently Sold" element={<RecentlySold />} />
+            <Route path="/Rent Affordability Calculator" element={<RentCalculator />} />
+            <Route path="/Contact Me" element={<Contact />} />
             <Route path="/Login" element={<Login />} />
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
         </div>
-      </Router>
     </>
   );
 }

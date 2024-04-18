@@ -164,11 +164,12 @@ function Contact() {
   </div>
 
   <ul className='sci'>
-    <li><a href='#'><FontAwesomeIcon icon={faInstagram} style={{color: "#ffffff",}} size='2xl'/></a></li>
-    <li><a href='#'><FontAwesomeIcon icon={faFacebook} style={{color: "#ffffff",}} size='2xl'/></a></li>
-    <li><a href='#'><FontAwesomeIcon icon={faLinkedin} style={{color: "#ffffff",}} size='2xl'/></a></li>
-    <li><a href='#'><FontAwesomeIcon icon={faXTwitter} style={{color: "#ffffff",}} size='2xl'/></a></li>
-    <li><a href='#'><FontAwesomeIcon icon={faTiktok} style={{color: "#ffffff",}} size='2xl'/></a></li>
+  <li><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} style={{color: "#ffffff"}} size='2xl'/></a></li>
+<li><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} style={{color: "#ffffff"}} size='2xl'/></a></li>
+<li><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} style={{color: "#ffffff"}} size='2xl'/></a></li>
+<li><a href='https://twitter.com/?lang=en' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} style={{color: "#ffffff"}} size='2xl'/></a></li>
+<li><a href='https://www.tiktok.com/en/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTiktok} style={{color: "#ffffff"}} size='2xl'/></a></li>
+
   </ul>
 
 </div>
@@ -187,7 +188,10 @@ function Contact() {
       <span>Last name</span>
     </div>
     <div className='inputBox w50'>
-      <input type='text'name='' required></input>
+      <input type="email"
+              name="email"
+              id="email"
+              required></input>
       <span>Email Address</span>
     </div>    <div className='inputBox w50'>
       <input type='text'name='' required></input>
