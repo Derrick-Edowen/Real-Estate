@@ -6,7 +6,7 @@ require('dotenv').config();
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const app = express();
-
+const fs = require('fs');
 
 // Middleware
 app.use(cors());
@@ -48,10 +48,7 @@ app.post('/posts', upload.single('image'), async (req, res) => {
   const image = req.file; // This is the uploaded image file
 
   try {
-    // Save the image to a directory on your server
-    const imagePath = `/uploads/${image.filename}`;
-
-    // Save the post data and image content to your database
+    // Save the image file content to your database
     const imageData = fs.readFileSync(image.path); // Read the image file content
     await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageData]);
 
