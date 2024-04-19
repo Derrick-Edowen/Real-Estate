@@ -27,6 +27,22 @@ pool = mysql.createPool({
 
 
 // Login endpoint
+app.post('/login', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const [results] = await pool.execute('SELECT id FROM users WHERE id = 1 AND name = ? AND email = ? AND password = ?', [name, email, password]);
+    if (results.length > 0) {
+      res.json({ success: true, message: 'Login successful', userID: results[0].id });
+    } else {
+      res.json({ success: false, message: 'Incorrect email, name, or password' });
+    }
+  } catch (error) {
+    console.error('Error executing MySQL query:', error);
+    res.status(500).json({ success: false, message: 'Error logging in' });
+  }
+});
+
+// Create a post
 app.post('/posts', upload.single('image'), async (req, res) => {
   const { title, content, user_id, created_at } = req.body;
   const image = req.file; // This is the uploaded image file
