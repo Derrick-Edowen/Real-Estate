@@ -40,7 +40,7 @@ function Login() {
       if (data.success) {
         setIsLoggedIn(true);
         setCurrentUserID(data.userID);
-        navigate('/Blog', { state: { isLoggedIn: true, currentUserID: data.userID } });
+        navigate('/Announcements', { state: { isLoggedIn: true, currentUserID: data.userID } });
       } else {
         alert('Login failed. Please check your email and password.');
       }
