@@ -30,6 +30,7 @@
     "leaflet-google": "^1.0.1",
     "luxon": "^3.4.4",
     "mailparser": "^3.6.7",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.9.1",
     "nodemailer": "^6.9.9",
     "nodemon": "^3.1.0",
