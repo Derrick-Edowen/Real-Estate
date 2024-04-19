@@ -48,8 +48,13 @@ app.post('/posts', upload.single('image'), async (req, res) => {
   const image = req.file; // This is the uploaded image file
 
   try {
+    if (!image) {
+      throw new Error('No image uploaded');
+    }
+
     // Save the image file content to your database
-    const imageData = fs.readFileSync(image.path); // Read the image file content
+    const imagePath = path.join(__dirname, '..', image.path);
+    const imageData = fs.readFileSync(imagePath); // Read the image file content
     await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageData]);
 
     res.status(201).json({ message: 'Post created successfully' });
