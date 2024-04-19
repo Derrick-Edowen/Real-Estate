@@ -3,7 +3,8 @@ const mysql = require('mysql2/promise');
 const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
-
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const app = express();
 
 
@@ -42,11 +43,17 @@ app.post('/login', async (req, res) => {
 });
 
 // Create a post
-app.post('/posts', async (req, res) => {
-  const { title, content, user_id, created_at, type } = req.body;
+app.post('/posts',upload.single('image'), async (req, res) => {
+  const { title, content, user_id, created_at } = req.body;
+  const image = req.file; // This is the uploaded image file
 
   try {
-    await pool.query('INSERT INTO posts (title, content, user_id, created_at, type) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, type]);
+    // Save the image to a directory on your server
+    const imagePath = `/uploads/${image.filename}`;
+
+    // Save the post data and image path to your database
+    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imagePath]);
+    
     res.status(201).json({ message: 'Post created successfully' });
   } catch (error) {
     console.error('Error creating post:', error);

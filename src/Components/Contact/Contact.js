@@ -39,37 +39,6 @@ function Contact() {
 
       <div className='underLay'>
         {/*
-      <section className='venn-diagram'>
-        <div className='looki'>
-      <img className='conImg' src={man} alt='man'></img>
-      <div className='dober'>
-      <div className='standIn2'> 
-      Lets Start a Conversation!
-      </div>
-      <p className='arizona'>Looking for expert guidance with your real estate needs? 
-      Look no further! Our team is here to assist you every step of the way. Whether 
-      you're buying, selling, or looking for investment opportunities, we've got you covered. 
-      Contact us today to get started!</p>
-      </div>
-      </div>
-      <div className='standIn'>
-        <div className='mines'>
-          <div><FontAwesomeIcon icon={faPhone} size='lg'/> 123-456-7890 </div>
-      <div><FontAwesomeIcon icon={faEnvelope} size='lg'/> smithrealestate@outlook.com</div>
-      <div><FontAwesomeIcon icon={faLocationDot} size='lg'/> 123 Real Estate Drive</div>
-      </div>
-              <div className='buzi' style={{ height: '200px', width: '100%' }}>
-      <GoogleMapReact
-        defaultCenter={cnTowerCoordinates}
-        defaultZoom={15}
-        bootstrapURLKeys={{ key: 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM' }} // Do not include API key
-      >
-        <Marker lat={cnTowerCoordinates.lat} lng={cnTowerCoordinates.lng} />
-      </GoogleMapReact>
-    </div>
-      </div>
-
-      </section>
 
       <section id="Contact" className="contact--section">
       <form ref={form} onSubmit={sendEmail} className="contact--form--container">
@@ -139,6 +108,7 @@ function Contact() {
     */}
    
 <section>
+  
 <div className='container'>
 <div className='contactinfo'>
 <div>
@@ -173,6 +143,8 @@ function Contact() {
   </ul>
 
 </div>
+<form ref={form} onSubmit={sendEmail}>
+
 <div className='contactForm'>
   <div className='lostboy'>
   <h2>Lets Start A Conversation!</h2>
@@ -180,11 +152,17 @@ function Contact() {
   </div>
   <div className='formBox'>
     <div className='inputBox w50'>
-      <input type='text'name='' required></input>
+      <input type="text"
+              name="firstName"
+              id="firstName"
+              required></input>
       <span>First name</span>
     </div>
     <div className='inputBox w50'>
-      <input type='text'name='' required></input>
+      <input type="text"
+              name="lastName"
+              id="lastName"
+              required></input>
       <span>Last name</span>
     </div>
     <div className='inputBox w50'>
@@ -194,18 +172,26 @@ function Contact() {
               required></input>
       <span>Email Address</span>
     </div>    <div className='inputBox w50'>
-      <input type='text'name='' required></input>
+      <input type="number"
+              name="phoneNumber"
+              id="phone-number"
+              required></input>
       <span>Mobile Number</span>
     </div>
     <div className='inputBox w100'>
-      <textarea name='' required></textarea>
+      <textarea id="message"
+            name="message"
+            required></textarea>
       <span>Write your message here...</span>
     </div>
     <div className='inputBox w100'>
-      <input type='submit' value="Send" name='' required></input>
+      <input type='submit' value="Send Message" name=''></input>  <br/><br/>
+      <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
+
     </div>
   </div>
 </div>
+</form>
   </div>
   </section>
 

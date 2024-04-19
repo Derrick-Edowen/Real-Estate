@@ -59,12 +59,12 @@ function App() {
           <Routes >
             <Route path="/" element={<Home />} />
             <Route path="/Home" element={<Home />} />
-            <Route path="/Mortgage Calculator" element={<Calculator />} />
+            <Route path="/Calculators | Mortgage Calculator" element={<Calculator />} />
             <Route path="/Announcements" element={<Blog />} />
             <Route path="/Find Listings | For Sale" element={<ForSale />} />
             <Route path="/Find Listings | For Lease" element={<ForRent />} />
             <Route path="/Find Listings | Recently Sold" element={<RecentlySold />} />
-            <Route path="/Rent Affordability Calculator" element={<RentCalculator />} />
+            <Route path="/Calculators | Rent Affordability Calculator" element={<RentCalculator />} />
             <Route path="/Contact Me" element={<Contact />} />
             <Route path="/Login" element={<Login />} />
             <Route path="*" element={<div>404 Not Found</div>} />

@@ -122,14 +122,14 @@ function Header() {
             <div className={`dropdown-content ${dropdownVisible2 ? "active" : ""}`}>
               <NavLink
                 onClick={closeMenu}
-                to="/Mortgage Calculator"
+                to="/Calculators | Mortgage Calculator"
                 className="navbar--content transformer"
               >
                 MORTGAGE CALCULATOR
               </NavLink>
               <NavLink
                 onClick={closeMenu}
-                to="/Rent Affordability Calculator"
+                to="/Calculators | Rent Affordability Calculator"
                 className="navbar--content transformer"
               >
                 LEASE CALCULATOR

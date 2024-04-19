@@ -28,6 +28,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "leaflet-google": "^1.0.1",
+    "luxon": "^3.4.4",
     "mailparser": "^3.6.7",
     "mysql2": "^3.9.1",
     "nodemailer": "^6.9.9",
@@ -49,8 +50,7 @@
     "heroku-postbuild": "npm run build",
     "dev": "concurrently \"npm run start\" \"npm run dev-client\"",
     "dev-client": "react-scripts start"
-  }
-  ,
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

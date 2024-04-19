@@ -20,7 +20,7 @@ function Home() {
           <p>There are a lot of moving parts when it comes to brokerage and REALTOR® websites.
           Over the years our real estate websites have evolved and delivers results.</p>
           <div className='meat'>
-          <Link to="/Contact">
+          <Link to="/Contact Me">
           <button  className="contactBtn">
               Let's Talk!
           </button>

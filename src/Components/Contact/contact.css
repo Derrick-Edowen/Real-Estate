@@ -227,7 +227,7 @@ section .container {
   min-width: 110px;
   min-height: 550px;
   display: flex;
-  z-index: 1000;
+  z-index: 10;
 } 
 section .container .contactinfo {
   position: absolute;
