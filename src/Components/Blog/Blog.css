@@ -86,7 +86,7 @@ border-radius: 3px;
 cursor: pointer;
   }
   .post:hover {
-    transform: scale(1.4);
+    transform: scale(1.08);
     
     }
   .chasser {

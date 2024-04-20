@@ -109,8 +109,8 @@ const port =  process.env.PORT || 3001;
   <div key={index} className="post" onClick={() => handleClick(index)}>
     {post.image && (
       <img
-        className='windows'
-        src={`data:image/jpeg;base64,${post.image.toString('base64')}`}
+      src={`data:image/jpeg;base64,${post.image}`}
+      alt="Post Image"
       />
     )}
     <div className='finalss'>

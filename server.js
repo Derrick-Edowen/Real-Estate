@@ -67,13 +67,22 @@ app.post('/posts', upload.single('image'), async (req, res) => {
 // Get all posts for user with ID = 1
 app.get('/posts', async (req, res) => {
   try {
-    const [rows] = await pool.execute('SELECT * FROM posts WHERE user_id = ?', [1]);
-    res.json(rows);
+    const [rows] = await pool.execute('SELECT id, title, content, user_id, created_at, image FROM posts WHERE user_id = ?', [1]);
+    const postsWithImageData = rows.map(row => ({
+      id: row.id,
+      title: row.title,
+      content: row.content,
+      user_id: row.user_id,
+      created_at: row.created_at,
+      image: row.image.toString('base64') // Convert the image buffer to base64 string
+    }));
+    res.json(postsWithImageData);
   } catch (error) {
     console.error('Error fetching posts:', error);
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 });
+
 
 // DELETE a post by ID and user ID
 app.delete('/posts/:postId', async (req, res) => {
