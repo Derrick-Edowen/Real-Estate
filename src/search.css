@@ -500,7 +500,7 @@ font-weight: 500;
 	background-color: #dad7d7;
 	border-radius: 5px;
 }
-.cardi1:hover img{
+.cardi1:hover {
 transform: scale(1.02);
 
 }

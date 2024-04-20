@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: 'images/' });
 const app = express();
 const fs = require('fs');
 
@@ -53,9 +53,9 @@ app.post('/posts', upload.single('image'), async (req, res) => {
     }
 
     // Save the image file content to your database
-    const imagePath = path.join(__dirname, '..', image.path);
+    const imagePath = path.join(__dirname, '..', image.path); // Adjust the path
     const imageData = fs.readFileSync(imagePath); // Read the image file content
-    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageData]);
+    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image_data) VALUES (?, ?, ?, ?, ?)', [title, content, user_id, created_at, imageData]);
 
     res.status(201).json({ message: 'Post created successfully' });
   } catch (error) {

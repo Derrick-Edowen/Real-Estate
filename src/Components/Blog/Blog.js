@@ -34,6 +34,7 @@ const port =  process.env.PORT || 3001;
   };
   const fetchPosts = async () => {
     try {
+      
       const response = await fetch(`/posts`);
       const data = await response.json();
       setPosts(data);
@@ -106,11 +107,12 @@ const port =  process.env.PORT || 3001;
     <div className="posts-container">
     {posts.map((post, index) => (
   <div key={index} className="post" onClick={() => handleClick(index)}>
-    <img
-      className='windows'
-      src={
-        post.image}
-    />
+    {post.image && (
+      <img
+        className='windows'
+        src={`data:image/jpeg;base64,${post.image.toString('base64')}`}
+      />
+    )}
     <div className='finalss'>
     <h3 className='blogHead'>{post.title}</h3>
     <p className='blogCont'>{post.content}</p>
