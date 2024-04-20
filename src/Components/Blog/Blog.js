@@ -44,7 +44,7 @@ const port =  process.env.PORT || 3001;
   };
   
   const handlePost = async () => {
-    if (newTitle.trim() !== '' && newContent.trim() !== '' && image) {
+    if (newTitle.trim() !== '' && newContent.trim() !== '') {
       try {
         const formData = new FormData();
         formData.append('title', newTitle);
