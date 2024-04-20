@@ -44,7 +44,7 @@ const port =  process.env.PORT || 3001;
   };
   
   const handlePost = async () => {
-    if (newTitle.trim() !== '' && newContent.trim() !== '') {
+    if (newTitle.trim() !== '' && newContent.trim() !== '' && image) {
       try {
         const formData = new FormData();
         formData.append('title', newTitle);
@@ -54,7 +54,7 @@ const port =  process.env.PORT || 3001;
         const formattedDateTime = easternDateTime.toISODate(); // Format as YYYY-MM-DD
         formData.append('created_at', formattedDateTime);
         formData.append('image', image);
-  
+  console.log(image)
         const response = await fetch(`/posts`, {
           method: 'POST',
           body: formData,
