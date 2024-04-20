@@ -4,29 +4,28 @@ const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 const multer = require('multer');
-const upload = multer({ dest: 'images/' });
+const { Storage } = require('@google-cloud/storage');
+const storage = new Storage();
+const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
+const bucket = storage.bucket(bucketName);
 const app = express();
-const fs = require('fs');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-
 let pool;
- if (process.env.JAWSDB_URL) {
-pool = mysql.createPool(process.env.JAWSDB_URL)
- } else
-// Database connection pool
-pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
-
-
-// Login endpoint
+if (process.env.JAWSDB_URL) {
+  pool = mysql.createPool(process.env.JAWSDB_URL);
+} else {
+  // Database connection pool
+  pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+  });
+}
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -41,8 +40,9 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error logging in' });
   }
 });
-
 // Create a post
+const upload = multer({ storage: multer.memoryStorage() });
+
 app.post('/posts', upload.single('image'), async (req, res) => {
   const { title, content, user_id, created_at } = req.body;
   const image = req.file; // This is the uploaded image file
@@ -52,10 +52,17 @@ app.post('/posts', upload.single('image'), async (req, res) => {
       throw new Error('No image uploaded');
     }
 
-    // Save the image file content to your database
-    const imagePath = path.join(__dirname, '..', image.path); // Adjust the path
-    const imageData = fs.readFileSync(imagePath); // Read the image file content
-    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image_data) VALUES (?, ?, ?, ?, ?)', [title, content, user_id, created_at, imageData]);
+    // Upload the image to Google Cloud Storage
+    const fileName = `${Date.now()}_${image.originalname}`;
+    const file = bucket.file(fileName);
+    const fileBuffer = image.buffer;
+    await file.save(fileBuffer, { contentType: image.mimetype });
+
+    // Get the public URL of the uploaded image
+    const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+
+    // Save the image URL to your database
+    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageUrl]);
 
     res.status(201).json({ message: 'Post created successfully' });
   } catch (error) {
@@ -67,22 +74,13 @@ app.post('/posts', upload.single('image'), async (req, res) => {
 // Get all posts for user with ID = 1
 app.get('/posts', async (req, res) => {
   try {
-    const [rows] = await pool.execute('SELECT id, title, content, user_id, created_at, image FROM posts WHERE user_id = ?', [1]);
-    const postsWithImageData = rows.map(row => ({
-      id: row.id,
-      title: row.title,
-      content: row.content,
-      user_id: row.user_id,
-      created_at: row.created_at,
-      image: row.image.toString('base64') // Convert the image buffer to base64 string
-    }));
-    res.json(postsWithImageData);
+    const [rows] = await pool.execute('SELECT * FROM posts WHERE user_id = ?', [1]);
+    res.json(rows);
   } catch (error) {
     console.error('Error fetching posts:', error);
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 });
-
 
 // DELETE a post by ID and user ID
 app.delete('/posts/:postId', async (req, res) => {
@@ -108,14 +106,8 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
-
-
-
-
-

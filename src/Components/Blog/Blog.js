@@ -107,12 +107,10 @@ const port =  process.env.PORT || 3001;
     <div className="posts-container">
     {posts.map((post, index) => (
   <div key={index} className="post" onClick={() => handleClick(index)}>
-    {post.image && (
       <img
-      src={`data:image/jpeg;base64,${post.image}`}
+      src={post.image}
       alt="Post Image"
       />
-    )}
     <div className='finalss'>
     <h3 className='blogHead'>{post.title}</h3>
     <p className='blogCont'>{post.content}</p>
