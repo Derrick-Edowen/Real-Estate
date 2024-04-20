@@ -46,18 +46,23 @@ const port =  process.env.PORT || 3001;
   const handlePost = async () => {
     if (newTitle.trim() !== '' && newContent.trim() !== '' && image) {
       try {
-        const formData = new FormData();
-        formData.append('title', newTitle);
-        formData.append('content', newContent);
-        formData.append('user_id', 1); // Assuming user_id = 1 for user 1
         const easternDateTime = DateTime.now().setZone('America/New_York');
         const formattedDateTime = easternDateTime.toISODate(); // Format as YYYY-MM-DD
-        formData.append('created_at', formattedDateTime);
-        formData.append('image', image);
+        
+        const postData = {
+          title: newTitle,
+          content: newContent,
+          user_id: 1, // Assuming user_id = 1 for user 1
+          created_at: formattedDateTime,
+          image: image,
+        };
   console.log(image)
         const response = await fetch(`/posts`, {
           method: 'POST',
-          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(postData),
         });
         
         const data = await response.json();
@@ -159,11 +164,14 @@ const port =  process.env.PORT || 3001;
           rows={5}
           cols={50}
         />
-     <input
+<input
   type="file"
   className="select-input"
+  accept="image/png, image/jpeg, image/webp, image/gif"
   onChange={(e) => handleImageChange(e)}
 />
+
+
 
     
         <button className='postbutt' onClick={handlePost}>Create Post</button>

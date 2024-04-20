@@ -5,9 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 const multer = require('multer');
 const { Storage } = require('@google-cloud/storage');
-const storage = new Storage();
-const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
-const bucket = storage.bucket(bucketName);
+
 const app = express();
 
 // Middleware
@@ -26,6 +24,17 @@ if (process.env.JAWSDB_URL) {
     database: process.env.DB_DATABASE,
   });
 }
+
+
+
+const storage = new Storage({
+  projectId: "estate-405518",
+  keyFilename: "mykey.json",
+});
+
+const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
+const bucket = storage.bucket(bucketName);
+
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -46,16 +55,18 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.post('/posts', upload.single('image'), async (req, res) => {
   const { title, content, user_id, created_at } = req.body;
   const image = req.file; // This is the uploaded image file
-console.log(image)
   try {
     // Upload the image to Google Cloud Storage
     const fileName = `${Date.now()}_${image.originalname}`;
     const file = bucket.file(fileName);
-    const fileBuffer = image.buffer;
-    await file.save(fileBuffer, { contentType: image.mimetype });
+    const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+
+    await file.save(image.buffer, {
+      public: true,
+      contentType: image.mimetype,
+    });
 
     // Get the public URL of the uploaded image
-    const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
 
     // Save the image URL to your database
     await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageUrl]);
