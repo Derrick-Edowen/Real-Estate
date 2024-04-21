@@ -59,19 +59,30 @@ app.post('/posts', upload.single('image'), async (req, res) => {
     // Upload the image to Google Cloud Storage
     const fileName = `${Date.now()}_${image.originalname}`;
     const file = bucket.file(fileName);
-    const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
 
-    await file.save(image.buffer, {
-      public: true,
-      contentType: image.mimetype,
+    const stream = file.createWriteStream({
+      metadata: {
+        contentType: image.mimetype,
+      },
+      resumable: false,
     });
 
-    // Get the public URL of the uploaded image
+    stream.on('error', (err) => {
+      console.error('Error uploading image:', err);
+      res.status(500).json({ error: 'Failed to upload image' });
+    });
 
-    // Save the image URL to your database
-    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageUrl]);
+    stream.on('finish', async () => {
+      // Get the public URL of the uploaded image
+      const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
 
-    res.status(201).json({ message: 'Post created successfully' });
+      // Save the image URL to your database
+      await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, user_id, created_at, imageUrl]);
+
+      res.status(201).json({ message: 'Post created successfully' });
+    });
+
+    stream.end(image.buffer);
   } catch (error) {
     console.error('Error creating post:', error);
     res.status(500).json({ error: 'Failed to create post' });

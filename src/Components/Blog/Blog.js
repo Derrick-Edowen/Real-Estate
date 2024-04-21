@@ -70,6 +70,7 @@ const port =  process.env.PORT || 3001;
         setNewContent('');
         setImage(null);
         fetchPosts();
+        console.log(postData);
       } catch (error) {
         console.error('Error creating post:', error);
       }
