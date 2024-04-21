@@ -70,7 +70,7 @@ app.post('/posts', upload.single('image'), async (req, res) => {
     const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
 
     // Save the image URL to your database
-    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, user_id, created_at, imageUrl]);
+    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageUrl]);
 
     res.status(201).json({ message: 'Post created successfully' });
   } catch (error) {

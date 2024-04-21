@@ -17,7 +17,6 @@ function Blog() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [newType, setNewType] = useState('');
   const [image, setImage] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const location = useLocation();
   const currentUserID = location.state?.currentUserID || '';
@@ -32,7 +31,6 @@ const port =  process.env.PORT || 3001;
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setSelectedImage(URL.createObjectURL(file));
   };
   
   const fetchPosts = async () => {
@@ -47,8 +45,7 @@ const port =  process.env.PORT || 3001;
   };
   
   const handlePost = async () => {
-    console.log(image)
-    if (newTitle.trim() !== '' && newContent.trim() !== '' && image) {
+    if (newTitle.trim() !== '' && newContent.trim() !== '') {
       try {
         const easternDateTime = DateTime.now().setZone('America/New_York');
         const formattedDateTime = easternDateTime.toISODate(); // Format as YYYY-MM-DD
@@ -173,7 +170,7 @@ const port =  process.env.PORT || 3001;
 
 
 {selectedImage && (
-      <img src={selectedImage} alt="Selected Image" style={{ Width: '350px', Height: '350px', marginTop: '10px' }} />
+      <img src={selectedImage} alt="Selected Image" style={{ Width: '150px', Height: '150px', marginTop: '4px' }} />
     )}
     
         <button className='postbutt' onClick={handlePost}>Create Post</button>
