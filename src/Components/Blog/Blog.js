@@ -58,7 +58,6 @@ const port =  process.env.PORT || 3001;
         postData.append('user_id', 1); // Assuming user_id = 1 for user 1
         postData.append('created_at', formattedDateTime);
         postData.append('image', image);
-        
         const response = await fetch(`/posts`, {
           method: 'POST',
           body: postData,
@@ -172,7 +171,7 @@ const port =  process.env.PORT || 3001;
 
 
 {selectedImage && (
-      <img src={selectedImage} alt="Selected Image" style={{ maxWidth: '80px', maxHeight: '80px', marginTop: '4px' }} />
+      <img src={selectedImage} alt="Selected Image" style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '4px', marginLeft: 'auto', marginRight: 'auto' }} />
     )}
     
         <button className='postbutt' onClick={handlePost}>Create Post</button>

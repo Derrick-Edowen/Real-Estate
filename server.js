@@ -5,6 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 const multer = require('multer');
 const { Storage } = require('@google-cloud/storage');
+const serviceKey = path.join(__dirname, './mykey.json')
 
 const app = express();
 
@@ -43,7 +44,10 @@ app.post('/login', async (req, res) => {
 
 
 
-const storage = new Storage();
+const storage = new Storage({
+  keyFilename: serviceKey,
+  projectId: 'estate-405518',
+});
 
 const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
 const bucket = storage.bucket(bucketName);
@@ -54,7 +58,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.post('/posts', upload.single('image'), async (req, res) => {
   const { title, content, user_id, created_at } = req.body;
   const image = req.file; // This is the uploaded image file
-
+console.log(image);
   try {
     // Upload the image to Google Cloud Storage
     const fileName = `${Date.now()}_${image.originalname}`;
