@@ -29,7 +29,7 @@ if (process.env.JAWSDB_URL) {
 
 const storage = new Storage({
   projectId: "estate-405518",
-  keyFilename: path.join(__dirname,"../mykey.json"),
+  keyFilename: "mykey.json",
 });
 
 const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name

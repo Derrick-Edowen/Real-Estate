@@ -47,6 +47,7 @@ const port =  process.env.PORT || 3001;
   };
   
   const handlePost = async () => {
+    console.log(image)
     if (newTitle.trim() !== '' && newContent.trim() !== '' && image) {
       try {
         const easternDateTime = DateTime.now().setZone('America/New_York');
