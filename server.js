@@ -55,37 +55,24 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.post('/posts', upload.single('image'), async (req, res) => {
   const { title, content, user_id, created_at } = req.body;
   const image = req.file; // This is the uploaded image file
-  console.log(image)
 
   try {
     // Upload the image to Google Cloud Storage
     const fileName = `${Date.now()}_${image.originalname}`;
     const file = bucket.file(fileName);
-    console.log("the cloud")
 
-    const stream = file.createWriteStream({
-      metadata: {
-        contentType: image.mimetype,
-      },
-      resumable: false,
+    await file.save(image.buffer, {
+      public: true,
+      contentType: image.mimetype,
     });
 
-    stream.on('error', (err) => {
-      console.error('Error uploading image:', err);
-      res.status(500).json({ error: 'Failed to upload image' });
-    });
+    // Get the public URL of the uploaded image
+    const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
 
-    stream.on('finish', async () => {
-      // Get the public URL of the uploaded image
-      const imageUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
-console.log(imageUrl)
-      // Save the image URL to your database
-      await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, 1, created_at, imageUrl]);
+    // Save the image URL to your database
+    await pool.query('INSERT INTO posts (title, content, user_id, created_at, image) VALUES (?, ?, ?, ?, ?)', [title, content, user_id, created_at, imageUrl]);
 
-      res.status(201).json({ message: 'Post created successfully' });
-    });
-
-    stream.end(image.buffer);
+    res.status(201).json({ message: 'Post created successfully' });
   } catch (error) {
     console.error('Error creating post:', error);
     res.status(500).json({ error: 'Failed to create post' });

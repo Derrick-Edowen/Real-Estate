@@ -52,26 +52,23 @@ const port =  process.env.PORT || 3001;
         const easternDateTime = DateTime.now().setZone('America/New_York');
         const formattedDateTime = easternDateTime.toISODate(); // Format as YYYY-MM-DD
         
-        const postData = {
-          title: newTitle,
-          content: newContent,
-          user_id: 1, // Assuming user_id = 1 for user 1
-          created_at: formattedDateTime,
-          image: image,
-        };
+        const postData = new FormData();
+        postData.append('title', newTitle);
+        postData.append('content', newContent);
+        postData.append('user_id', 1); // Assuming user_id = 1 for user 1
+        postData.append('created_at', formattedDateTime);
+        postData.append('image', image);
+        
         const response = await fetch(`/posts`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(postData),
+          body: postData,
         });
         
         const data = await response.json();
         setNewTitle('');
         setNewContent('');
-        fetchPosts();
         setImage(null);
+        fetchPosts();
       } catch (error) {
         console.error('Error creating post:', error);
       }
@@ -175,7 +172,7 @@ const port =  process.env.PORT || 3001;
 
 
 {selectedImage && (
-      <img src={selectedImage} alt="Selected Image" style={{ maxWidth: '80%', marginTop: '10px' }} />
+      <img src={selectedImage} alt="Selected Image" style={{ maxWidth: '100%', marginTop: '10px' }} />
     )}
     
         <button className='postbutt' onClick={handlePost}>Create Post</button>
