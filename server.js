@@ -58,7 +58,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.post('/posts', upload.single('image'), async (req, res) => {
   const { title, content, user_id, created_at } = req.body;
   const image = req.file; // This is the uploaded image file
-console.log(image);
   try {
     // Upload the image to Google Cloud Storage
     const fileName = `${Date.now()}_${image.originalname}`;

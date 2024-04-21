@@ -58,6 +58,7 @@ const port =  process.env.PORT || 3001;
         postData.append('user_id', 1); // Assuming user_id = 1 for user 1
         postData.append('created_at', formattedDateTime);
         postData.append('image', image);
+
         const response = await fetch(`/posts`, {
           method: 'POST',
           body: postData,
@@ -111,6 +112,7 @@ const port =  process.env.PORT || 3001;
     {posts.map((post, index) => (
   <div key={index} className="post" onClick={() => handleClick(index)}>
       <img
+      className='windows'
       src={post.image}
       alt="Post Image"
       />
