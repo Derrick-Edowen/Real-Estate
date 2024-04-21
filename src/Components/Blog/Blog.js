@@ -45,7 +45,7 @@ const port =  process.env.PORT || 3001;
   };
   
   const handlePost = async () => {
-    if (newTitle.trim() !== '' && newContent.trim() !== '') {
+    if (newTitle.trim() !== '' && newContent.trim() !== '' && image!== null) {
       try {
         const easternDateTime = DateTime.now().setZone('America/New_York');
         const formattedDateTime = easternDateTime.toISODate(); // Format as YYYY-MM-DD
@@ -170,7 +170,7 @@ const port =  process.env.PORT || 3001;
 
 
 {selectedImage && (
-      <img src={selectedImage} alt="Selected Image" style={{ Width: '150px', Height: '150px', marginTop: '4px' }} />
+      <img src={selectedImage} alt="Selected Image" style={{ Width: '80px', Height: '80px', marginTop: '4px' }} />
     )}
     
         <button className='postbutt' onClick={handlePost}>Create Post</button>

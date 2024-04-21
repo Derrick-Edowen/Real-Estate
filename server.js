@@ -24,17 +24,6 @@ if (process.env.JAWSDB_URL) {
     database: process.env.DB_DATABASE,
   });
 }
-
-
-
-const storage = new Storage({
-  projectId: "estate-405518",
-  keyFilename: "mykey.json",
-});
-
-const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
-const bucket = storage.bucket(bucketName);
-storage.getBuckets().then(x => console.log(x))
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -49,6 +38,19 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error logging in' });
   }
 });
+
+
+
+
+
+const storage = new Storage({
+  projectId: "estate-405518",
+  keyFilename: "mykey.json",
+});
+
+const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
+const bucket = storage.bucket(bucketName);
+
 // Create a post
 const upload = multer({ storage: multer.memoryStorage() });
 
