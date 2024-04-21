@@ -56,7 +56,6 @@ const port =  process.env.PORT || 3001;
           created_at: formattedDateTime,
           image: image,
         };
-  console.log(image)
         const response = await fetch(`/posts`, {
           method: 'POST',
           headers: {
@@ -70,7 +69,6 @@ const port =  process.env.PORT || 3001;
         setNewContent('');
         setImage(null);
         fetchPosts();
-        console.log(postData);
       } catch (error) {
         console.error('Error creating post:', error);
       }
