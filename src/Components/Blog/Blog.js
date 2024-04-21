@@ -17,6 +17,7 @@ function Blog() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [newType, setNewType] = useState('');
   const [image, setImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const location = useLocation();
   const currentUserID = location.state?.currentUserID || '';
@@ -31,7 +32,9 @@ const port =  process.env.PORT || 3001;
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
+    setSelectedImage(URL.createObjectURL(file));
   };
+  
   const fetchPosts = async () => {
     try {
       
@@ -67,8 +70,8 @@ const port =  process.env.PORT || 3001;
         const data = await response.json();
         setNewTitle('');
         setNewContent('');
-        setImage(null);
         fetchPosts();
+        setImage(null);
       } catch (error) {
         console.error('Error creating post:', error);
       }
@@ -171,7 +174,9 @@ const port =  process.env.PORT || 3001;
 />
 
 
-
+{selectedImage && (
+      <img src={selectedImage} alt="Selected Image" style={{ maxWidth: '80%', marginTop: '10px' }} />
+    )}
     
         <button className='postbutt' onClick={handlePost}>Create Post</button>
       </div>
