@@ -29,12 +29,12 @@ if (process.env.JAWSDB_URL) {
 
 const storage = new Storage({
   projectId: "estate-405518",
-  keyFilename: "mykey.json",
+  keyFilename: path.join(__dirname,"../mykey.json"),
 });
 
 const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
 const bucket = storage.bucket(bucketName);
-
+storage.getBuckets().then(x => console.log(x))
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
   try {

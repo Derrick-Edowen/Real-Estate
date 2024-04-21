@@ -172,7 +172,7 @@ const port =  process.env.PORT || 3001;
 
 
 {selectedImage && (
-      <img src={selectedImage} alt="Selected Image" style={{ maxWidth: '100%', marginTop: '10px' }} />
+      <img src={selectedImage} alt="Selected Image" style={{ Width: '350px', Height: '350px', marginTop: '10px' }} />
     )}
     
         <button className='postbutt' onClick={handlePost}>Create Post</button>
