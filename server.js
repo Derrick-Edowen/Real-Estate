@@ -43,10 +43,7 @@ app.post('/login', async (req, res) => {
 
 
 
-const storage = new Storage({
-  projectId: "estate-405518",
-  keyFilename: "mykey.json",
-});
+const storage = new Storage();
 
 const bucketName = 'realestate-images'; // Replace 'your-bucket-name' with your actual bucket name
 const bucket = storage.bucket(bucketName);
