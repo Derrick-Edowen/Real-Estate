@@ -135,7 +135,7 @@ const port =  process.env.PORT || 3001;
           </div>
       <h3 className='blogHead'>{selectedPost.title}</h3>
   <img
-  className='windows'
+  className='windows1'
   src={
     selectedPost.image}
 />
