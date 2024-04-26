@@ -98,9 +98,11 @@ const port =  process.env.PORT || 3001;
     return `${formatDate(dateString)}`;
   }
   
-    const handleClick = (index) => {
-      setSelectedPost(posts[index]);
-    };
+  const handleClick = (index) => {
+    const reversedIndex = posts.length - 1 - index;
+    setSelectedPost(posts[reversedIndex]);
+  };
+  
   
     const handleClose = () => {
       setSelectedPost(null);
@@ -109,7 +111,7 @@ const port =  process.env.PORT || 3001;
   return (
     <div className="blog-container">
     <div className="posts-container">
-    {posts.map((post, index) => (
+    {posts.slice().reverse().map((post, index) => (
   <div key={index} className="post" onClick={() => handleClick(index)}>
       <img
       className='windows'
@@ -121,7 +123,6 @@ const port =  process.env.PORT || 3001;
     <div className='moore'>Click to Learn More!</div>
     <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
     </div>
-
     {isLoggedIn && (
     <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete this post?</button>
     )}
@@ -134,7 +135,7 @@ const port =  process.env.PORT || 3001;
     <div className="chasser" onClick={handleClose}>
     <FontAwesomeIcon icon={faXmark} size='2xl'/>
           </div>
-      <h3 className='blogHead'>{selectedPost.title}</h3>
+      <h3 className='blogHead1'>{selectedPost.title}</h3>
   <img
   className='windows1'
   src={

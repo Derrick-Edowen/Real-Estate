@@ -97,8 +97,22 @@ app.delete('/posts/:postId', async (req, res) => {
   const postId = req.params.postId;
   const userId = 1; // Assuming user_id is always 1 in this case
   try {
+    // Fetch the post from the database to get the image URL
+    const [rows] = await pool.query('SELECT * FROM posts WHERE id = ? AND user_id = ?', [postId, userId]);
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Post not found or does not belong to the user' });
+    }
+    const post = rows[0];
+    const imageUrl = post.image;
+    const fileName = imageUrl.split('/').pop(); // Extract the filename from the image URL
+
+    // Delete the post from the database
     const result = await pool.query('DELETE FROM posts WHERE id = ? AND user_id = ?', [postId, userId]);
     if (result.affectedRows > 0) {
+      // Delete the image from Google Cloud Storage
+      const bucketName = 'realestate-images'; // Replace with your bucket name
+      await storage.bucket(bucketName).file(fileName).delete();
+
       res.json({ success: true, message: 'Post deleted successfully' });
     } else {
       res.status(404).json({ success: false, message: 'Post not found or does not belong to the user' });
