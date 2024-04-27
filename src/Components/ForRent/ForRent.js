@@ -66,8 +66,8 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
-  const maxRequestsPerSecond = 3;
-  const delayBetweenRequests = 2000 / maxRequestsPerSecond;
+  const maxRequestsPerSecond = 1;
+  const delayBetweenRequests = 1000 / maxRequestsPerSecond;
 
 
   const handleSearch = async (e) => {

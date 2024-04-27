@@ -40,10 +40,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-
-
-
 const storage = new Storage({
   keyFilename: serviceKey,
   projectId: 'estate-405518',

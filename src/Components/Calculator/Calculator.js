@@ -444,7 +444,7 @@ const [showDrops, setShowDrops] = useState(false);
                 <div className='popUp2' style={{ display: showPopUp2 ? 'block' : 'none' }}>
                 <h4 className='amortTitle'>Annual Amortization Graph</h4>
 <div className='line-chart-container'>
-<canvas id="lineChart" width="300" height="415"></canvas>
+<canvas id="lineChart" width="300" height="325"></canvas>
                 </div>   
                 </div>
 

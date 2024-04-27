@@ -122,7 +122,7 @@ function Contact() {
     </li>
     <li>
       <span><FontAwesomeIcon icon={faEnvelope} style={{color: "#ffffff",}} size='xl'/></span>
-      <span>smithrealestate@gmail.com
+      <span>smithestates@gmail.com
       </span>
     </li>
     <li>
@@ -148,7 +148,7 @@ function Contact() {
 <div className='contactForm'>
   <div className='lostboy'>
   <h2>Lets Start A Conversation!</h2>
-  <img src={man}></img>
+  <img className='mrman' src={man}></img>
   </div>
   <div className='formBox'>
     <div className='inputBox w50'>

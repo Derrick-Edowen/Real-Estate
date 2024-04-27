@@ -206,20 +206,28 @@ font-size: 20px;
 
 }
 @media screen and (max-width: 1400px) {
+  .calculator-container {
+    
+    margin-top: 10px; /* Set top margin to auto */
+    margin-bottom: auto; /* Set bottom margin to auto */
+    height: 90%;
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Align children vertically */
+    justify-content: center;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.8) ;
+  
+    }
   .bigHold {
     display: flex;
     flex-direction: column;
-    margin: 20px;
+    margin: 8px;
 margin-top: 0px;   
-padding-top: 30px; 
   }
   .calculator-container {
 min-width: 96%;
     padding: 20px;
     border: 1px solid #000000;
     border-radius: 5px;
-    background: rgba(30, 0, 48, 0.99);
-    color: #fff;
     margin-right: auto;
     margin-bottom: 16px;
     margin-left: auto;
@@ -231,13 +239,10 @@ min-width: 96%;
       font-size: 18px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
       min-width: 99%;
-      background: rgba(30, 0, 48, 0.99);
   padding: 8px;
   margin-left: auto;
   margin-right: auto;
-  color: #fff;
   border-radius: 5px;
-  border: 1px solid #000000;
   margin-bottom: 4px;
     }
 }
@@ -272,8 +277,6 @@ min-width: 96%;
     font-size: 16px;
   }
   .results-container {
-    background: rgba(30, 0, 48, 0.99);
-    color: #fff;
 width: 15%;
 padding: 10px;
 border-radius: 5px;
@@ -282,20 +285,16 @@ border-radius: 5px;
   .bigHold {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    margin: 8px;
 margin-top: 0px;   
-padding-top: 30px; 
   }
 
   .meth  {
     font-size: 16px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
     width: 85%;
-    background: rgba(30, 0, 48, 0.99);
 padding: 8px;
-color: #fff;
 border-radius: 5px;
-border: 1px solid #000000;
   }
   .meth:hover {
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
@@ -303,10 +302,8 @@ border: 1px solid #000000;
   .rentCalchead {
     border-radius: 5px;
     padding: 8px;
-    background-color: #5b028ffb;
     font-size: 18px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-    color: #fff;
   }
   .rentButton {
     display: block;
@@ -315,11 +312,9 @@ border: 1px solid #000000;
   .rentCalchead1 {
     border-radius: 5px;
     padding: 6px;
-    background-color: #5b028ffb;
     font-size: 18px;
 width: 100%;
 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-color: #fff;
 
   }
   label {
@@ -339,12 +334,36 @@ color: #fff;
   width: 100%;
   font-size: 20px;
 padding: 4px;
-padding-top: 0px;
+padding-top: 8px;
 
 }
-.ppl {
+.ppl1 {
+  width: 33.33%;
   font-size: 18px;
-}
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  color: #1e0030fc;
+  font-weight: 500;
+  
+  }
+  .ppl2 {
+    width: 33.33%;
+    font-size: 18px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  color: #1e0030fc;
+  font-weight: 500;
+  
+  }
+  .ppl3 {
+    width: 33.33%;
+    font-size: 18px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  color: #1e0030fc;
+  font-weight: 500;
+  
+  }
 }
 @media screen and (max-width: 780px) {
   input[type='number'] {
@@ -371,14 +390,40 @@ padding-top: 0px;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-
+  .ppl1 {
+    width: 100%;
+    font-size: 18px;
+    text-align: start;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+    color: #1e0030fc;
+    font-weight: 500;
+    
+    }
+    .ppl2 {
+      width: 100%;
+      font-size: 18px;
+    text-align: start;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+    color: #1e0030fc;
+    font-weight: 500;
+    
+    }
+    .ppl3 {
+      width: 100%;
+      font-size: 18px;
+    text-align: start;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+    color: #1e0030fc;
+    font-weight: 500;
+    
+    }
+    .cups {
+flex-direction: column;    }
   .result {
     margin-top: 15px;
     font-size: 12px;
   }
   .results-container {
-    background: rgba(30, 0, 48, 0.99);
-    color: #fff;
 width: 15%;
 padding: 10px;
 border-radius: 5px;
@@ -387,20 +432,16 @@ border-radius: 5px;
   .bigHold {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    margin: 8px;
 margin-top: 0px;   
-padding-top: 30px; 
   }
 
   .meth  {
     font-size: 12px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
     width: 85%;
-    background: rgba(30, 0, 48, 0.99);
 padding: 8px;
-color: #fff;
 border-radius: 5px;
-border: 1px solid #000000;
   }
   .meth:hover {
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
@@ -408,10 +449,8 @@ border: 1px solid #000000;
   .rentCalchead {
     border-radius: 5px;
     padding: 8px;
-    background-color: #5b028ffb;
     font-size: 16px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-    color: #fff;
   }
   .rentButton {
     display: block;
@@ -420,11 +459,9 @@ border: 1px solid #000000;
   .rentCalchead1 {
     border-radius: 5px;
     padding: 6px;
-    background-color: #5b028ffb;
     font-size: 16px;
 width: 100%;
 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-color: #fff;
 
   }
   label {
@@ -444,7 +481,7 @@ color: #fff;
   width: 100%;
   font-size: 17px;
 padding: 4px;
-padding-top: 0px;
+padding-top: 8px;
 
 }
 .ppl {
@@ -482,8 +519,6 @@ padding-top: 0px;
     font-size: 12px;
   }
   .results-container {
-    background: rgba(30, 0, 48, 0.99);
-    color: #fff;
 width: 15%;
 padding: 10px;
 border-radius: 5px;
@@ -492,20 +527,16 @@ border-radius: 5px;
   .bigHold {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    margin: 8px;
 margin-top: 0px;   
-padding-top: 30px; 
   }
 
   .meth  {
     font-size: 12px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
     width: 85%;
-    background: rgba(30, 0, 48, 0.99);
 padding: 8px;
-color: #fff;
 border-radius: 5px;
-border: 1px solid #000000;
   }
   .meth:hover {
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
@@ -513,10 +544,8 @@ border: 1px solid #000000;
   .rentCalchead {
     border-radius: 5px;
     padding: 8px;
-    background-color: #5b028ffb;
     font-size: 16px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-    color: #fff;
   }
   .rentButton {
     display: block;
@@ -525,11 +554,9 @@ border: 1px solid #000000;
   .rentCalchead1 {
     border-radius: 5px;
     padding: 6px;
-    background-color: #5b028ffb;
     font-size: 16px;
 width: 100%;
 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-color: #fff;
 
   }
   label {
@@ -549,10 +576,34 @@ color: #fff;
   width: 100%;
   font-size: 17px;
 padding: 4px;
-padding-top: 0px;
+padding-top: 8px;
 
 }
-.ppl {
+.ppl1 {
+  width: 33.33%;
   font-size: 14px;
-}
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  color: #1e0030fc;
+  font-weight: 500;
+  
+  }
+  .ppl2 {
+    width: 33.33%;
+    font-size: 14px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  color: #1e0030fc;
+  font-weight: 500;
+  
+  }
+  .ppl3 {
+    width: 33.33%;
+    font-size: 14px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  color: #1e0030fc;
+  font-weight: 500;
+  
+  }
 }
