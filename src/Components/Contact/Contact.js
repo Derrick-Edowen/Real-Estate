@@ -26,6 +26,10 @@ function Contact() {
           handleButtonClick()
         }
       )
+      setTimeout(() => {
+        setTextVisible(false);
+        form.current.reset();
+      }, 3500);
   };
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -33,80 +37,11 @@ function Contact() {
   const price = queryParams.get('price') || '';
 
     // Add the Google Maps layer to the map
-    const cnTowerCoordinates = { lat: 43.6426, lng: -79.3871 };
 
     return (
 
       <div className='underLay'>
-        {/*
-
-      <section id="Contact" className="contact--section">
-      <form ref={form} onSubmit={sendEmail} className="contact--form--container">
-        <div className="container">
-          <label htmlFor="name" className="contact--label">
-            <span className="text-md">Name:</span>
-            <input
-              type="text"
-              className="contact--input text-md"
-              name="name"
-              id="name"
-              required
-            />
-          </label>
-          <label htmlFor="email" className="contact--label">
-            <span className="text-md">Email:</span>
-            <input
-              type="email"
-              className="contact--input text-md"
-              name="email"
-              id="email"
-              required
-            />
-          </label>
-          </div>
-          <div className='stress'>
-          <label htmlFor="phone-number" className="contact--label">
-            <span className="text-md">Phone number:</span>
-            <input
-              type="number"
-              className="contact--input text-md"
-              name="phoneNumber"
-              id="phone-number"
-              required
-            />
-          </label>
-        <label htmlFor="choode-topic" className="contact--label">
-          <span className="text-md">Inquiry:</span>
-          <select id="choose-topic" className="contact--input text-md" name="topic">
-            <option>General Inquiry</option>
-            <option>Lease</option>
-            <option>Purchase/Sell</option>
-          </select>
-        </label>
-
-        <label htmlFor="message" className="contact--label">
-          <span className="text-md">Message:</span>
-          <textarea
-            className="contact--input text-md"
-            id="message"
-            rows="4"
-            name="message"
-            placeholder="Type your message..."
-            required
-          />
-        </label>
-        </div>
-        <label htmlFor="checkboc" className="checkbox--label">
-          <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
-        </label>
-        <div className='confirm'>
-          <button className="sendMe btn-primary"> Send Message </button>
-          
-        </div>
-      </form>
-    </section>
-    */}
-   
+        
 <section>
   
 <div className='container'>
