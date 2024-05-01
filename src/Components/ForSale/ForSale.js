@@ -103,7 +103,10 @@ function ForSale() {
   const page = 1;
     try {
       setIsLoading(true);
-  
+      if (parseInt(minPrice) > parseInt(maxPrice)) {
+        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+        return;
+      }
       const response = await fetch('/api/search-listings-forsale', {
         method: 'POST',
         headers: {

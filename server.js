@@ -19,23 +19,25 @@ app.use(bodyParser.json());
 //API CODE//
 const maxRequestsPerSecond = 2;
 const delayBetweenRequests = 2000 / maxRequestsPerSecond;
-const wss = new WebSocket.Server({ port: 8080 });
+const wss = new WebSocket.Server({ port: 3002 });
 
 // Handle WebSocket connections
-wss.on('connection', (ws) => {
-  console.log('WebSocket client connected');
-
-  // Emit progress events every second
-  const interval = setInterval(() => {
-    ws.send(JSON.stringify({ progress: Math.random() * 100 }));
-  }, 1000);
-
-  // Close the interval when the WebSocket connection is closed
-  ws.on('close', () => {
-    clearInterval(interval);
-    console.log('WebSocket client disconnected');
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
   });
+
+  ws.send('connected');
 });
+
+// Send progress updates
+function sendProgressUpdate(progress) {
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ progress }));
+    }
+  });
+}
 //Lease - Initial
 app.post('/api/search-listings-lease', async (req, res) => {
   try {
@@ -115,14 +117,10 @@ app.post('/api/search-listings-lease', async (req, res) => {
 
       if (i < leaseListings.length - 1) {
         await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
+        sendProgressUpdate((i + 1) / leaseListings.length); // Send progress update
       }
     }
-    for (let i = 0; i <= 100; i += 10) {
-      wss.clients.forEach((client) => {
-        client.send(JSON.stringify({ progress: i }));
-      });
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate processing time
-    }
+
     // Prepare and send response
     const responseData = {
       lat,

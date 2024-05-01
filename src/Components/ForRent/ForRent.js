@@ -30,7 +30,9 @@ const [page, setPage] = useState(1);
 const [showFilter, setShowFilter] = useState(false);
 const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
-const ws = new WebSocket('ws://localhost:8080');
+const [progress, setProgress] = useState(0);
+
+const ws = new WebSocket('ws://localhost:3002');
 
 const updateMapLocation = async (address) => {
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
@@ -68,10 +70,24 @@ const updateMapLocation = async (address) => {
     })();
   };
   
-  ws.onmessage = (event) => {
-    const { progress } = JSON.parse(event.data);
-    const progressBar = document.querySelector('.progress-bar');
-    progressBar.style.width = `${progress}%`;
+  ws.onopen = function () {
+    console.log('WebSocket connected');
+  };
+  let progressTimer;
+
+  // Receive progress updates from WebSocket
+  ws.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    const progress = data.progress * 100;
+    console.log('Progress:', progress);
+    setProgress(progress); // Update progress state or progress bar
+    if (progress === 100) {
+      // Reset progress bar to 0% after 3 seconds
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
+      }, 3000);
+    }
   };
   const handleSearch = async (e) => {
     setIsRotated(!isRotated);
@@ -92,14 +108,35 @@ const updateMapLocation = async (address) => {
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
-  const page = 1;
+    const page = 1;
+  
     try {
       setIsLoading(true);
+      if (parseInt(minPrice) > parseInt(maxPrice)) {
+        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+        return;
+      }
+      // WebSocket connection
+      const ws = new WebSocket('ws://localhost:3002'); // Change the URL if your WebSocket server is running on a different host or port
   
+      // WebSocket event listeners
+      ws.onopen = function () {
+        console.log('WebSocket connected');
+      };
+  
+      // Receive progress updates from WebSocket
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const progress = data.progress * 100;
+        console.log('Progress:', progress);
+        setProgress(progress); // Update progress state or progress bar
+      };
+  
+      // Make API call
       const response = await fetch('/api/search-listings-lease', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           address,
@@ -111,8 +148,8 @@ const updateMapLocation = async (address) => {
           minPrice,
           maxPrice,
           maxBeds,
-          maxBaths
-        })
+          maxBaths,
+        }),
       });
   
       if (!response.ok) {
@@ -122,14 +159,17 @@ const updateMapLocation = async (address) => {
       const data = await response.json();
       setApiData(data.data);
       setInfoData(data.data.leaseListings);
-      // Handle the response data as needed
   
       setIsLoading(false);
+      setProgress(100);
+    clearTimeout(progressTimer);
+    progressTimer = setTimeout(() => {
+      setProgress(0);
+    }, 2000);
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
     }
-    
   };
   useEffect(() => {
   }, [apiData, infoData]);
@@ -682,7 +722,7 @@ return (
         )}
       </main>
       <div className="progress-container">
-  <div className="progress-bar"></div>
+      <div className="progress-bar" style={{ width: `${progress}%` }}></div>
 </div>
 
   </div>

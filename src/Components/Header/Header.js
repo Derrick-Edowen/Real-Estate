@@ -108,13 +108,6 @@ function Header() {
               >
                 RECENTLY SOLD
               </NavLink>
-              <NavLink
-                onClick={closeMenu}
-                to="/Find Listings | Recently Sold"
-                className="navbar--content transformer"
-              >
-              MLS NUMBER
-              </NavLink>
             </div>
           </li>
           <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
