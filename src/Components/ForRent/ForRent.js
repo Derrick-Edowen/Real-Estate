@@ -32,7 +32,9 @@ const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
 const [progress, setProgress] = useState(0);
 
-const ws = new WebSocket('ws://localhost:3002');
+const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+const wsHost = window.location.host;
+const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
 
 const updateMapLocation = async (address) => {
   const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
@@ -79,7 +81,6 @@ const updateMapLocation = async (address) => {
   ws.onmessage = function (event) {
     const data = JSON.parse(event.data);
     const progress = data.progress * 100;
-    console.log('Progress:', progress);
     setProgress(progress); // Update progress state or progress bar
     if (progress === 100) {
       // Reset progress bar to 0% after 3 seconds
@@ -117,7 +118,7 @@ const updateMapLocation = async (address) => {
         return;
       }
       // WebSocket connection
-      const ws = new WebSocket('ws://localhost:3002'); // Change the URL if your WebSocket server is running on a different host or port
+      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
   
       // WebSocket event listeners
       ws.onopen = function () {
@@ -602,7 +603,7 @@ return (
         <main className='fullStage notranslate'>
         {isLoading ? (
           <div className="loadingMessage1 translate">
-            <FadeLoader color="#f5fcff" margin={10} fontSize={86} />
+            <FadeLoader color="#f5fcff" margin={10} />
           </div>
         ) : (
           <>
@@ -637,7 +638,7 @@ return (
           onClick={() => handleOpenLightbox(index)}
         >
           <div className='indigo'>
-            <img className='mommy' src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
+            <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
             <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}</div>
           </div>                
           <div className="cardText1 notranslate">

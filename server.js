@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 //API CODE//
 const maxRequestsPerSecond = 2;
 const delayBetweenRequests = 2000 / maxRequestsPerSecond;
-const wss = new WebSocket.Server({ port: 3002 });
+const wss = new WebSocket.Server({ server });
 
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
@@ -38,6 +38,18 @@ function sendProgressUpdate(progress) {
     }
   });
 }
+const http = require('http');
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('WebSocket server');
+});
+
+// Upgrade HTTP server to handle WebSocket
+server.on('upgrade', function upgrade(request, socket, head) {
+  wss.handleUpgrade(request, socket, head, function done(ws) {
+    wss.emit('connection', ws, request);
+  });
+});
 //Lease - Initial
 app.post('/api/search-listings-lease', async (req, res) => {
   try {
@@ -163,8 +175,8 @@ app.post('/api/search-listings-forsale', async (req, res) => {
         status_type: 'ForSale',
         home_type: propertyType,
         sort: sort,
-        rentMinPrice: minPrice,
-        rentMaxPrice: maxPrice,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
         bathsMin: maxBaths,
         bedsMin: maxBeds
       },
@@ -215,6 +227,7 @@ app.post('/api/search-listings-forsale', async (req, res) => {
 
       if (i < leaseListings.length - 1) {
         await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
+        sendProgressUpdate((i + 1) / leaseListings.length); // Send progress update
       }
     }
 
@@ -233,7 +246,104 @@ app.post('/api/search-listings-forsale', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch lease listings' });
   }
 });
+//Recently Sold
+app.post('/api/search-listings-recentlysold', async (req, res) => {
+  try {
 
+
+    // Handle the search logic here based on the request body
+    const { address, state, page, country, sort, propertyType, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
+
+    const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
+    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+
+    // Fetch latitude and longitude from Google Maps
+    const geocodeResponse = await axios.get(geocodeUrl);
+    const { results } = geocodeResponse.data;
+    if (!results || results.length === 0) {
+      throw new Error('Location not found');
+    }
+    const { lat, lng } = results[0].geometry.location;
+
+    // Fetch lease listings from Zillow
+    const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
+      params: {
+        location: `${address},${state}`,
+        page: page,
+        status_type: 'RecentlySold',
+        home_type: propertyType,
+        sort: sort,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        bathsMin: maxBaths,
+        bedsMin: maxBeds
+      },
+      headers: {
+        'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+      }
+    });
+
+    // Fetch additional info and images for each property
+    const leaseListings = estateResponse.data.props;
+    const infoDataArray = [];
+    const imageUrlsArray = [];
+
+    const fetchPropertyData = async (zpid) => {
+      const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+      const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+
+      const propertyResponse = await axios.get(propertyUrl, {
+        params: { zpid },
+        headers: {
+          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+        }
+      });
+
+      // Introduce a delay before making the second request
+      await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
+
+      const imageResponse = await axios.get(imagesUrl, {
+        params: { zpid },
+        headers: {
+          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+        }
+      });
+
+      return { property: propertyResponse.data, images: imageResponse.data };
+    };
+
+    for (let i = 0; i < leaseListings.length; i++) {
+      const zpid = leaseListings[i].zpid;
+      const { property, images } = await fetchPropertyData(zpid);
+
+      // Use property and images data as needed
+      infoDataArray.push({ ...property, images });
+      imageUrlsArray.push(images);
+
+      if (i < leaseListings.length - 1) {
+        await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
+        sendProgressUpdate((i + 1) / leaseListings.length); // Send progress update
+      }
+    }
+
+    // Prepare and send response
+    const responseData = {
+      lat,
+      lng,
+      estate: estateResponse.data,
+      leaseListings: infoDataArray,
+      leaseImages: imageUrlsArray
+
+    };
+    res.json({ success: true, data: responseData });
+  } catch (error) {
+    console.error('Error fetching lease listings:', error);
+    res.status(500).json({ error: 'Failed to fetch lease listings' });
+  }
+});
 
 
 
@@ -363,6 +473,11 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
+const SPORT = process.env.PORT || 3002;
+
+server.listen(SPORT, () => {
+  console.log(`Server is running on port ${SPORT}`);
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

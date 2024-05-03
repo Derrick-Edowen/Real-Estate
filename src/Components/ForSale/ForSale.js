@@ -33,6 +33,11 @@ function ForSale() {
   const [isRotated, setIsRotated] = useState(false);
   const [nextPage, setNextPage] = useState(1);
   const [selectedCountry, setSelectedCountry] = useState('Canada'); // Initialize selected country state to 'Canada'
+  const [progress, setProgress] = useState(0);
+
+  const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+  const wsHost = window.location.host;
+  const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
 
   const updateMapLocation = async (address) => {
     const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
@@ -70,7 +75,24 @@ function ForSale() {
     })();
   };
 
-  
+  ws.onopen = function () {
+    console.log('WebSocket connected');
+  };
+  let progressTimer;
+
+  // Receive progress updates from WebSocket
+  ws.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    const progress = data.progress * 100;
+    setProgress(progress); // Update progress state or progress bar
+    if (progress === 100) {
+      // Reset progress bar to 0% after 3 seconds
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
+      }, 3000);
+    }
+  };
   
   const handleSearch = async (e) => {
     setIsRotated(!isRotated);
@@ -85,7 +107,6 @@ function ForSale() {
         clearInterval(interval);
       }
     }, 5);
-  
     const address = document.getElementById('search').value;
     let state = '';
     const country = document.getElementById('country').value;
@@ -107,6 +128,21 @@ function ForSale() {
         window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
         return;
       }
+      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
+  
+      // WebSocket event listeners
+      ws.onopen = function () {
+        console.log('WebSocket connected');
+      };
+  
+      // Receive progress updates from WebSocket
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const progress = data.progress * 100;
+        console.log('Progress:', progress);
+        setProgress(progress); // Update progress state or progress bar
+      };
+  
       const response = await fetch('/api/search-listings-forsale', {
         method: 'POST',
         headers: {
@@ -136,9 +172,10 @@ function ForSale() {
       // Handle the response data as needed
   
       setIsLoading(false);
-      progressBar.style.width = '100%';
-      setTimeout(() => {
-        progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
+      setProgress(100);
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
       }, 2000);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -151,9 +188,8 @@ function ForSale() {
     console.log("apiData.estate:", apiData?.estate);
     console.log("infoData:", infoData);
   }, [apiData, infoData]);
-  
+
   const handleNPage = async (e) => {
-    setIsRotated(!isRotated);
     e.preventDefault();
     setShowFilter(false);
   
@@ -165,7 +201,6 @@ function ForSale() {
         clearInterval(interval);
       }
     }, 5);
-  
     const address = document.getElementById('search').value;
     let state = '';
     const country = document.getElementById('country').value;
@@ -180,9 +215,27 @@ function ForSale() {
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
-  const page = nextPage + 1;
+    const page = nextPage + 1;
     try {
       setIsLoading(true);
+      if (parseInt(minPrice) > parseInt(maxPrice)) {
+        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+        return;
+      }
+      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
+  
+      // WebSocket event listeners
+      ws.onopen = function () {
+        console.log('WebSocket connected');
+      };
+  
+      // Receive progress updates from WebSocket
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const progress = data.progress * 100;
+        console.log('Progress:', progress);
+        setProgress(progress); // Update progress state or progress bar
+      };
   
       const response = await fetch('/api/search-listings-forsale', {
         method: 'POST',
@@ -213,9 +266,10 @@ function ForSale() {
       // Handle the response data as needed
   
       setIsLoading(false);
-      progressBar.style.width = '100%';
-      setTimeout(() => {
-        progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
+      setProgress(100);
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
       }, 2000);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -223,8 +277,8 @@ function ForSale() {
       clearInterval(interval);
     }
   };
+
   const handlePPage = async (e) => {
-    setIsRotated(!isRotated);
     e.preventDefault();
     setShowFilter(false);
   
@@ -236,7 +290,6 @@ function ForSale() {
         clearInterval(interval);
       }
     }, 5);
-  
     const address = document.getElementById('search').value;
     let state = '';
     const country = document.getElementById('country').value;
@@ -251,9 +304,27 @@ function ForSale() {
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
-  const page = nextPage - 1;
+    const page = nextPage - 1;
     try {
       setIsLoading(true);
+      if (parseInt(minPrice) > parseInt(maxPrice)) {
+        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+        return;
+      }
+      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
+  
+      // WebSocket event listeners
+      ws.onopen = function () {
+        console.log('WebSocket connected');
+      };
+  
+      // Receive progress updates from WebSocket
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const progress = data.progress * 100;
+        console.log('Progress:', progress);
+        setProgress(progress); // Update progress state or progress bar
+      };
   
       const response = await fetch('/api/search-listings-forsale', {
         method: 'POST',
@@ -284,9 +355,10 @@ function ForSale() {
       // Handle the response data as needed
   
       setIsLoading(false);
-      progressBar.style.width = '100%';
-      setTimeout(() => {
-        progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
+      setProgress(100);
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
       }, 2000);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -591,28 +663,26 @@ function ForSale() {
           </div>
         ) : (
           <>
-          <div className='manual'>
-          {searchClicked && apiData.props && apiData.props.length > 0 && (
-          <div className='alone'>{apiData.totalResultCount} Results - Page {apiData.currentPage} of {apiData.totalPages} </div>
-          )}
+                                {apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 && (
           <div className='capture'>
-          {apiData.totalPages > 1 && (
+          {apiData.estate.totalPages > 1 && (
             <button 
-  className={`prevButton ${page === apiData.currentPage ? 'disabled' : ''}`}
+  className={`prevButton ${page === apiData.estate.currentPage ? 'disabled' : ''}`}
   onClick={handlePrevPage}
-    disabled={apiData.currentPage === 1}
+    disabled={apiData.estate.currentPage === 1}
 >
   Previous Page
 </button>)}
-          {apiData.totalPages > 1 && (
+<div className='alone'>{apiData.estate.totalResultCount} Results - Page {apiData.estate.currentPage} of {apiData.estate.totalPages} </div>
+          {apiData.estate.totalPages > 1 && (
             <button 
-            className={`prevButton ${apiData.currentPage === apiData.totalPages ? 'disabled' : ''}`}
+            className={`nextButton ${apiData.estate.currentPage === apiData.estate.totalPages ? 'disabled' : ''}`}
             onClick={handleNextPage}
-            disabled={apiData.currentPage === apiData.totalPages}
+            disabled={apiData.estate.currentPage === apiData.estate.totalPages}
             >Next Page</button>
       )}
       </div>
-</div>            
+          )}
 {apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 ? (
   <div className="cardContainer notranslate">
     {apiData.estate.props.map((property, index) => (
@@ -623,7 +693,7 @@ function ForSale() {
           onClick={() => handleOpenLightbox(index)}
         >
           <div className='indigo'>
-            <img className='mommy' src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
+            <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
             <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}</div>
           </div>                
           <div className="cardText1 notranslate">
@@ -709,7 +779,7 @@ function ForSale() {
         )}
       </main>
         <div className="progress-container">
-    <div className="progress-bar"></div>
+        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
   </div>
   
     </div>
