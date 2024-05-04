@@ -10,6 +10,8 @@ const { Storage } = require('@google-cloud/storage');
 const serviceKey = path.join(__dirname, './mykey.json')
 const WebSocket = require('ws');
 const app = express();
+const http = require('http');
+const server = http.createServer(app); // Create HTTP server
 
 // Middleware
 app.use(cors());
@@ -38,12 +40,6 @@ function sendProgressUpdate(progress) {
     }
   });
 }
-const http = require('http');
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('WebSocket server');
-});
-
 // Upgrade HTTP server to handle WebSocket
 server.on('upgrade', function upgrade(request, socket, head) {
   wss.handleUpgrade(request, socket, head, function done(ws) {
