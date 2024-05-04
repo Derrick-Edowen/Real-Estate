@@ -342,18 +342,6 @@ app.post('/api/search-listings-recentlysold', async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //DATABASE CODE
 let pool;
 if (process.env.JAWSDB_URL) {
