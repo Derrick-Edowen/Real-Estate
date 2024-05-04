@@ -73,8 +73,6 @@ right: 150px;
   }
   .post {
     width: calc(25% - 10px); /* Calculate the width based on the number of posts per row */
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: 20px;
     position: relative;
     padding-left: 0px;

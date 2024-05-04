@@ -654,7 +654,7 @@ return (
     )}
   </div>
 ) : (
-  searchClicked && apiData.estate.props.length === 0 (
+  searchClicked && apiData === null && apiData.estate === undefined (
     <div className="noResultsMessage">
       Sorry, No Listings Found!
     </div>

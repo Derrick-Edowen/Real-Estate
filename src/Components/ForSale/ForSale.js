@@ -719,13 +719,14 @@ function ForSale() {
 {lightboxActive && selectedCardIndex !== null && (
   <div className="lightbox notranslate" onClick={handleCloseLightbox}>
     <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
-    {infoData[selectedCardIndex] && infoData[selectedCardIndex].images && (
+      {/* Lightbox content goes here */}
+      {infoData[selectedCardIndex] && infoData[selectedCardIndex].images && (
         <>
         <div className='aver'>
-        <div className='pAddress-1 notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')+" - "+ 
+          <div className='pAddress-1 notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')+" - "+ 
           safeAccess(infoData[selectedCardIndex], 'address.city') +" , "+ safeAccess(infoData[selectedCardIndex], 'address.state')
-           }</div>          
-           <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
+           }</div>
+          <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
             Close
           </button>
           </div>
@@ -741,18 +742,20 @@ function ForSale() {
             </div> 
             <div className="cardText notranslate">
               <div className='containText notranslate'>
-                <div className='pAddress notranslate'>{safeAccess(infoData[selectedCardIndex], 'address')}</div>
-                <div className='pPrice notranslate'>${formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'price'))} <span style={{ fontSize: 'smaller' }}>{selectedCountry === 'Canada' ? 'CAD' : 'USD'}</span>
+                <div className='pAddress notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')}</div>
+                <div className='pPrice notranslate'>
+  ${formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'price') || "Undisclosed")}{' '}
+  <span style={{ fontSize: 'smaller' }}>{selectedCountry === 'Canada' ? 'CAD' : 'USD'}</span>
 </div>
               <div className='heallin'>
-                <div className='bedd'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;</div>
-                <div className='bathh'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;</div>
-                <div className='dayss notranslate'>Square Footage(sq.ft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
-                <div className='dayss'>&nbsp;Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>   
+                <div className='bedd'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='bathh'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>  
+                <div className='dayss'>Square Footage(sqft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
+          
                 </div>
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
-                  <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
                   <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')} &nbsp;</div>
                   <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
                   <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}&nbsp;</div>
