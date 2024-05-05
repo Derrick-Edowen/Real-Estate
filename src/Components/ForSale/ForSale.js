@@ -35,9 +35,8 @@ function ForSale() {
   const [selectedCountry, setSelectedCountry] = useState('Canada'); // Initialize selected country state to 'Canada'
   const [progress, setProgress] = useState(0);
 
-  const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
   const wsHost = window.location.host;
-  const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
+  const ws = new WebSocket(`https://${wsHost}`);
 
   const updateMapLocation = async (address) => {
     const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
