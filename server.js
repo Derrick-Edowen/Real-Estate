@@ -20,8 +20,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //API CODE//
-const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 2000 / maxRequestsPerSecond; // 1000 ms = 1 second
+const maxRequestsPerSecond = 1;
+const delayBetweenRequests = 1000 / maxRequestsPerSecond; // 1000 ms = 1 second
 
 
 const wss = new WebSocket.Server({ noServer: true });

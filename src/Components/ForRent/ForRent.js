@@ -32,8 +32,8 @@ const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
 const [progress, setProgress] = useState(0);
 
+const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const wsHost = window.location.host;
-const ws = new WebSocket(`https://${wsHost}`);
 
 
 const updateMapLocation = async (address) => {
@@ -118,6 +118,7 @@ const updateMapLocation = async (address) => {
         return;
       }
       // WebSocket connection
+      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
   
       // WebSocket event listeners
       ws.onopen = function () {
