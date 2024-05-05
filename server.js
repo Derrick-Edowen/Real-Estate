@@ -12,7 +12,8 @@ const WebSocket = require('ws');
 const app = express();
 const http = require('http');
 const server = http.createServer(app); // Create HTTP server
-
+const PORT = process.env.PORT || 3001;
+const sPORT = process.env.PORT || 4002;
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -23,7 +24,7 @@ const maxRequestsPerSecond = 2;
 const delayBetweenRequests = 2000 / maxRequestsPerSecond; // 1000 ms = 1 second
 
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ noServer: true });
 
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
@@ -392,7 +393,6 @@ async function processQueue() {
   }
 }
 
-
 //DATABASE CODE
 let pool;
 if (process.env.JAWSDB_URL) {
@@ -507,7 +507,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
