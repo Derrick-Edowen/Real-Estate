@@ -120,7 +120,7 @@ const port =  process.env.PORT || 3001;
       />
     <div className='finalss'>
     <h3 className='blogHead'>{post.title}</h3>
-    <div className='moore'>Click to Learn More!</div>
+    <div className='moore'>READ MORE!</div>
     <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
     </div>
     {isLoggedIn && (

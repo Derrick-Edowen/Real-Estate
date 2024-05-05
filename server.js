@@ -20,7 +20,9 @@ app.use(bodyParser.json());
 
 //API CODE//
 const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 2000 / maxRequestsPerSecond;
+const delayBetweenRequests = 2000 / maxRequestsPerSecond; // 1000 ms = 1 second
+
+
 const wss = new WebSocket.Server({ server });
 
 // Handle WebSocket connections
@@ -40,14 +42,18 @@ function sendProgressUpdate(progress) {
     }
   });
 }
+
 // Upgrade HTTP server to handle WebSocket
 server.on('upgrade', function upgrade(request, socket, head) {
   wss.handleUpgrade(request, socket, head, function done(ws) {
     wss.emit('connection', ws, request);
   });
 });
-//Lease - Initial
-app.post('/api/search-listings-lease', async (req, res) => {
+
+const requestQueue = [];
+let isProcessing = false;
+
+async function handleLeaseSearch(req, res) {
   try {
 
 
@@ -143,9 +149,10 @@ app.post('/api/search-listings-lease', async (req, res) => {
     console.error('Error fetching lease listings:', error);
     res.status(500).json({ error: 'Failed to fetch lease listings' });
   }
-});
-//For Sale - Initial
-app.post('/api/search-listings-forsale', async (req, res) => {
+}
+
+// For Sale - Initial
+async function handleForSaleSearch(req, res) {
   try {
 
 
@@ -241,9 +248,10 @@ app.post('/api/search-listings-forsale', async (req, res) => {
     console.error('Error fetching lease listings:', error);
     res.status(500).json({ error: 'Failed to fetch lease listings' });
   }
-});
-//Recently Sold
-app.post('/api/search-listings-recentlysold', async (req, res) => {
+}
+
+// Recently Sold
+async function handleRecentlySoldSearch(req, res) {
   try {
 
 
@@ -339,7 +347,50 @@ app.post('/api/search-listings-recentlysold', async (req, res) => {
     console.error('Error fetching lease listings:', error);
     res.status(500).json({ error: 'Failed to fetch lease listings' });
   }
+}
+
+// Middleware to limit requests and add them to the queue
+app.post('/api/search-listings-lease', async (req, res) => {
+  addToQueue(req, res, handleLeaseSearch);
 });
+
+app.post('/api/search-listings-forsale', async (req, res) => {
+  addToQueue(req, res, handleForSaleSearch);
+});
+
+app.post('/api/search-listings-recentlySold', async (req, res) => {
+  addToQueue(req, res, handleRecentlySoldSearch);
+});
+
+function addToQueue(req, res, handler) {
+  if (requestQueue.length >= maxRequestsPerSecond) {
+    res.status(429).json({ error: 'Too Many Requests' });
+  } else {
+    requestQueue.push({
+      handler: handler,
+      req: req,
+      res: res
+    });
+    processQueue();
+  }
+}
+
+// Function to process requests from the queue
+async function processQueue() {
+  if (requestQueue.length > 0 && !isProcessing) {
+    isProcessing = true;
+    const { handler, req, res } = requestQueue.shift();
+    try {
+      await handler(req, res);
+    } catch (error) {
+      console.error('Error processing request:', error);
+    }
+    setTimeout(() => {
+      isProcessing = false;
+      processQueue();
+    }, delayBetweenRequests);
+  }
+}
 
 
 //DATABASE CODE
@@ -457,11 +508,6 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-const SPORT = process.env.PORT || 3002;
-
-server.listen(SPORT, () => {
-  console.log(`Server is running on port ${SPORT}`);
-});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
