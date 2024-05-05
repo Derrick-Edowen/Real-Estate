@@ -118,7 +118,6 @@ const updateMapLocation = async (address) => {
         return;
       }
       // WebSocket connection
-      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
   
       // WebSocket event listeners
       ws.onopen = function () {

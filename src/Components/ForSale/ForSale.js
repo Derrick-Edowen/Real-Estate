@@ -127,7 +127,6 @@ function ForSale() {
         window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
         return;
       }
-      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
   
       // WebSocket event listeners
       ws.onopen = function () {
@@ -221,7 +220,6 @@ function ForSale() {
         window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
         return;
       }
-      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
   
       // WebSocket event listeners
       ws.onopen = function () {
@@ -310,7 +308,6 @@ function ForSale() {
         window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
         return;
       }
-      const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
   
       // WebSocket event listeners
       ws.onopen = function () {
