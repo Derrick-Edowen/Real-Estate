@@ -37,7 +37,7 @@ function ForSale() {
 
   const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
   const wsHost = window.location.host;
-  const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
+  const ws = new WebSocket('wss://testrealestate-0979c394df91.herokuapp.com/');
 
   const updateMapLocation = async (address) => {
     const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
