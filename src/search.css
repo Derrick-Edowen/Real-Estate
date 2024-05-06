@@ -190,11 +190,12 @@ gap: 1px;
   select {
     background-color: white; /* Background color when not selected */
     border: 1px solid lightgrey; /* Border color when not selected */
+    text-decoration: underline;
+
   }
   
-  
-  select option:checked {
-    background-color: darkgrey; /* Background color when selected */
+  select option:valid {
+    background-color: rgb(93, 7, 163); /* Background color when selected */
   }
 .fullStage {
 width: 98%;

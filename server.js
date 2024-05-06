@@ -50,7 +50,9 @@ server.on('upgrade', function upgrade(request, socket, head) {
     wss.emit('connection', ws, request);
   });
 });
-
+server.listen(sPORT, () => {
+  console.log(`WebSocket server is listening on port ${sPORT}`);
+});
 const requestQueue = [];
 let isProcessing = false;
 

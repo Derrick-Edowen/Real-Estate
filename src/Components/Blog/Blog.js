@@ -119,8 +119,8 @@ const port =  process.env.PORT || 3001;
       alt="Post Image"
       />
     <div className='finalss'>
-    <h3 className='blogHead'>{post.title}</h3>
-    <div className='moore'>READ MORE!</div>
+    <div className='blogHead'>{post.title}</div>
+    <button onClick={() => handleClick(index)} className='moore'>LEARN MORE</button>
     <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
     </div>
     {isLoggedIn && (

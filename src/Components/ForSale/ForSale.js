@@ -183,9 +183,6 @@ function ForSale() {
     }
   };
   useEffect(() => {
-    console.log("apiData:", apiData);
-    console.log("apiData.estate:", apiData?.estate);
-    console.log("infoData:", infoData);
   }, [apiData, infoData]);
 
   const handleNPage = async (e) => {
