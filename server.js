@@ -11,9 +11,11 @@ const serviceKey = path.join(__dirname, './mykey.json')
 const WebSocket = require('ws');
 const app = express();
 const http = require('http');
-const server = http.createServer(app); // Create HTTP server
+const httpServer = require('http').createServer(app);
+const wss = new WebSocket.Server({ server: httpServer });
 const PORT = process.env.PORT || 3001;
-const sPORT = process.env.PORT || 4002;
+const sPORT = process.env.PORT || 3002;
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -21,10 +23,7 @@ app.use(bodyParser.json());
 
 //API CODE//
 const maxRequestsPerSecond = 1;
-const delayBetweenRequests = 1000 / maxRequestsPerSecond; // 1000 ms = 1 second
-
-
-const wss = new WebSocket.Server({ noServer: true });
+const delayBetweenRequests = 1100 / maxRequestsPerSecond; // 1000 ms = 1 second
 
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
@@ -43,16 +42,10 @@ function sendProgressUpdate(progress) {
     }
   });
 }
-
-// Upgrade HTTP server to handle WebSocket
-server.on('upgrade', function upgrade(request, socket, head) {
-  wss.handleUpgrade(request, socket, head, function done(ws) {
-    wss.emit('connection', ws, request);
-  });
-});
-server.listen(sPORT, () => {
+httpServer.listen(sPORT, () => {
   console.log(`WebSocket server is listening on port ${sPORT}`);
 });
+
 const requestQueue = [];
 let isProcessing = false;
 
@@ -508,7 +501,6 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

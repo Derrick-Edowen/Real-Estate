@@ -34,7 +34,7 @@ const [progress, setProgress] = useState(0);
 
 const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const wsHost = window.location.host;
-const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
+const ws = new WebSocket(`ws://https://testrealestate-0979c394df91.herokuapp.com/:3002`);
 
 
 const updateMapLocation = async (address) => {
