@@ -33,8 +33,11 @@ const [nextPage, setNextPage] = useState(1);
 const [progress, setProgress] = useState(0);
 
 const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-const wsHost = window.location.host;
-const ws = new WebSocket(`ws://testrealestate-0979c394df91.herokuapp.com/:3002`);
+const wsHost = window.location.hostname; // Use the hostname of your backend
+const wsPort = window.location.port; // Use the port of your backend WebSocket server
+const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
+
+
 
 
 const updateMapLocation = async (address) => {
@@ -129,7 +132,6 @@ const updateMapLocation = async (address) => {
       ws.onmessage = function (event) {
         const data = JSON.parse(event.data);
         const progress = data.progress * 100;
-        console.log('Progress:', progress);
         setProgress(progress); // Update progress state or progress bar
       };
   

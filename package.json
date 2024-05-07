@@ -20,6 +20,7 @@
     "babel-plugin-macros": "^3.1.0",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
+    "bufferutil": "^4.0.8",
     "chart.js": "^4.4.1",
     "chartjs-plugin-datalabels": "^2.2.0",
     "cors": "^2.8.5",
@@ -47,6 +48,7 @@
     "react-transition-group": "^4.4.5",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
+    "utf-8-validate": "^5.0.10",
     "web-vitals": "^2.1.4",
     "ws": "^8.17.0"
   },

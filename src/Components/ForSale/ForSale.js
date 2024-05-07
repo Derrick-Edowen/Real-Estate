@@ -36,8 +36,10 @@ function ForSale() {
   const [progress, setProgress] = useState(0);
 
   const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  const wsHost = window.location.host;
-  const ws = new WebSocket(`${wsProtocol}://${wsHost}`);
+const wsHost = window.location.hostname; // Use the hostname of your backend
+const wsPort = window.location.port; // Use the port of your backend WebSocket server
+const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
+
 
   const updateMapLocation = async (address) => {
     const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key

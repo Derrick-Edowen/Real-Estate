@@ -14,7 +14,7 @@ const http = require('http');
 const httpServer = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: httpServer });
 const PORT = process.env.PORT || 3001;
-const sPORT = process.env.PORT || 3002;
+const sPORT = process.env.sPORT || 3002;
 
 // Middleware
 app.use(cors());
@@ -22,8 +22,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //API CODE//
-const maxRequestsPerSecond = 1;
-const delayBetweenRequests = 1100 / maxRequestsPerSecond; // 1000 ms = 1 second
+const maxRequestsPerSecond = 2;
+const delayBetweenRequests = 1500 / maxRequestsPerSecond; // 1000 ms = 1 second
 
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
