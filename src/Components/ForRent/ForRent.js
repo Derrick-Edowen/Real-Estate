@@ -32,12 +32,8 @@ const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
 const [progress, setProgress] = useState(0);
 
-const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-const wsHost = window.location.hostname; // Use the hostname of your backend
-const wsPort = window.location.port; // Use the port of your backend WebSocket server
-const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
-
-
+const wsHost = window.location.host;
+const ws = new WebSocket(`wss://${wsHost}`);
 
 
 const updateMapLocation = async (address) => {
