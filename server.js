@@ -14,7 +14,7 @@ const http = require('http');
 const httpServer = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: httpServer });
 const PORT = process.env.PORT || 3001;
-const sPORT = process.env.PORT || 3002;
+const WS_PORT = process.env.WS_PORT || 3002;
 
 // Middleware
 app.use(cors());
@@ -42,8 +42,8 @@ function sendProgressUpdate(progress) {
     }
   });
 }
-httpServer.listen(sPORT, () => {
-  console.log(`WebSocket server is listening on port ${sPORT}`);
+httpServer.listen(WS_PORT, () => {
+  console.log(`WebSocket server is listening on port ${WS_PORT}`);
 });
 
 const requestQueue = [];
