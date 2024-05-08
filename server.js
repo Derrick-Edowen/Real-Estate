@@ -14,7 +14,7 @@ const http = require('http');
 const httpServer = require('http').createServer(app);
 const wss = new WebSocket.Server({ server: httpServer });
 const PORT = process.env.PORT || 3001;
-const sPORT = process.env.sPORT || 3002;
+const sPORT = process.env.PORT || 3002;
 
 // Middleware
 app.use(cors());

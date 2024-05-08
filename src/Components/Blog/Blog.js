@@ -141,7 +141,7 @@ const port =  process.env.PORT || 3001;
   src={
     selectedPost.image}
 />
-      <p className='blogContl'>{selectedPost.content}</p>
+      <div className='blogContl'>{selectedPost.content}</div>
       <div className='timer1'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
     </div>
   </div>
