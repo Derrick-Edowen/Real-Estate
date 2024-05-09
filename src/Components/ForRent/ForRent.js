@@ -32,10 +32,11 @@ const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
 const [progress, setProgress] = useState(0);
 
+const wsPort = window.location.port; // Use the port of your backend
 const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-const wsHost = window.location.hostname; // Use the hostname of your backend
-const wsPort = window.location.port || '3002'; // Use the port of your backend WebSocket server or default to '3002'
+const wsHost = window.location.hostname;
 const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
+
 
 
 
@@ -76,7 +77,6 @@ const updateMapLocation = async (address) => {
   };
   
   ws.onopen = function () {
-    console.log('WebSocket connected');
   };
   let progressTimer;
 
@@ -124,7 +124,6 @@ const updateMapLocation = async (address) => {
   
       // WebSocket event listeners
       ws.onopen = function () {
-        console.log('WebSocket connected');
       };
   
       // Receive progress updates from WebSocket
@@ -173,8 +172,7 @@ const updateMapLocation = async (address) => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-  }, [apiData, infoData]);
+
 
 const handleNPage = async (e) => {
     setIsRotated(!isRotated);
@@ -655,7 +653,7 @@ return (
     )}
   </div>
 ) : (
-  searchClicked && apiData === null && apiData.estate === undefined (
+  searchClicked && (!apiData || !apiData.estate || apiData.estate.props === undefined) && (
     <div className="noResultsMessage">
       Sorry, No Listings Found!
     </div>

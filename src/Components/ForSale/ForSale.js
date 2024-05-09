@@ -35,10 +35,11 @@ function ForSale() {
   const [selectedCountry, setSelectedCountry] = useState('Canada'); // Initialize selected country state to 'Canada'
   const [progress, setProgress] = useState(0);
 
+  const wsPort = window.location.port; // Use the port of your backend
   const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  const wsHost = window.location.hostname; // Use the hostname of your backend
-  const wsPort = window.location.port || '3002'; // Use the port of your backend WebSocket server or default to '3002'
+  const wsHost = window.location.hostname;
   const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
+  
   
 
   const updateMapLocation = async (address) => {
@@ -705,7 +706,7 @@ function ForSale() {
     )}
   </div>
 ) : (
-  searchClicked && apiData.estate.props.length === 0 (
+  searchClicked && (!apiData || !apiData.estate || apiData.estate.props === undefined) && (
     <div className="noResultsMessage">
       Sorry, No Listings Found!
     </div>

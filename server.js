@@ -11,11 +11,8 @@ const serviceKey = path.join(__dirname, './mykey.json')
 const WebSocket = require('ws');
 const app = express();
 const http = require('http');
-const httpServer = require('http').createServer(app);
-const wss = new WebSocket.Server({ server: httpServer });
+const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
-const WS_PORT = process.env.WS_PORT || 3002;
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -25,10 +22,12 @@ app.use(bodyParser.json());
 const maxRequestsPerSecond = 2;
 const delayBetweenRequests = 1500 / maxRequestsPerSecond; // 1000 ms = 1 second
 
+
+const wss = new WebSocket.Server({ server });
+
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
   });
 
   ws.send('connected');
@@ -42,9 +41,6 @@ function sendProgressUpdate(progress) {
     }
   });
 }
-httpServer.listen(WS_PORT, () => {
-  console.log(`WebSocket server is listening on port ${WS_PORT}`);
-});
 
 const requestQueue = [];
 let isProcessing = false;
@@ -88,6 +84,10 @@ async function handleLeaseSearch(req, res) {
 
     // Fetch additional info and images for each property
     const leaseListings = estateResponse.data.props;
+    if (!leaseListings || leaseListings.length === 0) {
+      res.json({ success: true, data: { estate: { props: [] } } }); // Send empty response if no lease listings found
+      return;
+    }
     const infoDataArray = [];
     const imageUrlsArray = [];
 
@@ -187,6 +187,10 @@ async function handleForSaleSearch(req, res) {
 
     // Fetch additional info and images for each property
     const leaseListings = estateResponse.data.props;
+    if (!leaseListings || leaseListings.length === 0) {
+      res.json({ success: true, data: { estate: { props: [] } } }); // Send empty response if no lease listings found
+      return;
+    }
     const infoDataArray = [];
     const imageUrlsArray = [];
 
@@ -286,6 +290,10 @@ async function handleRecentlySoldSearch(req, res) {
 
     // Fetch additional info and images for each property
     const leaseListings = estateResponse.data.props;
+    if (!leaseListings || leaseListings.length === 0) {
+      res.json({ success: true, data: { estate: { props: [] } } }); // Send empty response if no lease listings found
+      return;
+    }
     const infoDataArray = [];
     const imageUrlsArray = [];
 
@@ -502,6 +510,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
+ 

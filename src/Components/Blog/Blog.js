@@ -120,6 +120,7 @@ const port =  process.env.PORT || 3001;
       />
     <div className='finalss'>
     <div className='blogHead'>{post.title}</div>
+    <div className='blogCont'>{post.content}</div>
     <button onClick={() => handleClick(index)} className='moore'>LEARN MORE</button>
     <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
     </div>
