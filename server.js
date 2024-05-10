@@ -19,8 +19,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //API CODE//
-const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 1500 / maxRequestsPerSecond; // 1000 ms = 1 second
+const maxRequestsPerSecond = 1;
+const maxQueueSize = 300; // Increase queue size to handle more requests
+const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
 
 
 const wss = new WebSocket.Server({ server });
@@ -367,7 +368,7 @@ app.post('/api/search-listings-recentlySold', async (req, res) => {
 });
 
 function addToQueue(req, res, handler) {
-  if (requestQueue.length >= maxRequestsPerSecond) {
+  if (requestQueue.length >= maxQueueSize) {
     res.status(429).json({ error: 'Too Many Requests' });
   } else {
     requestQueue.push({
@@ -375,7 +376,7 @@ function addToQueue(req, res, handler) {
       req: req,
       res: res
     });
-    processQueue();
+    processQueue(); // Start processing immediately
   }
 }
 

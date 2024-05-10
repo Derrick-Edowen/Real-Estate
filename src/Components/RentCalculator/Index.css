@@ -79,8 +79,10 @@ padding-top: 20px;
 
   .meth  {
 
-margin-top: 10px;
-
+margin-top: auto;
+margin-bottom: auto;
+padding-top: 60px;
+padding-right: 12px;
   }
 
   .rentCalchead {
@@ -110,10 +112,43 @@ border-radius: 3px;
 .rentButton:hover {
     background-color:#7800bdfb ;
 }
+.miniP {
+  text-align: center;
+  color: #000000;
+  font-size: 22px;
+  font-weight: 400;
+
+}
+.bigP {
+  text-align: center;
+  color: #000000;
+font-size: 24px;
+font-weight: 600;
+
+}
 .rentButton:active {
     box-shadow: 0 1px #666;
     transform: translateY(1px);
   }
+  .leftMini  {
+margin-right: 30px;
+transition: all 1s ease-in-out;
+cursor: pointer;
+
+  }
+  .leftMini:hover  {
+    transform: scale(1.05);
+
+      }
+  .rightMini  {
+    margin-left: 30px;
+    transition: transform 0.3s ease-in-out;
+cursor: pointer;
+  }
+  .rightMini:hover  {
+    transform: scale(1.01);
+
+      }
   .rentCalchead1 {
     border-radius: 5px;
     padding: 6px;
@@ -155,7 +190,6 @@ font-weight: 500;
   width: 100%;
   background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
   padding: 8px;
-  color: #1e0030fc;
   margin-left: auto;
 margin-right: auto;
 border-radius: 5px;
@@ -164,33 +198,30 @@ margin-bottom: 6px;
 box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4) ;
 font-size: larger;
 font-weight: 500;
-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+color: #000000fc;
 
 }
 .ppl1 {
 width: 33.33%;
-font-size: 22px;
+font-size: 20px;
 text-align: center;
-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-color: #1e0030fc;
+color: #000000fc;
 font-weight: 500;
 
 }
 .ppl2 {
   width: 33.33%;
-  font-size: 22px;
+  font-size: 20px;
 text-align: center;
-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-color: #1e0030fc;
+color: #000000fc;
 font-weight: 500;
 
 }
 .ppl3 {
   width: 33.33%;
-  font-size: 22px;
+  font-size: 20px;
 text-align: center;
-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-color: #1e0030fc;
+color: #000000fc;
 font-weight: 500;
 
 }
@@ -203,6 +234,8 @@ font-weight: 500;
 border: 1px solid #000000;
 box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4) ;
 font-size: 20px;
+min-height: 325px;
+min-height: 325px;
 
 }
 @media screen and (max-width: 1400px) {
@@ -550,6 +583,7 @@ border-radius: 5px;
   .rentButton {
     display: block;
     margin: 0 auto;
+    font-size: 14px;
   }
   .rentCalchead1 {
     border-radius: 5px;

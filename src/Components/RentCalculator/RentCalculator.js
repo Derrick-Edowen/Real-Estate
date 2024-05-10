@@ -34,10 +34,10 @@ const RentCalculator = () => {
       description: 'This level represents a high risk, as it suggests allocating up to 50% of your gross monthly income to rent. While it may be necessary in certain circumstances, such as living in expensive cities, it leaves little room for savings or unexpected expenses. Rationale: The 50% threshold is a cautionary level, indicating that spending such a significant portion of your income on rent could lead to financial strain. It highlights the importance of exploring alternative housing options or increasing income to reduce this risk.'
     }
   ];
-  const handleKeyDown = (e) => {
-    if (e.key === 'ArrowLeft') {
+  const handleClick = (direction) => {
+    if (direction === 'left') {
       setCurrentLevel((prevLevel) => (prevLevel - 1 + levels.length) % levels.length);
-    } else if (e.key === 'ArrowRight') {
+    } else if (direction === 'right') {
       setCurrentLevel((prevLevel) => (prevLevel + 1) % levels.length);
     }
   };
@@ -186,10 +186,10 @@ const tips = [
               <div key={index}> - {tip}</div>
             ))}
             </div>
-            <div className='riskL' onKeyDown={handleKeyDown} tabIndex='0'>
-      <h4 className='rentCalchead'>Understanding Risk Levels</h4>
-      <h5>{levels[currentLevel].title}</h5>
-      <p>{levels[currentLevel].description}</p>
+            <div className='riskL' tabIndex='0'>
+      <h4 className='rentCalchead'> <span className='leftMini' onClick={() => handleClick('left')}>&#11164;</span> Understanding Risk Levels <span className='rightMini' onClick={() => handleClick('right')}>&#11166;</span> </h4>
+      <h5 className='bigP'>{levels[currentLevel].title}</h5>
+      <p className='miniP'>{levels[currentLevel].description}</p>
     </div>
             </div>
             </div>
@@ -201,4 +201,3 @@ const tips = [
 };
 export default RentCalculator;
 
-//    const totalExpenses = monthlyExpenses || 0; // Ensure total expenses is at least 0
