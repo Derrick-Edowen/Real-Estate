@@ -387,6 +387,15 @@ border-radius: 5px;
     width: 50%;
 }
 @media screen and (max-width: 1470px) {
+    .containerDad {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding-top: 16px;
+        padding-bottom: 24px;
+        max-height: 90vh;
+        overflow-y: scroll;
+      }
     .monPay {
         font-size: 20px;
         padding-top: 12px;
@@ -625,6 +634,7 @@ margin-right: auto;
     border: 1px solid #000000;
 margin-left: auto;
 margin-right: auto;
+margin-top: 22px;
 }
 
 .monPay {
