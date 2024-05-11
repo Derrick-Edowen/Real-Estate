@@ -3,11 +3,13 @@ import { Link, NavLink } from "react-router-dom";
 import placeHolder from '../../Assets/Images/rahlogo-placeholder.png'
 import './Index.css'
 import manH from '../../Assets/Images/man1-PhotoRoom2.png'
+import { useLocation } from 'react-router-dom';
 
 function Header() {
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [navActive, setNavActive] = useState(false);
+  const location = useLocation();
 
   const toggleNav = () => {
     
@@ -48,10 +50,10 @@ function Header() {
   return (
 
     <nav className={`navbar ${navActive ? "active" : ""}`}>
-    <div className="heading">
+      <div className="heading">
         <img src={manH} className="headerImg"></img>
         <h2>John Smith <br />
-        Sales Representative</h2>
+          Sales Representative</h2>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
@@ -78,18 +80,16 @@ function Header() {
             </NavLink>
           </li>
           <li className={`dropdown ${dropdownVisible1 ? "active" : ""}`}>
-          <div className="missin" onClick={handleClick1}>Find Listings
-            <li
-              className={`navbar--content findingList arrow-rotate ${dropdownVisible1 ? "active" : ""}`}
-              
-            >
-               &#9660;
-            </li>
+          <div className={`missin ${location.pathname.includes('Find%20Listings%20%7C%20For%20Lease') || location.pathname.includes('Find%20Listings%20%7C%20For%20Sale') || location.pathname.includes('Find%20Listings%20%7C%20Recently%20Sold') ? 'active' : ''}`} onClick={handleClick1}>Find Listings
+              <li
+                className={`navbar--content findingList arrow-rotate ${dropdownVisible1 ? "active" : ""} `}
+              >
+                &#9660;
+              </li>
             </div>
             <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
               <NavLink
                 onClick={closeMenu}
-                
                 to="/Find Listings | For Sale"
                 className="navbar--content transformer"
               >
@@ -112,7 +112,7 @@ function Header() {
             </div>
           </li>
           <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
-          <div className="missin" onClick={handleClick2}>Calculators
+          <div className={`missin ${location.pathname.includes('Calculators%20%7C%20Mortgage%20Calculator') || location.pathname.includes('Calculators%20%7C%20Rent%20Affordability%20Calculator') ? 'active' : ''}`} onClick={handleClick2}>Calculators
             <li
               className={`navbar--content findingList big-rotate2 ${dropdownVisible2 ? "active" : ""}`}
               
