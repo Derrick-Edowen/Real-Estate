@@ -10,6 +10,7 @@ function Header() {
   const [navActive, setNavActive] = useState(false);
 
   const toggleNav = () => {
+    
     setNavActive(!navActive);
     setDropdownVisible1(false);
     setDropdownVisible2(false);
