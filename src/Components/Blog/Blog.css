@@ -251,7 +251,7 @@ background-color: rgb(197, 197, 197);
     max-width: 75%;
     max-height: 80%;
     min-width: 75%;
-    min-height: fit-content;
+    min-height: 80%;
     overflow-y: auto;
   }
   
