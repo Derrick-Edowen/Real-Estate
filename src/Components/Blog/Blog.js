@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../Footer/Footer';
 import noImg from '../../Assets/Images/noimg.jpg'
 
 function Blog() {
@@ -178,7 +177,6 @@ const port =  process.env.PORT || 3001;
         <button className='postbutt' onClick={handlePost}>Create Post</button>
       </div>
     )}
-            <Footer />
 
   </div>
   );

@@ -6,7 +6,6 @@ import './contact.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import Footer from '../Footer/Footer';
 
 
 function Contact() {
@@ -129,9 +128,6 @@ function Contact() {
 </form>
   </div>
   </section>
-
-  <Footer />
-
 
 
 

@@ -86,7 +86,19 @@ async function handleLeaseSearch(req, res) {
     // Fetch additional info and images for each property
     const leaseListings = estateResponse.data.props;
     if (!leaseListings || leaseListings.length === 0) {
-      res.json({ success: true, data: { estate: { props: [] } } }); // Send empty response if no lease listings found
+      res.json({
+        success: true,
+        data: {
+          estate: {
+            props: [],
+            schools: {}, // Assuming schools data should also be empty
+            resultsPerPage: 0,
+            totalPages: 0,
+            totalResultCount: 0,
+            currentPage: 1
+          }
+        }
+      });
       return;
     }
     const infoDataArray = [];
@@ -189,7 +201,19 @@ async function handleForSaleSearch(req, res) {
     // Fetch additional info and images for each property
     const leaseListings = estateResponse.data.props;
     if (!leaseListings || leaseListings.length === 0) {
-      res.json({ success: true, data: { estate: { props: [] } } }); // Send empty response if no lease listings found
+      res.json({
+        success: true,
+        data: {
+          estate: {
+            props: [],
+            schools: {}, // Assuming schools data should also be empty
+            resultsPerPage: 0,
+            totalPages: 0,
+            totalResultCount: 0,
+            currentPage: 1
+          }
+        }
+      });
       return;
     }
     const infoDataArray = [];
@@ -292,7 +316,19 @@ async function handleRecentlySoldSearch(req, res) {
     // Fetch additional info and images for each property
     const leaseListings = estateResponse.data.props;
     if (!leaseListings || leaseListings.length === 0) {
-      res.json({ success: true, data: { estate: { props: [] } } }); // Send empty response if no lease listings found
+      res.json({
+        success: true,
+        data: {
+          estate: {
+            props: [],
+            schools: {}, // Assuming schools data should also be empty
+            resultsPerPage: 0,
+            totalPages: 0,
+            totalResultCount: 0,
+            currentPage: 1
+          }
+        }
+      });
       return;
     }
     const infoDataArray = [];

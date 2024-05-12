@@ -838,6 +838,12 @@ display:inline-flex;
     position: relative; /* Ensure relative positioning for absolute positioning inside */
     flex: 0 0 calc(100% - 2px); /* Calculate width for three columns with gap */
   }
+  .noResultsMessage {
+
+    font-size: 52px;
+
+  
+  }
 }
 @media screen and (max-width: 740px) {
 
@@ -1117,7 +1123,12 @@ font-weight: 600;
   }
 }
 @media screen and (max-width: 580px) {
+  .noResultsMessage {
 
+    font-size: 36px;
+
+  
+  }
   .alone {
     font-size: 12px;
   }
@@ -1136,7 +1147,11 @@ font-weight: 600;
     }
 }
 @media screen and (max-width: 435px) {
+  .noResultsMessage {
+    font-size: 30px;
 
+  
+  }
   .alone {
     font-size: 16px;
     margin-top: auto;

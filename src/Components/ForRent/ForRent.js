@@ -176,7 +176,6 @@ const updateMapLocation = async (address) => {
       const data = await response.json();
       setApiData(data.data);
       setInfoData(data.data.leaseListings);
-  
       setIsLoading(false);
       setProgress(100);
     clearTimeout(progressTimer);
@@ -184,7 +183,6 @@ const updateMapLocation = async (address) => {
       setProgress(0);
     }, 2000);
     } catch (error) {
-      console.error('Error fetching data:', error);
       setIsLoading(false);
     }
   };
@@ -652,11 +650,13 @@ return (
     )}
   </div>
 ) : (
-  searchClicked && (!apiData || !apiData.estate || apiData.estate.props === undefined) && (
+apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length === 0 && (
     <div className="noResultsMessage">
       Sorry, No Listings Found!
     </div>
   )
+  
+  
 )}
 
 {lightboxActive && selectedCardIndex !== null && (

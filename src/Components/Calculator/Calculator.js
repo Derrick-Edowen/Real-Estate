@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import Footer from '../Footer/Footer';
 
 function Calculator() {
     const [homePrice, setHomePrice] = useState('');
@@ -529,8 +528,6 @@ const [showDrops, setShowDrops] = useState(false);
 
 </div>
 </div>    
-<Footer />
-
         </div>
     );
 }

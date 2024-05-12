@@ -15,11 +15,12 @@ function Footer() {
     // Call the initialization function
     window.googleTranslateElementInit();
 
-    // Clean up - remove the global function when the component unmounts
+    // Clean up - set the global function to null when the component unmounts
     return () => {
-      delete window.googleTranslateElementInit;
+      window.googleTranslateElementInit = null;
     };
   }, []);
+
     return (
       <footer className="feet">
         <div className="transLate" id="google_translate_element"></div>

@@ -698,7 +698,7 @@ const [selectedCountries, setSelectedCountries] = useState('');
     )}
   </div>
 ) : (
-  searchClicked && (!apiData || !apiData.estate || apiData.estate.props === undefined) && (
+  apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length === 0 && (
     <div className="noResultsMessage">
       Sorry, No Listings Found!
     </div>

@@ -98,8 +98,7 @@ transition: all 0.2s ease-in-out;
     position: relative;
 width: fit-content;
 float: right;  
-padding-right: 4px;
-padding-top: 4px;
+padding: 4px;
 cursor: pointer;
 }
 
@@ -249,10 +248,10 @@ background-color: rgb(197, 197, 197);
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
     border: 1px solid #8585852f;
     border-radius: 15px 0px 15px 0px;
-    max-width: 80%;
+    max-width: 92%;
     max-height: 80%;
-    min-width: 60%;
-    min-height: 60%;
+    min-width: 92%;
+    min-height: fit-content;
     overflow-y: auto;
   }
   
@@ -290,7 +289,7 @@ background-color: rgb(197, 197, 197);
 
     }
     .windows1 {
-      height: fit-content;
+      height: 300px;
 
     }
     .blogHead {
