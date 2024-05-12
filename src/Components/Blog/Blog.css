@@ -248,9 +248,9 @@ background-color: rgb(197, 197, 197);
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
     border: 1px solid #8585852f;
     border-radius: 15px 0px 15px 0px;
-    max-width: 92%;
+    max-width: 75%;
     max-height: 80%;
-    min-width: 92%;
+    min-width: 75%;
     min-height: fit-content;
     overflow-y: auto;
   }
