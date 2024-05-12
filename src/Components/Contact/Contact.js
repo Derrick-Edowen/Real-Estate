@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom'; // Import useLocation from react-router-dom
 import man from  '../../Assets/Images/man2.png'
 import emailjs from '@emailjs/browser';
 import './contact.css'
-import GoogleMapReact from 'google-map-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import Footer from '../Footer/Footer';
 
 
 function Contact() {
@@ -47,7 +47,7 @@ function Contact() {
 <div className='container'>
 <div className='contactinfo'>
 <div>
-  <h2>Contact Info</h2>
+  <h2>Contact Information</h2>
   <ul className='info'>
     <li>
       <span><FontAwesomeIcon icon={faLocationDot} style={{color: "#ffffff",}} size='2xl'/></span>
@@ -83,7 +83,7 @@ function Contact() {
 <div className='contactForm'>
   <div className='lostboy'>
   <h2>Lets Start A Conversation!</h2>
-  <img className='mrman' src={man}></img>
+  <img className='mrman' alt='Smalll Portrait' src={man}></img>
   </div>
   <div className='formBox'>
     <div className='inputBox w50'>
@@ -130,6 +130,7 @@ function Contact() {
   </div>
   </section>
 
+  <Footer />
 
 
 

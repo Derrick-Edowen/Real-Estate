@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import '../../search.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faChevronLeft, faChevronRight, faRepeat, faCalendarDays, faKey} from '@fortawesome/free-solid-svg-icons';
 import FadeLoader from "react-spinners/FadeLoader";
+import Footer from '../Footer/Footer';
 
 
 function ForRent() {
@@ -31,6 +28,16 @@ const [showFilter, setShowFilter] = useState(false);
 const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
 const [progress, setProgress] = useState(0);
+const [selectedProvince, setSelectedProvince] = useState('');
+const [selectedState, setSelectedState] = useState('');
+const [selectedSort, setSelectedSort] = useState('');
+const [selectedPropertyType, setSelectedPropertyType] = useState('');
+const [selectedBeds, setSelectedBeds] = useState('');
+const [selectedBaths, setSelectedBaths] = useState('');
+const [selectedCountries, setSelectedCountries] = useState('');
+
+
+
 
 const wsPort = window.location.port; // Use the port of your backend
 const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
@@ -41,12 +48,16 @@ const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
 
 
 const updateMapLocation = async (address) => {
-  const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
-  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
   try {
     setIsLoading(true); // Set loading state to true during data fetching
 
-    const response = await fetch(geocodeUrl);
+    const response = await fetch('/api/geocode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ address }),
+    });
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -82,17 +93,22 @@ const updateMapLocation = async (address) => {
 
   // Receive progress updates from WebSocket
   ws.onmessage = function (event) {
-    const data = JSON.parse(event.data);
-    const progress = data.progress * 100;
-    setProgress(progress); // Update progress state or progress bar
-    if (progress === 100) {
-      // Reset progress bar to 0% after 3 seconds
-      clearTimeout(progressTimer);
-      progressTimer = setTimeout(() => {
-        setProgress(0);
-      }, 3000);
+    try {
+      const data = JSON.parse(event.data);
+      const progress = data.progress * 100;
+      setProgress(progress); // Update progress state or progress bar
+      if (progress === 100) {
+        // Reset progress bar to 0% after 3 seconds
+        clearTimeout(progressTimer);
+        progressTimer = setTimeout(() => {
+          setProgress(0);
+        }, 3000);
+      }
+    } catch (error) {
+      // Ignore the error and do nothing
     }
   };
+  
   const handleSearch = async (e) => {
     setIsRotated(!isRotated);
     e.preventDefault();
@@ -386,10 +402,14 @@ return (
             name="country"
             placeholder="Select a Country"
             required
+            style={{ backgroundColor: selectedCountries ? '#d3d3d3' : 'white' }}
+
             onChange={(e) => {
+              setSelectedCountries(e.target.value); // Update selected sort
+
               const selectElement = e.target;
               const selectedOption = selectElement.options[selectElement.selectedIndex];
-              
+
               // Remove the green check mark from all options
               selectElement.querySelectorAll('option').forEach(option => {
                 option.style.color = 'black'; // Reset color to black for all options
@@ -418,16 +438,16 @@ return (
             <option value="USA">USA</option>
           </select>
           <select
-            className="notranslate"
-            id="province"
-            placeholder="Select a Province"
-            style={{ display: 'block' }} // Initially hide the province select
-            required
-            onChange={(e) => {
-              state = e.target.value; // Update state with selected province value
-            }}
-          >
-<option value="Alberta">Alberta</option>
+  className="notranslate"
+  id="province"
+  placeholder="Select a Province"
+  style={{ display: 'block', backgroundColor: selectedProvince ? '#d3d3d3' : 'white' }}
+  onChange={(e) => {
+    setSelectedProvince(e.target.value); // Update selected province
+  }}
+>
+  <option disabled selected value="">Select a Province</option>
+  <option value="Alberta">Alberta</option>
   <option value="British Columbia">British Columbia</option>
   <option value="Manitoba">Manitoba</option>
   <option value="New Brunswick">New Brunswick</option>
@@ -439,17 +459,19 @@ return (
   <option value="Saskatchewan">Saskatchewan</option>
   <option value="Northwest Territories">Northwest Territories</option>
   <option value="Nunavut">Nunavut</option>
-  <option value="Yukon">Yukon</option></select>
+  <option value="Yukon">Yukon</option>
+</select>
+
   <select
             className="notranslate"
             id="state"
             placeholder="Select a State"
-            style={{ display: 'none' }} // Initially hide the state select
-            required
+            style={{ display: 'none', backgroundColor: selectedState ? '#d3d3d3' : 'white' }}
             onChange={(e) => {
-              state = e.target.value; // Update state with selected state value
+              setSelectedState(e.target.value); // Update selected province
             }}
           >
+              <option disabled selected value="">Select a State</option>
 <option value="AL">Alabama</option>
 <option value="AK">Alaska</option>
 <option value="AZ">Arizona</option>
@@ -499,22 +521,17 @@ return (
 <option value="WA">Washington</option>
 <option value="WV">West Virginia</option>
 <option value="WI">Wisconsin</option>
-<option value="WY">Wyoming</option></select>
+<option value="WY">Wyoming</option>
+</select>
        <select
   className="notranslate"
   id="sortList"
   name="sort"
   placeholder="Sort Listings"
   required
+  style={{ backgroundColor: selectedSort ? '#d3d3d3' : 'white' }}
   onChange={(e) => {
-    const selectElement = e.target;
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    // Reset color of all options
-    selectElement.querySelectorAll('option').forEach(option => {
-      option.style.color = 'black'; // Reset color to black for all options
-    });
-    // Change color of the selected option
-    selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
+    setSelectedSort(e.target.value); // Update selected sort
   }}
 >
   <option value="" disabled selected>Sort Listings</option>
@@ -530,16 +547,10 @@ return (
                     name="propertyType" 
                     placeholder='Property Type' 
                     required
+                    style={{ backgroundColor: selectedPropertyType ? '#d3d3d3' : 'white' }}
                     onChange={(e) => {
-                      const selectElement = e.target;
-                      const selectedOption = selectElement.options[selectElement.selectedIndex];
-                      // Remove the green check mark from all options
-                      selectElement.querySelectorAll('option').forEach(option => {
-                        option.style.color = 'black'; // Reset color to black for all options
-    });
-    // Change color of the selected option
-    selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
-  }}
+                      setSelectedPropertyType(e.target.value); // Update selected property type
+                    }}
                     >
                       <option value="" disabled selected>Property Type</option>
                       <option value="Houses">Houses</option>
@@ -551,16 +562,10 @@ return (
                     name="beds" 
                     placeholder='Beds' 
                     required
-                    onChange={(e) => {
-                      const selectElement = e.target;
-                      const selectedOption = selectElement.options[selectElement.selectedIndex];
-                      // Remove the green check mark from all options
-                      selectElement.querySelectorAll('option').forEach(option => {
-                        option.style.color = 'black'; // Reset color to black for all options
-                      });
-                      // Change color of the selected option
-                      selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
-                    }}
+                    style={{ backgroundColor: selectedBeds ? '#d3d3d3' : 'white' }}
+  onChange={(e) => {
+    setSelectedBeds(e.target.value); // Update selected beds
+  }}
                     >
                       <option value="" disabled selected>Beds</option>
                       <option value="0">Any</option>
@@ -575,15 +580,9 @@ return (
                     name="baths" 
                     placeholder='Baths' 
                     required
+                    style={{ backgroundColor: selectedBaths ? '#d3d3d3' : 'white' }}
                     onChange={(e) => {
-                      const selectElement = e.target;
-                      const selectedOption = selectElement.options[selectElement.selectedIndex];
-                      // Remove the green check mark from all options
-                      selectElement.querySelectorAll('option').forEach(option => {
-                        option.style.color = 'black'; // Reset color to black for all options
-                      });
-                      // Change color of the selected option
-                      selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
+                      setSelectedBaths(e.target.value); // Update selected baths
                     }}
                     >
                       <option value="" disabled selected>Baths</option>
@@ -637,7 +636,7 @@ return (
           onClick={() => handleOpenLightbox(index)}
         >
           <div className='indigo'>
-            <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
+            <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
             <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}</div>
           </div>                
           <div className="cardText1 notranslate">

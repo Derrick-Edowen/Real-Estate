@@ -187,7 +187,7 @@ const tips = [
             ))}
             </div>
             <div className='riskL' tabIndex='0'>
-      <h4 className='rentCalchead'> <span className='leftMini' onClick={() => handleClick('left')}>&#11164;</span> Understanding Risk Levels <span className='rightMini' onClick={() => handleClick('right')}>&#11166;</span> </h4>
+      <h4 className='rentCalchead'> <span className='leftMini' onClick={() => handleClick('left')}>&#11207;</span> Understanding Risk Levels <span className='rightMini' onClick={() => handleClick('right')}>&#11208;</span> </h4>
       <h5 className='bigP'>{levels[currentLevel].title}</h5>
       <p className='miniP'>{levels[currentLevel].description}</p>
     </div>

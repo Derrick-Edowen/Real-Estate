@@ -16,7 +16,6 @@ import ForSale from './Components/ForSale/ForSale';
 import ForRent from './Components/ForRent/ForRent';
 import RecentlySold from './Components/RecentlySold/RecentlySold';
 import RentCalculator from './Components/RentCalculator/RentCalculator';
-import Questions from './Components/Questions/Questions';
 import Login from './Components/Login/Login';
 import Blog from './Components/Blog/Blog';
 

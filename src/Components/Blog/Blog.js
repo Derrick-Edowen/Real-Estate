@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './Blog.css';
 import { useLocation } from 'react-router-dom';
-import sample1 from  '../../Assets/Images/living1.jpg'
-import sample2 from  '../../Assets/Images/kitchen1.jpg'
-import sample3 from  '../../Assets/Images/backyard1.jpg'
-import sample4 from  '../../Assets/Images/yard1.jpg'
 import { DateTime } from 'luxon';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import Footer from '../Footer/Footer';
+import noImg from '../../Assets/Images/noimg.jpg'
 
 function Blog() {
   const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
-  const [newType, setNewType] = useState('');
   const [image, setImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -115,7 +111,7 @@ const port =  process.env.PORT || 3001;
   <div key={index} className="post" onClick={() => handleClick(index)}>
       <img
       className='windows'
-      src={post.image}
+      src={post.image || noImg}
       alt="Post Image"
       />
     <div className='finalss'>
@@ -140,7 +136,8 @@ const port =  process.env.PORT || 3001;
   <img
   className='windows1'
   src={
-    selectedPost.image}
+    selectedPost.image || noImg}
+    alt='Posted Image Expanded'
 />
       <div className='blogContl'>{selectedPost.content}</div>
       <div className='timer1'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
@@ -181,6 +178,8 @@ const port =  process.env.PORT || 3001;
         <button className='postbutt' onClick={handlePost}>Create Post</button>
       </div>
     )}
+            <Footer />
+
   </div>
   );
 }

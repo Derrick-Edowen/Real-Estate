@@ -1138,7 +1138,9 @@ font-weight: 600;
 @media screen and (max-width: 435px) {
 
   .alone {
-    font-size: 12px;
+    font-size: 16px;
+    margin-top: auto;
+    margin-bottom: auto;
   }
   .lightbox {
     display: flex;
@@ -1178,12 +1180,12 @@ font-weight: 600;
   }
   .nextButton {
 
-    width: 140px;
+    width: 110px;
     
   }
   .prevButton {
 
-    width: 140px;
+    width: 110px;
     
   }
   .lightbox-left {

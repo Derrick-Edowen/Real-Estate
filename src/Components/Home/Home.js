@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import man1 from  '../../Assets/Images/man1-PhotoRoom.png'
 import './Index.css'
+import Footer from '../Footer/Footer';
+
 
 //Get better pictures
 //Incorporate Google Translate
@@ -28,6 +30,7 @@ function Home() {
           </div>
         </div>
         </div>
+        <Footer />
       </div>
       </>
     );

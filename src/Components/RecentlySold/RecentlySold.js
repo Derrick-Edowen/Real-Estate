@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
-import Contact from '../Contact/Contact';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faChevronLeft, faChevronRight, faBed,
- faClock, faBath, faCircleXmark, faHouseUser,  faFire,  faWind,
-faSquareParking, faJugDetergent, faRepeat} from '@fortawesome/free-solid-svg-icons';
 import FadeLoader from "react-spinners/FadeLoader";
 import '../../search.css'
+import Footer from '../Footer/Footer';
 
 function RecentlySold() {
-  const [apiData, setApiData] = useState([]);
-  const [infoData, setInfoData] = useState([]);
+  const [apiData, setApiData] = useState(null);
+  const [infoData, setInfoData] = useState(null);
   const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
   const [cardIndex, setCardIndex] = useState(0);
   const [searchClicked, setSearchClicked] = useState(false); 
@@ -32,14 +26,33 @@ function RecentlySold() {
   const [isRotated, setIsRotated] = useState(false);
   const [nextPage, setNextPage] = useState(1);
   const [selectedCountry, setSelectedCountry] = useState('Canada'); // Initialize selected country state to 'Canada'
+  const [progress, setProgress] = useState(0);
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedSort, setSelectedSort] = useState('');
+  const [selectedPropertyType, setSelectedPropertyType] = useState('');
+  const [selectedBeds, setSelectedBeds] = useState('');
+  const [selectedBaths, setSelectedBaths] = useState('');
+  const [selectedCountries, setSelectedCountries] = useState('');
+
+  const wsPort = window.location.port; // Use the port of your backend
+  const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+  const wsHost = window.location.hostname;
+  const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
+  
+  
 
   const updateMapLocation = async (address) => {
-    const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
     try {
       setIsLoading(true); // Set loading state to true during data fetching
   
-      const response = await fetch(geocodeUrl);
+      const response = await fetch('/api/geocode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ address }),
+      });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -59,172 +72,135 @@ function RecentlySold() {
       setIsLoading(false); // Ensure loading state is set to false in case of error
     }
   };
-    const handleCardClick = (index) => {
-      setSelectedCard(apiData.props[index]);
-      
-      (async () => {
-        // Update map location when a card is clicked
-        const selectedProperty = apiData.props[index];
-        await updateMapLocation(selectedProperty.address);
-      })();
-    };
-    const maxRequestsPerSecond = 1;
-    const delayBetweenRequests = 1000 / maxRequestsPerSecond;
-  
-  
-    const handleSearch = async (e) => {
-      setIsRotated(!isRotated);
+  const handleCardClick = (index) => {
+    setSelectedCard(apiData.estate.props[index]);
+    
+    (async () => {
+      // Update map location when a card is clicked
+      const selectedProperty = apiData.estate.props[index];
+      await updateMapLocation(selectedProperty.address);
+    })();
+  };
 
-  setNextPage(1);
-      e.preventDefault();
-      setShowFilter(false);
-      const progressBar = document.querySelector('.progress-bar');
-      progressBar.style.width = '0%';
-      const interval = setInterval(() => {
-        progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
-        if (parseInt(progressBar.style.width) >= 100) {
-          clearInterval(interval);
-        }
-      }, 5);
-      const address = document.getElementById('search').value;
-      let state = '';
-      const country = document.getElementById('country').value;
-      if (country === 'Canada') {
-        state = document.getElementById('province').value;
-      } else if (country === 'USA') {
-        state = document.getElementById('state').value;
-      }    const sort = document.getElementById('sortList').value;
-      const propertyType = document.getElementById('choose-type').value;
-      const minPrice = document.getElementById('min-price').value;
-      const maxPrice = document.getElementById('max-price').value;
-      const maxBeds = document.getElementById('choose-beds').value;
-      const maxBaths = document.getElementById('choose-baths').value;
+  ws.onopen = function () {
+    console.log('WebSocket connected');
+  };
+  let progressTimer;
+
+  // Receive progress updates from WebSocket
+  ws.onmessage = function (event) {
+    try {
+      const data = JSON.parse(event.data);
+      const progress = data.progress * 100;
+      setProgress(progress); // Update progress state or progress bar
+      if (progress === 100) {
+        // Reset progress bar to 0% after 3 seconds
+        clearTimeout(progressTimer);
+        progressTimer = setTimeout(() => {
+          setProgress(0);
+        }, 3000);
+      }
+    } catch (error) {
+      // Ignore the error and do nothing
+    }
+  };
   
-      setSearchClicked(true);
   
+  const handleSearch = async (e) => {
+    setIsRotated(!isRotated);
+    e.preventDefault();
+    setShowFilter(false);
+  
+    const progressBar = document.querySelector('.progress-bar');
+    progressBar.style.width = '0%';
+    const interval = setInterval(() => {
+      progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
+      if (parseInt(progressBar.style.width) >= 100) {
+        clearInterval(interval);
+      }
+    }, 5);
+    const address = document.getElementById('search').value;
+    let state = '';
+    const country = document.getElementById('country').value;
+    if (country === 'Canada') {
+      state = document.getElementById('province').value;
+    } else if (country === 'USA') {
+      state = document.getElementById('state').value;
+    }
+    const sort = document.getElementById('sortList').value;
+    const propertyType = document.getElementById('choose-type').value;
+    const minPrice = document.getElementById('min-price').value;
+    const maxPrice = document.getElementById('max-price').value;
+    const maxBeds = document.getElementById('choose-beds').value;
+    const maxBaths = document.getElementById('choose-baths').value;
+  const page = 1;
+    try {
+      setIsLoading(true);
       if (parseInt(minPrice) > parseInt(maxPrice)) {
         window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
         return;
       }
-      
   
+      // WebSocket event listeners
+      ws.onopen = function () {
+        console.log('WebSocket connected');
+      };
   
-    const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
-    try {
-      setIsLoading(true); 
+      // Receive progress updates from WebSocket
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const progress = data.progress * 100;
+        console.log('Progress:', progress);
+        setProgress(progress); // Update progress state or progress bar
+      };
   
-      const response = await fetch(geocodeUrl);
+      const response = await fetch('/api/search-listings-recentlySold', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          address,
+          state,
+          page,
+          country,
+          sort,
+          propertyType,
+          minPrice,
+          maxPrice,
+          maxBeds,
+          maxBaths
+        })
+      });
+  
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+  
       const data = await response.json();
-      const { results } = data;
-      if (results && results.length > 0) {
-        const { lat, lng } = results[0].geometry.location;
-        setPosition({ lat, lng });
-      } else {
-        window.alert('Location Not Found: Try Using More Descriptive Words!');
-        setIsLoading(false); 
-      }
-      const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
-              params: {
-              location: address+","+state,
-              page: 1,
-              status_type: "RecentlySold",
-              home_type: propertyType,
-              sort: sort,
-              minPrice: minPrice,
-          maxPrice: maxPrice,
-              bathsMin: maxBaths,
-              bedsMin: maxBeds
-            },
-              headers: {
-                'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-                'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-              },
-            });
-            
-            setApiData(estateResponse.data); 
-            console.log(estateResponse.data);
-            const zpidList = estateResponse.data.props.map((item) => item.zpid);
+      setApiData(data.data);
+      setInfoData(data.data.leaseListings);
+      // Handle the response data as needed
   
-  
-    const infoDataArray = [];
-  const imageUrlsArray = [];
-  
-  const fetchPropertyData = async (zpid) => {
-    const apiKey = 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7';
-    const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-    const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-  
-    const propertyResponse = await axios.get(propertyUrl, {
-      params: { zpid },
-      headers: {
-        'X-RapidAPI-Key': apiKey,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-      }
-    });
-  
-    // Introduce a delay before making the second request
-    await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-  
-    const imageResponse = await axios.get(imagesUrl, {
-      params: { zpid },
-      headers: {
-        'X-RapidAPI-Key': apiKey,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-      }
-    });
-    console.log(propertyResponse.data)
-    console.log(imageResponse.data)
-    return { property: propertyResponse.data, images: imageResponse.data };
-  
-  };
-  
-  for (let i = 0; i < zpidList.length; i++) {
-    const zpid = zpidList[i];
-    const { property, images } = await fetchPropertyData(zpid);
-  
-    // Use property and images data as needed
-    infoDataArray.push({ ...property, images });
-    imageUrlsArray.push(images);
-  
-    if (i < zpidList.length - 1) {
-      await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
+      setIsLoading(false);
+      setProgress(100);
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
+      }, 2000);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+      clearInterval(interval);
     }
-    progressBar.style.width = `${((i + 1) / zpidList.length) * 100}%`;
-  
-  }
-  
-  setInfoData(infoDataArray);
-  setImageUrls(imageUrlsArray);
-  
-    setIsLoading(false);
-    progressBar.style.width = '100%';
-    setTimeout(() => {
-      progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
-    }, 2000);
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    setIsLoading(false);
-    clearInterval(interval);
-  
-  }
-  setSearchTrigger(prevState => !prevState); // Toggle the state variable to trigger re-render
-  if (apiData.props && apiData.props.length === 0) {
-    setNoResults(true); // Set noResults to true if no results are available
-  } else {
-    setNoResults(false); // Set noResults to false if results are available
-  }
-  
   };
-  
+  useEffect(() => {
+  }, [apiData, infoData]);
+
   const handleNPage = async (e) => {
-   console.log(nextPage);
-  
     e.preventDefault();
     setShowFilter(false);
+  
     const progressBar = document.querySelector('.progress-bar');
     progressBar.style.width = '0%';
     const interval = setInterval(() => {
@@ -240,126 +216,79 @@ function RecentlySold() {
       state = document.getElementById('province').value;
     } else if (country === 'USA') {
       state = document.getElementById('state').value;
-    }    const sort = document.getElementById('sortList').value;
+    }
+    const sort = document.getElementById('sortList').value;
     const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
+    const page = nextPage + 1;
+    try {
+      setIsLoading(true);
+      if (parseInt(minPrice) > parseInt(maxPrice)) {
+        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+        return;
+      }
   
-    setSearchClicked(true);
+      // WebSocket event listeners
+      ws.onopen = function () {
+        console.log('WebSocket connected');
+      };
   
-  const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
-  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
-  try {
-    setIsLoading(true); 
+      // Receive progress updates from WebSocket
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const progress = data.progress * 100;
+        console.log('Progress:', progress);
+        setProgress(progress); // Update progress state or progress bar
+      };
   
-    const response = await fetch(geocodeUrl);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+      const response = await fetch('/api/search-listings-recentlySold', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          address,
+          state,
+          page,
+          country,
+          sort,
+          propertyType,
+          minPrice,
+          maxPrice,
+          maxBeds,
+          maxBaths
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      setApiData(data.data);
+      setInfoData(data.data.leaseListings);
+      // Handle the response data as needed
+  
+      setIsLoading(false);
+      setProgress(100);
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
+      }, 2000);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+      clearInterval(interval);
     }
-    const data = await response.json();
-    const { results } = data;
-    if (results && results.length > 0) {
-      const { lat, lng } = results[0].geometry.location;
-      setPosition({ lat, lng });
-    } else {
-      window.alert('Location Not Found: Try Using More Descriptive Words!');
-      setIsLoading(false); 
-    }
-    const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
-            params: {
-              location: address+","+state,
-              page: page + nextPage,
-              status_type: "RecentlySold",
-              home_type: propertyType,
-              sort: sort,
-              minPrice: minPrice,
-          maxPrice: maxPrice,
-              bathsMin: maxBaths,
-              bedsMin: maxBeds
-            },
-            headers: {
-              'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-              'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-            },
-          });
-          
-          setApiData(estateResponse.data); 
-          console.log(estateResponse.data);
-          const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  
-  
-  const infoDataArray = [];
-  const imageUrlsArray = [];
-  
-  const fetchPropertyData = async (zpid) => {
-  const apiKey = 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7';
-  const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-  const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-  
-  const propertyResponse = await axios.get(propertyUrl, {
-    params: { zpid },
-    headers: {
-      'X-RapidAPI-Key': apiKey,
-      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-    }
-  });
-  
-  // Introduce a delay before making the second request
-  await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-  
-  const imageResponse = await axios.get(imagesUrl, {
-    params: { zpid },
-    headers: {
-      'X-RapidAPI-Key': apiKey,
-      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-    }
-  });
-  console.log(propertyResponse.data)
-  return { property: propertyResponse.data, images: imageResponse.data };
-  
   };
-  
-  for (let i = 0; i < zpidList.length; i++) {
-  const zpid = zpidList[i];
-  const { property, images } = await fetchPropertyData(zpid);
-  
-  // Use property and images data as needed
-  infoDataArray.push({ ...property, images });
-  imageUrlsArray.push(images);
-  
-  if (i < zpidList.length - 1) {
-    await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
-  }
-  progressBar.style.width = `${((i + 1) / zpidList.length) * 100}%`;
-  
-  }
-  
-  setInfoData(infoDataArray);
-  setImageUrls(imageUrlsArray);
-  setIsLoading(false);
-  progressBar.style.width = '100%';
-    setTimeout(() => {
-      progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
-    }, 2000);
-  } catch (error) {
-  console.error('Error fetching data:', error);
-  setIsLoading(false);
-  }
-  setSearchTrigger(prevState => !prevState); // Toggle the state variable to trigger re-render
-  if (apiData.props && apiData.props.length === 0) {
-  setNoResults(true); // Set noResults to true if no results are available
-  } else {
-  setNoResults(false); // Set noResults to false if results are available
-  }
-  
-  };
+
   const handlePPage = async (e) => {
-    console.log(nextPage);
-  
     e.preventDefault();
     setShowFilter(false);
+  
     const progressBar = document.querySelector('.progress-bar');
     progressBar.style.width = '0%';
     const interval = setInterval(() => {
@@ -375,143 +304,96 @@ function RecentlySold() {
       state = document.getElementById('province').value;
     } else if (country === 'USA') {
       state = document.getElementById('state').value;
-    }    const sort = document.getElementById('sortList').value;
+    }
+    const sort = document.getElementById('sortList').value;
     const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
     const maxBaths = document.getElementById('choose-baths').value;
+    const page = nextPage - 1;
+    try {
+      setIsLoading(true);
+      if (parseInt(minPrice) > parseInt(maxPrice)) {
+        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+        return;
+      }
   
-    setSearchClicked(true);
+      // WebSocket event listeners
+      ws.onopen = function () {
+        console.log('WebSocket connected');
+      };
   
-  const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
-  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
-  try {
-    setIsLoading(true); 
+      // Receive progress updates from WebSocket
+      ws.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        const progress = data.progress * 100;
+        console.log('Progress:', progress);
+        setProgress(progress); // Update progress state or progress bar
+      };
   
-    const response = await fetch(geocodeUrl);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+      const response = await fetch('/api/search-listings-recentlySold', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          address,
+          state,
+          page,
+          country,
+          sort,
+          propertyType,
+          minPrice,
+          maxPrice,
+          maxBeds,
+          maxBaths
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      setApiData(data.data);
+      setInfoData(data.data.leaseListings);
+      // Handle the response data as needed
+  
+      setIsLoading(false);
+      setProgress(100);
+      clearTimeout(progressTimer);
+      progressTimer = setTimeout(() => {
+        setProgress(0);
+      }, 2000);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
+      clearInterval(interval);
     }
-    const data = await response.json();
-    const { results } = data;
-    if (results && results.length > 0) {
-      const { lat, lng } = results[0].geometry.location;
-      setPosition({ lat, lng });
-    } else {
-      window.alert('Location Not Found: Try Using More Descriptive Words!');
-      setIsLoading(false); 
-    }
-    const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
-            params: {
-              location: address+","+state,
-              page: nextPage - page,
-              status_type: "RecentlySold",
-              home_type: propertyType,
-              sort: sort,
-              minPrice: minPrice,
-          maxPrice: maxPrice,
-              bathsMin: maxBaths,
-              bedsMin: maxBeds
-            },
-            headers: {
-              'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-              'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-            },
-          });
-          
-          setApiData(estateResponse.data); 
-          console.log(estateResponse.data);
-          const zpidList = estateResponse.data.props.map((item) => item.zpid);
-  
-  
-  const infoDataArray = [];
-  const imageUrlsArray = [];
-  
-  const fetchPropertyData = async (zpid) => {
-  const apiKey = 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7';
-  const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-  const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-  
-  const propertyResponse = await axios.get(propertyUrl, {
-    params: { zpid },
-    headers: {
-      'X-RapidAPI-Key': apiKey,
-      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-    }
-  });
-  
-  // Introduce a delay before making the second request
-  await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-  
-  const imageResponse = await axios.get(imagesUrl, {
-    params: { zpid },
-    headers: {
-      'X-RapidAPI-Key': apiKey,
-      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-    }
-  });
-  console.log(propertyResponse.data)
-  return { property: propertyResponse.data, images: imageResponse.data };
-  
   };
-  
-  for (let i = 0; i < zpidList.length; i++) {
-  const zpid = zpidList[i];
-  const { property, images } = await fetchPropertyData(zpid);
-  
-  // Use property and images data as needed
-  infoDataArray.push({ ...property, images });
-  imageUrlsArray.push(images);
-  
-  if (i < zpidList.length - 1) {
-    await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
-  }
-  progressBar.style.width = `${((i + 1) / zpidList.length) * 100}%`;
-  
-  }
-  
-  setInfoData(infoDataArray);
-  setImageUrls(imageUrlsArray);
-  setIsLoading(false);
-  progressBar.style.width = '100%';
-    setTimeout(() => {
-      progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
-    }, 2000);
-  } catch (error) {
-  console.error('Error fetching data:', error);
-  setIsLoading(false);
-  }
-  setSearchTrigger(prevState => !prevState); // Toggle the state variable to trigger re-render
-  if (apiData.props && apiData.props.length === 0) {
-  setNoResults(true); // Set noResults to true if no results are available
-  } else {
-  setNoResults(false); // Set noResults to false if results are available
-  }
-  
+  const handleOpenLightbox = (index) => {
+    setSelectedCardIndex(index);
+    setLightboxActive(true);
+    setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
+    (async () => {
+  // Update map location when a card is clicked
+  const selectedProperty = apiData.estate.props[index];
+  await updateMapLocation(selectedProperty.address);
+})();
   };
-        const handleOpenLightbox = (index) => {
-          setSelectedCardIndex(index);
-          setLightboxActive(true);
-          setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
-          (async () => {
-        // Update map location when a card is clicked
-        const selectedProperty = apiData.props[index];
-        await updateMapLocation(selectedProperty.address);
-      })();
-        };
       
         const handleCloseLightbox = () => {
           setSelectedCardIndex(null);
           setLightboxActive(false);
         };
         const handleNextImage = () => {
-          const nextIndex = (currentImageIndex + 1) % imageUrls[selectedCardIndex].images.length;
+          const nextIndex = (currentImageIndex + 1) % infoData[selectedCardIndex].images.images.length;
           setCurrentImageIndex(nextIndex);
         };
         
         const handlePrevImage = () => {
-          const prevIndex = (currentImageIndex - 1 + imageUrls[selectedCardIndex].images.length) % imageUrls[selectedCardIndex].images.length;
+          const prevIndex = (currentImageIndex - 1 + infoData[selectedCardIndex].images.images.length) % infoData[selectedCardIndex].images.images.length;
           setCurrentImageIndex(prevIndex);
         };
         function formatNumberWithCommas(number) {
@@ -561,7 +443,10 @@ function RecentlySold() {
               name="country"
               placeholder="Select a Country"
               required
-              onChange={(e) => {
+              style={{ backgroundColor: selectedCountries ? '#d3d3d3' : 'white' }}
+
+            onChange={(e) => {
+              setSelectedCountries(e.target.value); // Update selected sort
                 const selectElement = e.target;
                 const selectedOption = selectElement.options[selectElement.selectedIndex];
                 setSelectedCountry(selectedOption.value); // Update selected country state
@@ -599,12 +484,14 @@ function RecentlySold() {
               className="notranslate"
               id="province"
               placeholder="Select a Province"
-              style={{ display: 'block' }} // Initially hide the province select
-              required
-              onChange={(e) => {
+              style={{ display: 'block', backgroundColor: selectedProvince ? '#d3d3d3' : 'white' }}
+  onChange={(e) => {
                 state = e.target.value; // Update state with selected province value
+                setSelectedProvince(e.target.value); // Update selected province
+
               }}
             >
+                <option disabled selected value="">Select a Province</option>
   <option value="Alberta">Alberta</option>
     <option value="British Columbia">British Columbia</option>
     <option value="Manitoba">Manitoba</option>
@@ -622,12 +509,13 @@ function RecentlySold() {
               className="notranslate"
               id="state"
               placeholder="Select a State"
-              style={{ display: 'none' }} // Initially hide the state select
-              required
-              onChange={(e) => {
+              style={{ display: 'none', backgroundColor: selectedState ? '#d3d3d3' : 'white' }}
+            onChange={(e) => {
                 state = e.target.value; // Update state with selected state value
+                setSelectedState(e.target.value); // Update selected province
               }}
             >
+                <option disabled selected value="">Select a State</option>
   <option value="AL">Alabama</option>
   <option value="AK">Alaska</option>
   <option value="AZ">Arizona</option>
@@ -684,16 +572,10 @@ function RecentlySold() {
     name="sort"
     placeholder="Sort Listings"
     required
-    onChange={(e) => {
-      const selectElement = e.target;
-      const selectedOption = selectElement.options[selectElement.selectedIndex];
-      // Reset color of all options
-      selectElement.querySelectorAll('option').forEach(option => {
-        option.style.color = 'black'; // Reset color to black for all options
-      });
-      // Change color of the selected option
-      selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
-    }}
+    style={{ backgroundColor: selectedSort ? '#d3d3d3' : 'white' }}
+  onChange={(e) => {
+    setSelectedSort(e.target.value); // Update selected sort
+  }}
   >
     <option value="" disabled selected>Sort Listings</option>
     <option value="Newest">Newest</option>
@@ -708,16 +590,10 @@ function RecentlySold() {
                       name="propertyType" 
                       placeholder='Property Type' 
                       required
-                      onChange={(e) => {
-                        const selectElement = e.target;
-                        const selectedOption = selectElement.options[selectElement.selectedIndex];
-                        // Remove the green check mark from all options
-                        selectElement.querySelectorAll('option').forEach(option => {
-                          option.style.color = 'black'; // Reset color to black for all options
-      });
-      // Change color of the selected option
-      selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
-    }}
+                      style={{ backgroundColor: selectedPropertyType ? '#d3d3d3' : 'white' }}
+                    onChange={(e) => {
+                      setSelectedPropertyType(e.target.value); // Update selected property type
+                    }}
                       >
                         <option value="" disabled selected>Property Type</option>
                         <option value="Houses">Houses</option>
@@ -732,15 +608,9 @@ function RecentlySold() {
                       name="beds" 
                       placeholder='Beds' 
                       required
+                      style={{ backgroundColor: selectedBeds ? '#d3d3d3' : 'white' }}
                       onChange={(e) => {
-                        const selectElement = e.target;
-                        const selectedOption = selectElement.options[selectElement.selectedIndex];
-                        // Remove the green check mark from all options
-                        selectElement.querySelectorAll('option').forEach(option => {
-                          option.style.color = 'black'; // Reset color to black for all options
-                        });
-                        // Change color of the selected option
-                        selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
+                        setSelectedBeds(e.target.value); // Update selected beds
                       }}
                       >
                         <option value="" disabled selected>Beds</option>
@@ -756,16 +626,10 @@ function RecentlySold() {
                       name="baths" 
                       placeholder='Baths' 
                       required
-                      onChange={(e) => {
-                        const selectElement = e.target;
-                        const selectedOption = selectElement.options[selectElement.selectedIndex];
-                        // Remove the green check mark from all options
-                        selectElement.querySelectorAll('option').forEach(option => {
-                          option.style.color = 'black'; // Reset color to black for all options
-                        });
-                        // Change color of the selected option
-                        selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
-                      }}
+                      style={{ backgroundColor: selectedBaths ? '#d3d3d3' : 'white' }}
+                    onChange={(e) => {
+                      setSelectedBaths(e.target.value); // Update selected baths
+                    }}
                       >
                         <option value="" disabled selected>Baths</option>
                         <option value="0">Any</option>
@@ -783,60 +647,57 @@ function RecentlySold() {
       <main className='fullStage notranslate'>
         {isLoading ? (
           <div className="loadingMessage1 translate">
-            <FadeLoader color="#f5fcff" margin={6} />
+            <FadeLoader color="#f5fcff" margin={10} />
           </div>
         ) : (
           <>
-          <div className='manual'>
-          {searchClicked && apiData.props && apiData.props.length > 0 && (
-          <div className='alone'>{apiData.totalResultCount} Results - Page {apiData.currentPage} of {apiData.totalPages} </div>
-          )}
+                                {apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 && (
           <div className='capture'>
-          {apiData.totalPages > 1 && (
+          {apiData.estate.totalPages > 1 && (
             <button 
-  className={`prevButton ${page === apiData.currentPage ? 'disabled' : ''}`}
+  className={`prevButton ${page === apiData.estate.currentPage ? 'disabled' : ''}`}
   onClick={handlePrevPage}
-    disabled={apiData.currentPage === 1}
+    disabled={apiData.estate.currentPage === 1}
 >
   Previous Page
 </button>)}
-          {apiData.totalPages > 1 && (
+<div className='alone'>{apiData.estate.totalResultCount} Results - Page {apiData.estate.currentPage} of {apiData.estate.totalPages} </div>
+          {apiData.estate.totalPages > 1 && (
             <button 
-            className={`prevButton ${apiData.currentPage === apiData.totalPages ? 'disabled' : ''}`}
+            className={`nextButton ${apiData.estate.currentPage === apiData.estate.totalPages ? 'disabled' : ''}`}
             onClick={handleNextPage}
-            disabled={apiData.currentPage === apiData.totalPages}
+            disabled={apiData.estate.currentPage === apiData.estate.totalPages}
             >Next Page</button>
       )}
       </div>
-</div>            {apiData.props && apiData.props.length > 0 ? (
+          )}
+{apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 ? (
   <div className="cardContainer notranslate">
-    {searchClicked && infoData && infoData.length > 0 && (
-      apiData.props.map((property, index) => (
-        property && ( // Check if property is not null/undefined
+    {apiData.estate.props.map((property, index) => (
+      property && ( // Check if property is not null/undefined
         <div
-        className="cardi1 notranslate"
-        key={index}
-        onClick={() => handleOpenLightbox(index)}
-      >
-        <div className='indigo'>
-        <img className='mommy' src={property.imgSrc || noImg} alt={'No Image Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
-        <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Unavailable"}<br /></div>        </div>                
-        <div className="cardText1 notranslate">
-        <div className='holding2 notranslate'>
-            <div className='cardBed notranslate'>{property.bedrooms || "Undisclosed # of"} Beds&nbsp;|</div>
-            <div className='cardBaths notranslate'>{property.bathrooms || "Undisclosed # of"} Baths&nbsp;|</div>
-            <div className='cardMls notranslate'>MLS&reg;:{infoData[index]?.mlsid || "Undisclosed"}</div>
+          className="cardi1 notranslate"
+          key={index}
+          onClick={() => handleOpenLightbox(index)}
+        >
+          <div className='indigo'>
+            <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
+            <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}</div>
+          </div>                
+          <div className="cardText1 notranslate">
+            <div className='holding2 notranslate'>
+              <div className='cardBed notranslate'>{property.bedrooms || "Undisclosed # of"} Beds&nbsp;|</div>
+              <div className='cardBaths notranslate'>{property.bathrooms || "Undisclosed # of"} Baths&nbsp;|</div>
+              <div className='cardMls notranslate'>MLS&reg;:{infoData[index]?.mlsid || "Undisclosed"}</div>
+            </div>
+            <div className='cPrice1 notranslate'>{property.address || "Information Unavailable"}</div>
           </div>
-          <div className='cPrice1 notranslate'>{property.address || "Information Unavailable"}</div>
         </div>
-      </div>
-        )              
-
       ))
     )}
   </div>
 ) : (
-  searchClicked && (
+  searchClicked && (!apiData || !apiData.estate || apiData.estate.props === undefined) && (
     <div className="noResultsMessage">
       Sorry, No Listings Found!
     </div>
@@ -846,10 +707,13 @@ function RecentlySold() {
 {lightboxActive && selectedCardIndex !== null && (
   <div className="lightbox notranslate" onClick={handleCloseLightbox}>
     <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
-      {infoData[selectedCardIndex] && imageUrls[selectedCardIndex] && imageUrls[selectedCardIndex].images && (
+      {/* Lightbox content goes here */}
+      {infoData[selectedCardIndex] && infoData[selectedCardIndex].images && (
         <>
         <div className='aver'>
-          <div className='pAddress-1 notranslate'>{safeAccess(apiData.props[selectedCardIndex], 'address')}</div>
+          <div className='pAddress-1 notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')+" - "+ 
+          safeAccess(infoData[selectedCardIndex], 'address.city') +" , "+ safeAccess(infoData[selectedCardIndex], 'address.state')
+           }</div>
           <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
             Close
           </button>
@@ -859,26 +723,28 @@ function RecentlySold() {
               <button className="lightbox-left notranslate" onClick={handlePrevImage}>
               &#8678;
               </button>
-              <img src={imageUrls[selectedCardIndex]?.images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
+              <img src={infoData[selectedCardIndex].images.images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
               <button className="lightbox-right notranslate" onClick={handleNextImage}>
               &#8680;
               </button> 
             </div> 
             <div className="cardText notranslate">
               <div className='containText notranslate'>
-                <div className='pAddress notranslate'>{safeAccess(apiData.props[selectedCardIndex], 'address')}</div>
-                <div className='pPrice notranslate'>${formatNumberWithCommas(safeAccess(apiData.props[selectedCardIndex], 'price'))} <span style={{ fontSize: 'smaller' }}>{selectedCountry === 'Canada' ? 'CAD' : 'USD'}</span>
+                <div className='pAddress notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')}</div>
+                <div className='pPrice notranslate'>
+  ${formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'price') || "Undisclosed")}{' '}
+  <span style={{ fontSize: 'smaller' }}>{selectedCountry === 'Canada' ? 'CAD' : 'USD'}</span>
 </div>
               <div className='heallin'>
-                <div className='bedd'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;</div>
-                <div className='bathh'>&nbsp;{safeAccess(apiData.props[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;</div>
-                <div className='dayss'>&nbsp;Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>   
-                <div className='dayss notranslate'>Square Footage(sqft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
+                <div className='bedd'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='bathh'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>  
+                <div className='dayss'>Square Footage(sqft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
+          
                 </div>
                 <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
-                  <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
-                  <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}/{safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.1')} &nbsp;</div>
+                  <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}&nbsp;</div>
                   <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
                   <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}&nbsp;</div>
                   <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}&nbsp;</div>  
@@ -904,7 +770,7 @@ function RecentlySold() {
         )}
       </main>
         <div className="progress-container">
-    <div className="progress-bar"></div>
+        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
   </div>
   
     </div>

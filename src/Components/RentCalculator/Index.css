@@ -254,7 +254,9 @@ min-height: 325px;
     display: flex;
     flex-direction: column;
     margin: 8px;
-margin-top: 0px;   
+margin-top: 0px;  
+max-height: 90vh;
+overflow-y: scroll; 
   }
   .calculator-container {
 min-width: 96%;
@@ -427,8 +429,6 @@ padding-top: 8px;
     width: 100%;
     font-size: 18px;
     text-align: center;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-    color: #1e0030fc;
     font-weight: 500;
     
     }
@@ -436,8 +436,6 @@ padding-top: 8px;
       width: 100%;
       font-size: 18px;
     text-align: center;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-    color: #1e0030fc;
     font-weight: 500;
     
     }
@@ -445,8 +443,6 @@ padding-top: 8px;
       width: 100%;
       font-size: 18px;
     text-align: center;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-    color: #1e0030fc;
     font-weight: 500;
     
     }
@@ -615,28 +611,25 @@ padding-top: 8px;
 }
 .ppl1 {
   width: 100%;
-  font-size: 14px;
+  font-size: 18px;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-  color: #1e0030fc;
+
   font-weight: 500;
   
   }
   .ppl2 {
     width: 100%;
-    font-size: 14px;
+    font-size: 18px;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-  color: #1e0030fc;
+
   font-weight: 500;
   
   }
   .ppl3 {
     width: 100%;
-    font-size: 14px;
+    font-size: 18px;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
-  color: #1e0030fc;
+
   font-weight: 500;
   
   }

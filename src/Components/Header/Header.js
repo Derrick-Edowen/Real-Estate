@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import placeHolder from '../../Assets/Images/rahlogo-placeholder.png'
 import './Index.css'
 import manH from '../../Assets/Images/man1-PhotoRoom2.png'
@@ -51,13 +51,15 @@ function Header() {
 
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">
-        <img src={manH} className="headerImg"></img>
+        <img src={manH} className="headerImg" alt="Header Image"></img>
         <h2>John Smith <br />
           Sales Representative</h2>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
         onClick={toggleNav}
+        aria-label="Toggle Navigation"
+
       >
         <span className="nav__hamburger__line"></span>
         <span className="nav__hamburger__line"></span>
@@ -166,7 +168,7 @@ function Header() {
             </NavLink>
           </li>
           <div className="holder">
-            <img className="holderImg" src={placeHolder} alt="Placeholder Logo" />
+            <img className="holderImg" src={placeHolder} alt="Brokerage Logo" />
           </div>
         </ul>
       </div>

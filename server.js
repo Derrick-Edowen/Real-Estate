@@ -19,9 +19,9 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //API CODE//
-const maxRequestsPerSecond = 1;
-const maxQueueSize = 300; // Increase queue size to handle more requests
-const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
+const maxRequestsPerSecond = 2;
+const maxQueueSize = 250; // Increase queue size to handle more requests
+const delayBetweenRequests = 1500 / maxRequestsPerSecond; // Adjust delay for optimization
 
 
 const wss = new WebSocket.Server({ server });
@@ -366,7 +366,23 @@ app.post('/api/search-listings-forsale', async (req, res) => {
 app.post('/api/search-listings-recentlySold', async (req, res) => {
   addToQueue(req, res, handleRecentlySoldSearch);
 });
+app.post('/api/geocode', async (req, res) => {
+  const { address } = req.body;
+  const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
+  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
+  try {
+    const response = await fetch(geocodeUrl);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the data' });
+  }
+});
 function addToQueue(req, res, handler) {
   if (requestQueue.length >= maxQueueSize) {
     res.status(429).json({ error: 'Too Many Requests' });
