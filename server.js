@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 //API CODE//
 const maxRequestsPerSecond = 1;
-const maxQueueSize = 250; // Increase queue size to handle more requests
+const maxQueueSize = 2000; // Increase queue size to handle more requests
 const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
 
 
