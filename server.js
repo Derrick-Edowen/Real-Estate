@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //API CODE//
-const maxRequestsPerSecond = 1;
+const maxRequestsPerSecond = 2;
 const maxQueueSize = 2000; // Increase queue size to handle more requests
 const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
 
@@ -420,15 +420,24 @@ app.post('/api/geocode', async (req, res) => {
   }
 });
 function addToQueue(req, res, handler) {
-  if (requestQueue.length >= maxQueueSize) {
+  const now = Date.now();
+  const lastRequestTime = requestQueue.length > 0 ? requestQueue[requestQueue.length - 1].requestTime : 0;
+  const elapsed = now - lastRequestTime;
+
+  if (elapsed < delayBetweenRequests) {
+    // If the delay between requests has not elapsed yet, respond with a 429 error (Too Many Requests)
     res.status(429).json({ error: 'Too Many Requests' });
   } else {
+    // Add the request to the queue
     requestQueue.push({
+      requestTime: now,
       handler: handler,
       req: req,
       res: res
     });
-    processQueue(); // Start processing immediately
+
+    // Process the queue
+    processQueue();
   }
 }
 
@@ -436,16 +445,20 @@ function addToQueue(req, res, handler) {
 async function processQueue() {
   if (requestQueue.length > 0 && !isProcessing) {
     isProcessing = true;
-    const { handler, req, res } = requestQueue.shift();
+    const { requestTime, handler, req, res } = requestQueue.shift();
+    const elapsed = Date.now() - requestTime;
+    const delay = Math.max(delayBetweenRequests - elapsed, 0); // Ensure minimum delay is respected
+
     try {
       await handler(req, res);
     } catch (error) {
       console.error('Error processing request:', error);
     }
+
     setTimeout(() => {
       isProcessing = false;
       processQueue();
-    }, delayBetweenRequests);
+    }, delay);
   }
 }
 
