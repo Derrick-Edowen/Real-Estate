@@ -13,6 +13,7 @@ REALTOR®, REALTORS®, and the REALTOR® logo are certification marks that are o
 Liability and Warranty Disclaimer
 The information contained on this website is based in whole or in part on information that is provided by members of CREA, who are responsible for its accuracy. CREA reproduces and distributes this information as a service for its members, and assumes no responsibility for its completeness or accuracy.
 Amendments
-We may at any time amend these Terms of Use by updating this posting. All users of this site are bound by these amendments should they wish to continue accessing the website, and should therefore periodically visit this page to review any and all such amendments.</div>
+We may at any time amend these Terms of Use by updating this posting. All users of this site are bound by these amendments should they wish to continue accessing the website, and should therefore periodically visit this page to review any and all such amendments.
+</div>
     )
 }

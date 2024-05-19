@@ -51,9 +51,11 @@ function Header() {
 
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">
-        <img src={manH} className="headerImg" alt="Header Image"></img>
-        <h2>John Smith <br />
-          Sales Representative</h2>
+      <div className="holder">
+            <img className="holderImg" src={placeHolder} alt="Brokerage Logo" />
+          </div>        
+          <h2>One Estate <br />
+          Sample Product</h2>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
@@ -167,9 +169,21 @@ function Header() {
               Contact
             </NavLink>
           </li>
-          <div className="holder">
-            <img className="holderImg" src={placeHolder} alt="Brokerage Logo" />
-          </div>
+          <li>
+            <NavLink
+              onClick={closeMenu}
+              activeclass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
+              to="/Pricing / Subscriptions"
+              className="navbar--content"
+            >
+              Pricing / Subscriptions
+            </NavLink>
+          </li>
+       
         </ul>
       </div>
     </nav>
