@@ -54,8 +54,8 @@ function Header() {
       <div className="holder">
             <img className="holderImg" src={placeHolder} alt="Brokerage Logo" />
           </div>        
-          <h2>One Estate <br />
-          Sample Product</h2>
+          <h2>One Estate<br />
+          Web Services Sample</h2>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
