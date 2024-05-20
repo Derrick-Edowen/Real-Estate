@@ -17,14 +17,14 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
+/*
 app.use((req, res, next) => {
   if (req.headers.host.slice(0, 4) !== 'www.') {
     res.redirect(301, 'https://www.' + req.headers.host + req.url);
   } else {
     next();
   }
-});
+});*/
 //API CODE//
 const maxRequestsPerSecond = 2;
 const maxQueueSize = 2000; // Increase queue size to handle more requests

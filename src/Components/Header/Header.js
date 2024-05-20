@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import placeHolder from '../../Assets/Images/rahlogo-placeholder.png'
+import placeHolder from '../../Assets/Images/minilogo.PNG'
 import './Index.css'
 import manH from '../../Assets/Images/man1-PhotoRoom2.png'
 import { useLocation } from 'react-router-dom';
@@ -169,20 +169,18 @@ function Header() {
               Contact
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              onClick={closeMenu}
-              activeclass="navbar--active-content"
-              spy={true}
-              smooth={true}
-              offset={-70}
-              duration={1000}
-              to="/Pricing / Subscriptions"
-              className="navbar--content"
-            >
-              Pricing / Subscriptions
-            </NavLink>
-          </li>
+<li>
+  <a
+    href="https://buy.stripe.com/4gw3ekg8HeBSfKwbII"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="navbar--content"
+    onClick={closeMenu}
+  >
+    Pricing / Subscriptions
+  </a>
+</li>
+
        
         </ul>
       </div>

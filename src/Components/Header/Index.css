@@ -176,9 +176,10 @@ text-decoration: none;
   .holderImg {
     height:60px;
     width: 80px;
-padding: 2px;
-margin: 4px;
-margin-right: 22px;
+padding: 1px;
+margin: 2px;
+margin-right: 16px;
+border-radius: 3px;
   }
   li {
     text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8); /* horizontal offset, vertical offset, blur radius, color */

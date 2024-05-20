@@ -18,7 +18,6 @@ import RecentlySold from './Components/RecentlySold/RecentlySold';
 import RentCalculator from './Components/RentCalculator/RentCalculator';
 import Login from './Components/Login/Login';
 import Blog from './Components/Blog/Blog';
-import Price from './Components/Pricing/Price'
 
 
 function App() {
@@ -45,7 +44,7 @@ function App() {
     if (pageTitle === "") {
       pageTitle = "Home";
     }
-    document.title = `${pageTitle} - John Smith Real Estate`;
+    document.title = `${pageTitle} - One Estate Web Services`;
   }, [location]);
   
   
@@ -68,9 +67,9 @@ function App() {
             <Route path="/Calculators | Rent Affordability Calculator" element={<RentCalculator />} />
             <Route path="/Contact Me" element={<Contact />} />
             <Route path="/Login" element={<Login />} />
-            <Route path="/Pricing / Subscriptions" element={<Price />} />
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
+          <Footer />
         </div>
     </>
   );
