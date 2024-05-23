@@ -128,7 +128,6 @@ function RecentlySold() {
       state = document.getElementById('state').value;
     }
     const sort = document.getElementById('sortList').value;
-    const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
@@ -165,7 +164,6 @@ function RecentlySold() {
           page,
           country,
           sort,
-          propertyType,
           minPrice,
           maxPrice,
           maxBeds,
@@ -194,8 +192,7 @@ function RecentlySold() {
       clearInterval(interval);
     }
   };
-  useEffect(() => {
-  }, [apiData, infoData]);
+
 
   const handleNPage = async (e) => {
     e.preventDefault();
@@ -218,7 +215,6 @@ function RecentlySold() {
       state = document.getElementById('state').value;
     }
     const sort = document.getElementById('sortList').value;
-    const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
@@ -255,7 +251,6 @@ function RecentlySold() {
           page,
           country,
           sort,
-          propertyType,
           minPrice,
           maxPrice,
           maxBeds,
@@ -306,7 +301,6 @@ function RecentlySold() {
       state = document.getElementById('state').value;
     }
     const sort = document.getElementById('sortList').value;
-    const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
@@ -343,7 +337,6 @@ function RecentlySold() {
           page,
           country,
           sort,
-          propertyType,
           minPrice,
           maxPrice,
           maxBeds,
@@ -586,24 +579,6 @@ function RecentlySold() {
   </select>
   
                       <select className='notranslate' 
-                      id="choose-type" 
-                      name="propertyType" 
-                      placeholder='Property Type' 
-                      required
-                      style={{ backgroundColor: selectedPropertyType ? '#d3d3d3' : 'white' }}
-                    onChange={(e) => {
-                      setSelectedPropertyType(e.target.value); // Update selected property type
-                    }}
-                      >
-                        <option value="" disabled selected>Property Type</option>
-                        <option value="Houses">Houses</option>
-          <option value="Townhomes">Townhomes</option>
-          <option value="Condos">Condominiums</option>
-          <option value="Apartments">Apartments</option>
-          <option value="Multi-family">Multi-family</option>
-          <option value="LotsLand">Land</option>
-                      </select>
-                      <select className='notranslate' 
                       id="choose-beds" 
                       name="beds" 
                       placeholder='Beds' 
@@ -682,7 +657,8 @@ function RecentlySold() {
         >
           <div className='indigo'>
             <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
-            <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}</div>
+            <div className='cDress1 notranslate'>  {property.price ? `$${formatNumberWithCommas(property.price)}` : "Information Unavailable"}
+</div>
           </div>                
           <div className="cardText1 notranslate">
             <div className='holding2 notranslate'>

@@ -69,7 +69,7 @@ function App() {
             <Route path="/Login" element={<Login />} />
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
-          <Footer />
+          {/*<Footer />*/}
         </div>
     </>
   );

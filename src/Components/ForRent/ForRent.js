@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import '../../search.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
 import FadeLoader from "react-spinners/FadeLoader";
 import Footer from '../Footer/Footer';
+import axios from 'axios';
 
 
 function ForRent() {
 
-  const [apiData, setApiData] = useState(null);
-  const [infoData, setInfoData] = useState(null);
+  const [initialData, setInitialData] = useState(null);
+  const [apiData, setApiData] = useState([]);
+  const [infoData, setInfoData] = useState([]);
 const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
 const [cardIndex, setCardIndex] = useState(0);
 const [searchClicked, setSearchClicked] = useState(false); 
@@ -35,15 +37,7 @@ const [selectedPropertyType, setSelectedPropertyType] = useState('');
 const [selectedBeds, setSelectedBeds] = useState('');
 const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
-
-
-
-
-const wsPort = window.location.port; // Use the port of your backend
-const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-const wsHost = window.location.hostname;
-const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
-
+const initialDataRef = useRef(null);
 
 
 
@@ -86,7 +80,7 @@ const updateMapLocation = async (address) => {
       await updateMapLocation(selectedProperty.address);
     })();
   };
-  
+  /*
   ws.onopen = function () {
   };
   let progressTimer;
@@ -107,86 +101,122 @@ const updateMapLocation = async (address) => {
     } catch (error) {
       // Ignore the error and do nothing
     }
-  };
-  
-  const handleSearch = async (e) => {
-    setIsRotated(!isRotated);
-    e.preventDefault();
-    setShowFilter(false);
-  
-    const address = document.getElementById('search').value;
-    let state = '';
-    const country = document.getElementById('country').value;
-    if (country === 'Canada') {
-      state = document.getElementById('province').value;
-    } else if (country === 'USA') {
-      state = document.getElementById('state').value;
-    }
-    const sort = document.getElementById('sortList').value;
-    const propertyType = document.getElementById('choose-type').value;
-    const minPrice = document.getElementById('min-price').value;
-    const maxPrice = document.getElementById('max-price').value;
-    const maxBeds = document.getElementById('choose-beds').value;
-    const maxBaths = document.getElementById('choose-baths').value;
-    const page = 1;
-  
-    try {
-      setIsLoading(true);
-      if (parseInt(minPrice) > parseInt(maxPrice)) {
-        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
-        return;
-      }
-      // WebSocket connection
-  
-      // WebSocket event listeners
-      ws.onopen = function () {
-      };
-  
-      // Receive progress updates from WebSocket
-      ws.onmessage = function (event) {
-        const data = JSON.parse(event.data);
-        const progress = data.progress * 100;
-        setProgress(progress); // Update progress state or progress bar
-      };
-  
-      // Make API call
-      const response = await fetch('/api/search-listings-lease', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          address,
-          state,
-          page,
-          country,
-          sort,
-          propertyType,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths,
-        }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      setApiData(data.data);
-      setInfoData(data.data.leaseListings);
-      setIsLoading(false);
-      setProgress(100);
-    clearTimeout(progressTimer);
-    progressTimer = setTimeout(() => {
-      setProgress(0);
-    }, 2000);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
+  };*/
+  useEffect(() => {
+    // This will trigger a re-render after initialData, apiData, and infoData have been updated
+}, [initialData, apiData, infoData]);
+useEffect(() => {
+  console.log('initialData:', initialData);
+}, [initialData]);
 
+useEffect(() => {
+  console.log('apiData:', apiData);
+}, [apiData]);
+
+useEffect(() => {
+  console.log('infoData:', infoData);
+}, [infoData]);
+const handleSearch = async (e) => {
+  setIsRotated(!isRotated);
+  e.preventDefault();
+  setShowFilter(false);
+  setInitialData(null);
+  setApiData([]);
+  setInfoData([]);
+  initialDataRef.current = null;
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }
+  const sort = document.getElementById('sortList').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
+  const page = 1;
+
+  try {
+    setIsLoading(true);
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
+      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+      return;
+    }
+
+    // WebSocket connection
+    const ws = new WebSocket('ws://localhost:3001');
+
+    // WebSocket event listeners
+    ws.onopen = function () {
+      console.log('WebSocket connection opened');
+    };
+
+    // Receive progress updates and property data from WebSocket
+    ws.onmessage = function (event) {
+      try {
+        const data = JSON.parse(event.data);
+        console.log('Data received from WebSocket:', data); // Log received data
+
+        if (data.zpids) {
+          // Update initialDataRef.current and initialData with new data
+          initialDataRef.current = data.zpids;
+          setInitialData(data.zpids);
+        }
+
+        if (data.property) {
+          setApiData((prevData) => [...prevData, data.property]);
+          setInfoData((prevData) => [...prevData, data.images]);
+        } else if (data.progress) {
+          setProgress(data.progress * 100); // Update progress state or progress bar
+        }
+      } catch (error) {
+        console.error('Error parsing WebSocket message:', error.message);
+      }
+    };
+
+    ws.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+      console.log('WebSocket connection closed');
+    };
+
+    // Make API call
+    const response = await fetch('/api/search-listings-lease', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        state,
+        page,
+        country,
+        sort,
+        minPrice,
+        maxPrice,
+        maxBeds,
+        maxBaths,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    setIsLoading(false);
+    setProgress(100);
+
+  } catch (error) {
+    console.error('Error in handleSearch:', error);
+    setIsLoading(false);
+  }
+};
 
 const handleNPage = async (e) => {
     setIsRotated(!isRotated);
@@ -211,7 +241,6 @@ const handleNPage = async (e) => {
       state = document.getElementById('state').value;
     }
     const sort = document.getElementById('sortList').value;
-    const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
@@ -231,7 +260,6 @@ const handleNPage = async (e) => {
           page,
           country,
           sort,
-          propertyType,
           minPrice,
           maxPrice,
           maxBeds,
@@ -282,7 +310,6 @@ const handleNPage = async (e) => {
       state = document.getElementById('state').value;
     }
     const sort = document.getElementById('sortList').value;
-    const propertyType = document.getElementById('choose-type').value;
     const minPrice = document.getElementById('min-price').value;
     const maxPrice = document.getElementById('max-price').value;
     const maxBeds = document.getElementById('choose-beds').value;
@@ -302,7 +329,6 @@ const handleNPage = async (e) => {
           page,
           country,
           sort,
-          propertyType,
           minPrice,
           maxPrice,
           maxBeds,
@@ -541,21 +567,6 @@ return (
 </select>
 
                     <select className='notranslate' 
-                    id="choose-type" 
-                    name="propertyType" 
-                    placeholder='Property Type' 
-                    required
-                    style={{ backgroundColor: selectedPropertyType ? '#d3d3d3' : 'white' }}
-                    onChange={(e) => {
-                      setSelectedPropertyType(e.target.value); // Update selected property type
-                    }}
-                    >
-                      <option value="" disabled selected>Property Type</option>
-                      <option value="Houses">Houses</option>
-                      <option value="Townhomes">Townhomes</option>
-                      <option value="Apartments_Condos_Co-ops">Condominiums</option>
-                    </select>
-                    <select className='notranslate' 
                     id="choose-beds" 
                     name="beds" 
                     placeholder='Beds' 
@@ -598,111 +609,115 @@ return (
     </aside> 
         <main className='fullStage notranslate'>
         {isLoading ? (
-          <div className="loadingMessage1 translate">
-            <FadeLoader color="#f5fcff" margin={10} />
-          </div>
-        ) : (
-          <>
-                    {apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 && (
-          <div className='capture'>
-          {apiData.estate.totalPages > 1 && (
-            <button 
-  className={`prevButton ${page === apiData.estate.currentPage ? 'disabled' : ''}`}
-  onClick={handlePrevPage}
-    disabled={apiData.estate.currentPage === 1}
->
-  Previous Page
-</button>)}
-<div className='alone'>{apiData.estate.totalResultCount} Results - Page {apiData.estate.currentPage} of {apiData.estate.totalPages} </div>
-          {apiData.estate.totalPages > 1 && (
-            <button 
-            className={`nextButton ${apiData.estate.currentPage === apiData.estate.totalPages ? 'disabled' : ''}`}
-            onClick={handleNextPage}
-            disabled={apiData.estate.currentPage === apiData.estate.totalPages}
-            >Next Page</button>
-      )}
-      </div>
-          )}
-
-{apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 ? (
-  <div className="cardContainer notranslate">
-    {apiData.estate.props.map((property, index) => (
-      property && ( // Check if property is not null/undefined
-        <div
-          className="cardi1 notranslate"
-          key={index}
-          onClick={() => handleOpenLightbox(index)}
-        >
-          <div className='indigo'>
-            <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
-            <div className='cDress1 notranslate'>${formatNumberWithCommas(property.price) || "Information Unavailable"}</div>
-          </div>                
-          <div className="cardText1 notranslate">
-            <div className='holding2 notranslate'>
-              <div className='cardBed notranslate'>{property.bedrooms || "Undisclosed # of"} Beds&nbsp;|</div>
-              <div className='cardBaths notranslate'>{property.bathrooms || "Undisclosed # of"} Baths&nbsp;|</div>
-              <div className='cardMls notranslate'>MLS&reg;:{infoData[index]?.mlsid || "Undisclosed"}</div>
-            </div>
-            <div className='cPrice1 notranslate'>{property.address || "Information Unavailable"}</div>
-          </div>
-        </div>
-      ))
-    )}
+  <div className="loadingMessage1 translate">
+    <FadeLoader color="#f5fcff" margin={10} />
   </div>
 ) : (
-apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length === 0 && (
-    <div className="noResultsMessage">
-      Sorry, No Listings Found!
-    </div>
-  )
-  
-  
-)}
+  <>
+    {initialData && (
+        <div className='capture'>
+          {initialData.totalPages > 1 && (
+            <button
+              className={`prevButton ${initialData.currentPage === 1 ? 'disabled' : ''}`}
+              onClick={handlePrevPage}
+              disabled={initialData.currentPage === 1}
+            >
+              Previous Page
+            </button>
+          )}
+          <div className='alone'>{initialData.totalResultCount} Results - Page {initialData.currentPage} of {initialData.totalPages}</div>
+          {initialData.totalPages > 1 && (
+            <button
+              className={`nextButton ${initialData.currentPage === initialData.totalPages ? 'disabled' : ''}`}
+              onClick={handleNextPage}
+              disabled={initialData.currentPage === initialData.totalPages}
+            >
+              Next Page
+            </button>
+          )}
+        </div>
+      )}
 
-{lightboxActive && selectedCardIndex !== null && (
-  <div className="lightbox notranslate" onClick={handleCloseLightbox}>
-    <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
-      {/* Lightbox content goes here */}
-      {infoData[selectedCardIndex] && infoData[selectedCardIndex].images && (
-        <>
-        <div className='aver'>
-          <div className='pAddress-1 notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')+" - "+ 
-          safeAccess(infoData[selectedCardIndex], 'address.city') +" , "+ safeAccess(infoData[selectedCardIndex], 'address.state')
-           }</div>
-          <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
-            Close
-          </button>
-          </div>
-          <div className='side-by-side-container notranslate'>
-            <div className='fixer notranslate'>
-              <button className="lightbox-left notranslate" onClick={handlePrevImage}>
-              &#8678;
-              </button>
-              <img src={infoData[selectedCardIndex].images.images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
-              <button className="lightbox-right notranslate" onClick={handleNextImage}>
-              &#8680;
-              </button> 
-            </div> 
-            <div className="cardText notranslate">
-              <div className='containText notranslate'>
-                <div className='pAddress notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')}</div>
-                <div className='pPrice notranslate'>${safeAccess(infoData[selectedCardIndex], 'price')}/Month</div>
-              <div className='heallin'>
-                <div className='bedd'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='bathh'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>            
+{apiData && apiData.length > 0 ? (
+        <div className="cardContainer notranslate">
+          {apiData.map((property, index) => (
+            property && ( // Check if property is not null/undefined
+              <div
+                className="cardi1 notranslate"
+                key={index}
+                onClick={() => handleOpenLightbox(index)}
+              >
+                <div className='indigo'>
+                  <img className='mommy' src={property.imgSrc || infoData[index]?.imgSrc || noImg} alt={'Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
+                  <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))}
+                  </div>
                 </div>
-                <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
-                <div className='holding1 notranslate'>
-                <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
-                  <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')} &nbsp;</div>
-                  <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
-                  <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}&nbsp;</div>
-                  <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}&nbsp;</div>  
-                </div> 
+                <div className="cardText1 notranslate">
+                  <div className='holding2 notranslate'>
+                    <div className='cardBed notranslate'>{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
+                    <div className='cardBaths notranslate'>{safeAccess(property, 'bathrooms')} Baths&nbsp;|</div>
+                    <div className='cardMls notranslate'>MLS&reg;:{safeAccess(property, 'mlsid')}</div>
+                  </div>
+                  <div className='cPrice1 notranslate'>{safeAccess(property, 'address.streetAddress') +" "+ safeAccess(property, 'address.zipcode')+" - "+ 
+                safeAccess(property, 'address.city') +" , "+ safeAccess(property, 'address.state')
+                }</div>
+                </div>
               </div>
-            </div>
+            )
+          ))}
+        </div>
+      ) : (
+        initialData && initialData.props && initialData.props.length === 0 && (
+          <div className="noResultsMessage">
+            Sorry, No Listings Found!
           </div>
+        )
+      )}
+
+    {lightboxActive && selectedCardIndex !== null && (
+      <div className="lightbox notranslate" onClick={handleCloseLightbox}>
+        <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
+          {/* Lightbox content goes here */}
+          {infoData[selectedCardIndex] && infoData[selectedCardIndex].images && (
+            <>
+              <div className='aver'>
+                <div className='pAddress-1 notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')+" - "+ 
+                safeAccess(infoData[selectedCardIndex], 'address.city') +" , "+ safeAccess(infoData[selectedCardIndex], 'address.state')
+                }</div>
+                <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
+                  Close
+                </button>
+              </div>
+              <div className='side-by-side-container notranslate'>
+                <div className='fixer notranslate'>
+                  <button className="lightbox-left notranslate" onClick={handlePrevImage}>
+                  &#8678;
+                  </button>
+                  <img src={infoData[selectedCardIndex].images.images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
+                  <button className="lightbox-right notranslate" onClick={handleNextImage}>
+                  &#8680;
+                  </button> 
+                </div> 
+                <div className="cardText notranslate">
+                  <div className='containText notranslate'>
+                    <div className='pAddress notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')}</div>
+                    <div className='pPrice notranslate'>${safeAccess(infoData[selectedCardIndex], 'price')}/Month</div>
+                    <div className='heallin'>
+                      <div className='bedd'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                      <div className='bathh'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                      <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>            
+                    </div>
+                    <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
+                    <div className='holding1 notranslate'>
+                      <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
+                      <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')} &nbsp;</div>
+                      <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
+                      <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}&nbsp;</div>
+                      <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}&nbsp;</div>  
+                    </div> 
+                  </div>
+                </div>
+              </div>
           <div className='map notranslate'>
             <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
               <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >

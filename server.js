@@ -11,8 +11,14 @@ const serviceKey = path.join(__dirname, './mykey.json')
 const WebSocket = require('ws');
 const app = express();
 const http = require('http');
+const Bottleneck = require('bottleneck');
 const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
+const limiter = new Bottleneck({
+  maxConcurrent: 1,
+  minTime: 1500
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -30,22 +36,23 @@ const maxRequestsPerSecond = 2;
 const maxQueueSize = 2000; // Increase queue size to handle more requests
 const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
 
-
 const wss = new WebSocket.Server({ server });
+const clients = [];
 
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
+  clients.push(ws);
+  ws.on('close', () => {
+    clients.splice(clients.indexOf(ws), 1);
   });
-
   ws.send('connected');
 });
 
-// Send progress updates
-function sendProgressUpdate(progress) {
-  wss.clients.forEach(function each(client) {
+// Send data updates
+function sendDataUpdate(data) {
+  clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ progress }));
+      client.send(JSON.stringify({ type: 'data', data }));
     }
   });
 }
@@ -53,127 +60,114 @@ function sendProgressUpdate(progress) {
 const requestQueue = [];
 let isProcessing = false;
 
-async function handleLeaseSearch(req, res) {
+async function handleLeaseSearch(ws, req) {
   try {
+    const { address, state, page, sort, minPrice, maxPrice, maxBeds, maxBaths } = req.body; // Already parsed by bodyParser
 
-
-    // Handle the search logic here based on the request body
-    const { address, state, page, country, sort, propertyType, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
-
-    const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
-
-    // Fetch latitude and longitude from Google Maps
+    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${process.env.GOOGLE_API_KEY}`;
     const geocodeResponse = await axios.get(geocodeUrl);
     const { results } = geocodeResponse.data;
     if (!results || results.length === 0) {
-      throw new Error('Location not found');
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ error: 'Location not found' }));
+        ws.close();
+      }
+      return;
     }
     const { lat, lng } = results[0].geometry.location;
 
-    // Fetch lease listings from Zillow
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
       params: {
         location: `${address},${state}`,
         page: page,
         status_type: 'ForRent',
-        home_type: propertyType,
         sort: sort,
+        home_type: 'Houses, Townhomes',
         rentMinPrice: minPrice,
         rentMaxPrice: maxPrice,
         bathsMin: maxBaths,
         bedsMin: maxBeds
       },
       headers: {
-        'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
       }
     });
 
-    // Fetch additional info and images for each property
     const leaseListings = estateResponse.data.props;
+    const zpidListings = estateResponse.data;
     if (!leaseListings || leaseListings.length === 0) {
-      res.json({
-        success: true,
-        data: {
-          estate: {
-            props: [],
-            schools: {}, // Assuming schools data should also be empty
-            resultsPerPage: 0,
-            totalPages: 0,
-            totalResultCount: 0,
-            currentPage: 1
-          }
-        }
-      });
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ success: true, data: { estate: { props: [], schools: {}, resultsPerPage: 0, totalPages: 0, totalResultCount: 0, currentPage: 1 } } }));
+        ws.close();
+      }
       return;
     }
-    const infoDataArray = [];
-    const imageUrlsArray = [];
+    const zpidData = { zpids: zpidListings };
+
+    // Log data being sent
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(zpidData));  // Send data incrementally
+    }
 
     const fetchPropertyData = async (zpid) => {
-      const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-      const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+      try {
+        const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+        const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
 
-      const propertyResponse = await axios.get(propertyUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+        const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
+          params: { zpid },
+          headers: {
+            'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          }
+        }));
+
+        const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
+          params: { zpid },
+          headers: {
+            'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          }
+        }));
+
+        const data = { property: propertyResponse.data, images: imageResponse.data };
+
+        // Log data being sent
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify(data));  // Send data incrementally
         }
-      });
 
-      // Introduce a delay before making the second request
-      await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-
-      const imageResponse = await axios.get(imagesUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-        }
-      });
-
-      return { property: propertyResponse.data, images: imageResponse.data };
+        return data;
+      } catch (error) {
+        console.error(`Error fetching data for zpid ${zpid}:`, error.message);
+        return null;
+      }
     };
 
     for (let i = 0; i < leaseListings.length; i++) {
       const zpid = leaseListings[i].zpid;
-      const { property, images } = await fetchPropertyData(zpid);
-
-      // Use property and images data as needed
-      infoDataArray.push({ ...property, images });
-      imageUrlsArray.push(images);
-
-      if (i < leaseListings.length - 1) {
-        await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
-        sendProgressUpdate((i + 1) / leaseListings.length); // Send progress update
-      }
+      await fetchPropertyData(zpid);
     }
 
-    // Prepare and send response
-    const responseData = {
-      lat,
-      lng,
-      estate: estateResponse.data,
-      leaseListings: infoDataArray,
-      leaseImages: imageUrlsArray
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ success: true, done: true })); // Indicate end of data transmission
+      ws.close();
+    }
 
-    };
-    res.json({ success: true, data: responseData });
   } catch (error) {
     console.error('Error fetching lease listings:', error);
-    res.status(500).json({ error: 'Failed to fetch lease listings' });
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ error: 'Failed to fetch lease listings' }));
+      ws.close();
+    }
   }
 }
 
 // For Sale - Initial
 async function handleForSaleSearch(req, res) {
   try {
-
-
-    // Handle the search logic here based on the request body
-    const { address, state, page, country, sort, propertyType, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
+    const { address, state, page, sort, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
 
     const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
@@ -186,14 +180,14 @@ async function handleForSaleSearch(req, res) {
     }
     const { lat, lng } = results[0].geometry.location;
 
-    // Fetch lease listings from Zillow
+    // Fetch for sale listings from Zillow
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
       params: {
         location: `${address},${state}`,
         page: page,
         status_type: 'ForSale',
-        home_type: propertyType,
         sort: sort,
+        home_type: 'Houses, Townhomes',
         minPrice: minPrice,
         maxPrice: maxPrice,
         bathsMin: maxBaths,
@@ -205,9 +199,8 @@ async function handleForSaleSearch(req, res) {
       }
     });
 
-    // Fetch additional info and images for each property
-    const leaseListings = estateResponse.data.props;
-    if (!leaseListings || leaseListings.length === 0) {
+    const forSaleListings = estateResponse.data.props;
+    if (!forSaleListings || forSaleListings.length === 0) {
       res.json({
         success: true,
         data: {
@@ -223,46 +216,66 @@ async function handleForSaleSearch(req, res) {
       });
       return;
     }
+
     const infoDataArray = [];
     const imageUrlsArray = [];
 
     const fetchPropertyData = async (zpid) => {
-      const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-      const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+      try {
+        const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+        const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
 
-      const propertyResponse = await axios.get(propertyUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+        const propertyResponse = await axios.get(propertyUrl, {
+          params: { zpid },
+          headers: {
+            'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          }
+        });
+
+        // Introduce a delay before making the second request
+        await delay(delayBetweenRequests);
+
+        const imageResponse = await axios.get(imagesUrl, {
+          params: { zpid },
+          headers: {
+            'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          }
+        });
+
+        return { property: propertyResponse.data, images: imageResponse.data };
+      } catch (error) {
+        if (error.response && error.response.status === 429) {
+          console.error(`Rate limit exceeded. Waiting for ${delayBetweenRequests} milliseconds before retrying...`);
+          await delay(delayBetweenRequests);
+          return fetchPropertyData(zpid); // Retry the request
+        } else {
+          console.error(`Error fetching data for zpid ${zpid}:`, error.message);
+          return null; // Return null if there's an error
         }
-      });
-
-      // Introduce a delay before making the second request
-      await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-
-      const imageResponse = await axios.get(imagesUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-        }
-      });
-
-      return { property: propertyResponse.data, images: imageResponse.data };
+      }
     };
 
-    for (let i = 0; i < leaseListings.length; i++) {
-      const zpid = leaseListings[i].zpid;
-      const { property, images } = await fetchPropertyData(zpid);
+    const validForSaleListings = forSaleListings.filter(listing => !isNaN(listing.zpid)); // Filter out invalid zpids
+    const validListingsCount = validForSaleListings.length;
 
-      // Use property and images data as needed
-      infoDataArray.push({ ...property, images });
-      imageUrlsArray.push(images);
+    for (let i = 0; i < validForSaleListings.length; i++) {
+      const zpid = validForSaleListings[i].zpid;
+      const data = await fetchPropertyData(zpid);
 
-      if (i < leaseListings.length - 1) {
-        await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
-        sendProgressUpdate((i + 1) / leaseListings.length); // Send progress update
+      if (data) {
+        infoDataArray.push({ ...data.property, images: data.images });
+        imageUrlsArray.push(data.images);
+      } else {
+        // Remove the invalid listing from the forSaleListings array to ensure proper order
+        validForSaleListings.splice(i, 1);
+        i--; // Adjust the index to account for the removed element
+      }
+
+      if (i < validForSaleListings.length - 1) {
+        await delay(delayBetweenRequests);
+        sendProgressUpdate((i + 1) / validForSaleListings.length); // Send progress update
       }
     }
 
@@ -270,25 +283,24 @@ async function handleForSaleSearch(req, res) {
     const responseData = {
       lat,
       lng,
-      estate: estateResponse.data,
-      leaseListings: infoDataArray,
-      leaseImages: imageUrlsArray
-
+      estate: {
+        ...estateResponse.data,
+        props: validForSaleListings, // Ensure props only contains valid listings
+        totalResultCount: infoDataArray.length // Update the totalResultCount to match the valid listings count
+      },
+      forSaleListings: infoDataArray,
+      forSaleImages: imageUrlsArray
     };
     res.json({ success: true, data: responseData });
   } catch (error) {
-    console.error('Error fetching lease listings:', error);
-    res.status(500).json({ error: 'Failed to fetch lease listings' });
+    console.error('Error fetching for sale listings:', error);
+    res.status(500).json({ error: 'Failed to fetch for sale listings' });
   }
 }
-
 // Recently Sold
 async function handleRecentlySoldSearch(req, res) {
   try {
-
-
-    // Handle the search logic here based on the request body
-    const { address, state, page, country, sort, propertyType, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
+    const { address, state, page, sort, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
 
     const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM';
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
@@ -301,14 +313,14 @@ async function handleRecentlySoldSearch(req, res) {
     }
     const { lat, lng } = results[0].geometry.location;
 
-    // Fetch lease listings from Zillow
+    // Fetch recently sold listings from Zillow
     const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
       params: {
         location: `${address},${state}`,
         page: page,
         status_type: 'RecentlySold',
-        home_type: propertyType,
         sort: sort,
+        home_type: 'Houses, Townhomes',
         minPrice: minPrice,
         maxPrice: maxPrice,
         bathsMin: maxBaths,
@@ -320,9 +332,8 @@ async function handleRecentlySoldSearch(req, res) {
       }
     });
 
-    // Fetch additional info and images for each property
-    const leaseListings = estateResponse.data.props;
-    if (!leaseListings || leaseListings.length === 0) {
+    const recentlySoldListings = estateResponse.data.props;
+    if (!recentlySoldListings || recentlySoldListings.length === 0) {
       res.json({
         success: true,
         data: {
@@ -338,46 +349,66 @@ async function handleRecentlySoldSearch(req, res) {
       });
       return;
     }
+
     const infoDataArray = [];
     const imageUrlsArray = [];
 
     const fetchPropertyData = async (zpid) => {
-      const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-      const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+      try {
+        const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+        const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
 
-      const propertyResponse = await axios.get(propertyUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+        const propertyResponse = await axios.get(propertyUrl, {
+          params: { zpid },
+          headers: {
+            'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          }
+        });
+
+        // Introduce a delay before making the second request
+        await delay(delayBetweenRequests);
+
+        const imageResponse = await axios.get(imagesUrl, {
+          params: { zpid },
+          headers: {
+            'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
+          }
+        });
+
+        return { property: propertyResponse.data, images: imageResponse.data };
+      } catch (error) {
+        if (error.response && error.response.status === 429) {
+          console.error(`Rate limit exceeded. Waiting for ${delayBetweenRequests} milliseconds before retrying...`);
+          await delay(delayBetweenRequests);
+          return fetchPropertyData(zpid); // Retry the request
+        } else {
+          console.error(`Error fetching data for zpid ${zpid}:`, error.message);
+          return null; // Return null if there's an error
         }
-      });
-
-      // Introduce a delay before making the second request
-      await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-
-      const imageResponse = await axios.get(imagesUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': 'f2d3bb909amsh6900a426a40eabep10efc1jsn24e7f3d354d7',
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-        }
-      });
-
-      return { property: propertyResponse.data, images: imageResponse.data };
+      }
     };
 
-    for (let i = 0; i < leaseListings.length; i++) {
-      const zpid = leaseListings[i].zpid;
-      const { property, images } = await fetchPropertyData(zpid);
+    const validRecentlySoldListings = recentlySoldListings.filter(listing => !isNaN(listing.zpid)); // Filter out invalid zpids
+    const validListingsCount = validRecentlySoldListings.length;
 
-      // Use property and images data as needed
-      infoDataArray.push({ ...property, images });
-      imageUrlsArray.push(images);
+    for (let i = 0; i < validRecentlySoldListings.length; i++) {
+      const zpid = validRecentlySoldListings[i].zpid;
+      const data = await fetchPropertyData(zpid);
 
-      if (i < leaseListings.length - 1) {
-        await new Promise((resolve) => setTimeout(resolve, delayBetweenRequests));
-        sendProgressUpdate((i + 1) / leaseListings.length); // Send progress update
+      if (data) {
+        infoDataArray.push({ ...data.property, images: data.images });
+        imageUrlsArray.push(data.images);
+      } else {
+        // Remove the invalid listing from the recentlySoldListings array to ensure proper order
+        validRecentlySoldListings.splice(i, 1);
+        i--; // Adjust the index to account for the removed element
+      }
+
+      if (i < validRecentlySoldListings.length - 1) {
+        await delay(delayBetweenRequests);
+        sendProgressUpdate((i + 1) / validRecentlySoldListings.length); // Send progress update
       }
     }
 
@@ -385,21 +416,26 @@ async function handleRecentlySoldSearch(req, res) {
     const responseData = {
       lat,
       lng,
-      estate: estateResponse.data,
-      leaseListings: infoDataArray,
-      leaseImages: imageUrlsArray
-
+      estate: {
+        ...estateResponse.data,
+        props: validRecentlySoldListings, // Ensure props only contains valid listings
+        totalResultCount: infoDataArray.length // Update the totalResultCount to match the valid listings count
+      },
+      recentlySoldListings: infoDataArray,
+      recentlySoldImages: imageUrlsArray
     };
     res.json({ success: true, data: responseData });
   } catch (error) {
-    console.error('Error fetching lease listings:', error);
-    res.status(500).json({ error: 'Failed to fetch lease listings' });
+    console.error('Error fetching recently sold listings:', error);
+    res.status(500).json({ error: 'Failed to fetch recently sold listings' });
   }
 }
 
 // Middleware to limit requests and add them to the queue
-app.post('/api/search-listings-lease', async (req, res) => {
-  addToQueue(req, res, handleLeaseSearch);
+app.post('/api/search-listings-lease', (req, res) => {
+  const ws = clients[0]; // Assuming a single client for simplicity, adjust as needed
+  handleLeaseSearch(ws, req);
+  res.sendStatus(200); // Immediate response to acknowledge receipt
 });
 
 app.post('/api/search-listings-forsale', async (req, res) => {
