@@ -38,6 +38,7 @@ const [selectedBeds, setSelectedBeds] = useState('');
 const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
+const apiKey = process.env.GOOGLE_API_KEY;
 
 
 
@@ -356,29 +357,32 @@ const handleNPage = async (e) => {
       clearInterval(interval);
     }
   };
-      const handleOpenLightbox = (index) => {
-        setSelectedCardIndex(index);
-        setLightboxActive(true);
-        setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
-        (async () => {
-      // Update map location when a card is clicked
-      const selectedProperty = apiData.estate.props[index];
-      await updateMapLocation(selectedProperty.address);
-    })();
-      };
+  const handleOpenLightbox = (index) => {
+    setSelectedCardIndex(index);
+    console.log(selectedCardIndex)
+    setLightboxActive(true);
+    setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
+    (async () => {
+  // Update map location when a card is clicked
+  const selectedProperty = apiData[index];
+  await updateMapLocation(selectedProperty.address.streetAddress + selectedProperty.address.city + selectedProperty.address.state);
+})();
+  };
     
       const handleCloseLightbox = () => {
         setSelectedCardIndex(null);
         setLightboxActive(false);
+        console.log(selectedCardIndex)
+
       };
-      const handleNextImage = () => {
-        const nextIndex = (currentImageIndex + 1) % infoData[selectedCardIndex].images.images.length;
-        setCurrentImageIndex(nextIndex);
-      };
-      
       const handlePrevImage = () => {
-        const prevIndex = (currentImageIndex - 1 + infoData[selectedCardIndex].images.images.length) % infoData[selectedCardIndex].images.images.length;
+        const prevIndex = (currentImageIndex - 1 + infoData[selectedCardIndex].images.length) % infoData[selectedCardIndex].images.images.length;
         setCurrentImageIndex(prevIndex);
+      };
+    
+      const handleNextImage = () => {
+        const nextIndex = (currentImageIndex + 1) % infoData[selectedCardIndex].images.length;
+        setCurrentImageIndex(nextIndex);
       };
       function formatNumberWithCommas(number) {
         if (typeof number === 'undefined' || number === null) {
@@ -674,50 +678,50 @@ return (
         )
       )}
 
-    {lightboxActive && selectedCardIndex !== null && (
-      <div className="lightbox notranslate" onClick={handleCloseLightbox}>
-        <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
-          {/* Lightbox content goes here */}
-          {infoData[selectedCardIndex] && infoData[selectedCardIndex].images && (
-            <>
-              <div className='aver'>
-                <div className='pAddress-1 notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')+" - "+ 
-                safeAccess(infoData[selectedCardIndex], 'address.city') +" , "+ safeAccess(infoData[selectedCardIndex], 'address.state')
-                }</div>
-                <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
-                  Close
-                </button>
-              </div>
-              <div className='side-by-side-container notranslate'>
-                <div className='fixer notranslate'>
-                  <button className="lightbox-left notranslate" onClick={handlePrevImage}>
-                  &#8678;
+{lightboxActive && selectedCardIndex !== null && (
+        <div className="lightbox notranslate" onClick={handleCloseLightbox}>
+          <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
+            {apiData[selectedCardIndex] && (
+              <>
+                <div className='aver'>
+                  <div className='pAddress-1 notranslate'>
+                    {safeAccess(apiData[selectedCardIndex], 'address.streetAddress') + " " + safeAccess(apiData[selectedCardIndex], 'address.zipcode') + " - " +
+                      safeAccess(apiData[selectedCardIndex], 'address.city') + " , " + safeAccess(apiData[selectedCardIndex], 'address.state')}
+                  </div>
+                  <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
+                    Close
                   </button>
-                  <img src={infoData[selectedCardIndex].images.images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
-                  <button className="lightbox-right notranslate" onClick={handleNextImage}>
-                  &#8680;
-                  </button> 
-                </div> 
-                <div className="cardText notranslate">
-                  <div className='containText notranslate'>
-                    <div className='pAddress notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')}</div>
-                    <div className='pPrice notranslate'>${safeAccess(infoData[selectedCardIndex], 'price')}/Month</div>
-                    <div className='heallin'>
-                      <div className='bedd'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                      <div className='bathh'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                      <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>            
+                </div>
+                <div className='side-by-side-container notranslate'>
+                  <div className='fixer notranslate'>
+                    <button className="lightbox-left notranslate" onClick={handlePrevImage}>
+                      &#8678;
+                    </button>
+                    <img src={infoData[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
+                    <button className="lightbox-right notranslate" onClick={handleNextImage}>
+                      &#8680;
+                    </button>
+                  </div>
+                  <div className="cardText notranslate">
+                    <div className='containText notranslate'>
+                      <div className='pAddress notranslate'>{safeAccess(apiData[selectedCardIndex], 'address.streetAddress') + " " + safeAccess(apiData[selectedCardIndex], 'address.zipcode')}</div>
+                      <div className='pPrice notranslate'>${safeAccess(apiData[selectedCardIndex], 'price')}/Month</div>
+                      <div className='heallin'>
+                        <div className='bedd'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div className='bathh'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div className='dayss'>&nbsp; Active ({safeAccess(apiData[selectedCardIndex], 'timeOnZillow')})</div>
+                      </div>
+                      <div className='descText notranslate'>{safeAccess(apiData[selectedCardIndex], 'description')}</div>
+                      <div className='holding1 notranslate'>
+                        <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(apiData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
+                        <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(apiData[selectedCardIndex], 'resoFacts.heating.0')} &nbsp;</div>
+                        <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(apiData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
+                        <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(apiData[selectedCardIndex], 'mlsid')}&nbsp;</div>
+                        <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(apiData[selectedCardIndex], 'brokerageName')}&nbsp;</div>
+                      </div>
                     </div>
-                    <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
-                    <div className='holding1 notranslate'>
-                      <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(infoData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
-                      <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')} &nbsp;</div>
-                      <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
-                      <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}&nbsp;</div>
-                      <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}&nbsp;</div>  
-                    </div> 
                   </div>
                 </div>
-              </div>
           <div className='map notranslate'>
             <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
               <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >

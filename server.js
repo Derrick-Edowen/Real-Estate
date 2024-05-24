@@ -16,7 +16,7 @@ const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
 const limiter = new Bottleneck({
   maxConcurrent: 1,
-  minTime: 1500
+  minTime: 1100
 });
 
 // Middleware
