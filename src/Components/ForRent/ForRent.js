@@ -107,8 +107,10 @@ const handleSearch = async (e) => {
     }
 
     // WebSocket connection
-    const ws = new WebSocket('ws://localhost:3001');
-
+    const wsPort = window.location.port; // Use the port of your backend
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = window.location.hostname;
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
     // WebSocket event listeners
     ws.onopen = function () {
     };
@@ -647,7 +649,7 @@ return (
                   </div>
                 </div>
           <div className='map notranslate'>
-            <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
+            <APIProvider apiKey={apiKey}>
               <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >
                 <Marker position={position}/>
               </Map>

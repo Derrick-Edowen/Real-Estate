@@ -6,6 +6,7 @@ import './Index.css'
 
 //Get better pictures
 //Incorporate Google Translate
+//Change image everytime like background
 
 function Home() {
 
