@@ -447,8 +447,7 @@ app.post('/api/search-listings-recentlySold', async (req, res) => {
 });
 app.post('/api/geocode', async (req, res) => {
   const { address } = req.body;
-  const apiKey = 'AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'; // Replace with your Google Maps API key
-  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+  const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${process.env.GOOGLE_API_KEY}`;
 
   try {
     const response = await fetch(geocodeUrl);

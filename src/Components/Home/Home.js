@@ -16,14 +16,14 @@ function Home() {
         <div className='overLay'>
         <img className='mainimg' src={man1} alt='man'></img>
         <div className='textBox'>
-          <h1>Let me help you</h1> 
-          <h2>find your dream home in the GTA!</h2>
-          <p>There are a lot of moving parts when it comes to brokerage and REALTOR® websites.
-          Over the years our real estate websites have evolved and delivers results.</p>
+          <h2>As your trusted advisor, I offer tailored solutions and unwavering support
+            to help you navigate the dynamic real estate market with confidence.</h2> 
+          <p>Whether you're a first-time buyer, seasoned investor, or seeking to sell your property, I'm here to make your real estate dreams a reality.
+           </p>
           <div className='meat'>
           <Link to="/Contact Me">
           <button  className="contactBtn">
-              Let's Talk!
+              Let's Talk
           </button>
           </Link>
           </div>

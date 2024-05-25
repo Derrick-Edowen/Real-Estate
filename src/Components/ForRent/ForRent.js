@@ -29,7 +29,6 @@ const [page, setPage] = useState(1);
 const [showFilter, setShowFilter] = useState(false);
 const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
-const [progress, setProgress] = useState(0);
 const [selectedProvince, setSelectedProvince] = useState('');
 const [selectedState, setSelectedState] = useState('');
 const [selectedSort, setSelectedSort] = useState('');
@@ -45,7 +44,6 @@ const apiKey = process.env.GOOGLE_API_KEY;
 const updateMapLocation = async (address) => {
   try {
     setIsLoading(true); // Set loading state to true during data fetching
-
     const response = await fetch('/api/geocode', {
       method: 'POST',
       headers: {
@@ -57,8 +55,9 @@ const updateMapLocation = async (address) => {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    const { results } = data;
-    if (results && results.length > 0) {
+
+    const { results, status } = data;
+    if (status === 'OK' && results && results.length > 0) {
       const { lat, lng } = results[0].geometry.location;
       setPosition({ lat, lng });
       setZoomLevel(16); // Set your desired zoom level here
@@ -72,51 +71,10 @@ const updateMapLocation = async (address) => {
     setIsLoading(false); // Ensure loading state is set to false in case of error
   }
 };
-  const handleCardClick = (index) => {
-    setSelectedCard(apiData.estate.props[index]);
-    
-    (async () => {
-      // Update map location when a card is clicked
-      const selectedProperty = apiData.estate.props[index];
-      await updateMapLocation(selectedProperty.address);
-    })();
-  };
-  /*
-  ws.onopen = function () {
-  };
-  let progressTimer;
-
-  // Receive progress updates from WebSocket
-  ws.onmessage = function (event) {
-    try {
-      const data = JSON.parse(event.data);
-      const progress = data.progress * 100;
-      setProgress(progress); // Update progress state or progress bar
-      if (progress === 100) {
-        // Reset progress bar to 0% after 3 seconds
-        clearTimeout(progressTimer);
-        progressTimer = setTimeout(() => {
-          setProgress(0);
-        }, 3000);
-      }
-    } catch (error) {
-      // Ignore the error and do nothing
-    }
-  };*/
+  
   useEffect(() => {
     // This will trigger a re-render after initialData, apiData, and infoData have been updated
 }, [initialData, apiData, infoData]);
-useEffect(() => {
-  console.log('initialData:', initialData);
-}, [initialData]);
-
-useEffect(() => {
-  console.log('apiData:', apiData);
-}, [apiData]);
-
-useEffect(() => {
-  console.log('infoData:', infoData);
-}, [infoData]);
 const handleSearch = async (e) => {
   setIsRotated(!isRotated);
   e.preventDefault();
@@ -153,14 +111,12 @@ const handleSearch = async (e) => {
 
     // WebSocket event listeners
     ws.onopen = function () {
-      console.log('WebSocket connection opened');
     };
 
     // Receive progress updates and property data from WebSocket
     ws.onmessage = function (event) {
       try {
         const data = JSON.parse(event.data);
-        console.log('Data received from WebSocket:', data); // Log received data
 
         if (data.zpids) {
           // Update initialDataRef.current and initialData with new data
@@ -172,10 +128,8 @@ const handleSearch = async (e) => {
           setApiData((prevData) => [...prevData, data.property]);
           setInfoData((prevData) => [...prevData, data.images]);
         } else if (data.progress) {
-          setProgress(data.progress * 100); // Update progress state or progress bar
         }
       } catch (error) {
-        console.error('Error parsing WebSocket message:', error.message);
       }
     };
 
@@ -184,7 +138,6 @@ const handleSearch = async (e) => {
     };
 
     ws.onclose = function () {
-      console.log('WebSocket connection closed');
     };
 
     // Make API call
@@ -211,7 +164,6 @@ const handleSearch = async (e) => {
     }
 
     setIsLoading(false);
-    setProgress(100);
 
   } catch (error) {
     console.error('Error in handleSearch:', error);
@@ -223,15 +175,6 @@ const handleNPage = async (e) => {
     setIsRotated(!isRotated);
     e.preventDefault();
     setShowFilter(false);
-  
-    const progressBar = document.querySelector('.progress-bar');
-    progressBar.style.width = '0%';
-    const interval = setInterval(() => {
-      progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
-      if (parseInt(progressBar.style.width) >= 100) {
-        clearInterval(interval);
-      }
-    }, 5);
   
     const address = document.getElementById('search').value;
     let state = '';
@@ -278,14 +221,9 @@ const handleNPage = async (e) => {
       // Handle the response data as needed
   
       setIsLoading(false);
-      progressBar.style.width = '100%';
-      setTimeout(() => {
-        progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
-      }, 2000);
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
-      clearInterval(interval);
     }
   };
   const handlePPage = async (e) => {
@@ -293,14 +231,6 @@ const handleNPage = async (e) => {
     e.preventDefault();
     setShowFilter(false);
   
-    const progressBar = document.querySelector('.progress-bar');
-    progressBar.style.width = '0%';
-    const interval = setInterval(() => {
-      progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
-      if (parseInt(progressBar.style.width) >= 100) {
-        clearInterval(interval);
-      }
-    }, 5);
   
     const address = document.getElementById('search').value;
     let state = '';
@@ -347,36 +277,30 @@ const handleNPage = async (e) => {
       // Handle the response data as needed
   
       setIsLoading(false);
-      progressBar.style.width = '100%';
-      setTimeout(() => {
-        progressBar.style.width = '0%'; // Reset progress bar to 0% after another 2 seconds
-      }, 2000);
+      
     } catch (error) {
       console.error('Error fetching data:', error);
       setIsLoading(false);
-      clearInterval(interval);
     }
   };
   const handleOpenLightbox = (index) => {
     setSelectedCardIndex(index);
-    console.log(selectedCardIndex)
     setLightboxActive(true);
     setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
     (async () => {
-  // Update map location when a card is clicked
-  const selectedProperty = apiData[index];
-  await updateMapLocation(selectedProperty.address.streetAddress + selectedProperty.address.city + selectedProperty.address.state);
-})();
+      // Update map location when a card is clicked
+      const selectedProperty = apiData[index];
+      const fullAddress = `${selectedProperty.address.streetAddress}, ${selectedProperty.address.city}, ${selectedProperty.address.state}`;
+      await updateMapLocation(fullAddress);
+    })();
   };
     
       const handleCloseLightbox = () => {
         setSelectedCardIndex(null);
         setLightboxActive(false);
-        console.log(selectedCardIndex)
-
       };
       const handlePrevImage = () => {
-        const prevIndex = (currentImageIndex - 1 + infoData[selectedCardIndex].images.length) % infoData[selectedCardIndex].images.images.length;
+        const prevIndex = (currentImageIndex - 1 + infoData[selectedCardIndex].images.length) % infoData[selectedCardIndex].images.length;
         setCurrentImageIndex(prevIndex);
       };
     
@@ -652,7 +576,7 @@ return (
                 onClick={() => handleOpenLightbox(index)}
               >
                 <div className='indigo'>
-                  <img className='mommy' src={property.imgSrc || infoData[index]?.imgSrc || noImg} alt={'Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
+                  <img className='mommy' src={property.imgSrc || infoData[index]?.imgSrc || noImg} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
                   <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))}
                   </div>
                 </div>
@@ -705,7 +629,7 @@ return (
                   <div className="cardText notranslate">
                     <div className='containText notranslate'>
                       <div className='pAddress notranslate'>{safeAccess(apiData[selectedCardIndex], 'address.streetAddress') + " " + safeAccess(apiData[selectedCardIndex], 'address.zipcode')}</div>
-                      <div className='pPrice notranslate'>${safeAccess(apiData[selectedCardIndex], 'price')}/Month</div>
+                      <div className='pPrice notranslate'>${formatNumberWithCommas(safeAccess(apiData[selectedCardIndex], 'price'))}/Month</div>
                       <div className='heallin'>
                         <div className='bedd'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
                         <div className='bathh'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -739,9 +663,6 @@ return (
           </>
         )}
       </main>
-      <div className="progress-container">
-      <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-</div>
 
   </div>
   
