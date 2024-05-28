@@ -368,6 +368,13 @@ width: fit-content;
 
   max-height: 715px;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
 }
 
 .pPrice  {

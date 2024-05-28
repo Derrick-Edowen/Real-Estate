@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import placeHolder from '../../Assets/Images/minilogo.PNG'
 import './Index.css'
 import manH from '../../Assets/Images/man1-PhotoRoom2.png'
 import { useLocation } from 'react-router-dom';
@@ -50,12 +49,8 @@ function Header() {
   return (
 
     <nav className={`navbar ${navActive ? "active" : ""}`}>
-      <div className="heading">
-      <div className="holder">
-            <img className="holderImg" src={placeHolder} alt="Brokerage Logo" />
-          </div>        
-          <h2>One Estate<br />
-          Web Services Sample</h2>
+      <div className="heading">      
+          <h2>One Estate Web Services</h2>
       </div>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}

@@ -6,6 +6,7 @@ import noImg from '../../Assets/Images/noimg.jpg'
 import FadeLoader from "react-spinners/FadeLoader";
 import Footer from '../Footer/Footer';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
 
 
 function ForRent() {
@@ -37,7 +38,8 @@ const [selectedBeds, setSelectedBeds] = useState('');
 const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
-const apiKey = process.env.GOOGLE_API_KEY;
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+const [ws, setWs] = useState(null);
 
 
 
@@ -71,11 +73,117 @@ const updateMapLocation = async (address) => {
     setIsLoading(false); // Ensure loading state is set to false in case of error
   }
 };
-  
-  useEffect(() => {
-    // This will trigger a re-render after initialData, apiData, and infoData have been updated
-}, [initialData, apiData, infoData]);
+
 const handleSearch = async (e) => {
+  e.preventDefault();
+  setIsRotated(!isRotated);
+  setShowFilter(false);
+  setInitialData(null);
+  setApiData([]);
+  setInfoData([]);
+  initialDataRef.current = null;
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }
+  const sort = document.getElementById('sortList').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
+  const page = 1;
+  const type = 1;
+
+  try {
+    setIsLoading(true);
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
+      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+      return;
+    }
+
+    // WebSocket connection
+    const id = uuidv4(); // Generate a unique ID for this client
+    const wsPort = window.location.port; // Use the port of your backend
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = window.location.hostname;
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
+    
+    // WebSocket event listeners
+    ws.onopen = function () {
+      ws.send(JSON.stringify({ id })); // Send the unique identifier to the server upon connection
+
+      // Make API call with the unique ID only after WebSocket is open
+      fetch('/api/search-listings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id, // Include the unique ID in the request body
+          address,
+          state,
+          page,
+          type,
+          country,
+          sort,
+          minPrice,
+          maxPrice,
+          maxBeds,
+          maxBaths,
+        }),
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        setIsLoading(false);
+      }).catch(error => {
+        console.error('Error in handleSearch:', error);
+        setIsLoading(false);
+      });
+    };
+
+    // Receive progress updates and property data from WebSocket
+    ws.onmessage = function (event) {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.noResults) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+        if (data.zpids) {
+          initialDataRef.current = data.zpids;
+          setInitialData(data.zpids);
+        }
+
+        if (data.property) {
+          setApiData((prevData) => [...prevData, data.property]);
+          setInfoData((prevData) => [...prevData, data.images]);
+        } 
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
+    };
+
+    ws.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+    };
+
+  } catch (error) {
+    console.error('Error in handleSearch:', error);
+    setIsLoading(false);
+  }
+};
+
+const handleNPage = async (e) => {
   setIsRotated(!isRotated);
   e.preventDefault();
   setShowFilter(false);
@@ -97,7 +205,8 @@ const handleSearch = async (e) => {
   const maxPrice = document.getElementById('max-price').value;
   const maxBeds = document.getElementById('choose-beds').value;
   const maxBaths = document.getElementById('choose-baths').value;
-  const page = 1;
+  const page = nextPage + 1;
+  const type = 1;
 
   try {
     setIsLoading(true);
@@ -110,7 +219,8 @@ const handleSearch = async (e) => {
     const wsPort = window.location.port; // Use the port of your backend
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     const wsHost = window.location.hostname;
-    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
+
     // WebSocket event listeners
     ws.onopen = function () {
     };
@@ -119,9 +229,12 @@ const handleSearch = async (e) => {
     ws.onmessage = function (event) {
       try {
         const data = JSON.parse(event.data);
-
+        if (data.noResults) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
         if (data.zpids) {
-          // Update initialDataRef.current and initialData with new data
           initialDataRef.current = data.zpids;
           setInitialData(data.zpids);
         }
@@ -129,9 +242,9 @@ const handleSearch = async (e) => {
         if (data.property) {
           setApiData((prevData) => [...prevData, data.property]);
           setInfoData((prevData) => [...prevData, data.images]);
-        } else if (data.progress) {
-        }
+        } 
       } catch (error) {
+        console.error('Error processing WebSocket message:', error);
       }
     };
 
@@ -143,7 +256,7 @@ const handleSearch = async (e) => {
     };
 
     // Make API call
-    const response = await fetch('/api/search-listings-lease', {
+    const response = await fetch('/api/search-listings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -152,6 +265,7 @@ const handleSearch = async (e) => {
         address,
         state,
         page,
+        type,
         country,
         sort,
         minPrice,
@@ -172,119 +286,109 @@ const handleSearch = async (e) => {
     setIsLoading(false);
   }
 };
-
-const handleNPage = async (e) => {
-    setIsRotated(!isRotated);
-    e.preventDefault();
-    setShowFilter(false);
-  
-    const address = document.getElementById('search').value;
-    let state = '';
-    const country = document.getElementById('country').value;
-    if (country === 'Canada') {
-      state = document.getElementById('province').value;
-    } else if (country === 'USA') {
-      state = document.getElementById('state').value;
-    }
-    const sort = document.getElementById('sortList').value;
-    const minPrice = document.getElementById('min-price').value;
-    const maxPrice = document.getElementById('max-price').value;
-    const maxBeds = document.getElementById('choose-beds').value;
-    const maxBaths = document.getElementById('choose-baths').value;
-  const page = nextPage + 1;
-    try {
-      setIsLoading(true);
-  
-      const response = await fetch('/api/search-listings-lease', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          address,
-          state,
-          page,
-          country,
-          sort,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths
-        })
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      setApiData(data.data);
-      setInfoData(data.data.leaseListings);
-      // Handle the response data as needed
-  
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setIsLoading(false);
-    }
-  };
   const handlePPage = async (e) => {
     setIsRotated(!isRotated);
-    e.preventDefault();
-    setShowFilter(false);
-  
-  
-    const address = document.getElementById('search').value;
-    let state = '';
-    const country = document.getElementById('country').value;
-    if (country === 'Canada') {
-      state = document.getElementById('province').value;
-    } else if (country === 'USA') {
-      state = document.getElementById('state').value;
-    }
-    const sort = document.getElementById('sortList').value;
-    const minPrice = document.getElementById('min-price').value;
-    const maxPrice = document.getElementById('max-price').value;
-    const maxBeds = document.getElementById('choose-beds').value;
-    const maxBaths = document.getElementById('choose-baths').value;
+  e.preventDefault();
+  setShowFilter(false);
+  setInitialData(null);
+  setApiData([]);
+  setInfoData([]);
+  initialDataRef.current = null;
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }
+  const sort = document.getElementById('sortList').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
   const page = nextPage - 1;
-    try {
-      setIsLoading(true);
-  
-      const response = await fetch('/api/search-listings-lease', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          address,
-          state,
-          page,
-          country,
-          sort,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths
-        })
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      setApiData(data.data);
-      setInfoData(data.data.leaseListings);
-      // Handle the response data as needed
-  
-      setIsLoading(false);
-      
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setIsLoading(false);
+  const type = 1;
+
+  try {
+    setIsLoading(true);
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
+      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+      return;
     }
-  };
+
+    // WebSocket connection
+    const wsPort = window.location.port; // Use the port of your backend
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = window.location.hostname;
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
+
+    // WebSocket event listeners
+    ws.onopen = function () {
+    };
+
+    // Receive progress updates and property data from WebSocket
+    ws.onmessage = function (event) {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.noResults) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+        if (data.zpids) {
+          initialDataRef.current = data.zpids;
+          setInitialData(data.zpids);
+        }
+
+        if (data.property) {
+          setApiData((prevData) => [...prevData, data.property]);
+          setInfoData((prevData) => [...prevData, data.images]);
+        } 
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
+    };
+
+    ws.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+    };
+
+    // Make API call
+    const response = await fetch('/api/search-listings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        state,
+        page,
+        type,
+        country,
+        sort,
+        minPrice,
+        maxPrice,
+        maxBeds,
+        maxBaths,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    setIsLoading(false);
+
+  } catch (error) {
+    console.error('Error in handleSearch:', error);
+    setIsLoading(false);
+  }
+};
   const handleOpenLightbox = (index) => {
     setSelectedCardIndex(index);
     setLightboxActive(true);
@@ -324,9 +428,9 @@ const handleNPage = async (e) => {
   };
   function safeAccess(obj, path) {
     if (!path || typeof path !== 'string') {
-      return "Information Unavailable";
+      return "Undisclosed";
     }
-    return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Information Unavailable"), obj);
+    return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Undisclosed"), obj);
   }
 
   const handlePrevPage = (e) => {
@@ -494,6 +598,9 @@ return (
   <option value="Payment_Low_High">Descending - Price</option>
   <option value="Lot_Size">Lot Size</option>
   <option value="Square_Feet">Square Footage</option>
+  <option value="Bedrooms">Bedrooms</option>
+  <option value="Bathrooms">Bathrooms</option>
+
 </select>
 
                     <select className='notranslate' 
@@ -597,7 +704,7 @@ return (
           ))}
         </div>
       ) : (
-        initialData && initialData.props && initialData.props.length === 0 && (
+        noResults && (
           <div className="noResultsMessage">
             Sorry, No Listings Found!
           </div>

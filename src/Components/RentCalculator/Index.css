@@ -272,7 +272,6 @@ min-width: 96%;
     }
     .meth  {
       font-size: 18px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
       min-width: 99%;
   padding: 8px;
   margin-left: auto;
@@ -326,7 +325,6 @@ margin-top: 0px;
 
   .meth  {
     font-size: 16px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
     width: 85%;
 padding: 8px;
 border-radius: 5px;
@@ -376,7 +374,6 @@ padding-top: 8px;
   width: 33.33%;
   font-size: 18px;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
   color: #1e0030fc;
   font-weight: 500;
   
@@ -385,7 +382,6 @@ padding-top: 8px;
     width: 33.33%;
     font-size: 18px;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
   color: #1e0030fc;
   font-weight: 500;
   
@@ -394,7 +390,6 @@ padding-top: 8px;
     width: 33.33%;
     font-size: 18px;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
   color: #1e0030fc;
   font-weight: 500;
   
@@ -467,7 +462,6 @@ margin-top: 0px;
 
   .meth  {
     font-size: 12px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
     width: 85%;
 padding: 8px;
 border-radius: 5px;
@@ -562,7 +556,6 @@ margin-top: 0px;
 
   .meth  {
     font-size: 12px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
     width: 85%;
 padding: 8px;
 border-radius: 5px;

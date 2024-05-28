@@ -17,9 +17,9 @@ function Home() {
         <div className='overLay'>
         <img className='mainimg' src={man1} alt='man'></img>
         <div className='textBox'>
-          <h2>As your trusted advisor, I offer tailored solutions and unwavering support
-            to help you navigate the dynamic real estate market with confidence.</h2> 
-          <p>Whether you're a first-time buyer, seasoned investor, or seeking to sell your property, I'm here to make your real estate dreams a reality.
+          <h1>One Estate Web Services</h1> 
+          <h2>Subscribe for personalized REALTOR&reg; websites</h2> 
+          <p>Work 1 on 1 with our developers to build your custom website, and improve your online presence today!
            </p>
           <div className='meat'>
           <Link to="/Contact Me">

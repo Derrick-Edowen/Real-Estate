@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
 import FadeLoader from "react-spinners/FadeLoader";
 import '../../search.css'
 import Footer from '../Footer/Footer';
+import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
 
 function RecentlySold() {
-  const [apiData, setApiData] = useState(null);
-  const [infoData, setInfoData] = useState(null);
+  const [initialData, setInitialData] = useState(null);
+  const [apiData, setApiData] = useState([]);
+  const [infoData, setInfoData] = useState([]);
   const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
   const [cardIndex, setCardIndex] = useState(0);
   const [searchClicked, setSearchClicked] = useState(false); 
@@ -28,365 +30,389 @@ function RecentlySold() {
   const [selectedCountry, setSelectedCountry] = useState('Canada'); // Initialize selected country state to 'Canada'
   const [progress, setProgress] = useState(0);
   const [selectedProvince, setSelectedProvince] = useState('');
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedSort, setSelectedSort] = useState('');
-  const [selectedPropertyType, setSelectedPropertyType] = useState('');
-  const [selectedBeds, setSelectedBeds] = useState('');
-  const [selectedBaths, setSelectedBaths] = useState('');
-  const [selectedCountries, setSelectedCountries] = useState('');
+const [selectedState, setSelectedState] = useState('');
+const [selectedSort, setSelectedSort] = useState('');
+const [selectedPropertyType, setSelectedPropertyType] = useState('');
+const [selectedBeds, setSelectedBeds] = useState('');
+const [selectedBaths, setSelectedBaths] = useState('');
+const [selectedCountries, setSelectedCountries] = useState('');
+const initialDataRef = useRef(null);
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+const [ws, setWs] = useState(null);
 
-  const wsPort = window.location.port; // Use the port of your backend
-  const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  const wsHost = window.location.hostname;
-  const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}`);
   
   
 
-  const updateMapLocation = async (address) => {
-    try {
-      setIsLoading(true); // Set loading state to true during data fetching
-  
-      const response = await fetch('/api/geocode', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ address }),
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      const { results } = data;
-      if (results && results.length > 0) {
-        const { lat, lng } = results[0].geometry.location;
-        setPosition({ lat, lng });
-        setZoomLevel(16); // Set your desired zoom level here
-      } else {
-        window.alert('Location Not Found: Try Using More Descriptive Words!');
-      }
-  
-      setIsLoading(false); // Set loading state to false after data is fetched
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setIsLoading(false); // Ensure loading state is set to false in case of error
+const updateMapLocation = async (address) => {
+  try {
+    setIsLoading(true); // Set loading state to true during data fetching
+    const response = await fetch('/api/geocode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ address }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
-  };
-  const handleCardClick = (index) => {
-    setSelectedCard(apiData.estate.props[index]);
-    
-    (async () => {
-      // Update map location when a card is clicked
-      const selectedProperty = apiData.estate.props[index];
-      await updateMapLocation(selectedProperty.address);
-    })();
-  };
+    const data = await response.json();
 
-  ws.onopen = function () {
-    console.log('WebSocket connected');
-  };
-  let progressTimer;
+    const { results, status } = data;
+    if (status === 'OK' && results && results.length > 0) {
+      const { lat, lng } = results[0].geometry.location;
+      setPosition({ lat, lng });
+      setZoomLevel(16); // Set your desired zoom level here
+    } else {
+      window.alert('Location Not Found: Try Using More Descriptive Words!');
+    }
 
-  // Receive progress updates from WebSocket
-  ws.onmessage = function (event) {
-    try {
-      const data = JSON.parse(event.data);
-      const progress = data.progress * 100;
-      setProgress(progress); // Update progress state or progress bar
-      if (progress === 100) {
-        // Reset progress bar to 0% after 3 seconds
-        clearTimeout(progressTimer);
-        progressTimer = setTimeout(() => {
-          setProgress(0);
-        }, 3000);
-      }
-    } catch (error) {
-      // Ignore the error and do nothing
-    }
-  };
-  
-  
-  const handleSearch = async (e) => {
-    setIsRotated(!isRotated);
-    e.preventDefault();
-    setShowFilter(false);
-  
-    const progressBar = document.querySelector('.progress-bar');
-    progressBar.style.width = '0%';
-    const interval = setInterval(() => {
-      progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
-      if (parseInt(progressBar.style.width) >= 100) {
-        clearInterval(interval);
-      }
-    }, 5);
-    const address = document.getElementById('search').value;
-    let state = '';
-    const country = document.getElementById('country').value;
-    if (country === 'Canada') {
-      state = document.getElementById('province').value;
-    } else if (country === 'USA') {
-      state = document.getElementById('state').value;
-    }
-    const sort = document.getElementById('sortList').value;
-    const minPrice = document.getElementById('min-price').value;
-    const maxPrice = document.getElementById('max-price').value;
-    const maxBeds = document.getElementById('choose-beds').value;
-    const maxBaths = document.getElementById('choose-baths').value;
+    setIsLoading(false); // Set loading state to false after data is fetched
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setIsLoading(false); // Ensure loading state is set to false in case of error
+  }
+};
+
+const handleSearch = async (e) => {
+  setIsRotated(!isRotated);
+  e.preventDefault();
+  setShowFilter(false);
+  setInitialData(null);
+  setApiData([]);
+  setInfoData([]);
+  initialDataRef.current = null;
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }
+  const sort = document.getElementById('sortList').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
   const page = 1;
-    try {
-      setIsLoading(true);
-      if (parseInt(minPrice) > parseInt(maxPrice)) {
-        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
-        return;
-      }
-  
-      // WebSocket event listeners
-      ws.onopen = function () {
-        console.log('WebSocket connected');
-      };
-  
-      // Receive progress updates from WebSocket
-      ws.onmessage = function (event) {
-        const data = JSON.parse(event.data);
-        const progress = data.progress * 100;
-        console.log('Progress:', progress);
-        setProgress(progress); // Update progress state or progress bar
-      };
-  
-      const response = await fetch('/api/search-listings-recentlySold', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          address,
-          state,
-          page,
-          country,
-          sort,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths
-        })
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      setApiData(data.data);
-      setInfoData(data.data.leaseListings);
-      // Handle the response data as needed
-  
-      setIsLoading(false);
-      setProgress(100);
-      clearTimeout(progressTimer);
-      progressTimer = setTimeout(() => {
-        setProgress(0);
-      }, 2000);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setIsLoading(false);
-      clearInterval(interval);
-    }
-  };
+  const type = 3;
 
 
-  const handleNPage = async (e) => {
-    e.preventDefault();
-    setShowFilter(false);
-  
-    const progressBar = document.querySelector('.progress-bar');
-    progressBar.style.width = '0%';
-    const interval = setInterval(() => {
-      progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
-      if (parseInt(progressBar.style.width) >= 100) {
-        clearInterval(interval);
-      }
-    }, 5);
-    const address = document.getElementById('search').value;
-    let state = '';
-    const country = document.getElementById('country').value;
-    if (country === 'Canada') {
-      state = document.getElementById('province').value;
-    } else if (country === 'USA') {
-      state = document.getElementById('state').value;
+  try {
+    setIsLoading(true);
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
+      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+      return;
     }
-    const sort = document.getElementById('sortList').value;
-    const minPrice = document.getElementById('min-price').value;
-    const maxPrice = document.getElementById('max-price').value;
-    const maxBeds = document.getElementById('choose-beds').value;
-    const maxBaths = document.getElementById('choose-baths').value;
-    const page = nextPage + 1;
-    try {
-      setIsLoading(true);
-      if (parseInt(minPrice) > parseInt(maxPrice)) {
-        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
-        return;
-      }
-  
-      // WebSocket event listeners
-      ws.onopen = function () {
-        console.log('WebSocket connected');
-      };
-  
-      // Receive progress updates from WebSocket
-      ws.onmessage = function (event) {
-        const data = JSON.parse(event.data);
-        const progress = data.progress * 100;
-        console.log('Progress:', progress);
-        setProgress(progress); // Update progress state or progress bar
-      };
-  
-      const response = await fetch('/api/search-listings-recentlySold', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          address,
-          state,
-          page,
-          country,
-          sort,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths
-        })
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-  
-      const data = await response.json();
-      setApiData(data.data);
-      setInfoData(data.data.leaseListings);
-      // Handle the response data as needed
-  
-      setIsLoading(false);
-      setProgress(100);
-      clearTimeout(progressTimer);
-      progressTimer = setTimeout(() => {
-        setProgress(0);
-      }, 2000);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setIsLoading(false);
-      clearInterval(interval);
-    }
-  };
 
-  const handlePPage = async (e) => {
-    e.preventDefault();
-    setShowFilter(false);
-  
-    const progressBar = document.querySelector('.progress-bar');
-    progressBar.style.width = '0%';
-    const interval = setInterval(() => {
-      progressBar.style.width = `${parseInt(progressBar.style.width) + 1}%`;
-      if (parseInt(progressBar.style.width) >= 100) {
-        clearInterval(interval);
-      }
-    }, 5);
-    const address = document.getElementById('search').value;
-    let state = '';
-    const country = document.getElementById('country').value;
-    if (country === 'Canada') {
-      state = document.getElementById('province').value;
-    } else if (country === 'USA') {
-      state = document.getElementById('state').value;
-    }
-    const sort = document.getElementById('sortList').value;
-    const minPrice = document.getElementById('min-price').value;
-    const maxPrice = document.getElementById('max-price').value;
-    const maxBeds = document.getElementById('choose-beds').value;
-    const maxBaths = document.getElementById('choose-baths').value;
-    const page = nextPage - 1;
-    try {
-      setIsLoading(true);
-      if (parseInt(minPrice) > parseInt(maxPrice)) {
-        window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
-        return;
-      }
-  
-      // WebSocket event listeners
-      ws.onopen = function () {
-        console.log('WebSocket connected');
-      };
-  
-      // Receive progress updates from WebSocket
-      ws.onmessage = function (event) {
+    // WebSocket connection
+    const id = uuidv4(); // Generate a unique ID for this client
+    const wsPort = window.location.port; // Use the port of your backend
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = window.location.hostname;
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
+    
+    // WebSocket event listeners
+    ws.onopen = function () {
+      ws.send(JSON.stringify({ id })); // Send the unique identifier to the server upon connection
+    };
+
+    // Receive progress updates and property data from WebSocket
+    ws.onmessage = function (event) {
+      try {
         const data = JSON.parse(event.data);
-        const progress = data.progress * 100;
-        console.log('Progress:', progress);
-        setProgress(progress); // Update progress state or progress bar
-      };
-  
-      const response = await fetch('/api/search-listings-recentlySold', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          address,
-          state,
-          page,
-          country,
-          sort,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths
-        })
-      });
-  
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+        if (data.noResults) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+        if (data.zpids) {
+          initialDataRef.current = data.zpids;
+          setInitialData(data.zpids);
+        }
+
+        if (data.property) {
+          setApiData((prevData) => [...prevData, data.property]);
+          setInfoData((prevData) => [...prevData, data.images]);
+        } 
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
       }
-  
-      const data = await response.json();
-      setApiData(data.data);
-      setInfoData(data.data.leaseListings);
-      // Handle the response data as needed
-  
-      setIsLoading(false);
-      setProgress(100);
-      clearTimeout(progressTimer);
-      progressTimer = setTimeout(() => {
-        setProgress(0);
-      }, 2000);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setIsLoading(false);
-      clearInterval(interval);
+    };
+
+    ws.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+    };
+
+    // Make API call
+    const response = await fetch('/api/search-listings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        state,
+        page,
+        type,
+        country,
+        sort,
+        minPrice,
+        maxPrice,
+        maxBeds,
+        maxBaths,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
-  };
-  const handleOpenLightbox = (index) => {
-    setSelectedCardIndex(index);
-    setLightboxActive(true);
-    setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
-    (async () => {
-  // Update map location when a card is clicked
-  const selectedProperty = apiData.estate.props[index];
-  await updateMapLocation(selectedProperty.address);
-})();
-  };
+
+    setIsLoading(false);
+
+  } catch (error) {
+    console.error('Error in handleSearch:', error);
+    setIsLoading(false);
+  }
+};
+
+const handleNPage = async (e) => {
+  setIsRotated(!isRotated);
+  e.preventDefault();
+  setShowFilter(false);
+  setInitialData(null);
+  setApiData([]);
+  setInfoData([]);
+  initialDataRef.current = null;
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }
+  const sort = document.getElementById('sortList').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
+  const page = nextPage + 1;
+  const type = 3;
+
+
+  try {
+    setIsLoading(true);
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
+      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+      return;
+    }
+
+    // WebSocket connection
+    const wsPort = window.location.port; // Use the port of your backend
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = window.location.hostname;
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
+
+    // WebSocket event listeners
+    ws.onopen = function () {
+    };
+
+    // Receive progress updates and property data from WebSocket
+    ws.onmessage = function (event) {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.noResults) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+        if (data.zpids) {
+          initialDataRef.current = data.zpids;
+          setInitialData(data.zpids);
+        }
+
+        if (data.property) {
+          setApiData((prevData) => [...prevData, data.property]);
+          setInfoData((prevData) => [...prevData, data.images]);
+        } 
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
+    };
+
+    ws.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+    };
+
+    // Make API call
+    const response = await fetch('/api/search-listings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        state,
+        page,
+        type,
+        country,
+        sort,
+        minPrice,
+        maxPrice,
+        maxBeds,
+        maxBaths,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    setIsLoading(false);
+
+  } catch (error) {
+    console.error('Error in handleSearch:', error);
+    setIsLoading(false);
+  }
+};
+
+const handlePPage = async (e) => {
+  setIsRotated(!isRotated);
+  e.preventDefault();
+  setShowFilter(false);
+  setInitialData(null);
+  setApiData([]);
+  setInfoData([]);
+  initialDataRef.current = null;
+
+  const address = document.getElementById('search').value;
+  let state = '';
+  const country = document.getElementById('country').value;
+  if (country === 'Canada') {
+    state = document.getElementById('province').value;
+  } else if (country === 'USA') {
+    state = document.getElementById('state').value;
+  }
+  const sort = document.getElementById('sortList').value;
+  const minPrice = document.getElementById('min-price').value;
+  const maxPrice = document.getElementById('max-price').value;
+  const maxBeds = document.getElementById('choose-beds').value;
+  const maxBaths = document.getElementById('choose-baths').value;
+  const page = nextPage - 1;
+  const type = 3;
+
+
+  try {
+    setIsLoading(true);
+    if (parseInt(minPrice) > parseInt(maxPrice)) {
+      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
+      return;
+    }
+
+    // WebSocket connection
+    const wsPort = window.location.port; // Use the port of your backend
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = window.location.hostname;
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
+
+    // WebSocket event listeners
+    ws.onopen = function () {
+    };
+
+    // Receive progress updates and property data from WebSocket
+    ws.onmessage = function (event) {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.noResults) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+        if (data.zpids) {
+          initialDataRef.current = data.zpids;
+          setInitialData(data.zpids);
+        }
+
+        if (data.property) {
+          setApiData((prevData) => [...prevData, data.property]);
+          setInfoData((prevData) => [...prevData, data.images]);
+        } 
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
+    };
+
+    ws.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+    };
+
+    // Make API call
+    const response = await fetch('/api/search-listings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        state,
+        page,
+        type,
+        country,
+        sort,
+        minPrice,
+        maxPrice,
+        maxBeds,
+        maxBaths,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    setIsLoading(false);
+
+  } catch (error) {
+    console.error('Error in handleSearch:', error);
+    setIsLoading(false);
+  }
+};
+const handleOpenLightbox = (index) => {
+  setSelectedCardIndex(index);
+  setLightboxActive(true);
+  setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
+  (async () => {
+    // Update map location when a card is clicked
+    const selectedProperty = apiData[index];
+    const fullAddress = `${selectedProperty.address.streetAddress}, ${selectedProperty.address.city}, ${selectedProperty.address.state}`;
+    await updateMapLocation(fullAddress);
+  })();
+};
       
         const handleCloseLightbox = () => {
           setSelectedCardIndex(null);
           setLightboxActive(false);
         };
         const handleNextImage = () => {
-          const nextIndex = (currentImageIndex + 1) % infoData[selectedCardIndex].images.images.length;
+          const nextIndex = (currentImageIndex + 1) % infoData[selectedCardIndex].images.length;
           setCurrentImageIndex(nextIndex);
         };
         
         const handlePrevImage = () => {
-          const prevIndex = (currentImageIndex - 1 + infoData[selectedCardIndex].images.images.length) % infoData[selectedCardIndex].images.images.length;
+          const prevIndex = (currentImageIndex - 1 + infoData[selectedCardIndex].images.length) % infoData[selectedCardIndex].images.length;
           setCurrentImageIndex(prevIndex);
         };
         function formatNumberWithCommas(number) {
@@ -403,9 +429,9 @@ function RecentlySold() {
     };
     function safeAccess(obj, path) {
       if (!path || typeof path !== 'string') {
-        return "Information Unavailable";
+        return "Undisclosed";
       }
-      return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Information Unavailable"), obj);
+      return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Undisclosed"), obj);
     }
   
     const handlePrevPage = (e) => {
@@ -576,8 +602,9 @@ function RecentlySold() {
     <option value="Payment_Low_High">Descending - Price</option>
     <option value="Lot_Size">Lot Size</option>
     <option value="Square_Feet">Square Footage</option>
+    <option value="Bedrooms">Bedrooms</option>
+  <option value="Bathrooms">Bathrooms</option>
   </select>
-  
                       <select className='notranslate' 
                       id="choose-beds" 
                       name="beds" 
@@ -626,69 +653,74 @@ function RecentlySold() {
           </div>
         ) : (
           <>
-                                {apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 && (
-          <div className='capture'>
-          {apiData.estate.totalPages > 1 && (
-            <button 
-  className={`prevButton ${page === apiData.estate.currentPage ? 'disabled' : ''}`}
-  onClick={handlePrevPage}
-    disabled={apiData.estate.currentPage === 1}
->
-  Previous Page
-</button>)}
-<div className='alone'>{apiData.estate.totalResultCount} Results - Page {apiData.estate.currentPage} of {apiData.estate.totalPages} </div>
-          {apiData.estate.totalPages > 1 && (
-            <button 
-            className={`nextButton ${apiData.estate.currentPage === apiData.estate.totalPages ? 'disabled' : ''}`}
-            onClick={handleNextPage}
-            disabled={apiData.estate.currentPage === apiData.estate.totalPages}
-            >Next Page</button>
-      )}
-      </div>
+                {initialData && (
+        <div className='capture'>
+          {initialData.totalPages > 1 && (
+            <button
+              className={`prevButton ${initialData.currentPage === 1 ? 'disabled' : ''}`}
+              onClick={handlePrevPage}
+              disabled={initialData.currentPage === 1}
+            >
+              Previous Page
+            </button>
           )}
-{apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length > 0 ? (
-  <div className="cardContainer notranslate">
-    {apiData.estate.props.map((property, index) => (
-      property && ( // Check if property is not null/undefined
-        <div
-          className="cardi1 notranslate"
-          key={index}
-          onClick={() => handleOpenLightbox(index)}
-        >
-          <div className='indigo'>
-            <img className='mommy' src={property.imgSrc ||infoData[index]?.images.images[0] || noImg} alt={'Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%'}}/>     
-            <div className='cDress1 notranslate'>  {property.price ? `$${formatNumberWithCommas(property.price)}` : "Information Unavailable"}
-</div>
-          </div>                
-          <div className="cardText1 notranslate">
-            <div className='holding2 notranslate'>
-              <div className='cardBed notranslate'>{property.bedrooms || "Undisclosed # of"} Beds&nbsp;|</div>
-              <div className='cardBaths notranslate'>{property.bathrooms || "Undisclosed # of"} Baths&nbsp;|</div>
-              <div className='cardMls notranslate'>MLS&reg;:{infoData[index]?.mlsid || "Undisclosed"}</div>
-            </div>
-            <div className='cPrice1 notranslate'>{property.address || "Information Unavailable"}</div>
-          </div>
+          <div className='alone'>{initialData.totalResultCount} Results - Page {initialData.currentPage} of {initialData.totalPages}</div>
+          {initialData.totalPages > 1 && (
+            <button
+              className={`nextButton ${initialData.currentPage === initialData.totalPages ? 'disabled' : ''}`}
+              onClick={handleNextPage}
+              disabled={initialData.currentPage === initialData.totalPages}
+            >
+              Next Page
+            </button>
+          )}
         </div>
-      ))
-    )}
-  </div>
-) : (
-  apiData && apiData.estate && apiData.estate.props && apiData.estate.props.length === 0 && (
-    <div className="noResultsMessage">
-      Sorry, No Listings Found!
-    </div>
-  )
-)}
+      )}
+{apiData && apiData.length > 0 ? (
+        <div className="cardContainer notranslate">
+          {apiData.map((property, index) => (
+            property && ( // Check if property is not null/undefined
+              <div
+                className="cardi1 notranslate"
+                key={index}
+                onClick={() => handleOpenLightbox(index)}
+              >
+                <div className='indigo'>
+                  <img className='mommy' src={property.imgSrc || infoData[index]?.imgSrc || noImg} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
+                  <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))}
+                  </div>
+                </div>
+                <div className="cardText1 notranslate">
+                  <div className='holding2 notranslate'>
+                    <div className='cardBed notranslate'>{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
+                    <div className='cardBaths notranslate'>{safeAccess(property, 'bathrooms')} Baths&nbsp;|</div>
+                    <div className='cardMls notranslate'>MLS&reg;:{safeAccess(property, 'mlsid')}</div>
+                  </div>
+                  <div className='cPrice1 notranslate'>{safeAccess(property, 'address.streetAddress') +" "+ safeAccess(property, 'address.zipcode')+" - "+ 
+                safeAccess(property, 'address.city') +" , "+ safeAccess(property, 'address.state')
+                }</div>
+                </div>
+              </div>
+            )
+          ))}
+        </div>
+      ) : (
+        noResults && (
+          <div className="noResultsMessage">
+            Sorry, No Listings Found!
+          </div>
+        )
+      )}
 
 {lightboxActive && selectedCardIndex !== null && (
   <div className="lightbox notranslate" onClick={handleCloseLightbox}>
     <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
       {/* Lightbox content goes here */}
-      {infoData[selectedCardIndex] && infoData[selectedCardIndex].images && (
+      {apiData[selectedCardIndex] && (
         <>
         <div className='aver'>
-          <div className='pAddress-1 notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')+" - "+ 
-          safeAccess(infoData[selectedCardIndex], 'address.city') +" , "+ safeAccess(infoData[selectedCardIndex], 'address.state')
+          <div className='pAddress-1 notranslate'>{safeAccess(apiData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(apiData[selectedCardIndex], 'address.zipcode')+" - "+ 
+          safeAccess(apiData[selectedCardIndex], 'address.city') +" , "+ safeAccess(apiData[selectedCardIndex], 'address.state')
            }</div>
           <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
             Close
@@ -699,37 +731,37 @@ function RecentlySold() {
               <button className="lightbox-left notranslate" onClick={handlePrevImage}>
               &#8678;
               </button>
-              <img src={infoData[selectedCardIndex].images.images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
+              <img src={infoData[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
               <button className="lightbox-right notranslate" onClick={handleNextImage}>
               &#8680;
               </button> 
             </div> 
             <div className="cardText notranslate">
               <div className='containText notranslate'>
-                <div className='pAddress notranslate'>{safeAccess(infoData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(infoData[selectedCardIndex], 'address.zipcode')}</div>
+                <div className='pAddress notranslate'>{safeAccess(apiData[selectedCardIndex], 'address.streetAddress') +" "+ safeAccess(apiData[selectedCardIndex], 'address.zipcode')}</div>
                 <div className='pPrice notranslate'>
-  ${formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'price') || "Undisclosed")}{' '}
+  ${formatNumberWithCommas(safeAccess(apiData[selectedCardIndex], 'price') || "Undisclosed")}{' '}
   <span style={{ fontSize: 'smaller' }}>{selectedCountry === 'Canada' ? 'CAD' : 'USD'}</span>
 </div>
               <div className='heallin'>
-                <div className='bedd'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='bathh'>&nbsp;{safeAccess(infoData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div className='dayss'>&nbsp; Active ({safeAccess(infoData[selectedCardIndex], 'timeOnZillow')})</div>  
-                <div className='dayss'>Square Footage(sqft) - {formatNumberWithCommas(safeAccess(infoData[selectedCardIndex], 'livingAreaValue'))}</div>         
+                <div className='bedd'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='bathh'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <div className='dayss'>&nbsp; Active ({safeAccess(apiData[selectedCardIndex], 'timeOnZillow')})</div>  
+                <div className='dayss'>Square Footage(sqft) - {formatNumberWithCommas(safeAccess(apiData[selectedCardIndex], 'livingAreaValue'))}</div>         
           
                 </div>
-                <div className='descText notranslate'>{safeAccess(infoData[selectedCardIndex], 'description')}</div>
+                <div className='descText notranslate'>{safeAccess(apiData[selectedCardIndex], 'description')}</div>
                 <div className='holding1 notranslate'>
-                  <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.heating.0')}&nbsp;</div>
-                  <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(infoData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
-                  <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(infoData[selectedCardIndex], 'mlsid')}&nbsp;</div>
-                  <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(infoData[selectedCardIndex], 'brokerageName')}&nbsp;</div>  
+                  <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(apiData[selectedCardIndex], 'resoFacts.heating.0')}&nbsp;</div>
+                  <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(apiData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
+                  <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(apiData[selectedCardIndex], 'mlsid')}&nbsp;</div>
+                  <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(apiData[selectedCardIndex], 'brokerageName')}&nbsp;</div>  
                 </div> 
               </div>
             </div>
           </div>
           <div className='map notranslate'>
-            <APIProvider apiKey='AIzaSyCMPVqY9jf-nxg8fV4_l3w5lNpgf2nmBFM'>
+            <APIProvider apiKey={apiKey}>
               <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >
                 <Marker position={position}/>
               </Map>
@@ -745,9 +777,6 @@ function RecentlySold() {
           </>
         )}
       </main>
-        <div className="progress-container">
-        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-  </div>
   
     </div>
     

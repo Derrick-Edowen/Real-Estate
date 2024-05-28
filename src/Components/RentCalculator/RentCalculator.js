@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Index.css'; // Import your CSS file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBasketShopping, faLightbulb, faShirt, faCarSide } from '@fortawesome/free-solid-svg-icons';
+import { faBasketShopping, faLightbulb, faShirt, faCarSide, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const RentCalculator = () => {
   const [income, setIncome] = useState('');
@@ -187,7 +187,7 @@ const tips = [
             ))}
             </div>
             <div className='riskL' tabIndex='0'>
-      <h4 className='rentCalchead'> <span className='leftMini' onClick={() => handleClick('left')}>&#11207;</span> Understanding Risk Levels <span className='rightMini' onClick={() => handleClick('right')}>&#11208;</span> </h4>
+      <h4 className='rentCalchead'> <span className='leftMini' onClick={() => handleClick('left')}><FontAwesomeIcon icon={faArrowLeft} /></span> Understanding Risk Levels <span className='rightMini' onClick={() => handleClick('right')}><FontAwesomeIcon icon={faArrowRight} /></span> </h4>
       <h5 className='bigP'>{levels[currentLevel].title}</h5>
       <p className='miniP'>{levels[currentLevel].description}</p>
     </div>
