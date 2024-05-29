@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //API CODE//
 const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 1500 / maxRequestsPerSecond; // Adjust delay for optimization
+const delayBetweenRequests = 1200 / maxRequestsPerSecond; // Adjust delay for optimization
 
 const wss = new WebSocket.Server({ server });
 const clients = new Map(); // Use a Map to store clients with a unique identifier
@@ -86,7 +86,7 @@ async function handlePropertySearch(req) {
       saleMinPrice = minPrice;
       saleMaxPrice = maxPrice;
     }
-    const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
+    const estateResponse = await limiter.schedule(() => axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
       params: {
         location: `${address},${state}`,
         page: page,
@@ -104,7 +104,7 @@ async function handlePropertySearch(req) {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
       }
-    });
+    }));
 
     const leaseListings = estateResponse.data.props;
     const zpidListings = estateResponse.data;

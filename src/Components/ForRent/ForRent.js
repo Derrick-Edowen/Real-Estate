@@ -140,7 +140,6 @@ const handleSearch = async (e) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        setIsLoading(false);
       }).catch(error => {
         console.error('Error in handleSearch:', error);
         setIsLoading(false);
@@ -148,6 +147,7 @@ const handleSearch = async (e) => {
     };
 
     // Receive progress updates and property data from WebSocket
+    setIsLoading(false);
     ws.onmessage = function (event) {
       try {
         const data = JSON.parse(event.data);
@@ -184,8 +184,8 @@ const handleSearch = async (e) => {
 };
 
 const handleNPage = async (e) => {
-  setIsRotated(!isRotated);
   e.preventDefault();
+  setIsRotated(!isRotated);
   setShowFilter(false);
   setInitialData(null);
   setApiData([]);
@@ -216,16 +216,47 @@ const handleNPage = async (e) => {
     }
 
     // WebSocket connection
+    const id = uuidv4(); // Generate a unique ID for this client
     const wsPort = window.location.port; // Use the port of your backend
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     const wsHost = window.location.hostname;
     const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
-
+    
     // WebSocket event listeners
     ws.onopen = function () {
+      ws.send(JSON.stringify({ id })); // Send the unique identifier to the server upon connection
+
+      // Make API call with the unique ID only after WebSocket is open
+      fetch('/api/search-listings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id, // Include the unique ID in the request body
+          address,
+          state,
+          page,
+          type,
+          country,
+          sort,
+          minPrice,
+          maxPrice,
+          maxBeds,
+          maxBaths,
+        }),
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+      }).catch(error => {
+        console.error('Error in handleSearch:', error);
+        setIsLoading(false);
+      });
     };
 
     // Receive progress updates and property data from WebSocket
+    setIsLoading(false);
     ws.onmessage = function (event) {
       try {
         const data = JSON.parse(event.data);
@@ -255,40 +286,14 @@ const handleNPage = async (e) => {
     ws.onclose = function () {
     };
 
-    // Make API call
-    const response = await fetch('/api/search-listings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        address,
-        state,
-        page,
-        type,
-        country,
-        sort,
-        minPrice,
-        maxPrice,
-        maxBeds,
-        maxBaths,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    setIsLoading(false);
-
   } catch (error) {
     console.error('Error in handleSearch:', error);
     setIsLoading(false);
   }
 };
   const handlePPage = async (e) => {
-    setIsRotated(!isRotated);
-  e.preventDefault();
+    e.preventDefault();
+  setIsRotated(!isRotated);
   setShowFilter(false);
   setInitialData(null);
   setApiData([]);
@@ -319,16 +324,47 @@ const handleNPage = async (e) => {
     }
 
     // WebSocket connection
+    const id = uuidv4(); // Generate a unique ID for this client
     const wsPort = window.location.port; // Use the port of your backend
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     const wsHost = window.location.hostname;
     const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
-
+    
     // WebSocket event listeners
     ws.onopen = function () {
+      ws.send(JSON.stringify({ id })); // Send the unique identifier to the server upon connection
+
+      // Make API call with the unique ID only after WebSocket is open
+      fetch('/api/search-listings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id, // Include the unique ID in the request body
+          address,
+          state,
+          page,
+          type,
+          country,
+          sort,
+          minPrice,
+          maxPrice,
+          maxBeds,
+          maxBaths,
+        }),
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+      }).catch(error => {
+        console.error('Error in handleSearch:', error);
+        setIsLoading(false);
+      });
     };
 
     // Receive progress updates and property data from WebSocket
+    setIsLoading(false);
     ws.onmessage = function (event) {
       try {
         const data = JSON.parse(event.data);
@@ -357,32 +393,6 @@ const handleNPage = async (e) => {
 
     ws.onclose = function () {
     };
-
-    // Make API call
-    const response = await fetch('/api/search-listings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        address,
-        state,
-        page,
-        type,
-        country,
-        sort,
-        minPrice,
-        maxPrice,
-        maxBeds,
-        maxBaths,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    setIsLoading(false);
 
   } catch (error) {
     console.error('Error in handleSearch:', error);
