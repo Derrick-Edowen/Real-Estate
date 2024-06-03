@@ -15,10 +15,7 @@ const { v4: uuidv4 } = require('uuid'); // Using the 'uuid' package to generate 
 const Bottleneck = require('bottleneck');
 const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
-const limiter = new Bottleneck({
-  maxConcurrent: 1,
-  minTime: 1500
-});
+
 
 // Middleware
 app.use(cors());
@@ -28,10 +25,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //API CODE//
 const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 1200 / maxRequestsPerSecond; // Adjust delay for optimization
+const delayBetweenRequests = 1500 / maxRequestsPerSecond; // Adjust delay for optimization
+
+const limiter = new Bottleneck({
+  maxConcurrent: maxRequestsPerSecond,
+  minTime: 1500 / maxRequestsPerSecond,
+});
 
 const wss = new WebSocket.Server({ server });
 const clients = new Map(); // Use a Map to store clients with a unique identifier
+
+// Define the request queue
+const requestQueue = [];
+let isProcessing = false;
 
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
@@ -55,9 +61,6 @@ wss.on('connection', function connection(ws) {
 function getOrCreateWebSocket(id) {
   return clients.get(id);
 }
-
-const requestQueue = [];
-let isProcessing = false;
 
 async function handlePropertySearch(req) {
   const id = req.body.id; // Ensure the request contains a unique identifier
@@ -86,6 +89,7 @@ async function handlePropertySearch(req) {
       saleMinPrice = minPrice;
       saleMaxPrice = maxPrice;
     }
+
     const estateResponse = await limiter.schedule(() => axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
       params: {
         location: `${address},${state}`,
@@ -98,12 +102,12 @@ async function handlePropertySearch(req) {
         minPrice: saleMinPrice,
         maxPrice: saleMaxPrice,
         bathsMin: maxBaths,
-        bedsMin: maxBeds
+        bedsMin: maxBeds,
       },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-      }
+        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+      },
     }));
 
     const leaseListings = estateResponse.data.props;
@@ -119,7 +123,6 @@ async function handlePropertySearch(req) {
 
     const zpidData = { zpids: zpidListings };
 
-    // Log data being sent
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(zpidData));  // Send data incrementally
     }
@@ -133,21 +136,20 @@ async function handlePropertySearch(req) {
           params: { zpid },
           headers: {
             'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-          }
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+          },
         }));
 
         const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
           params: { zpid },
           headers: {
             'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com'
-          }
+            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+          },
         }));
 
         const data = { property: propertyResponse.data, images: imageResponse.data };
 
-        // Log data being sent
         if (ws.readyState === WebSocket.OPEN) {
           ws.send(JSON.stringify(data));  // Send data incrementally
         }
@@ -159,10 +161,8 @@ async function handlePropertySearch(req) {
       }
     };
 
-    for (let i = 0; i < leaseListings.length; i++) {
-      const zpid = leaseListings[i].zpid;
-      await fetchPropertyData(zpid);
-    }
+    const fetchPropertyDataPromises = leaseListings.map((listing) => fetchPropertyData(listing.zpid));
+    await Promise.all(fetchPropertyDataPromises);
 
     if (ws.readyState === WebSocket.OPEN) {
       ws.close();
@@ -194,13 +194,12 @@ async function processQueue() {
 
   while (requestQueue.length > 0) {
     const { req, res, handler } = requestQueue.shift();
-    await handler(req, res);
+    handler(req, res);
     await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
   }
 
   isProcessing = false;
 }
-
 
 app.post('/api/geocode', async (req, res) => {
   const { address } = req.body;
