@@ -17,22 +17,20 @@ function Blog() {
   const location = useLocation();
   const currentUserID = location.state?.currentUserID || '';
   const isLoggedIn = location.state?.isLoggedIn || false;
-const port =  process.env.PORT || 3001;
+  const port = process.env.PORT || 3001;
 
   useEffect(() => {
     fetchPosts();
   }, []);
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
     setSelectedImage(URL.createObjectURL(file));
   };
-  
+
   const fetchPosts = async () => {
     try {
-      
       const response = await fetch(`/posts`);
       const data = await response.json();
       setPosts(data);
@@ -40,13 +38,13 @@ const port =  process.env.PORT || 3001;
       console.error('Error fetching posts:', error);
     }
   };
-  
+
   const handlePost = async () => {
     if (newTitle.trim() !== '' && newContent.trim() !== '' && image) {
       try {
         const easternDateTime = DateTime.now().setZone('America/New_York');
         const formattedDateTime = easternDateTime.toISODate(); // Format as YYYY-MM-DD
-        
+
         const postData = new FormData();
         postData.append('title', newTitle);
         postData.append('content', newContent);
@@ -58,21 +56,23 @@ const port =  process.env.PORT || 3001;
           method: 'POST',
           body: postData,
         });
-        
+
         const data = await response.json();
         setNewTitle('');
         setNewContent('');
         setImage(null);
+        setSelectedImage(null);
         fetchPosts();
       } catch (error) {
         console.error('Error creating post:', error);
       }
     }
   };
+
   const handleDelete = async (postId) => {
     try {
       await fetch(`/posts/${postId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       });
       const updatedPosts = posts.filter((post) => post.id !== postId);
       setPosts(updatedPosts);
@@ -80,105 +80,106 @@ const port =  process.env.PORT || 3001;
       console.error('Error deleting post:', error);
     }
   };
+
   function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-GB', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
-  
+
   function formatCreatedAt(dateString) {
     return `${formatDate(dateString)}`;
   }
-  
+
   const handleClick = (index) => {
     const reversedIndex = posts.length - 1 - index;
     setSelectedPost(posts[reversedIndex]);
   };
-  
-  
-    const handleClose = () => {
-      setSelectedPost(null);
-    };
+
+  const handleClose = () => {
+    setSelectedPost(null);
+  };
 
   return (
     <div className="blog-container">
-    <div className="posts-container">
-    {posts.slice().reverse().map((post, index) => (
-  <div key={index} className="post" onClick={() => handleClick(index)}>
-      <img
-      className='windows'
-      src={post.image || noImg}
-      alt="Post Image"
-      />
-    <div className='finalss'>
-    <div className='blogHead'>{post.title}</div>
-    <div className='blogCont'>{post.content}</div>
-    <button onClick={() => handleClick(index)} className='moore'>LEARN MORE</button>
-    <div className='timer'>Posted on: {formatCreatedAt(post.created_at)}</div>
-    </div>
-    {isLoggedIn && (
-    <button className='delbutt' onClick={() => handleDelete(post.id)}>Delete this post?</button>
-    )}
-  </div>
-))}
-    </div>
-    {selectedPost && !isLoggedIn && (
-  <div className="lightboxB" onClick={handleClose}>
-    <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
-    <div className="chasser" onClick={handleClose}>
-    <FontAwesomeIcon icon={faXmark} size='2xl'/>
+      <div className="posts-container">
+        {posts.slice().reverse().map((post, index) => (
+          <div key={index} className="post" onClick={() => handleClick(index)}>
+            <img className="windows" src={post.image || noImg} alt="Post Image" />
+            <div className="finalss">
+              <div className="blogHead">{post.title}</div>
+              <div className="blogCont">{post.content}</div>
+              <button onClick={() => handleClick(index)} className="moore">
+                LEARN MORE
+              </button>
+              <div className="timer">Posted on: {formatCreatedAt(post.created_at)}</div>
+            </div>
+            {isLoggedIn && (
+              <button className="delbutt" onClick={() => handleDelete(post.id)}>
+                Delete this post?
+              </button>
+            )}
           </div>
-      <h3 className='blogHead1'>{selectedPost.title}</h3>
-  <img
-  className='windows1'
-  src={
-    selectedPost.image || noImg}
-    alt='Posted Image Expanded'
-/>
-      <div className='blogContl'>{selectedPost.content}</div>
-      <div className='timer1'>Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
-    </div>
-  </div>
-)}
-
-
-    {isLoggedIn && (
-      <div className="text-area-container">
-        <input
-          type="text"
-          className="text-title"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-          placeholder="Enter announcement title"
-        />
-        <textarea
-          className="text-area"
-          value={newContent}
-          onChange={(e) => setNewContent(e.target.value)}
-          placeholder="Enter your announcement content here..."
-          rows={5}
-          cols={50}
-        />
-<input
-  type="file"
-  className="select-input"
-  accept="image/png, image/jpeg, image/webp, image/gif"
-  onChange={(e) => handleImageChange(e)}
-/>
-
-
-{selectedImage && (
-      <img src={selectedImage} alt="Selected Image" style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '4px', marginLeft: 'auto', marginRight: 'auto' }} />
-    )}
-    
-        <button className='postbutt' onClick={handlePost}>Create Post</button>
+        ))}
       </div>
-    )}
+      {selectedPost && !isLoggedIn && (
+        <div className="lightboxB" onClick={handleClose}>
+          <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
+            <div className="chasser" onClick={handleClose}>
+              <FontAwesomeIcon icon={faXmark} size="2xl" />
+            </div>
+            <h3 className="blogHead1">{selectedPost.title}</h3>
+            <img className="windows1" src={selectedPost.image || noImg} alt="Posted Image Expanded" />
+            <div className="blogContl">{selectedPost.content}</div>
+            <div className="timer1">Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
+          </div>
+        </div>
+      )}
 
-  </div>
+      {isLoggedIn && (
+        <div className="text-area-container">
+          <input
+            type="text"
+            className="text-title"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="Enter announcement title"
+            required
+          />
+          <textarea
+            className="text-area"
+            value={newContent}
+            onChange={(e) => setNewContent(e.target.value)}
+            placeholder="Enter your announcement content here..."
+            rows={5}
+            cols={50}
+            required
+          />
+          <input
+            type="file"
+            className="select-input"
+            accept="image/png, image/jpeg, image/webp, image/gif"
+            onChange={(e) => handleImageChange(e)}
+            required
+          />
+
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Selected Image"
+              style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '4px', marginLeft: 'auto', marginRight: 'auto' }}
+            />
+          )}
+
+          <button className="postbutt" onClick={handlePost}>
+            Create Post
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

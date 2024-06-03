@@ -1,22 +1,97 @@
 .feet {
-    position: fixed;
-    bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    z-index: 4000;
-    width: 80%;
-    height: fit-content;
-    color: white;
-background: var(--primary);
-display: flex;
-  }
-  
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4000;
+  width: 80%;
+  height: fit-content;
+  color: white;
+  background: white;
+  display: flex;
+  opacity: 0;
+  padding: 16px;
+  cursor: pointer;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.feet.visible {
+  opacity: 0.9;
+}
+
 .transLate {
-    width: fit-content;
-    height: fit-content;
-    color: white;
-  }
-  .QR {
-    width: 85px;
-    height: 85px;
-  }
+  width: fit-content;
+  height: fit-content;
+  color: black;
+}
+.QR {
+  width: 85px;
+  height: 85px;
+}
+.inquiry {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 50px;
+  width: 100%;
+}
+.lightboxf {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.lightbox-contentf {
+  background-color: #fff;
+  padding: 26px;
+  border-radius: 0px;
+  max-width: 85%;
+  min-width: 85%;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+  border: 1px solid #000000;
+
+  max-height: 85%;
+  min-height: 85%;
+
+  overflow-y: auto;
+  color: black;
+
+}
+.lightbox-contentf h1 {
+font-size: 38px;
+  color: black;
+  text-align: center;
+  font-weight: 700;
+margin-top: auto;
+margin-bottom: auto;
+}
+.lightbox-contentf h2 {
+
+  color: black;
+font-size: 34px;
+font-weight: 700;
+}
+.lightbox-contentf p {
+
+  color: black;
+font-size: 20px;
+
+}
+.Logo {
+  height: 105px;
+  width: 190px;
+}
+.closef {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 34px;
+  cursor: pointer;
+  color: #fff;
+}
