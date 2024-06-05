@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import man1 from '../../Assets/Images/man1-PhotoRoom.png';
 import woman1 from '../../Assets/Images/woman1.jpg';
 import './Index.css';
 
 function Home() {
-  // Randomly select either man1 or woman1
-  const randomImage = Math.random() < 0.5 ? man1 : woman1;
+  const [contactBtnClass, setContactBtnClass] = useState('contactBtn');
+
+  useEffect(() => {
+    const classes = ['contactBtn', 'contactBtn second', 'contactBtn third', 'contactBtn fourth'];
+    const currentIndex = parseInt(localStorage.getItem('contactBtnClassIndex')) || 0;
+    const nextIndex = (currentIndex + 1) % classes.length;
+    setContactBtnClass(classes[currentIndex]);
+    localStorage.setItem('contactBtnClassIndex', nextIndex);
+  }, []);
 
   return (
     <div className="homePage">
@@ -20,7 +27,7 @@ function Home() {
           </p>
           <div className='meat'>
             <Link to="/Contact Me">
-              <button className="contactBtn">
+            <button className={contactBtnClass}>
                 Let's Talk
               </button>
             </Link>

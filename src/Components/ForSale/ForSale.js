@@ -40,7 +40,15 @@ const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
+const [searchBtnClass, setSearchBtnClass] = useState('searchBtn-1');
 
+useEffect(() => {
+  const classes = ['searchBtn-1', 'searchBtn-1 second', 'searchBtn-1 third', 'searchBtn-1 fourth'];
+  const currentIndex = parseInt(localStorage.getItem('searchBtn-1ClassIndex')) || 0;
+  const nextIndex = (currentIndex + 1) % classes.length;
+  setSearchBtnClass(classes[currentIndex]);
+  localStorage.setItem('searchBtn-1SClassIndex', nextIndex);
+}, []);
   
   
 
@@ -654,7 +662,7 @@ const handleOpenLightbox = (index) => {
                       </select>
                     <input className='notranslate' type='number' id="min-price" placeholder='Minimum Price' required />
                     <input className='notranslate' type='number' id="max-price" placeholder='Maximum Price' required />
-                    <button className='searchBtn-1'>Search</button>
+                    <button className={searchBtnClass}>Search</button>
                 </form>
       </aside> 
       <main className='fullStage notranslate'>

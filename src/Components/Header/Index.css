@@ -32,6 +32,21 @@ text-decoration: none;
   border-bottom: 1px solid #afafaf2f;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5) ;
   }
+  .navbar.second {
+
+    background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+
+    }
+    .navbar.third {
+
+      background: linear-gradient(to right, rgb(0, 20, 65),rgba(0, 31, 104, 0.99), rgba(0, 47, 158, 0.984),rgba(0, 72, 241, 0.969));
+
+      }
+      .navbar.fourth {
+
+        background: linear-gradient(to right, rgb(36, 0, 0),rgba(66, 0, 0, 0.99), rgba(104, 0, 0, 0.984),rgba(128, 0, 0, 0.969));
+  
+        }
   .dropdown {
     position: relative;
     display: inline-block;
@@ -223,6 +238,21 @@ border-radius: 3px;
     transition: all ease-in-out 0.5s;
     margin-top: 305px;
   }
+  .navbar--items.second {
+
+    background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+
+    }
+    .navbar--items.third {
+
+      background: linear-gradient(to right, rgb(0, 20, 65),rgba(0, 31, 104, 0.99), rgba(0, 47, 158, 0.984),rgba(0, 72, 241, 0.969));
+
+      }
+      .navbar--items.fourth {
+
+        background: linear-gradient(to right, rgb(36, 0, 0),rgba(66, 0, 0, 0.99), rgba(104, 0, 0, 0.984),rgba(128, 0, 0, 0.969));
+  
+        }
   .navbar--items ul {
     flex-direction: column;
     align-items: center;

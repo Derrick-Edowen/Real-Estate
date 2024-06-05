@@ -12,17 +12,20 @@
   opacity: 0;
   padding: 16px;
   cursor: pointer;
-  transition: opacity 0.8s ease-in-out;
+  transition: opacity 1.5s ease-in-out;
 }
 
 .feet.visible {
   opacity: 0.9;
 }
-
+.feet.nope {
+  display: none;
+}
 .transLate {
   width: fit-content;
   height: fit-content;
   color: black;
+  padding-right: 18px;
 }
 .QR {
   width: 85px;
@@ -89,9 +92,9 @@ font-size: 20px;
 }
 .closef {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: -12px;
+  right: 6px;
   font-size: 34px;
   cursor: pointer;
-  color: #fff;
+  color: #000000;
 }
