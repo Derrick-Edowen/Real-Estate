@@ -9,23 +9,7 @@ function Header() {
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [navActive, setNavActive] = useState(false);
   const location = useLocation();
-  const [navClass, setNavClass] = useState('');
 
-  useEffect(() => {
-    const classes = ['', 'second', 'third', 'fourth'];
-    
-    // Retrieve the counter from local storage
-    const counter = parseInt(localStorage.getItem('navCounter') || '0', 10);
-    
-    // Calculate the next index and wrap around if necessary
-    const nextIndex = (counter + 1) % classes.length;
-    
-    // Set the class based on the next index
-    setNavClass(classes[nextIndex]);
-    
-    // Save the updated counter to local storage
-    localStorage.setItem('navCounter', nextIndex);
-  }, []);
 
   
   const toggleNav = () => {
@@ -66,7 +50,7 @@ function Header() {
   }, []);
   return (
 
-    <nav className={`navbar ${navActive ? "active" : ""} ${navClass}`}>
+    <nav className={`navbar ${navActive ? "active" : ""}`}>
       <div className="heading">      
           <h2>One Estate Web Services</h2>
       </div>
@@ -80,7 +64,7 @@ function Header() {
         <span className="nav__hamburger__line"></span>
         <span className="nav__hamburger__line"></span>
       </a>
-      <div className={`navbar--items ${navActive ? "active" : ""} ${navClass}`}>
+      <div className={`navbar--items ${navActive ? "active" : ""}`}>
         <ul>
           <li>
             <NavLink
