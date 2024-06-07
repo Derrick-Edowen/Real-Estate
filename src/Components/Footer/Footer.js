@@ -37,9 +37,9 @@ function Footer() {
     <div>
       <div className={`feet ${visible ? 'visible' : 'nope'}`} onClick={handleOpenLightbox}>
       <div className="transLate">
-        Notice: This website is a live sample/template. All rights to this content are reserved for One Estate Web Services. To setup
+        NOTICE: This website is for sample purposes only. All rights to this content are reserved for One Estate Web Services. To setup
         your own personal website and increase your online presence, please contact One Estate Web Services at 
-        oneestatewebservices@outlook.com to get started today! Click to learn more about what we can offer you!
+        oneestatewebservices@outlook.com to get started today! Click to learn more about what we offer!
         <span className="closef" onClick={handleClose}>×</span>
       </div>
     </div>

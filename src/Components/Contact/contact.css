@@ -18,7 +18,7 @@ background: transparent;
   top: 18px;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.7) ;
   right: 22px;
-  background: var(--primary);
+  background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
   height: 120px;
   border-radius: 50%;
 }
@@ -43,7 +43,7 @@ section .container .contactinfo {
   top: 40px;
   width: 350px;
   height: calc(100% - 80px);
-  background: var(--primary);
+  background: linear-gradient(to left, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
   z-index: 1;
   padding: 40px;
   display: flex;
@@ -124,7 +124,7 @@ section .container .contactForm {
   box-shadow: 0 50px 50px rgba(0, 0, 0, 0.5);
 }
 section .container .contactForm h2 {
-color: var(--primary);
+color: black;
 font-size: 32px;
 font-weight: 700;
 text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
@@ -183,7 +183,7 @@ section .container .contactForm .formBox .inputBox textarea:valid ~ span {
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: var(--primary);
+  color: black;
 }
 section .container .contactForm .formBox .inputBox input[type="submit"] {
   position: relative;
@@ -193,10 +193,10 @@ section .container .contactForm .formBox .inputBox input[type="submit"] {
   max-width: 150px;
   padding: 8px;
   border-radius: 2px;
-  background: linear-gradient(to right, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#5b01b6);
+  background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
 }
 section .container .contactForm .formBox .inputBox input[type="submit"]:hover {
-  background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), #520081fb,#5b01b6);
+  background: linear-gradient(to left, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
 }
 
 
@@ -226,7 +226,6 @@ section .container .contactinfo {
   top: 0px;
   width: 300px;
   height: calc(100% - 0px);
-  background: var(--primary);
   z-index: 1;
   padding: 20px;
   display: flex;
@@ -274,7 +273,6 @@ section .container .contactForm {
     top: 0px;
     width: 260px;
     height: calc(100% - 0px);
-    background: var(--primary);
     z-index: 1;
     padding: 20px;
     display: flex;
@@ -318,7 +316,6 @@ section .container .contactForm {
       margin-left: auto;
       margin-right: auto;
       height: calc(100% - 0px);
-      background: var(--primary);
       z-index: 1;
       padding: 20px;
       justify-content: space-between;

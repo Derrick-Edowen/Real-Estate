@@ -141,7 +141,7 @@ padding:6px;
 border-radius: 0px;
 box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.7) ;
 border: 1px solid #afafaf2f;
-background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(53, 15, 88, 0.969));
+background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
 color: white;
 
 }
