@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import QRcode from '../../Assets/Images/QRcode.png';
 import Logo from '../../Assets/Images/logo.PNG';
 
 import './Index.css';
@@ -102,7 +101,6 @@ function Footer() {
 At One Estate Web Services, we’re committed to helping you succeed in the digital world. Join us today and take the first step towards transforming your online presence and growing your real estate business!
 
 </p>
-<img className='QR' src={QRcode} alt="QR Code"/>
 
           </div>
         </div>
