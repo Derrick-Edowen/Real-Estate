@@ -32,6 +32,9 @@
   width: 85px;
   height: 85px;
 }
+.boldie {
+  font-weight: bold;
+}
 .inquiry {
   display: flex;
   gap: 40px;
@@ -74,17 +77,21 @@ font-size: 38px;
   font-weight: 700;
 margin-top: auto;
 margin-bottom: auto;
+padding: 2px;
 }
 .lightbox-contentf h2 {
 
   color: black;
 font-size: 34px;
 font-weight: 700;
+padding: 6px;
 }
 .lightbox-contentf p {
 
   color: black;
-font-size: 20px;
+font-size: 22px;
+padding: 2px;
+font-weight: 350;
 
 }
 .Logo {

@@ -78,7 +78,7 @@ function Footer() {
 
 - Affordable Pricing: At just $55 USD per month, our subscription cost is transparent and affordable. There are no hidden fees, additional charges, or service/sign-up fees. What you see is what you get – a fully-featured, professional website at a price that won’t break the bank.<br/>
 
-- Promotional Offers: Take advantage of our special promotions to get started at an even lower cost. Sign up with PROMO CODE: ONEESTATE2024 and enjoy 35% off for the first two months. Plus, refer a colleague and receive an additional month free – a one-time offer that’s too good to pass up.<br/>
+- Promotional Offers: Take advantage of our special promotions to get started at an even lower cost. Sign up with <strong>PROMO CODE: ONEESTATE2024</strong> and enjoy 35% off for the first two months. Plus, refer a colleague and receive an additional month free – a one-time offer that’s too good to pass up.<br/>
 
 - Complete Advertising Freedom: We believe in giving you the tools and freedom to succeed. You have complete rights to advertise your website as you see fit, ensuring your marketing efforts are fully under your control and tailored to your unique business needs.<br/>
 
@@ -88,7 +88,7 @@ function Footer() {
             <h2>Getting Started!</h2>
             <p>Ready to elevate your real estate business and enhance your online presence? Getting started with One Estate Web Services is simple and straightforward:<br/>
 
-- Sign Up: Begin by sending us an email at oneestatewebservices@outlook.com so we can connect you with our professional web developers that will aid you in making your website your own. Don’t forget to use PROMO CODE: ONEESTATE2024 to enjoy 35% off for the first two months.<br/>
+- Sign Up: Begin by sending us an email at oneestatewebservices@outlook.com so we can connect you with our professional web developers that will aid you in making your website your own. Don’t forget to use <strong>PROMO CODE: ONEESTATE2024</strong> to enjoy 35% off for the first two months.<br/>
 
 - Customization: Collaborate with our skilled web developers to create a website that perfectly aligns with your brand. Customize every detail to ensure your site meets your specific needs and preferences.<br/>
 
