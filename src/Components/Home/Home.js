@@ -13,7 +13,7 @@ function Home() {
         <img className='mainimg' src={man1} alt='main'></img>
         <div className='textBox'>
           <h1>One Estate Web Services</h1>
-          <h2>Subscribe for personalized REALTOR&reg; websites</h2>
+          <h2>Contact us for personalized REALTOR&reg; websites at an affordable price</h2>
           <p>
             Work 1 on 1 with our developers to build your custom website, and improve your online presence today!
           </p>

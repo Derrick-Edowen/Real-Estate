@@ -743,7 +743,7 @@ transform: translateY(-50%);
 }
 .toggle {
   display: none;
-  background: linear-gradient(to left, var(--primary),rgba(52, 0, 83, 0.990), rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+  background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
   color: white;
   font-size: 18px;
   padding: 6px;
@@ -778,11 +778,11 @@ transform: translateY(-50%);
 }
 @media screen and (max-width: 1180px) {
   .supyo {
-    background: var(--primary); 
     padding: 12px;
     flex-direction: column;
     gap: 4px;
     display: none;
+    background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
     z-index: 3;
     min-width: 100%;
     position: absolute;

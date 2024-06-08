@@ -6,13 +6,12 @@
   z-index: 4000;
   width: 80%;
   height: fit-content;
-  color: white;
-  background: white;
+  background: linear-gradient(to right, rgba(231, 231, 231, 0.99), rgba(241, 241, 241, 0.984),rgba(255, 255, 255, 0.969));
   display: flex;
   opacity: 0;
   padding: 16px;
   cursor: pointer;
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 2.5s ease-in-out;
 }
 
 .feet.visible {
@@ -26,7 +25,7 @@
   height: fit-content;
   color: black;
   padding-right: 18px;
-  font-weight: 400;
+  font-weight: 700;
 }
 .QR {
   width: 85px;
@@ -37,9 +36,10 @@
 }
 .inquiry {
   display: flex;
-  gap: 40px;
   margin-bottom: 50px;
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .lightboxf {
   position: fixed;
@@ -55,29 +55,33 @@
 }
 
 .lightbox-contentf {
-  background-color: #fff;
+  background: linear-gradient(to right, rgba(231, 231, 231, 0.99), rgba(241, 241, 241, 0.984),rgba(255, 255, 255, 0.969));
   padding: 26px;
   border-radius: 0px;
-  max-width: 85%;
-  min-width: 85%;
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-  border: 1px solid #000000;
+  max-width: 90%;
+  min-width: 90%;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.8) ;
+  border: 3px solid #000000;
 
-  max-height: 85%;
-  min-height: 85%;
+  max-height: 90%;
+  min-height: 90%;
 
   overflow-y: auto;
   color: black;
+  outline: 24px solid rgba(241, 241, 241, 0.984);
 
 }
 .lightbox-contentf h1 {
-font-size: 38px;
+font-size: 46px;
   color: black;
   text-align: center;
-  font-weight: 700;
+  font-weight: 750;
 margin-top: auto;
 margin-bottom: auto;
 padding: 2px;
+width: 80%;
+text-shadow: 1px 0px 0px rgb(73, 73, 73); /* horizontal offset, vertical offset, blur radius, color */
+
 }
 .lightbox-contentf h2 {
 
@@ -85,13 +89,17 @@ padding: 2px;
 font-size: 34px;
 font-weight: 700;
 padding: 6px;
+text-shadow: 1px 0px 0px rgb(73, 73, 73); /* horizontal offset, vertical offset, blur radius, color */
+
 }
 .lightbox-contentf p {
 
   color: black;
 font-size: 22px;
 padding: 2px;
-font-weight: 350;
+font-weight: 450;
+text-shadow: 1px 0px 0px rgb(73, 73, 73); /* horizontal offset, vertical offset, blur radius, color */
+
 
 }
 .Logo {
@@ -102,7 +110,7 @@ font-weight: 350;
   position: absolute;
   top: -12px;
   right: 6px;
-  font-size: 34px;
+  font-size: 42px;
   cursor: pointer;
-  color: #000000;
+  color: #ffffff;
 }

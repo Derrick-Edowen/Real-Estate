@@ -50,13 +50,13 @@ function Contact() {
   <ul className='info'>
     <li>
       <span><FontAwesomeIcon icon={faLocationDot} style={{color: "#ffffff",}} size='2xl'/></span>
-      <span>123 Real Estate Drive <br/>
-      Toronto, ON <br/>
+      <span>123 Real Estate Drive<br/>
+      Washington, DC <br/>
       </span>
     </li>
     <li>
       <span><FontAwesomeIcon icon={faEnvelope} style={{color: "#ffffff",}} size='xl'/></span>
-      <span>smithestates@gmail.com
+      <span>youremail@outlook.com
       </span>
     </li>
     <li>
