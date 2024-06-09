@@ -22,10 +22,9 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 //API CODE//
 const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 1500 / maxRequestsPerSecond; // Adjust delay for optimization
+const delayBetweenRequests = 1300 / maxRequestsPerSecond; // Adjust delay for optimization
 
 const limiter = new Bottleneck({
   maxConcurrent: maxRequestsPerSecond,

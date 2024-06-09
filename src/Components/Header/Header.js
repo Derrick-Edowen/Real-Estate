@@ -75,7 +75,7 @@ function Header() {
               offset={-70}
               duration={1000}
               to="/Home"
-              className="navbar--content"
+              className={`navbar--content ${location.pathname.includes('') ? 'active' : ''}`}
             >
               Home
             </NavLink>

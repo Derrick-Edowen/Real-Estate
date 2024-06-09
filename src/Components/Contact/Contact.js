@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import man from '../../Assets/Images/man2.png';
 import woman from '../../Assets/Images/small-woman.png';
-
 import emailjs from '@emailjs/browser';
 import './contact.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
