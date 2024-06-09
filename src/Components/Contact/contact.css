@@ -9,6 +9,9 @@ display: flex;
 min-height: 95vh;
 background: transparent;
 }
+.text-sm {
+  color: black;
+}
 .lostboy {
   display: flex;
 }
