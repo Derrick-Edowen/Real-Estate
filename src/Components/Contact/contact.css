@@ -21,6 +21,7 @@ background: transparent;
   background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
   height: 120px;
   border-radius: 50%;
+  object-fit: cover;
 }
 section::before {
   content: '';
@@ -206,7 +207,6 @@ section .container .contactForm .formBox .inputBox input[type="submit"]:hover {
   display: none;
 }
 section .container .contactForm h2 {
-  color: var(--primary);
   font-size: 30px;
   font-weight: 700;
   text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
@@ -253,7 +253,6 @@ section .container .contactForm {
     display: none;
   }
   section .container .contactForm h2 {
-    color: var(--primary);
     font-size: 28px;
     font-weight: 700;
     text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);

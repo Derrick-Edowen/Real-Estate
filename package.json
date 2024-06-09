@@ -60,7 +60,9 @@
     "build": "react-scripts build",
     "heroku-postbuild": "npm run build",
     "dev": "concurrently \"npm run start\" \"npm run dev-client\"",
-    "dev-client": "react-scripts start"
+    "dev-client": "react-scripts start",
+    "trial": "react-scripts start"
+
   },
   "eslintConfig": {
     "extends": [

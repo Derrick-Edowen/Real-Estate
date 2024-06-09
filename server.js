@@ -29,7 +29,7 @@ const delayBetweenRequests = 1500 / maxRequestsPerSecond; // Adjust delay for op
 
 const limiter = new Bottleneck({
   maxConcurrent: maxRequestsPerSecond,
-  minTime: 1400 / maxRequestsPerSecond,
+  minTime: 1100 / maxRequestsPerSecond,
 });
 
 const wss = new WebSocket.Server({ server });

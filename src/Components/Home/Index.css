@@ -3,26 +3,29 @@
   width: 100%;
   height: 100dvh;
 }
-.home {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  transition: background 6s ease-in-out ;
-}
 
 .imgContainer {
 padding: 0px;
 }
 .mainimg {
   position: absolute;
+  padding: 4px;
+  height: 100vh;
+  padding-bottom: 0px;
+  width: 50%;
+  object-fit: cover;
+
+}
+
+.newmainimg {
+  position: absolute;
   padding: 15px;
   height: 100%;
   padding-left: 110px;
   height: 100vh;
   padding-bottom: 0px;
-
 }
+
 .textBox {
   font-size: 60px;
   color: azure;
@@ -93,10 +96,7 @@ text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offs
   transform: translateY(2px);
 }
 @media screen and (max-width: 1455px) {
-  .overLay {
-    display: flex;
-    justify-content: center;
-  }
+
   .textBox {
     width: 100%;
     padding: 15px;
@@ -107,15 +107,28 @@ text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offs
   }
   .contactBtn {
     align-items: center;
+    margin-top: 10px;
   }
   .mainimg {
     padding: 10px;
-    border-radius: 200px;
-    height: 450px;
-    width: auto;
-    top: 375px; 
-    margin-top: 5px;
+    border-radius: 100%;
+    height: 580px;
+    width: 100%;
+    top: 380px; 
+    margin-top: 12px;
     padding-top: 15px;
+    object-fit: contain;
+
+  }
+  .newmainimg {
+    padding: 10px;
+    border-radius: 100%;
+    height: 580px;
+    width: 100%;
+    top: 380px; 
+    margin-top: 12px;
+    padding-top: 15px;
+    object-fit: contain;
   }
   .textBox h1 {
     font-size: 35px;
@@ -135,11 +148,7 @@ margin-bottom: 0px;
   }
 }
 @media screen and (max-width: 938px) {
-  .overLay {
-    display: flex;
-    justify-content: center;
 
-  }
   .textBox {
     width: 100%;
     padding-top: 50px;
@@ -148,13 +157,23 @@ margin-bottom: 0px;
 
   .mainimg {
     padding: 10px;
-    border-radius: 200px;
+    border-radius: 100%;
     height: 400px;
-    top: 450px; 
+    top: 370px; 
     margin-top: 18px;
     padding-top: 15px;
+    width: 100%;
 }
+.newmainimg {
+  padding: 10px;
+  height: 400px;
+  top: 390px; 
+  margin-top: 18px;
+  padding-top: 15px;
+  width: 100%;
+  object-fit: contain;
 
+}
   .textBox h1 {
     font-size: 30px;
     text-align: center;

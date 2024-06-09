@@ -12,6 +12,9 @@
   padding: 16px;
   cursor: pointer;
   transition: opacity 2.5s ease-in-out;
+  outline: 6px solid rgba(241, 241, 241, 0.984);
+  border: 2px solid #000000;
+
 }
 
 .feet.visible {
@@ -25,21 +28,18 @@
   height: fit-content;
   color: black;
   padding-right: 18px;
-  font-weight: 700;
+  font-weight: 600;
 }
 .QR {
-  width: 85px;
-  height: 85px;
-}
-.boldie {
-  font-weight: bold;
+  width: 120px;
+  height: 120px;
 }
 .inquiry {
   display: flex;
-  margin-bottom: 50px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  height: fit-content;
 }
 .lightboxf {
   position: fixed;
@@ -73,15 +73,15 @@
 }
 .lightbox-contentf h1 {
 font-size: 46px;
+font-family: Arial, Helvetica, sans-serif;
   color: black;
   text-align: center;
   font-weight: 750;
 margin-top: auto;
 margin-bottom: auto;
-padding: 2px;
-width: 80%;
+padding: 10px;
+width: 100%;
 text-shadow: 1px 0px 0px rgb(73, 73, 73); /* horizontal offset, vertical offset, blur radius, color */
-
 }
 .lightbox-contentf h2 {
 
@@ -103,8 +103,11 @@ text-shadow: 1px 0px 0px rgb(73, 73, 73); /* horizontal offset, vertical offset,
 
 }
 .Logo {
-  height: 105px;
-  width: 190px;
+  height: 170px;
+  width: 300px;
+  object-fit: scale-down;
+  margin-left: auto;
+  margin-right: auto;
 }
 .closef {
   position: absolute;
@@ -113,4 +116,20 @@ text-shadow: 1px 0px 0px rgb(73, 73, 73); /* horizontal offset, vertical offset,
   font-size: 42px;
   cursor: pointer;
   color: #ffffff;
+}
+.closeg {
+  position: absolute;
+  top: -12px;
+  right: 6px;
+  font-size: 42px;
+  cursor: pointer;
+  color: #000000;
+}
+
+@media screen and (max-width: 780px) {
+
+.lightbox-contentf h2 {
+text-align: center;
+
+}
 }
