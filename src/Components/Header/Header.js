@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import './Index.css'
-import manH from '../../Assets/Images/man1-PhotoRoom2.png'
 import { useLocation } from 'react-router-dom';
 
 function Header() {
@@ -75,8 +74,8 @@ function Header() {
               offset={-70}
               duration={1000}
               to="/Home"
-              className={`navbar--content ${location.pathname.includes('') ? 'active' : ''}`}
-            >
+              className={`navbar--content ${location.pathname === '/' ? 'active' : ''}`}
+              >
               Home
             </NavLink>
           </li>

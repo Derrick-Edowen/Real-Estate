@@ -33,12 +33,6 @@ function Contact() {
       form.current.reset();
     }, 3500);
   };
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const address = queryParams.get('address') || '';
-  const price = queryParams.get('price') || '';
-
   useEffect(() => {
     const randomImage = Math.random() > 0.5 ? man : woman;
     setImageSrc(randomImage);
