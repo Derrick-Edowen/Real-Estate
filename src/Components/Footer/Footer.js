@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Logo from '../../Assets/Images/logo.PNG';
-import Code from '../../Assets/Images/QRCODE.png'
 import './Index.css';
 
 function Footer() {
@@ -159,9 +158,10 @@ To comply with legal requirements and protect our rights.</p>
 <p>If you have any questions or concerns about our Terms of Service, please contact us at <a href="mailto:oneestatewebservices@outlook.com" style={{color: 'black'}}>oneestatewebservices@outlook.com</a></p>
               </>
             )}
-            <span onClick={() => handleOpenLightbox('mission')}>&copy;One Estate Web Services, 2024</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span onClick={() => handleOpenLightbox('privacy')}>Privacy Policy</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span onClick={() => handleOpenLightbox('terms')}>Terms of Service</span>
+            <span onClick={() => handleOpenLightbox('privacy')}><u>Privacy Policy</u></span><br/>
+            <span onClick={() => handleOpenLightbox('terms')}><u>Terms of Service</u></span><br/>
+            <span onClick={() => handleOpenLightbox('mission')}><u>&copy;One Estate Web Services, 2024</u></span>
+
           </div>
         </div>
       )}
