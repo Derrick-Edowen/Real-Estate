@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import noImg from '../../Assets/Images/noimg.jpg'
-
+//Add a comment section to the announcements!
 function Blog() {
   const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState('');

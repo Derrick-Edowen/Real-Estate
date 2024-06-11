@@ -7,7 +7,7 @@ justify-content: center;
 align-items: center;
 display: flex;
 min-height: 95vh;
-background: transparent;
+background: linear-gradient(to right, rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
 }
 .text-sm {
   color: black;
@@ -15,6 +15,7 @@ background: transparent;
 .lostboy {
   display: flex;
 }
+
 .lostboy img {
   width: 120px;
   position: absolute;
