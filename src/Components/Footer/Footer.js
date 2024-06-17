@@ -10,7 +10,7 @@ function Footer() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(true);
-    }, 2000); // 3 seconds delay
+    }, []); // 3 seconds delay
 
     return () => clearTimeout(timer); // Clean up the timer
   }, []);
@@ -38,7 +38,6 @@ function Footer() {
           NOTICE: This website is for sample purposes only. All rights to this content are reserved by One Estate Web Services. To setup
           your own personal website and increase your online presence, please contact One Estate Web Services at 
           oneestatewebservices@outlook.com to get started today! Click to learn more about what we offer!
-          <span className="closeg" onClick={handleClose}>×</span>
         </div>
       </div>
 
@@ -87,17 +86,17 @@ function Footer() {
 
 <p>When you visit our website or use our services, we may collect the following types of information:</p>
 
-<p>Personal Information: When you sign up for our services or contact us, we may collect personal information such as your name, email address, phone number, and other contact details.</p>
-<p>Usage Information: We may collect information about how you interact with our website, such as the pages you visit, the links you click on, and the time and date of your visits.</p>
-<p>Device Information: We may collect information about the device you use to access our website, such as your IP address, browser type, and operating system.</p>
-<p>How We Use Your Information</p>
+<p>- Personal Information: When you sign up for our services or contact us, we may collect personal information such as your name, email address, phone number, and other contact details.</p>
+<p>- Usage Information: We may collect information about how you interact with our website, such as the pages you visit, the links you click on, and the time and date of your visits.</p>
+<p>- Device Information: We may collect information about the device you use to access our website, such as your IP address, browser type, and operating system.</p>
+<h2>How We Use Your Information</h2>
 
 <p>We may use the information we collect for the following purposes:</p>
 
-<p>To provide and improve our services to you.
-To communicate with you about your account and our services.
-To analyze trends and improve the usability of our website.
-To comply with legal requirements and protect our rights.</p>
+<p>- To provide and improve our services to you.
+- To communicate with you about your account and our services.<br/>
+- To analyze trends and improve the usability of our website.<br/>
+- To comply with legal requirements and protect our rights.</p>
 <h2>Data Security</h2>
 
 <p>We take the security of your information seriously and take measures to protect it from unauthorized access, disclosure, or alteration. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee its absolute security.</p>

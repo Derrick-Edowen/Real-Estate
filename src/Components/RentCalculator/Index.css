@@ -2,18 +2,17 @@
   min-width: 33%;
   max-width: 33%;
   padding: 20px;
-  border: 1px solid #000000;
   border-radius: 5px;
-  background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
+  background: white;
   color: #fff;
   margin-right: 22px;
-  margin-top: 100px; /* Set top margin to auto */
   margin-bottom: auto; /* Set bottom margin to auto */
   height: 90%;
   display: flex; /* Use flexbox */
   flex-direction: column; /* Align children vertically */
   justify-content: center;
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.8) ;
+  padding-top: 210px;
+
   }
 .cups {
   display: flex;
@@ -80,14 +79,14 @@ padding-top: 20px;
 
 margin-top: auto;
 margin-bottom: auto;
-padding-top: 60px;
+padding-top: 160px;
 padding-right: 12px;
   }
 
   .rentCalchead {
     border-radius: 5px;
     padding: 8px;
-    background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+    background: linear-gradient(to right, rgba(26, 0, 0, 0.99),rgba(41, 0, 0, 0.99));
     font-size: 26px;
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
@@ -97,7 +96,7 @@ padding-right: 12px;
     display: block;
     width: fit-content;
     height: fit-content;
-    background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+    background: linear-gradient(to right, rgba(26, 0, 0, 0.99),rgba(41, 0, 0, 0.99));
     padding: 8px;
 width: 25%;
 color: white;
@@ -109,7 +108,7 @@ margin: 0 auto;
 border-radius: 3px;
 }
 .rentButton:hover {
-  background: linear-gradient(to left, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+  background: linear-gradient(to left, rgba(26, 0, 0, 0.99),rgba(41, 0, 0, 0.99));
 }
 .miniP {
   text-align: center;
@@ -123,6 +122,7 @@ border-radius: 3px;
   color: #000000;
 font-size: 24px;
 font-weight: 600;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 .rentButton:active {
@@ -151,7 +151,7 @@ cursor: pointer;
   .rentCalchead1 {
     border-radius: 5px;
     padding: 6px;
-    background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+    background: linear-gradient(to right, rgba(26, 0, 0, 0.99),rgba(41, 0, 0, 0.99));
     font-size: 26px;
 width: 100%;
 text-align: center;
@@ -163,7 +163,9 @@ color: #fff;
     font-size: 18px;
     margin-bottom: 2px;
     color: black;
-font-weight: 600;
+font-weight: 500;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+
   }
   .expensive {
     display: flex;
@@ -173,31 +175,29 @@ font-weight: 600;
   }
 .headie1 {
   width: 100%;
-  background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
+  background: white;
   padding: 8px;
   margin-left: auto;
   margin-right: auto;
   color: white;
   border-radius: 5px;
-border: 1px solid #000000;
 margin-bottom: 6px;
-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4) ;
 font-weight: 500;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 .headie2 {
   width: 100%;
-  background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
+  background: white;
   padding: 8px;
   margin-left: auto;
 margin-right: auto;
 border-radius: 5px;
-border: 1px solid #000000;
 margin-bottom: 6px;
-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4) ;
 font-size: larger;
 font-weight: 500;
 color: #000000fc;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 .ppl1 {
@@ -206,6 +206,7 @@ font-size: 20px;
 text-align: center;
 color: #000000fc;
 font-weight: 500;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 .ppl2 {
@@ -214,6 +215,7 @@ font-weight: 500;
 text-align: center;
 color: #000000fc;
 font-weight: 500;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 .ppl3 {
@@ -222,19 +224,20 @@ font-weight: 500;
 text-align: center;
 color: #000000fc;
 font-weight: 500;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+
 
 }
 .riskL {
   width: 100%;
-  background: linear-gradient(to right, rgba(233, 233, 233, 0.99),rgba(211, 211, 211, 0.969));
+  background: white;
   padding: 8px;
   color: #1e0030fc;
   border-radius: 5px;
-border: 1px solid #000000;
-box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4) ;
 font-size: 20px;
 min-height: 325px;
 min-height: 325px;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 @media screen and (max-width: 1400px) {

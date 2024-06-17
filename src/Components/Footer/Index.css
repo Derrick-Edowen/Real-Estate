@@ -1,19 +1,16 @@
 .feet {
-  position: fixed;
   bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
   z-index: 4000;
-  width: 80%;
+  width: 100%;
   height: fit-content;
   background: linear-gradient(to right, rgba(231, 231, 231, 0.99), rgba(241, 241, 241, 0.984),rgba(255, 255, 255, 0.969));
-  display: flex;
+  display: none;
   opacity: 0;
   padding: 16px;
   cursor: pointer;
   transition: opacity 2.5s ease-in-out;
-  outline: 6px solid rgba(241, 241, 241, 0.984);
-  border: 2px solid #000000;
+  margin-left: 8px;
+  margin-right: 8px;
 
 }
 

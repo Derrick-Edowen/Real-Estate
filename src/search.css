@@ -24,11 +24,6 @@
 
 }
 
-.overlay {
-  background-color: rgba(0, 0, 0, 0.4);
-  height: 100vh;
-  width: 100%;
-}
 input {
 	padding: 6px;
   background-color: white;
@@ -42,9 +37,9 @@ select {
 .starter {
 text-align:center;
 font-style: italic;
-background: linear-gradient(to left, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+background: linear-gradient(to left, rgba(24, 0, 0),rgba(66, 0, 0));
 border: 1px solid #afafaf2f;  
-font-size: 19px;
+font-size: 16px;
 	color: #ffffff;
   font-weight: 500;
 	text-shadow: 2px 2px 1px black;
@@ -60,7 +55,7 @@ border-radius: 0px 50px 50px 0px;
 }
 
 .searchBtn-1 {
-  background: linear-gradient(to left, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+  background: linear-gradient(to left, rgba(24, 0, 0),rgba(66, 0, 0));
   color: white;
   border: 1px solid #afafaf2f;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
@@ -145,7 +140,7 @@ padding-right: 30px;
 
 }
 .searchBtn-1:hover {
-  background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+  background: linear-gradient(to right, rgba(24, 0, 0),rgba(66, 0, 0));
 
 }
 .searchBtn-1:active {
@@ -353,11 +348,9 @@ width: fit-content;
 
   .lists {
     width: 100%;
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    transition: background 6s ease-in-out ;
-    z-index: -10;
+    height: 80vh;
+    padding-top: 106px;
+
   }
 .cardContainer {
   display: flex;
@@ -556,7 +549,7 @@ font-weight: 500;
 	border-radius: 5px;
 }
 .cardi1:hover {
-transform: scale(1.02);
+transform: scale(1.015);
 
 }
 .indigo {

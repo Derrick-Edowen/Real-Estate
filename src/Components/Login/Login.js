@@ -53,7 +53,7 @@ function Login() {
   return (
     <div className='logginCont'>
     <form className="togin" onSubmit={handleSubmit}>
-      <h4 className='idekk'>Login to Update Announcement Content!</h4>
+      <h4 className='idekk'>Agent Access</h4>
       <input
         type="text"
         placeholder="Name"

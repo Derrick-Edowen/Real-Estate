@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import './Index.css'
 import { useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown} from '@fortawesome/free-solid-svg-icons';
+import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
 
 function Header() {
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
+  const [dropdownVisible3, setDropdownVisible3] = useState(false);
+
   const [navActive, setNavActive] = useState(false);
   const location = useLocation();
 
@@ -16,28 +21,48 @@ function Header() {
     setNavActive(!navActive);
     setDropdownVisible1(false);
     setDropdownVisible2(false);
+    setDropdownVisible3(false);
+
   };
 
   const closeMenu = () => {
     setNavActive(false);
     setDropdownVisible1(false);
     setDropdownVisible2(false);
+    setDropdownVisible3(false);
+
   };
 
   const handleClick1 = () => {
     setDropdownVisible1(!dropdownVisible1);
     setDropdownVisible2(false);
+    setDropdownVisible3(false);
+    setNavActive(false); // Close the dropdown menu
   };
-
+  
   const handleClick2 = () => {
     setDropdownVisible2(!dropdownVisible2);
     setDropdownVisible1(false);
+    setDropdownVisible3(false);
+    setNavActive(false); // Close the dropdown menu
   };
+  
+  const handleClick3 = () => {
+    setDropdownVisible3(!dropdownVisible3);
+    setDropdownVisible1(false);
+    setDropdownVisible2(false);
+    setNavActive(false); // Close the dropdown menu
+  };
+  
+  
+
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (!e.target.closest(".dropdown")) {
         setDropdownVisible1(false);
         setDropdownVisible2(false);
+        setDropdownVisible3(false);
+
       }
     };
 
@@ -50,9 +75,13 @@ function Header() {
   return (
 
     <nav className={`navbar ${navActive ? "active" : ""}`}>
+      
+      <NavLink to="/Home" className="heading-link">
       <div className="heading">      
-          <h2>One Estate Web Services</h2>
+        <h2>[Your Brokerage/Business]</h2>
+        <h4>[Your Name]<br/> [Sales Representative / Broker]</h4>
       </div>
+    </NavLink>
       <a
         className={`nav__hamburger ${navActive ? "active" : ""}`}
         onClick={toggleNav}
@@ -65,7 +94,7 @@ function Header() {
       </a>
       <div className={`navbar--items ${navActive ? "active" : ""}`}>
         <ul>
-          <li>
+        <li>
             <NavLink
               onClick={closeMenu}
               activeclass="navbar--active-content"
@@ -73,18 +102,52 @@ function Header() {
               smooth={true}
               offset={-70}
               duration={1000}
-              to="/Home"
-              className={`navbar--content ${location.pathname === '/' ? 'active' : ''}`}
+              to="/Bio"
+              className={`navbar--content ${location.pathname === '/Bio' ? 'active' : ''}`}
               >
-              Home
+              [BIO / YOUR NAME]
             </NavLink>
           </li>
+          <li className={`dropdown ${dropdownVisible3 ? "active" : ""}`}>
+          <div className={`missin ${location.pathname.includes('Find%20Listings%20%7C%20For%20Lease') || location.pathname.includes('Find%20Listings%20%7C%20For%20Sale') || location.pathname.includes('Find%20Listings%20%7C%20Recently%20Sold') ? 'active' : ''}`} 
+          onClick={handleClick3}>REAL ESTATE ADVICE
+              <li
+                className={`navbar--content findingList arrow-rotate ${dropdownVisible3 ? "active" : ""} `}
+              >
+                <FontAwesomeIcon icon={faChevronDown} />
+              </li>
+            </div>
+            <div className={`dropdown-content ${dropdownVisible3 ? "active" : ""}`}>
+              <NavLink
+                onClick={closeMenu}
+                to="/Find Listings | For Sale"
+                className="navbar--content transformer"
+              >
+                Buying a Home
+              </NavLink>
+              <NavLink
+                onClick={closeMenu}
+                to="/Find Listings | For Lease"
+                className="navbar--content transformer"
+              >
+                Selling Your Home
+              </NavLink>
+              <NavLink
+                onClick={closeMenu}
+                to="/Find Listings | Recently Sold"
+                className="navbar--content transformer"
+              >
+                Investing in Real Estate
+              </NavLink>
+            </div>
+          </li>
           <li className={`dropdown ${dropdownVisible1 ? "active" : ""}`}>
-          <div className={`missin ${location.pathname.includes('Find%20Listings%20%7C%20For%20Lease') || location.pathname.includes('Find%20Listings%20%7C%20For%20Sale') || location.pathname.includes('Find%20Listings%20%7C%20Recently%20Sold') ? 'active' : ''}`} onClick={handleClick1}>Find Listings
+          <div className={`missin ${location.pathname.includes('Find%20Listings%20%7C%20For%20Lease') || location.pathname.includes('Find%20Listings%20%7C%20For%20Sale') || location.pathname.includes('Find%20Listings%20%7C%20Recently%20Sold') ? 'active' : ''}`} 
+          onClick={handleClick1}>FIND LISTINGS
               <li
                 className={`navbar--content findingList arrow-rotate ${dropdownVisible1 ? "active" : ""} `}
               >
-                &#9660;
+                <FontAwesomeIcon icon={faChevronDown} />
               </li>
             </div>
             <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
@@ -93,63 +156,76 @@ function Header() {
                 to="/Find Listings | For Sale"
                 className="navbar--content transformer"
               >
-                FOR SALE
+                For Sale
               </NavLink>
               <NavLink
                 onClick={closeMenu}
                 to="/Find Listings | For Lease"
                 className="navbar--content transformer"
               >
-                FOR LEASE
+                For Lease
               </NavLink>
               <NavLink
                 onClick={closeMenu}
                 to="/Find Listings | Recently Sold"
                 className="navbar--content transformer"
               >
-                RECENTLY SOLD
+                Recently Sold
               </NavLink>
             </div>
           </li>
           <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
-          <div className={`missin ${location.pathname.includes('Calculators%20%7C%20Mortgage%20Calculator') || location.pathname.includes('Calculators%20%7C%20Rent%20Affordability%20Calculator') ? 'active' : ''}`} onClick={handleClick2}>Calculators
+          <div className={`missin ${location.pathname.includes('Calculators%20%7C%20Mortgage%20Calculator') || location.pathname.includes('Calculators%20%7C%20Rent%20Affordability%20Calculator') ? 'active' : ''}`}
+           onClick={handleClick2}>CALCULATORS
             <li
               className={`navbar--content findingList big-rotate2 ${dropdownVisible2 ? "active" : ""}`}
               
             >
-               &#9660;
+               <FontAwesomeIcon icon={faChevronDown} />
             </li>
             </div>
-            <div className={`dropdown-content ${dropdownVisible2 ? "active" : ""}`}>
+            <div className={`dropdown-content3 ${dropdownVisible2 ? "active" : ""}`}>
               <NavLink
                 onClick={closeMenu}
                 to="/Calculators | Mortgage Calculator"
                 className="navbar--content transformer"
               >
-                MORTGAGE CALCULATOR
+                Mortgage Calculator
               </NavLink>
               <NavLink
                 onClick={closeMenu}
                 to="/Calculators | Rent Affordability Calculator"
                 className="navbar--content transformer"
               >
-                LEASE CALCULATOR
+                Lease Calculator
               </NavLink>
             </div>
           </li>
           <li>
-            <NavLink
+            <ScrollLink
               onClick={closeMenu}
               activeclass="navbar--active-content"
-              spy={true}
               smooth={true}
               offset={-70}
-              duration={1000}
-              to="/Announcements"
+              duration={2000}
+              to="announcement"
               className="navbar--content"
             >
-              Announcements
-            </NavLink>
+              ANNOUNCEMENTS
+            </ScrollLink>
+          </li>
+          <li>
+          <ScrollLink
+  onClick={closeMenu}
+  activeClass="navbar--active-content"
+  to="contact"
+  smooth={true}
+  offset={-100}
+  duration={2000}
+  className="navbar--content"
+>
+  CONTACT
+</ScrollLink>
           </li>
           <li>
             <NavLink
@@ -159,23 +235,12 @@ function Header() {
               smooth={true}
               offset={-70}
               duration={1000}
-              to="/Contact Me"
-              className="navbar--content"
-            >
-              Contact
+              to="/Pricing"
+              className={`navbar--content ${location.pathname === 'Pricing' ? 'active' : ''}`}
+              >
+              [PRICING & SUBSCRIPTIONS]
             </NavLink>
           </li>
-<li>
-  <a
-    href="https://buy.stripe.com/4gw3ekg8HeBSfKwbII"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="navbar--content"
-    onClick={closeMenu}
-  >
-    Pricing / Subscriptions
-  </a>
-</li>
 
        
         </ul>

@@ -1,18 +1,33 @@
 .blog-container {
 flex-direction: column;
-    min-height: 85vh;
-    max-height: 85vh;
+    height: 47vh;
     overflow: hidden;
-    overflow-y: scroll;
+
   }
-  
+  .updater {
+    font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+font-size: 14px;
+font-weight: 800;
+position: absolute;
+top: 42px;
+left: 18px;
+color: rgb(255, 196, 0);
+text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
+
+  }
+  .ban {
+width: 100%;
+height: 47%;
+z-index: -500;
+position: absolute;  }
   .text-area-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    
+    position: absolute;
     text-align: center;
     padding: 20px;
+    z-index: 4000;
   }
   .finalss {
     width: 100%;
@@ -30,17 +45,25 @@ flex-direction: column;
     margin-bottom: 4px;
     width: 50%;
   }
+  .burster {
+font-size: 68px;
+width: fit-content;
+position: absolute;
+top: -42px;
+left: -16px;
+z-index: 1;
+  }
   .posts-container {
     width:100%;
     padding: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 200px;
+    padding-right: 200px;
     text-align: center;
     padding-top: 40px;
     max-height: 80vh;
     display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* Add some space between posts */
+  gap: 30px; /* Add some space between posts */
   }
   .nerfme {
     width: 100%;
@@ -72,7 +95,7 @@ flex-direction: column;
 right: 150px;
   }
   .post {
-    width: calc(25% - 10px); /* Calculate the width based on the number of posts per row */
+    width: calc(25% - -20px); /* Calculate the width based on the number of posts per row */
     position: relative;
     padding-left: 0px;
     padding-top: 0px;
@@ -83,7 +106,7 @@ min-height: 350px;
 background: #ffffff;
 
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-border-radius: 3px;
+border-radius: 1px;
 cursor: pointer;
 transition: all 0.2s ease-in-out;
   }
@@ -241,6 +264,7 @@ background-color: rgb(197, 197, 197);
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 100px;
   }
   
   .lightbox-contentB {
@@ -248,11 +272,10 @@ background-color: rgb(197, 197, 197);
     padding: 20px;
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
     border: 1px solid #8585852f;
-    border-radius: 15px 0px 15px 0px;
     max-width: 92.5%;
-    max-height: 80%;
+    max-height: 90%;
     min-width: 92.5%;
-    min-height: 80%;
+    min-height: 90%;
     overflow-y: auto;
   }
   

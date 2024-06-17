@@ -3,7 +3,7 @@ import './Blog.css';
 import { useLocation } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faBurst } from '@fortawesome/free-solid-svg-icons';
 import noImg from '../../Assets/Images/noimg.jpg'
 //Add a comment section to the announcements!
 function Blog() {
@@ -102,13 +102,27 @@ function Blog() {
   const handleClose = () => {
     setSelectedPost(null);
   };
-
+  const isNewPost = (createdAt) => {
+    const postDate = new Date(createdAt);
+    const currentDate = new Date();
+    const diffTime = Math.abs(currentDate - postDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 3;
+  };
   return (
-    <div className="blog-container">
+    <div className="blog-container" id='announcement'>
+        <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
+
       <div className="posts-container">
         {posts.slice().reverse().map((post, index) => (
           <div key={index} className="post" onClick={() => handleClick(index)}>
             <img className="windows" src={post.image || noImg} alt="Post Image" />
+            {isNewPost(post.created_at) && (
+              <div className='burster'>
+                <FontAwesomeIcon icon={faBurst} style={{color: "#8f0a00",}} />
+                <div className='updater'>New</div>
+              </div>
+            )}
             <div className="finalss">
               <div className="blogHead">{post.title}</div>
               <div className="blogCont">{post.content}</div>

@@ -4,7 +4,6 @@ import './index.css';
 import { BrowserRouter} from 'react-router-dom';
 
 import App from './App';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 window.googleTranslateElementInit = function() {
   new window.google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');

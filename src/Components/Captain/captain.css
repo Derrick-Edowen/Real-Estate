@@ -1,0 +1,14 @@
+.captain {
+    height: fit-content;
+    background: linear-gradient(to right, rgba(26, 0, 0, 0.99),rgba(41, 0, 0, 0.99));
+    color: #ffffff;
+padding: 4px;
+padding-left: 20px;
+font-size: 14px;
+text-align: start;
+width: 100%;
+position: fixed;
+top: 0;
+left: 0;
+z-index: 8000;
+}

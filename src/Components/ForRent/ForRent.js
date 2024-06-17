@@ -399,17 +399,21 @@ const handleNPage = async (e) => {
     setIsLoading(false);
   }
 };
-  const handleOpenLightbox = (index) => {
-    setSelectedCardIndex(index);
-    setLightboxActive(true);
-    setCurrentImageIndex(0); // Reset the current image index when opening the lightbox
-    (async () => {
-      // Update map location when a card is clicked
-      const selectedProperty = apiData[index];
-      const fullAddress = `${selectedProperty.address.streetAddress}, ${selectedProperty.address.city}, ${selectedProperty.address.state}`;
-      await updateMapLocation(fullAddress);
-    })();
-  };
+const handleOpenLightbox = (index) => {
+  const property = apiData[index];
+  const address = `${safeAccess(property, 'address.streetAddress')} ${safeAccess(property, 'address.zipcode')} ${safeAccess(property, 'address.city')} ${safeAccess(property, 'address.state')}`;
+  const urlAddress = encodeURIComponent(address.replace(/\s+/g, '-').toLowerCase());
+  const currentUrl = window.location.href;
+  
+  const propertyData = encodeURIComponent(JSON.stringify({
+    property: property,
+    info: infoData[index],
+    api: apiData[index]
+  }));
+
+  const url = `${currentUrl}/Property-Details/${urlAddress}`;
+  window.open(url, '_blank');
+};
     
       const handleCloseLightbox = () => {
         setSelectedCardIndex(null);
@@ -721,7 +725,7 @@ return (
         )
       )}
 
-{lightboxActive && selectedCardIndex !== null && (
+{/*lightboxActive && selectedCardIndex !== null && (
         <div className="lightbox notranslate" onClick={handleCloseLightbox}>
           <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
             {apiData[selectedCardIndex] && (
@@ -778,7 +782,7 @@ return (
                   )}
                 </div>
               </div>
-            )}
+            )*/}
           </>
         )}
       </main>

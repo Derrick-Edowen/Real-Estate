@@ -7,6 +7,7 @@ import './contact.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 function Contact() {
   const [textVisible, setTextVisible] = useState(false);
@@ -37,10 +38,14 @@ function Contact() {
     const randomImage = Math.random() > 0.5 ? man : woman;
     setImageSrc(randomImage);
   }, []);
+  const navigate = useNavigate();
 
+  const handleRouteClick = () => {
+    navigate('/Login');
+  };
   return (
-    <div className='underLay'>
-      <section>
+    <div className='underLay' id='contact'>
+      <section >
         <div className='container'>
           <div className='contactinfo'>
             <div>
@@ -48,18 +53,18 @@ function Contact() {
               <ul className='info'>
                 <li>
                   <span><FontAwesomeIcon icon={faLocationDot} style={{ color: "#ffffff" }} size='2xl' /></span>
-                  <span>123 Real Estate Drive<br />
-                    Washington, DC <br />
+                  <span>[Office
+                    Address /<br /> Business Address]<br />
                   </span>
                 </li>
                 <li>
                   <span><FontAwesomeIcon icon={faEnvelope} style={{ color: "#ffffff" }} size='xl' /></span>
-                  <span><a href="mailto:oneestatewebservices@outlook.com" style={{color: 'white'}}>oneestatewebservices<br/>@outlook.com</a></span>
+                  <span>[Your Email Address]</span>
 
                 </li>
                 <li>
                   <span><FontAwesomeIcon icon={faPhone} style={{ color: "#ffffff" }} size='xl' /></span>
-                  <span>123-456-7890
+                  <span>[Your Phone Number]
                   </span>
                 </li>
               </ul>
@@ -110,6 +115,11 @@ function Contact() {
           </form>
         </div>
       </section>
+      <span>&copy;One Estate Web Services</span>
+      <span>Terms of Service</span>
+      <span>Privacy Policy</span>
+      <button onClick={handleRouteClick}>Agent Access</button>
+
     </div>
   );
 }

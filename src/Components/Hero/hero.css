@@ -1,116 +1,66 @@
 
-.homePage {
+.heroPage {
   width: 100%;
-  height: 90dvh;
+  height: 50dvh;
   border-bottom: 1px solid #afafaf2f;
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5) ;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5) ;
+padding-left: 475px;
+padding-right: 50px;
+
+padding-top: 135px;
+}
+.develop {
+  clip-path: polygon(0 0, 100% 0, 100% 20%, 0 100%);
+height: 100%;
+width: 100vw;
+background-color: rgb(0, 0, 0, 0.9);
+z-index: -5000;
+position: relative;
 
 }
-.splasher-container {
-  position: relative;
-  display: inline-block;
-}
-
-.splasher {
-  width: 100vw;
-  height: 100%;
-  position: absolute;
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5) ;
-}
-
-.splasher-overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 4000;
-}
-
-.titCard {
-  display: flex;
-  text-align: center;
-  color: white;
-  font-size: 96px;
-  font-weight: 300;
-  text-shadow: 2px 2px 1px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
-  align-items: center;     /* centers the items vertically */
-  justify-content: center; /* centers the items horizontally */
-padding-top: 350px;
-margin-bottom: 50px;
-}
-.gote {
-  text-align: center;
-  color: white;
-  padding-top: 50px;
-  font-size: 30px;
-}
-.apps {
-  display: flex;
-  gap: 100px;
-  width: 100%;
-  justify-content: center; /* centers the items horizontally */
-  align-items: center;     /* centers the items vertically */
-}
-
-.biglinks {
-  height: 160px;
-  width: 160px;
-  background: rgba(5, 5, 5, 0.85);
-  border-radius: 100%;
-  outline: 3px solid rgba(255, 255, 255);
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.biglinks .icon {
-  color: #ffffff;
-  transition: color 0.8s ease;
+.develop2 {
+  clip-path: polygon(0 0, 100% 0, 100% 10%, 0 100%);
+height: 100%;
+width: 100vw;
+background-color: rgba(131, 131, 131, 0.9);
+z-index: -5000;
+position: relative;
 
 }
-.biglinks:hover .icon {
-  color: #180000d9;
+.sci-hero {
+display: flex;
+height: fit-content;
+width: fit-content;
+gap: 20px;
 }
-.biglinks:hover {
-  background: rgba(255, 255, 255, 0.85);
-  outline: 3px solid #180000d9;
-
-  transition: 0.3s ease-in-out;
-
-  transform: translateY(0px);
-
-}
-.text {
-  opacity: 0;
-  transform: translateY(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  position: absolute;
-  top: 120px; /* Adjust if needed */
-  color: white;
-  font-size: 22px; /* Adjust if needed */
-  text-shadow: 2px 2px 1px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
-
-}
-.biglinks:hover .text {
-  opacity: 1;
-  transform: translateY(44px);
+.sci-hero li{
+  width: fit-content;
 }
 .imgContainer {
 padding: 0px;
 }
+.filter {
+  background-image: url('https://storage.googleapis.com/realestate-images/placencia-exterior-pool-mansfield.jpg');
+filter: blur(1.5px);
+width: 15%;
+height: 30vh;
+position: absolute;
+border-radius: 125%;
+box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.9) ;
+background-repeat: no-repeat;
+}
 .mainimg {
   position: absolute;
   padding: 4px;
-  height: 100vh;
+  max-height: 30vh;
   padding-bottom: 0px;
-  width: 50%;
-  object-fit: cover;
+  max-width: 15%;
+  min-width: 15%;
+  border-radius: 125%;
 
+  object-fit: cover;
+margin-top: auto;
+margin-bottom: auto;
 }
 
 .newmainimg {
@@ -122,38 +72,37 @@ padding: 0px;
   padding-bottom: 0px;
 }
 
-.textBox {
-  font-size: 60px;
+.heroBox {
+  font-size: 40px;
   color: azure;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   position: relative;
-  padding-top: 210px;
-  padding-right: 70px;
-  width: 50%;
+  padding-top: 24px;
+  padding-bottom: auto;
+  width: 70%;
   float: right;
   text-align:left;
   box-sizing: border-box;
-  
 }
-.textBox  h1{
-  font-size: 45px;
+.heroBox  h1{
+  font-size: 38px;
   float: left;
   text-align:left;
   padding-left: 0px;
-  text-shadow: 2px 2px 2px #000000; /* horizontal offset, vertical offset, blur radius, color */
+  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
 }
-.textBox  h2{
-  font-size: 30px;
+.heroBox  h2{
+  font-size: 24px;
   float: left;
   text-align:left;
   text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
 }
-.textBox p {
-  font-size: 26px;
+.heroBox p {
+  font-size: 20px;
   float: left;
   text-align:left;
   text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */

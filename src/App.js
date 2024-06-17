@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom'
 import './App.css';
 import Header from './Components/Header/Header';
 import Home from './Components/Home/Home';
+import Hero from './Components/Hero/Hero';
 import Footer from './Components/Footer/Footer';
 import Calculator from './Components/Calculator/Calculator';
 import Contact from './Components/Contact/Contact';
@@ -18,11 +19,16 @@ import RecentlySold from './Components/RecentlySold/RecentlySold';
 import RentCalculator from './Components/RentCalculator/RentCalculator';
 import Login from './Components/Login/Login';
 import Blog from './Components/Blog/Blog';
+import ActiveList from './Components/ActiveList/ActiveListing';
+import Captain from './Components/Captain/Captain';
+import Pricing from './Components/Pricing/Pricing';
+import Bio from './Components/Bio/Bio';
+import PropertyDetails from './Components/PropertyDetails/PropertyDetails';
 
 
 function App() {
 
-  const images = [image1, image2, image3, image4, image5];
+ /* const images = [image1, image2, image3, image4, image5];
   const randomIndex = Math.floor(Math.random() * images.length);
   const [currentIndex] = useState(randomIndex);
 
@@ -36,7 +42,7 @@ function App() {
   const imageStyle = {
     backgroundImage: `url(${images[currentIndex]})`,
   };
-
+*/
 
   const location = useLocation();
   useEffect(() => {
@@ -54,11 +60,12 @@ function App() {
 
   return (
 <>
+<Captain />
   <Header />
-  <div className="App" style={imageStyle}>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/Home" element={<Home />} />
+      <Route path="/Bio" element={<Bio />} />
       <Route path="/Calculators | Mortgage Calculator" element={<Calculator />} />
       <Route path="/Announcements" element={<Blog />} />
       <Route path="/Find Listings | For Sale" element={<ForSale />} />
@@ -66,11 +73,12 @@ function App() {
       <Route path="/Find Listings | Recently Sold" element={<RecentlySold />} />
       <Route path="/Calculators | Rent Affordability Calculator" element={<RentCalculator />} />
       <Route path="/Contact Me" element={<Contact />} />
+      <Route path="/Pricing" element={<Pricing />} />
+      <Route path="/PropertyDetails/:address" element={<PropertyDetails />} />
       <Route path="/Login" element={<Login />} />
       <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>
     <Footer />
-  </div>
 </>
   );
 }
