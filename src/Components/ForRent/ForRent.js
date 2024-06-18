@@ -403,18 +403,20 @@ const handleOpenLightbox = (index) => {
   const property = apiData[index];
   const address = `${safeAccess(property, 'address.streetAddress')} ${safeAccess(property, 'address.zipcode')} ${safeAccess(property, 'address.city')} ${safeAccess(property, 'address.state')}`;
   const urlAddress = encodeURIComponent(address.replace(/\s+/g, '-').toLowerCase());
-  const currentUrl = window.location.href;
-  
-  const propertyData = encodeURIComponent(JSON.stringify({
+
+  const propertyData = {
     property: property,
     info: infoData[index],
     api: apiData[index]
-  }));
+  };
 
-  const url = `${currentUrl}/Property-Details/${urlAddress}`;
+  sessionStorage.setItem('propertyData', JSON.stringify(propertyData));
+
+  const url = `/Property-Details/${urlAddress}`;
   window.open(url, '_blank');
 };
-    
+
+
       const handleCloseLightbox = () => {
         setSelectedCardIndex(null);
         setLightboxActive(false);

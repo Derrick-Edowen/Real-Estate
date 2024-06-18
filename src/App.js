@@ -74,7 +74,7 @@ function App() {
       <Route path="/Calculators | Rent Affordability Calculator" element={<RentCalculator />} />
       <Route path="/Contact Me" element={<Contact />} />
       <Route path="/Pricing" element={<Pricing />} />
-      <Route path="/PropertyDetails/:address" element={<PropertyDetails />} />
+      <Route path="/Property-Details/:address" element={<PropertyDetails />} />
       <Route path="/Login" element={<Login />} />
       <Route path="*" element={<div>404 Not Found</div>} />
     </Routes>
