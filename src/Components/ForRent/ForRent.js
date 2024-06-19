@@ -461,6 +461,7 @@ const handleOpenLightbox = (index) => {
 let state = '';
 return (
   <div className='lists notranslate'>
+    <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splash'></img>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
         <div className='starter'>Find Listings - For Lease</div>

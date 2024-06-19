@@ -93,7 +93,7 @@ const PropertyDetails = () => {
               <div className='pAddress-1 notranslate'>
                 {safeAccess(api, 'address.streetAddress')} <br/>
                   {safeAccess(api, 'address.city') + " , " + safeAccess(api, 'address.state') + " " + safeAccess(api, 'address.zipcode') }
-                  <FontAwesomeIcon icon={faLocationDot} />
+                  &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faLocationDot} />
               </div>
             </div>
             <div className='side-by-side-container notranslate'>
@@ -105,8 +105,12 @@ const PropertyDetails = () => {
                 <button className="lightbox-right notranslate" onClick={handleNextImage}>
                 <FontAwesomeIcon icon={faArrowRight} style={{color: "#ffffff",}} />                
                 </button>
+                <div className='cardBroke notranslate'>&nbsp;Listing provided courtesy of: {safeAccess(api, 'brokerageName')}</div>
+                <div className='mr'>
+                  <div className='detts'>Property Details</div>
+                  <div className='descText notranslate'>{safeAccess(api, 'description')}</div>
+                  </div>
               </div>
-              <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(api, 'brokerageName')}</div>
               <div className="cardText notranslate">
                 <div className='containText notranslate'>
                   <div className='pPrice notranslate'>${formatNumberWithCommas(safeAccess(api, 'price'))}/Month</div>
@@ -115,8 +119,7 @@ const PropertyDetails = () => {
                     <div className='bathh'>&nbsp;{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
                     <div className='dayss'>&nbsp; Active ({safeAccess(api, 'timeOnZillow')})</div>
                   </div>
-                  <div className='detts'>Property Details</div>
-                  <div className='descText notranslate'>{safeAccess(api, 'description')}</div>
+
                   <div className='holding1 notranslate'>
                     <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(api, 'resoFacts.parkingCapacity')}</div>
                     <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(api, 'resoFacts.heating.0')} &nbsp;</div>
@@ -130,7 +133,7 @@ const PropertyDetails = () => {
             </div>
           </>
         )}
-        <div className="notranslate map-container">
+        <div className="map">
           <APIProvider apiKey={apiKey}>
             <Map center={position} zoom={zoomLevel} style={{ width: '100%', height: '500px' }}>
               <Marker position={position} />

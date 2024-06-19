@@ -347,7 +347,15 @@ width: fit-content;
 	text-shadow: 2px 2px 2px #000000;
 
 }
+.splash {
 
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    filter: blur(12px);
+    z-index: -10;
+    padding: 0px;
+}
   .lists {
     width: 100%;
     height: 80vh;
@@ -402,12 +410,11 @@ font-weight: 600;
 }
 
 .pAddress-1 {
-	font-size: 18px;
+	font-size: 34px;
 	text-shadow: 2px 2px 2px #000000;
-  background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
 	padding: 8px;
-	color: #fff;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3) ;
+  color: #333;
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 .cardi1 {
@@ -433,6 +440,7 @@ font-weight: 600;
 }
 .holding1 {
 	display: flex;
+  flex-direction: column;
 	max-width: 100%;
 	margin-top: 6px;
 	margin-bottom: 24px;
@@ -467,76 +475,82 @@ font-weight: 500;
   }
   .cardPark {
 	font-size: 18px;
-	color: rgb(236, 236, 236);
 	background: linear-gradient(to right,rgba(0, 70, 9, 0.75), rgba(0, 104, 43, 0.75),rgba(1, 145, 37, 0.75));
-	margin-top: 1px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* For non-WebKit browsers */
+  margin-top: 1px;
   padding-left: 3px;
   padding-right: 3px;
-  border-radius: 4px;
-  text-shadow: 2px 2px 6px #000000;
-  box-shadow: 0px 0.1px;
   width: fit-content;
   margin-right: 6px;
-  font-family: 'Arial', sans-serif;
-
+  font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+  text-shadow: 2px 2px 2px #0006;
   }
 
   .cardFire {
-	font-size: 18px;
-	color: rgb(236, 236, 236);
-	background: linear-gradient(to right,rgba(165, 1, 1, 0.75), rgba(197, 73, 1, 0.75),rgba(214, 139, 0, 0.75));
-	margin-top: 1px;
-  padding-left: 3px;
-  padding-right: 3px;
-  border-radius: 4px;
-  text-shadow: 2px 2px 6px #000000;
-  box-shadow: 0px 0.1px;
-  width: fit-content;
-  margin-right: 6px;
-  font-family: 'Arial', sans-serif;
-
+    font-size: 18px;
+    background: linear-gradient(to right, rgba(165, 1, 1, 0.75), rgba(197, 73, 1, 0.75), rgba(214, 139, 0, 0.75));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent; /* For non-WebKit browsers */
+    margin-top: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+    width: fit-content;
+    margin-right: 6px;
+    font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
   }
+  
+  
   .cardMl {
 	font-size: 18px;
-	color: rgb(236, 236, 236);
 	background: linear-gradient(to right,rgba(58, 0, 194, 0.75), rgba(151, 1, 197, 0.75),rgba(207, 0, 214, 0.75));
-	margin-top: 1px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* For non-WebKit browsers */
+  margin-top: 1px;
   padding-left: 3px;
   padding-right: 3px;
-  border-radius: 4px;
-  text-shadow: 2px 2px 6px #000000;
-  box-shadow: 0px 0.1px;
   width: fit-content;
   margin-right: 6px;
-  font-family: 'Arial', sans-serif;
-
+  font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
   }
   .cardWind {
 	font-size: 18px;
-	color: rgb(236, 236, 236);
 	background: linear-gradient(to right,rgba(14, 2, 190, 0.75), rgba(1, 97, 187, 0.75),rgba(0, 200, 214, 0.75));
-	margin-top: 1px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* For non-WebKit browsers */
+  margin-top: 1px;
   padding-left: 3px;
   padding-right: 3px;
-  border-radius: 4px;
-  text-shadow: 2px 2px 6px #000000;
-  box-shadow: 0px 0.1px;
   width: fit-content;
   margin-right: 6px;
-  font-family: 'Arial', sans-serif;
-
+  font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
   }
   .cardBroke {
-	font-size: 18px;
+	font-size: 22px;
 	color: rgb(0, 0, 0);
 	margin-top: 1px;
-padding: 3px;
-  text-shadow: 2px 2px 6px #000000;
+padding: 0px;
   width: fit-content;  
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
-
+.overlay {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+}
 .cover1 {
 	background-color: #dad7d7;
 	border-radius: 5px;
@@ -564,9 +578,7 @@ transform: scale(1.015);
   overflow: hidden; /* Hide overflowing text */
   margin: 8px;
   margin-left: 10px;
-  align-items: flex-start;
-  flex: 0 0 50%;
-  max-height: 600px;
+width: 30%;
   overflow-y: auto;
 }
 .cardText1 {
@@ -643,7 +655,6 @@ display: grid;
 }
 .side-by-side-container {
   display: flex;
-  flex-direction: column;
 
   width: 100%; /* Ensure the container takes full width */
 
@@ -655,12 +666,11 @@ display: grid;
 }
 .fixer {
   position: relative;
-  width: 100%;
-  height: 100px;
+  width: 70%;
   background: #cecece;
-  padding: 8px;
-  padding-bottom: 16px;
-  height: 70vh;
+  padding: 2px;
+  padding-bottom: 28px;
+  height: 65vh;
 }
 .map {
   width: auto; /* Set the width to 100% */
@@ -671,17 +681,17 @@ padding: 6px;
 }
 .lightbox-left {
   position: absolute;
-  top: 48%;
+  top: 50%;
   transform: translateY(-50%);
-  left: -38px;
-  height: 60px;
-  width: 60px;
-  background-color: rgba(54, 52, 52);
+  left: -36px;
+  height: 50px;
+  width: 50px;
+  background-color: rgba(54, 52, 52, 0.75); /* Adjust the hover opacity as needed */
   border: 1px solid #afafaf2f;
   border-radius: 150%;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.6) ;
   color: #fff;
-  font-size: 44px;
+  font-size: 26px;
   cursor: pointer;
   padding: 6px;
   margin-right: 4px;
@@ -690,35 +700,36 @@ padding: 6px;
   transition: background-color 0.3s ease;
 }
 .lightbox-left:hover {
-  background-color: rgba(54, 52, 52, 0.70); /* Adjust the hover opacity as needed */
+  background-color: rgba(54, 52, 52, 0.95); /* Adjust the hover opacity as needed */
 }
 .fixImage {
   width: 100%;
   height: 100%;
+  border: 1px solid black;
 }
 .lightbox-right {
   position: absolute;
-right: -32px;  
-top: 48%;
-width: 60px;
+right: -34px;  
+top: 50%;
+width: 50px;
 transform: translateY(-50%);
   bottom: 0;
-  height: 60px;
+  height: 50px;
   padding: 6px;
   margin-right: 12px;
   margin-left: 4px;
-  background-color: rgba(54, 52, 52); /* Adjust the hover opacity as needed */
+  background-color: rgba(54, 52, 52, 0.75); /* Adjust the hover opacity as needed */
   border: 1px solid #afafaf2f;
   border-radius: 150%;
-  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.6) ;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.6) ;
   color: #fff; /* Text color */
-  font-size: 44px; /* Adjust the font size as needed */
+  font-size: 26px; /* Adjust the font size as needed */
   cursor: pointer;
   outline: none;
   transition: background-color 0.3s ease;
 }
 .lightbox-right:hover {
-  background-color: rgba(54, 52, 52, 0.70); /* Adjust the hover opacity as needed */
+  background-color: rgba(54, 52, 52, 0.95); /* Adjust the hover opacity as needed */
 }
 .lightbox img {
  min-width: 85%;
