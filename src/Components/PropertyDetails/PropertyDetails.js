@@ -18,7 +18,8 @@ const PropertyDetails = () => {
     const [zoomLevel, setZoomLevel] = useState(11);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-  
+    const [visibleComponent, setVisibleComponent] = useState('none');
+
     useEffect(() => {
       const storedData = sessionStorage.getItem('propertyData');
       if (storedData) {
@@ -35,9 +36,12 @@ const PropertyDetails = () => {
       }
     }, []);
   
-    const safeAccess = (object, path) => {
-      return path.split('.').reduce((o, p) => (o && o[p] ? o[p] : ''), object);
-    };
+    function safeAccess(obj, path) {
+        if (!path || typeof path !== 'string') {
+          return "Undisclosed";
+        }
+        return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Undisclosed"), obj);
+      }
   
     const formatNumberWithCommas = (number) => {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -46,7 +50,9 @@ const PropertyDetails = () => {
     const handleCloseLightbox = () => {
       window.close();
     };
-  
+    const handleMissClick = (component) => {
+        setVisibleComponent(component);
+      };
     const handlePrevImage = () => {
       const prevIndex = (currentImageIndex - 1 + infoData.images.length) % infoData.images.length;
       setCurrentImageIndex(prevIndex);
@@ -83,7 +89,9 @@ const PropertyDetails = () => {
         console.error('Error fetching data:', error);
       }
     };
-  
+    const schools = safeAccess(api, 'schools', []);
+    const nearbyHomes = safeAccess(api, 'nearbyHomes', []);
+
     return (
         <>
       <div className='propDets'>
@@ -93,7 +101,7 @@ const PropertyDetails = () => {
               <div className='pAddress-1 notranslate'>
                 {safeAccess(api, 'address.streetAddress')} <br/>
                   {safeAccess(api, 'address.city') + " , " + safeAccess(api, 'address.state') + " " + safeAccess(api, 'address.zipcode') }
-                  &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faLocationDot} />
+                  &nbsp;<FontAwesomeIcon icon={faLocationDot} />
               </div>
             </div>
             <div className='side-by-side-container notranslate'>
@@ -105,11 +113,8 @@ const PropertyDetails = () => {
                 <button className="lightbox-right notranslate" onClick={handleNextImage}>
                 <FontAwesomeIcon icon={faArrowRight} style={{color: "#ffffff",}} />                
                 </button>
-                <div className='cardBroke notranslate'>&nbsp;Listing provided courtesy of: {safeAccess(api, 'brokerageName')}</div>
-                <div className='mr'>
-                  <div className='detts'>Property Details</div>
-                  <div className='descText notranslate'>{safeAccess(api, 'description')}</div>
-                  </div>
+                <div className='cardAsk notranslate'>&nbsp;Listing provided courtesy of: {safeAccess(api, 'brokerageName')}</div>
+  
               </div>
               <div className="cardText notranslate">
                 <div className='containText notranslate'>
@@ -131,17 +136,51 @@ const PropertyDetails = () => {
                 </div>
               </div>
             </div>
+            <div className='mr'>
+                  <div className='detts'>Property Details</div>
+                  <div className='descText notranslate'>{safeAccess(api, 'description')}</div>
+                  </div>
           </>
         )}
+    <div>
+      <div className="buttonp-container">
+        <button onClick={() => handleMissClick('map')}>Map</button>
+        <button onClick={() => handleMissClick('schools')}>Schools</button>
+        <button onClick={() => handleMissClick('homes')}>Nearby Homes</button>
+      </div>
+      {visibleComponent === 'map' && (
         <div className="map">
           <APIProvider apiKey={apiKey}>
-            <Map center={position} zoom={zoomLevel} style={{ width: '100%', height: '500px' }}>
+            <Map center={position} zoom={zoomLevel} style={{ width: '100%', height: '400px' }}>
               <Marker position={position} />
             </Map>
           </APIProvider>
         </div>
+      )}
+      {visibleComponent === 'schools' && (
+        <div className="schools">
+           {schools.length > 0 ? (
+            schools.map((school, index) => (
+              <div key={index}>{school.name}</div>
+            ))
+          ) : (
+            <div>No Local School Data</div>
+          )}
+        </div>
+      )}
+      {visibleComponent === 'homes' && (
+        <div className="nearby-homes">
+         {nearbyHomes.length > 0 ? (
+            nearbyHomes.map((nearbyHomes, index) => (
+              <div className='' key={index}>{nearbyHomes.address.streetAddress}</div>
+            ))
+          ) : (
+            <div>No Nearby Home Data</div>
+          )}
+        </div>
+      )}
+    </div>
       </div>
-              <Contact />
 </>
     );
   };

@@ -7,6 +7,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 import Footer from '../Footer/Footer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
+import Contact from '../Contact/Contact';
 
 
 function ForRent() {
@@ -460,6 +461,7 @@ const handleOpenLightbox = (index) => {
   };
 let state = '';
 return (
+  <>
   <div className='lists notranslate'>
     <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splash'></img>
     <div className='overlay notranslate'>
@@ -716,6 +718,9 @@ return (
                 safeAccess(property, 'address.city') +" , "+ safeAccess(property, 'address.state')
                 }</div>
                 </div>
+                <div className="binlay">
+    View Property Details
+  </div>
               </div>
             )
           ))}
@@ -793,7 +798,7 @@ return (
   </div>
   
 </div>
-
+</>
 );
 }
 

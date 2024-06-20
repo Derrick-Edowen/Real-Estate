@@ -200,12 +200,12 @@ async function processQueue() {
 
   isProcessing = false;
 }*/
-const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 2000 / maxRequestsPerSecond; // Adjust delay for optimization
+const maxRequestsPerSecond = 1;
+const delayBetweenRequests = 1100 / maxRequestsPerSecond; // Adjust delay for optimization
 
 const limiter = new Bottleneck({
   maxConcurrent: maxRequestsPerSecond,
-  minTime: 1100 / maxRequestsPerSecond,
+  minTime: 1000 / maxRequestsPerSecond,
 });
 
 const wss = new WebSocket.Server({ server });
