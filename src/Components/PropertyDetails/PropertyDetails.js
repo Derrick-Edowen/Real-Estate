@@ -159,20 +159,28 @@ const PropertyDetails = () => {
       )}
       {visibleComponent === 'schools' && (
         <div className="schools">
-           {schools.length > 0 ? (
-            schools.map((school, index) => (
-              <div key={index}>{school.name} <br/> {school.type}<br/> {school.level}<br/> {school.grades}<br/> {school.distance}<br/> {school.rating} <br/> {school.level}<br/> {school.link} </div>
-            ))
-          ) : (
-            <div>No Local School Data</div>
-          )}
-        </div>
+        {schools.length > 0 ? (
+          schools.map((school, index) => (
+            <div className="school-card" key={index}>
+              <div><strong>Name:</strong> {school.name}</div>
+              <div><strong>Type:</strong> {school.type}</div>
+              <div><strong>Level:</strong> {school.level}</div>
+              <div><strong>Grades:</strong> {school.grades}</div>
+              <div><strong>Distance:</strong> {school.distance}</div>
+              <div><strong>Rating:</strong> {school.rating}</div>
+              <div><strong>Link:</strong> <a href={school.link} target="_blank" rel="noopener noreferrer">{school.link}</a></div>
+            </div>
+          ))
+        ) : (
+          <div>No Local School Data</div>
+        )}
+      </div>
       )}
       {visibleComponent === 'homes' && (
         <div className="nearby-homes">
          {nearbyHomes.length > 0 ? (
             nearbyHomes.map((nearbyHomes, index) => (
-              <div className='' key={index}>{nearbyHomes.address.streetAddress} &nbsp; {nearbyHomes.address.zipcode} &nbsp; {nearbyHomes.address.city} &nbsp; {nearbyHomes.address.state}</div>
+              <div key={index}>{nearbyHomes.address.streetAddress} &nbsp; {nearbyHomes.address.zipcode} &nbsp; {nearbyHomes.address.city} &nbsp; {nearbyHomes.address.state}</div>
             ))
           ) : (
             <div>No Nearby Homes Found</div>
