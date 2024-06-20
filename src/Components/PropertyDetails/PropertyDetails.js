@@ -161,7 +161,7 @@ const PropertyDetails = () => {
         <div className="schools">
            {schools.length > 0 ? (
             schools.map((school, index) => (
-              <div key={index}>{school.name}</div>
+              <div key={index}>{school.name} <br/> {school.type}<br/> {school.level}<br/> {school.grades}<br/> {school.distance}<br/> {school.rating} <br/> {school.level}<br/> {school.link} </div>
             ))
           ) : (
             <div>No Local School Data</div>
@@ -172,10 +172,10 @@ const PropertyDetails = () => {
         <div className="nearby-homes">
          {nearbyHomes.length > 0 ? (
             nearbyHomes.map((nearbyHomes, index) => (
-              <div className='' key={index}>{nearbyHomes.address.streetAddress}</div>
+              <div className='' key={index}>{nearbyHomes.address.streetAddress} &nbsp; {nearbyHomes.address.zipcode} &nbsp; {nearbyHomes.address.city} &nbsp; {nearbyHomes.address.state}</div>
             ))
           ) : (
-            <div>No Nearby Home Data</div>
+            <div>No Nearby Homes Found</div>
           )}
         </div>
       )}
