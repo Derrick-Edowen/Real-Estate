@@ -705,10 +705,10 @@ return (
               >
                 <div className='indigo'>
                   <img className='mommy' src={property.imgSrc || infoData[index]?.imgSrc || noImg} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
-                  <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))}
-                  </div>
+
                 </div>
                 <div className="cardText1 notranslate">
+                <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))}</div>
                   <div className='holding2 notranslate'>
                     <div className='cardBed notranslate'>{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
                     <div className='cardBaths notranslate'>{safeAccess(property, 'bathrooms')} Baths&nbsp;|</div>

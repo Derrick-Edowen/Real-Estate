@@ -1,5 +1,6 @@
 .blog-container {
-flex-direction: column;
+  display: flex;
+flex-direction:row;
     height: 47vh;
     overflow: hidden;
 

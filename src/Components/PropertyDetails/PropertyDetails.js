@@ -6,7 +6,7 @@ import './propDetails.css'
 import { useParams, useLocation } from 'react-router-dom';
 import Contact from '../Contact/Contact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 const PropertyDetails = () => {
     const { address } = useParams();
@@ -18,7 +18,9 @@ const PropertyDetails = () => {
     const [zoomLevel, setZoomLevel] = useState(11);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-    const [visibleComponent, setVisibleComponent] = useState('none');
+    const [visibleComponent, setVisibleComponent] = useState('map');
+    const [showAdditionalFacts, setShowAdditionalFacts] = useState(false);
+
 
     useEffect(() => {
       const storedData = sessionStorage.getItem('propertyData');
@@ -62,7 +64,9 @@ const PropertyDetails = () => {
       const nextIndex = (currentImageIndex + 1) % infoData.images.length;
       setCurrentImageIndex(nextIndex);
     };
-  
+    const toggleAdditionalFacts = () => {
+        setShowAdditionalFacts(!showAdditionalFacts);
+      };
     const updateMapLocation = async (address) => {
       try {
         const response = await fetch('/api/geocode', {
@@ -91,6 +95,12 @@ const PropertyDetails = () => {
     };
     const schools = safeAccess(api, 'schools', []);
     const nearbyHomes = safeAccess(api, 'nearbyHomes', []);
+    const monthlyPrice = safeAccess(api, 'price', 0);
+    const yearlyPrice = monthlyPrice * 12;
+    const hasPetsAllowed = safeAccess(api, 'resoFacts.hasPetsAllowed');
+const garage = safeAccess(api, 'resoFacts.hasGarage');
+const furnished = safeAccess(api, 'resoFacts.furnished');
+const homeType = safeAccess(api, 'homeType')?.replace(/_/g, ' '); // Replace underscores with spaces
 
     return (
         <>
@@ -113,45 +123,81 @@ const PropertyDetails = () => {
                 <button className="lightbox-right notranslate" onClick={handleNextImage}>
                 <FontAwesomeIcon icon={faArrowRight} style={{color: "#ffffff",}} />                
                 </button>
-                <div className='cardAsk notranslate'>&nbsp;Listing provided courtesy of: {safeAccess(api, 'brokerageName')}</div>
+                <div className='cardAsk notranslate'>Listing provided courtesy of: {safeAccess(api, 'brokerageName')}</div>
   
               </div>
               <div className="cardText notranslate">
                 <div className='containText notranslate'>
-                  <div className='pPrice notranslate'>${formatNumberWithCommas(safeAccess(api, 'price'))}/Month</div>
+                <div className='pPrice notranslate'>${formatNumberWithCommas(monthlyPrice)}/Month</div>
+                <div className='pminiPrice notranslate'>Est. ${formatNumberWithCommas(yearlyPrice)} annually</div>
                   <div className='heallin'>
-                    <div className='bedd'>&nbsp;{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                    <div className='bathh'>&nbsp;{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                    <div className='dayss'>&nbsp; Active ({safeAccess(api, 'timeOnZillow')})</div>
+                    <div className='bedd'>&nbsp;{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
+                    <div className='bathh'>&nbsp;{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
                   </div>
-
+                  <div className='dayss'><FontAwesomeIcon icon={faCircle} style={{color: "#00a303",}} />&nbsp; Active ({safeAccess(api, 'timeOnZillow')})</div>
                   <div className='holding1 notranslate'>
-                    <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(api, 'resoFacts.parkingCapacity')}</div>
-                    <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(api, 'resoFacts.heating.0')} &nbsp;</div>
-                    <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(api, 'resoFacts.cooling.0')}&nbsp;</div>
-                    <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(api, 'mlsid')}&nbsp;</div>
-                    <div className='cardBroke notranslate'>&nbsp;Built in: {safeAccess(api, 'yearBuilt')}</div>
+                  <div className='cardFire notranslate'>Heating Status - {safeAccess(api, 'resoFacts.heating.0')}</div>
+                  <div className='cardWind notranslate'>Cooling Status - {safeAccess(api, 'resoFacts.cooling.0')}</div>
+                  <div className='cardPark notranslate'>Allocated Parking Spaces - {safeAccess(api, 'resoFacts.parkingCapacity')}</div>
+                  <div className='cardMl notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
+                  <div className='cardBroke notranslate'>Views: {safeAccess(api, 'pageViewCount')}</div>
+                    <div className='cardBroke notranslate'>Built in: {safeAccess(api, 'yearBuilt')}</div>
 
                   </div>
                 </div>
               </div>
             </div>
             <div className='mr'>
-                  <div className='detts'>Property Details</div>
-                  <div className='descText notranslate'>{safeAccess(api, 'description')}</div>
-                  </div>
+        <div className='detts'>Property Details</div>
+        <div className='descText notranslate'>{safeAccess(api, 'description')}</div>
+        <div className='toggle-facts-button' onClick={toggleAdditionalFacts}>
+        {showAdditionalFacts ? 'Hide Additional Property Facts' : 'View Additional Property Facts'} 
+        <span className={`chevy ${showAdditionalFacts ? 'rotate' : ''}`}><FontAwesomeIcon icon={faChevronDown} style={{color: "#032868",}}  
+          /></span>        </div>
+        {showAdditionalFacts && (
+          <div className='additional-facts'>
+            <div className='descTextF notranslate'>Flooring Type - {safeAccess(api, 'resoFacts.flooring.0')}</div>
+            <div className='descTextF notranslate'>Pets Allowed - {hasPetsAllowed ? 'Yes' : 'No'}</div>
+            <div className='descTextF notranslate'> Garage - {garage ? 'Yes' : 'No'}</div>
+            <div className='descTextF notranslate'> Laundry - {safeAccess(api, 'resoFacts.laundryFeatures.0')}</div>
+            <div className='descTextF notranslate'> Furnished - {furnished ? 'Yes' : 'No'}</div>
+            <div className='descTextF notranslate'> Stories/Levels - {safeAccess(api, 'resoFacts.stories')}</div>
+            <div className='descTextF notranslate'> Square Footage - {safeAccess(api, 'resoFacts.livingArea')}</div>
+            <div className='descTextF notranslate'> Home Type - {homeType}</div>
+            <div className='descTextF notranslate'> County - {safeAccess(api, 'county')}</div>
+
+
+            {/* Add more property facts here */}
+          </div>
+        )}
+      </div>
           </>
         )}
-    <div>
-      <div className="buttonp-container">
-        <button onClick={() => handleMissClick('map')}>Map</button>
-        <button onClick={() => handleMissClick('schools')}>Schools</button>
-        <button onClick={() => handleMissClick('homes')}>Nearby Homes</button>
+    <div className='general'>
+    <div className="buttonp-container">
+        <button
+          className={`toggle-button ${visibleComponent === 'map' ? 'active' : ''}`}
+          onClick={() => handleMissClick('map')}
+        >
+          Map
+        </button>
+        <button
+          className={`toggle-button ${visibleComponent === 'schools' ? 'active' : ''}`}
+          onClick={() => handleMissClick('schools')}
+        >
+          Schools
+        </button>
+        <button
+          className={`toggle-button ${visibleComponent === 'homes' ? 'active' : ''}`}
+          onClick={() => handleMissClick('homes')}
+        >
+          Nearby Homes
+        </button>
       </div>
       {visibleComponent === 'map' && (
         <div className="map">
           <APIProvider apiKey={apiKey}>
-            <Map center={position} zoom={zoomLevel} style={{ width: '100%', height: '400px' }}>
+            <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' style={{ width: '100%', height: '450px' }}>
               <Marker position={position} />
             </Map>
           </APIProvider>
@@ -161,31 +207,53 @@ const PropertyDetails = () => {
         <div className="schools">
         {schools.length > 0 ? (
           schools.map((school, index) => (
-            <div className="school-card" key={index}>
-              <div><strong>Name:</strong> {school.name}</div>
-              <div><strong>Type:</strong> {school.type}</div>
-              <div><strong>Level:</strong> {school.level}</div>
-              <div><strong>Grades:</strong> {school.grades}</div>
-              <div><strong>Distance:</strong> {school.distance}</div>
-              <div><strong>Rating:</strong> {school.rating}</div>
-              <div><strong>Link:</strong> <a href={school.link} target="_blank" rel="noopener noreferrer">{school.link}</a></div>
-            </div>
+            <a
+        key={index}
+        href={school.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="school-card-link"
+      >
+        <div className="school-card">
+          <div><strong>Name:</strong> {school.name}</div>
+          <div><strong>Type:</strong> {school.type}</div>
+          <div><strong>Level:</strong> {school.level}</div>
+          <div><strong>Grades:</strong> {school.grades}</div>
+          <div><strong>Distance:</strong> {school.distance}</div>
+          <div><strong>Rating:</strong> {school.rating}</div>
+        </div>
+      </a>
           ))
         ) : (
-          <div>No Local School Data</div>
+          <div className='noSchool'>Sorry, No Local School Data!</div>
         )}
       </div>
       )}
       {visibleComponent === 'homes' && (
         <div className="nearby-homes">
-         {nearbyHomes.length > 0 ? (
-            nearbyHomes.map((nearbyHomes, index) => (
-              <div key={index}>{nearbyHomes.address.streetAddress} &nbsp; {nearbyHomes.address.zipcode} &nbsp; {nearbyHomes.address.city} &nbsp; {nearbyHomes.address.state}</div>
-            ))
-          ) : (
-            <div>No Nearby Homes Found</div>
-          )}
-        </div>
+      {nearbyHomes.length > 0 ? (
+        nearbyHomes.map((home, index) => (
+          <div
+            className="home-card"
+            key={index}
+            style={{ backgroundImage: `url(${home.miniCardPhotos[0].url})` }}
+            alt='No Image Available'
+          >
+            <div className="home-card-content">
+              <div className="home-address">
+                {home.address.streetAddress} {home.address.zipcode} {home.address.city}, {home.address.state}
+              </div>
+              <div className="home-price">
+                ${formatNumberWithCommas(home.price)}
+              </div>
+            </div>
+            <div className="home-card-overlay">View Nearby Home Details</div>
+          </div>
+        ))
+      ) : (
+        <div>No Nearby Homes Found!</div>
+      )}
+    </div>
       )}
     </div>
       </div>
