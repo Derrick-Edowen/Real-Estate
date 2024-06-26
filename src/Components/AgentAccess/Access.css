@@ -1,0 +1,328 @@
+.blog-containera {
+    display: flex;
+  flex-direction:row;
+      height: 47vh;
+      overflow: hidden;
+  
+    }
+    .updatera {
+      font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  position: absolute;
+  top: 42px;
+  left: 18px;
+  color: rgb(255, 196, 0);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
+  
+    }
+    .bana {
+  width: 100%;
+  filter: blur(1px);
+  height: 47%;
+  z-index: -500;
+  position: absolute;  }
+    .text-area-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      position: absolute;
+      text-align: center;
+      padding: 20px;
+      z-index: 4000;
+    }
+    .finalssa {
+      width: 100%;
+      padding: 8px;
+    }
+    .text-areaa {
+      width: 80%;
+      min-height: 100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .text-titlea {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 4px;
+      width: 50%;
+    }
+    .burstera {
+  font-size: 68px;
+  width: fit-content;
+  position: absolute;
+  top: -42px;
+  left: -16px;
+  z-index: 1;
+    }
+    .posts-containera {
+      width:100%;
+      padding: 20px;
+      padding-left: 200px;
+      padding-right: 200px;
+      text-align: center;
+      padding-top: 40px;
+      max-height: 80vh;
+      display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* Add some space between posts */
+    }
+    .nerfmea {
+      width: 100%;
+      height: 300px;
+    }
+    .delbutta {
+      background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+      color: white;
+      border: 1px solid #afafaf2f;
+      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      font-size: 26px;
+      border-radius: 2px;
+    }
+    .postbutta {
+      background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+      color: white;
+      padding-left: 14px;
+      padding-right: 14px;
+      font-size: 22px;
+      margin-left: auto;
+      margin-right: auto;
+      width: fit-content;
+      border: 1px solid #afafaf2f;
+      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+      bottom: 0px;
+  right: 150px;
+    }
+    .posta {
+      width: calc(25% - -20px); /* Calculate the width based on the number of posts per row */
+      position: relative;
+      padding-left: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+  max-height: 350px;
+  min-height: 350px;
+  
+  background: #ffffff;
+  
+      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+    }
+    .posta:hover {
+      transform: scale(1.015);
+      
+    }
+      .mixtna {
+        margin-top: 6px;
+      }
+    .chassera {
+      position: relative;
+  width: fit-content;
+  float: right;  
+  padding: 4px;
+  cursor: pointer;
+  }
+  
+    .timera {
+      font-size: 14px;
+      color: rgb(0, 0, 0);
+      text-align: end;
+      text-shadow: 0px 0px 1px black;
+  width: fit-content;
+  height: fit-content;  
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  padding:6px;
+  font-weight: 600;
+  }
+  .timer1a {
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    text-align: end;
+    text-shadow: 0px 0px 1px black;
+  width: fit-content;
+  height: fit-content;  
+  position: relative;
+  float: right;
+  padding:6px;
+  }
+  .moorea {
+    font-size: 10px;
+    color: rgb(0, 0, 0);
+    text-align:start;
+    text-shadow: 0px 0px 1px black;
+  width: fit-content;
+  height: fit-content;  
+  position: absolute;
+  left: 9px;
+  bottom: 9px;
+  margin-top: 8px;
+  padding:6px;
+  border-radius: 0px;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.7) ;
+  border: 1px solid #afafaf2f;
+  background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+  color: white;
+  
+  }
+    .windowsa {
+      width: 100%;
+      height: 65%;
+      border-bottom: 0.5px solid rgba(0, 0, 0, 0.65);
+  margin-bottom: 6px;
+  object-fit: fill;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.75) ;
+  
+    }
+    .windows1a {
+      width: 100%;
+      height: 450px;
+      margin-right: auto;
+      margin-left: auto;
+      border-radius: 2px;
+      object-fit: fill;
+      box-shadow: 2px 2px 4px -5px rgba(0, 0, 0, 0.45) ;
+  
+    }
+    
+    .blogHeada {
+  text-align:center;
+  color: rgb(0, 0, 0);
+  text-shadow: 0px 0px 1px black;
+  font-family: 'Oswald', sans-serif; 
+  font-weight:600;
+  font-size: 19px;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 4px;
+  padding: 2px;
+    }
+    .blogHead1a {
+      text-align:center;
+      color: rgb(0, 0, 0);
+      text-shadow: 0px 0px 1px black;
+      font-family: 'Oswald', sans-serif; 
+      font-weight:700;
+      font-size: 24px;
+      margin-left: auto;
+      margin-right: auto;
+  
+        width: 95%;
+        padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 4px;
+      
+        }
+    .blogConta {
+  font-size: 16px;
+  text-shadow: 0px 0px 1px black;
+  color: rgb(0, 0, 0);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: start;
+  padding: 4px;
+  text-align: center;
+  padding-left: 14px;
+  padding-right: 14px;
+  font-family:Helvetica, Arial,  sans-serif;
+  overflow: hidden;
+  white-space: nowrap;
+  
+    text-overflow: ellipsis;
+    margin-bottom: 8px;
+    }
+    .blogContla {
+      font-size: 22px;
+  text-shadow: 0px 0px 1px black;
+  color: rgb(0, 0, 0);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-family:Helvetica, Arial,  sans-serif;
+  white-space: pre-wrap; /* This will preserve line breaks and white spaces */
+  
+  padding: 4px;
+  margin-top: 6px;
+  background-color: rgb(197, 197, 197);
+    }
+    .lightboxBa {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+      z-index: 5000; /* Ensure it appears above other elements */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 100px;
+    }
+    
+    .lightbox-contentBa {
+      background-color: rgb(219, 219, 219);
+      padding: 20px;
+      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+      border: 1px solid #8585852f;
+      max-width: 92.5%;
+      max-height: 90%;
+      min-width: 92.5%;
+      min-height: 90%;
+      overflow-y: auto;
+    }
+    
+    .lightbox-contentBa h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .lightbox-contentBa p {
+      font-size: 22px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    @media screen and (max-width: 1365px) {
+      .post {
+        width: calc(25% - 2px); /* Calculate the width based on the number of posts per row */
+  
+      }
+    }
+    @media screen and (max-width: 1180px) {
+      .post {
+        width: calc(33% - 2px); /* Calculate the width based on the number of posts per row */
+  
+      }
+    }
+    @media screen and (max-width: 740px) {
+      .post {
+        width: calc(50% - 2px); /* Calculate the width based on the number of posts per row */
+  
+      }
+    }
+    @media screen and (max-width: 580px) {
+      .post {
+        width: calc(100% - 2px); /* Calculate the width based on the number of posts per row */
+  
+      }
+      .windows1 {
+        height: 300px;
+  
+      }
+      .blogHead {
+  
+        font-size: 16px;
+  
+          }
+    }
+  
+    

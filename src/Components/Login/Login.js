@@ -41,7 +41,7 @@ function Login() {
       if (data.success) {
         setIsLoggedIn(true);
         setCurrentUserID(data.userID);
-        navigate('/Announcements', { state: { isLoggedIn: true, currentUserID: data.userID } });
+        navigate('/Agent Access', { state: { isLoggedIn: true, currentUserID: data.userID } });
       } else {
         alert('Login failed. Please check your email and password.');
       }

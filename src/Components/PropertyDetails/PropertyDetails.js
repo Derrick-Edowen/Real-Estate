@@ -6,7 +6,7 @@ import './propDetails.css'
 import { useParams, useLocation } from 'react-router-dom';
 import Contact from '../Contact/Contact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircle, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const PropertyDetails = () => {
     const { address } = useParams();
@@ -66,6 +66,9 @@ const PropertyDetails = () => {
     };
     const toggleAdditionalFacts = () => {
         setShowAdditionalFacts(!showAdditionalFacts);
+      };
+      const handleContactClick = () => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       };
     const updateMapLocation = async (address) => {
       try {
@@ -131,18 +134,15 @@ const homeType = safeAccess(api, 'homeType')?.replace(/_/g, ' '); // Replace und
                 <div className='pPrice notranslate'>${formatNumberWithCommas(monthlyPrice)}/Month</div>
                 <div className='pminiPrice notranslate'>Est. ${formatNumberWithCommas(yearlyPrice)} annually</div>
                   <div className='heallin'>
-                    <div className='bedd'>&nbsp;{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
-                    <div className='bathh'>&nbsp;{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
+                    <div className='bedd'>{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
+                    <div className='bathh'>{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
                   </div>
                   <div className='dayss'><FontAwesomeIcon icon={faCircle} style={{color: "#00a303",}} />&nbsp; Active ({safeAccess(api, 'timeOnZillow')})</div>
                   <div className='holding1 notranslate'>
-                  <div className='cardFire notranslate'>Heating Status - {safeAccess(api, 'resoFacts.heating.0')}</div>
-                  <div className='cardWind notranslate'>Cooling Status - {safeAccess(api, 'resoFacts.cooling.0')}</div>
-                  <div className='cardPark notranslate'>Allocated Parking Spaces - {safeAccess(api, 'resoFacts.parkingCapacity')}</div>
-                  <div className='cardMl notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
-                  <div className='cardBroke notranslate'>Views: {safeAccess(api, 'pageViewCount')}</div>
-                    <div className='cardBroke notranslate'>Built in: {safeAccess(api, 'yearBuilt')}</div>
 
+                  <div className='descTextF notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
+                  <div className='descTextF notranslate'><FontAwesomeIcon icon={faEye} />&nbsp;Views: {safeAccess(api, 'pageViewCount')}</div>
+                  <button className='contact-button' onClick={handleContactClick}>Contact</button>
                   </div>
                 </div>
               </div>
@@ -154,20 +154,23 @@ const homeType = safeAccess(api, 'homeType')?.replace(/_/g, ' '); // Replace und
         {showAdditionalFacts ? 'Hide Additional Property Facts' : 'View Additional Property Facts'} 
         <span className={`chevy ${showAdditionalFacts ? 'rotate' : ''}`}><FontAwesomeIcon icon={faChevronDown} style={{color: "#032868",}}  
           /></span>        </div>
+          <div>* U = Undisclosed Information </div>
         {showAdditionalFacts && (
           <div className='additional-facts'>
+            <div className='descTextF notranslate'>Heating - {safeAccess(api, 'resoFacts.heating.0')}</div>
+            <div className='descTextF notranslate'>Cooling - {safeAccess(api, 'resoFacts.cooling.0')}</div>
+            <div className='descTextF notranslate'>Allocated Parking Spaces - {safeAccess(api, 'resoFacts.parkingCapacity')}</div>
             <div className='descTextF notranslate'>Flooring Type - {safeAccess(api, 'resoFacts.flooring.0')}</div>
-            <div className='descTextF notranslate'>Pets Allowed - {hasPetsAllowed ? 'Yes' : 'No'}</div>
-            <div className='descTextF notranslate'> Garage - {garage ? 'Yes' : 'No'}</div>
+            <div className='descTextF notranslate'>Pets Allowed - {hasPetsAllowed === true ? 'Yes' : 'No'}</div>
+            <div className='descTextF notranslate'>Garage - {garage === true ? 'Yes' : 'No'}</div>
             <div className='descTextF notranslate'> Laundry - {safeAccess(api, 'resoFacts.laundryFeatures.0')}</div>
-            <div className='descTextF notranslate'> Furnished - {furnished ? 'Yes' : 'No'}</div>
+            <div className='descTextF notranslate'> Furnished - {furnished === true ? 'Yes' : 'No'}</div>
             <div className='descTextF notranslate'> Stories/Levels - {safeAccess(api, 'resoFacts.stories')}</div>
             <div className='descTextF notranslate'> Square Footage - {safeAccess(api, 'resoFacts.livingArea')}</div>
             <div className='descTextF notranslate'> Home Type - {homeType}</div>
             <div className='descTextF notranslate'> County - {safeAccess(api, 'county')}</div>
+            <div className='descTextF notranslate'>Built in: {safeAccess(api, 'yearBuilt')}</div>
 
-
-            {/* Add more property facts here */}
           </div>
         )}
       </div>
