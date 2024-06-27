@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../Blog/Blog.css';
+import './Access.css';
 import { useLocation } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,20 +9,148 @@ import noImg from '../../Assets/Images/noimg.jpg'
 
 
 function Access() {
+    const location = useLocation();
+    const currentUserID = location.state?.currentUserID || '';
+    const isLoggedIn = location.state?.isLoggedIn || false;
+    const port = process.env.PORT || 3001;
+
     const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
   const [image, setImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [banner, setBanner] = useState('');
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [bio, setBio] = useState('');
 
-  const location = useLocation();
-  const currentUserID = location.state?.currentUserID || '';
-  const isLoggedIn = location.state?.isLoggedIn || false;
-  const port = process.env.PORT || 3001;
+  const [newBanner, setNewBanner] = useState('');
+  const [newMessage, setNewMessage] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPhone, setNewPhone] = useState('');
+  const [newBio, setNewBio] = useState('');
+
+  const fetchBanner = async () => {
+    try {
+      const response = await fetch('/banner');
+      const data = await response.json();
+      setBanner(data[0]?.banner || '');
+    } catch (error) {
+      console.error('Error fetching banner:', error);
+    }
+  };
+
+  const fetchMessage = async () => {
+    try {
+      const response = await fetch('/message');
+      const data = await response.json();
+      setMessage(data[0]?.message || '');
+    } catch (error) {
+      console.error('Error fetching message:', error);
+    }
+  };
+
+  const fetchEmail = async () => {
+    try {
+      const response = await fetch('/email');
+      const data = await response.json();
+      setEmail(data[0]?.email || '');
+    } catch (error) {
+      console.error('Error fetching email:', error);
+    }
+  };
+
+  const fetchPhone = async () => {
+    try {
+      const response = await fetch('/phone');
+      const data = await response.json();
+      setPhone(data[0]?.phone || '');
+    } catch (error) {
+      console.error('Error fetching phone:', error);
+    }
+  };
+
+  const handleUpdateBanner = async () => {
+    try {
+      const response = await fetch('/banner', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ banner: newBanner })
+      });
+      if (response.ok) {
+        fetchBanner();
+        setNewBanner('');
+      } else {
+        console.error('Failed to update banner');
+      }
+    } catch (error) {
+      console.error('Error updating banner:', error);
+    }
+  };
+  
+  const handleUpdateMessage = async () => {
+    try {
+      const response = await fetch('/message', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: newMessage })
+      });
+      if (response.ok) {
+        fetchMessage();
+        setNewMessage('');
+      } else {
+        console.error('Failed to update message');
+      }
+    } catch (error) {
+      console.error('Error updating message:', error);
+    }
+  };
+  
+  const handleUpdateEmail = async () => {
+    try {
+      const response = await fetch('/email', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newEmail })
+      });
+      if (response.ok) {
+        fetchEmail();
+        setNewEmail('');
+      } else {
+        console.error('Failed to update email');
+      }
+    } catch (error) {
+      console.error('Error updating email:', error);
+    }
+  };
+  
+  const handleUpdatePhone = async () => {
+    try {
+      const response = await fetch('/phone', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: newPhone })
+      });
+      if (response.ok) {
+        fetchPhone();
+        setNewPhone('');
+      } else {
+        console.error('Failed to update phone');
+      }
+    } catch (error) {
+      console.error('Error updating phone:', error);
+    }
+  };
+
 
   useEffect(() => {
     fetchPosts();
+    fetchBanner();
+    fetchMessage();
+    fetchEmail();
+    fetchPhone();
   }, []);
 
   const handleImageChange = (e) => {
@@ -112,14 +240,66 @@ function Access() {
     return diffDays <= 3;
   };
     return (
-        <>
-<div>Update Banner Statement</div>
-<div>Update Message</div>
-<div>Update Contact Information</div>
-<div>Create Announcement</div>
-<div className="blog-containera" id='announcement'>
-        <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
+        <div className='access'>
 
+<div className='Info-container'>
+      <div>Update Banner Statement</div>
+      <div>Banner Statement</div>
+      <div>Current Banner Statement - {banner}</div>
+      <input
+        type='text'
+        value={newBanner}
+        onChange={(e) => setNewBanner(e.target.value)}
+        placeholder='New Banner Statement'
+      />
+      <button onClick={handleUpdateBanner}>Update Banner</button>
+
+      <div>Update Your Message</div>
+      <div>Message</div>
+      <div>Current Message - {message}</div>
+      <input
+        type='text'
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+        placeholder='New Message'
+      />
+      <button onClick={handleUpdateMessage}>Update Message</button>
+
+      <div>Update Contact Information</div>
+      <div>Your Email Address</div>
+      <div>Current Email Address - {email}</div>
+      <input
+        type='email'
+        value={newEmail}
+        onChange={(e) => setNewEmail(e.target.value)}
+        placeholder='New Email Address'
+      />
+      <button onClick={handleUpdateEmail}>Update Email</button>
+
+      <div>Your Phone Number</div>
+      <div>Current Phone Number - {phone}</div>
+      <input
+        type='tel'
+        value={newPhone}
+        onChange={(e) => setNewPhone(e.target.value)}
+        placeholder='New Phone Number'
+      />
+      <button onClick={handleUpdatePhone}>Update Phone Number</button>
+    </div>
+<div className='biog'>
+<div>Your Bio/Resume</div>
+      <div>Current Bio</div>
+        <div>{bio}</div>
+      <input
+        type='text'
+        value={newBio}
+        onChange={(e) => setNewBio(e.target.value)}
+        placeholder='New Bio'
+      />
+      <button onClick={handleUpdateBio}>Update Bio</button>
+
+</div>
+<div className="blog-containera" id='announcement'>
       <div className="posts-containera">
         {posts.slice().reverse().map((post, index) => (
           <div key={index} className="posta" onClick={() => handleClick(index)}>
@@ -201,7 +381,7 @@ function Access() {
         </div>
       )}
     </div>
-</>
+</div>
     )
 }
 export default Access;

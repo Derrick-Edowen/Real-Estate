@@ -478,7 +478,121 @@ app.get('/posts', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 });
+app.get('/banner', async (req, res) => {
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    const [rows] = await connection.execute('SELECT banner FROM users WHERE id = ?', [1]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching banner:', error);
+    res.status(500).json({ error: 'Failed to fetch banner' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
 
+app.put('/banner', async (req, res) => {
+  let connection;
+  const { banner } = req.body;
+  try {
+    connection = await pool.getConnection();
+    await connection.execute('UPDATE users SET banner = ? WHERE id = ?', [banner, 1]);
+    res.json({ success: true, message: 'Banner updated successfully' });
+  } catch (error) {
+    console.error('Error updating banner:', error);
+    res.status(500).json({ error: 'Failed to update banner' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
+
+app.get('/message', async (req, res) => {
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    const [rows] = await connection.execute('SELECT message FROM users WHERE id = ?', [1]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching message:', error);
+    res.status(500).json({ error: 'Failed to fetch message' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
+
+app.put('/message', async (req, res) => {
+  let connection;
+  const { message } = req.body;
+  try {
+    connection = await pool.getConnection();
+    await connection.execute('UPDATE users SET message = ? WHERE id = ?', [message, 1]);
+    res.json({ success: true, message: 'Message updated successfully' });
+  } catch (error) {
+    console.error('Error updating message:', error);
+    res.status(500).json({ error: 'Failed to update message' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
+
+app.get('/email', async (req, res) => {
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    const [rows] = await connection.execute('SELECT email FROM users WHERE id = ?', [1]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching email:', error);
+    res.status(500).json({ error: 'Failed to fetch email' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
+
+app.put('/email', async (req, res) => {
+  let connection;
+  const { email } = req.body;
+  try {
+    connection = await pool.getConnection();
+    await connection.execute('UPDATE users SET email = ? WHERE id = ?', [email, 1]);
+    res.json({ success: true, message: 'Email updated successfully' });
+  } catch (error) {
+    console.error('Error updating email:', error);
+    res.status(500).json({ error: 'Failed to update email' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
+
+app.get('/phone', async (req, res) => {
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    const [rows] = await connection.execute('SELECT phone FROM users WHERE id = ?', [1]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching phone:', error);
+    res.status(500).json({ error: 'Failed to fetch phone' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
+
+app.put('/phone', async (req, res) => {
+  let connection;
+  const { phone } = req.body;
+  try {
+    connection = await pool.getConnection();
+    await connection.execute('UPDATE users SET phone = ? WHERE id = ?', [phone, 1]);
+    res.json({ success: true, message: 'Phone updated successfully' });
+  } catch (error) {
+    console.error('Error updating phone:', error);
+    res.status(500).json({ error: 'Failed to update phone' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
 // DELETE a post by ID and user ID
 app.delete('/posts/:postId', async (req, res) => {
   const postId = req.params.postId;

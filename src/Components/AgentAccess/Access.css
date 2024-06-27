@@ -3,7 +3,14 @@
   flex-direction:row;
       height: 47vh;
       overflow: hidden;
-  
+  background: rgb(163, 163, 163);
+    }
+    .Info-container {
+        background: rgb(255, 255, 255);
+        padding: 40px;
+    }
+    .access {
+        padding-top: 120px;
     }
     .updatera {
       font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -22,7 +29,7 @@
   height: 47%;
   z-index: -500;
   position: absolute;  }
-    .text-area-container {
+    .text-area-containera {
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -30,6 +37,7 @@
       text-align: center;
       padding: 20px;
       z-index: 4000;
+      margin-top: 410px;
     }
     .finalssa {
       width: 100%;
@@ -58,8 +66,8 @@
     .posts-containera {
       width:100%;
       padding: 20px;
-      padding-left: 200px;
-      padding-right: 200px;
+      padding-left: 40px;
+      padding-right: 40px;
       text-align: center;
       padding-top: 40px;
       max-height: 80vh;
