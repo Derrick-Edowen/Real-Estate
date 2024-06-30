@@ -478,6 +478,34 @@ app.get('/posts', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch posts' });
   }
 });
+app.get('/bio', async (req, res) => {
+  let connection;
+  try {
+    connection = await pool.getConnection();
+    const [rows] = await connection.execute('SELECT bio FROM users WHERE id = ?', [1]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching bio:', error);
+    res.status(500).json({ error: 'Failed to fetch bio' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
+
+app.put('/bio', async (req, res) => {
+  let connection;
+  const { bio } = req.body;
+  try {
+    connection = await pool.getConnection();
+    await connection.execute('UPDATE users SET bio = ? WHERE id = ?', [bio, 1]);
+    res.json({ success: true, message: 'Bio updated successfully' });
+  } catch (error) {
+    console.error('Error updating bio:', error);
+    res.status(500).json({ error: 'Failed to update bio' });
+  } finally {
+    if (connection) connection.release();
+  }
+});
 app.get('/banner', async (req, res) => {
   let connection;
   try {

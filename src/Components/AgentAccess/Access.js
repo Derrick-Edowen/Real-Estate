@@ -71,7 +71,33 @@ function Access() {
       console.error('Error fetching phone:', error);
     }
   };
+  const fetchBio = async () => {
+    try {
+      const response = await fetch('/bio');
+      const data = await response.json();
+      setBio(data[0]?.bio || '');
+    } catch (error) {
+      console.error('Error fetching bio:', error);
+    }
+  };
 
+  const handleUpdateBio = async () => {
+    try {
+      const response = await fetch('/bio', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bio: newBio })
+      });
+      if (response.ok) {
+        fetchBio();
+        setNewBio('');
+      } else {
+        console.error('Failed to update bio');
+      }
+    } catch (error) {
+      console.error('Error updating bio:', error);
+    }
+  };
   const handleUpdateBanner = async () => {
     try {
       const response = await fetch('/banner', {
@@ -151,6 +177,7 @@ function Access() {
     fetchMessage();
     fetchEmail();
     fetchPhone();
+    fetchBio();
   }, []);
 
   const handleImageChange = (e) => {
@@ -244,7 +271,6 @@ function Access() {
 
 <div className='Info-container'>
       <div>Update Banner Statement</div>
-      <div>Banner Statement</div>
       <div>Current Banner Statement - {banner}</div>
       <input
         type='text'
@@ -255,7 +281,6 @@ function Access() {
       <button onClick={handleUpdateBanner}>Update Banner</button>
 
       <div>Update Your Message</div>
-      <div>Message</div>
       <div>Current Message - {message}</div>
       <input
         type='text'
@@ -266,7 +291,6 @@ function Access() {
       <button onClick={handleUpdateMessage}>Update Message</button>
 
       <div>Update Contact Information</div>
-      <div>Your Email Address</div>
       <div>Current Email Address - {email}</div>
       <input
         type='email'

@@ -104,6 +104,7 @@ const PropertyDetails = () => {
 const garage = safeAccess(api, 'resoFacts.hasGarage');
 const furnished = safeAccess(api, 'resoFacts.furnished');
 const homeType = safeAccess(api, 'homeType')?.replace(/_/g, ' '); // Replace underscores with spaces
+const homeStatus = safeAccess(api, 'homeStatus')?.replace(/_/g, ' '); // Replace underscores with spaces
 
     return (
         <>
@@ -131,12 +132,18 @@ const homeType = safeAccess(api, 'homeType')?.replace(/_/g, ' '); // Replace und
               </div>
               <div className="cardText notranslate">
                 <div className='containText notranslate'>
-                <div className='pPrice notranslate'>${formatNumberWithCommas(monthlyPrice)}/Month</div>
-                <div className='pminiPrice notranslate'>Est. ${formatNumberWithCommas(yearlyPrice)} annually</div>
-                  <div className='heallin'>
+                {homeStatus === 'FOR RENT' && (
+    <>
+      <div className='pPrice notranslate'>
+        ${formatNumberWithCommas(monthlyPrice)} {safeAccess(api, 'currency')}/Month
+      </div>
+      <div className='pminiPrice notranslate'>
+        Est. ${formatNumberWithCommas(yearlyPrice)} annually
+      </div>
+    </>
+  )}
                     <div className='bedd'>{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
                     <div className='bathh'>{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
-                  </div>
                   <div className='dayss'><FontAwesomeIcon icon={faCircle} style={{color: "#00a303",}} />&nbsp; Active ({safeAccess(api, 'timeOnZillow')})</div>
                   <div className='holding1 notranslate'>
 

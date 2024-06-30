@@ -39,41 +39,13 @@ const [selectedBeds, setSelectedBeds] = useState('');
 const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
+const [selectedPType, setSelectedPType] = useState(1);
+
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
 
 
 
-const updateMapLocation = async (address) => {
-  try {
-    setIsLoading(true); // Set loading state to true during data fetching
-    const response = await fetch('/api/geocode', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ address }),
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-
-    const { results, status } = data;
-    if (status === 'OK' && results && results.length > 0) {
-      const { lat, lng } = results[0].geometry.location;
-      setPosition({ lat, lng });
-      setZoomLevel(16); // Set your desired zoom level here
-    } else {
-      window.alert('Location Not Found: Try Using More Descriptive Words!');
-    }
-
-    setIsLoading(false); // Set loading state to false after data is fetched
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    setIsLoading(false); // Ensure loading state is set to false in case of error
-  }
-};
 
 const handleSearch = async (e) => {
   e.preventDefault();
@@ -98,8 +70,7 @@ const handleSearch = async (e) => {
   const maxBeds = document.getElementById('choose-beds').value;
   const maxBaths = document.getElementById('choose-baths').value;
   const page = 1;
-  const type = 1;
-
+  const type = parseInt(document.getElementById('choose-search').value, 10); // Parse as integer
   try {
     setIsLoading(true);
     if (parseInt(minPrice) > parseInt(maxPrice)) {
@@ -472,7 +443,22 @@ return (
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
           <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
-          
+
+          <select className='notranslate' 
+          id="choose-search" 
+          name="search" 
+          placeholder='Property Search Type' 
+          required
+          style={{ backgroundColor: selectedBaths ? '#d3d3d3' : 'white' }}
+          onChange={(e) => {
+            setSelectedPType(e.target.value); // Update selected type
+          }}
+  >
+    <option value="" disabled selected>Property Type</option>
+    <option value="1">For Rent</option>
+    <option value="2">For Sale</option>
+    <option value="3">Recently Sold</option>
+  </select>
           <select
             className="notranslate"
             id="country"
