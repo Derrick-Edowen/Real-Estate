@@ -437,8 +437,8 @@ return (
     <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splash'></img>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
-        <div className='starter'>Find Listings - For Lease</div>
-        <button className="toggle" onClick={toggleFilter}> Lease Property Filter  
+        <div className='starter'>Find Listings - Property Search</div>
+        <button className="toggle" onClick={toggleFilter}> Property Search Filter  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
@@ -447,14 +447,14 @@ return (
           <select className='notranslate' 
           id="choose-search" 
           name="search" 
-          placeholder='Property Search Type' 
+          placeholder='Property Status Type' 
           required
           style={{ backgroundColor: selectedBaths ? '#d3d3d3' : 'white' }}
           onChange={(e) => {
             setSelectedPType(e.target.value); // Update selected type
           }}
   >
-    <option value="" disabled selected>Property Type</option>
+    <option value="" disabled selected>Property Status</option>
     <option value="1">For Rent</option>
     <option value="2">For Sale</option>
     <option value="3">Recently Sold</option>

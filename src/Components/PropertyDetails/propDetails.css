@@ -14,7 +14,7 @@ padding-bottom: 250px;
   }
   .toggle-button {
     padding: 10px 20px;
-    border: 1px solid rgb(56, 56, 56);
+    border: 1px solid rgb(110, 110, 110);
     background-color: white;
     color: black;
     cursor: pointer;
@@ -32,14 +32,33 @@ padding-bottom: 250px;
 
 }
   .toggle-button.active {
-    border: 2px solid rgb(65, 65, 255);
+    border: 2px solid rgb(11, 11, 110);
   }
+  .toggle-button.disabled {
+    position: relative; /* Ensure the parent is positioned */
+    overflow: hidden; /* Hide overflow content */
+    border: 2px solid rgb(39, 39, 39);
+    background-color: rgb(128, 128, 128);
+    color: #000000; /* Text color for better visibility */
+  }
+  
+  .toggle-button.disabled::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute; /* Position absolutely within the button */
+    top: 50%; /* Adjust vertical position as needed */
+    left: 0;
+    width: 100%;
+    height: 2px; /* Height of the diagonal line */
+    background-color: #000; /* Color of the diagonal line */
+    transform: translateY(-50%) rotate(-15deg); /* Rotate line by -45 degrees */
+  }
+  
   .buttonp-container button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 50px;
-    width: 25%;
+    width: 24%;
     border: 2px solid rgb(37, 37, 37);
     font-weight: 500;
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -49,29 +68,28 @@ padding-bottom: 250px;
 background-color: rgb(177, 177, 177);
   }
   .schools {
-    display: flex;
-    flex-wrap: wrap;
     width: 100%;
-    justify-content: space-between;
     }
   
   .school-card {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 16px;
-    width: 250px; /* Adjust the card width as needed */
+    width: 100%; /* Adjust the card width as needed */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     text-decoration: none;
   }
-  
+  .school-card-link {
+    text-decoration: none !important;
+  }
   .school-card a {
     color: #007BFF;
     text-decoration: none;
   }
   
   .school-card a:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
   .toggle-facts-button {
     display: block;
@@ -120,6 +138,22 @@ background-color: rgb(177, 177, 177);
   }
   .additional-facts .descTextF:nth-child(even) {
     background-color: rgb(170, 170, 170);
+  }
+  .history-card:nth-child(odd) {
+    background-color: rgb(238, 238, 238);
+  }
+  .history-card:nth-child(even) {
+    background-color: rgb(170, 170, 170);
+  }
+  .schools .school-card:nth-child(odd) {
+    background-color: rgb(238, 238, 238);
+  }
+  .schools .school-card:nth-child(even) {
+    background-color: rgb(170, 170, 170);
+  }
+  .history {
+    max-height: 450px;
+    overflow-y: scroll;
   }
   .nearby-homes {
     display: flex;

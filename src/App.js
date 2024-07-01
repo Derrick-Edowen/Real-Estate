@@ -47,13 +47,14 @@ function App() {
         <Route path="/Calculators | Mortgage Calculator" element={<Calculator />} />
         <Route path="/Announcements" element={<Blog />} />
         <Route path="/Find Listings | For Sale" element={<ForSale />} />
-        <Route path="/Find Listings | For Lease" element={<ForRent />} />
+        <Route path="/Find Listings | Property Search" element={<ForRent />} />
         <Route path="/Find Listings | Recently Sold" element={<RecentlySold />} />
         <Route path="/Calculators | Rent Affordability Calculator" element={<RentCalculator />} />
         <Route path="/Contact Me" element={<Contact />} />
         <Route path="/Pricing" element={<Pricing />} />
         <Route path="/Agent Access" element={<Access />} />
         <Route path="/Property-Details/:address" element={<PropertyDetails />} />
+        <Route path="/Nearby-Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Login" element={<Login />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>

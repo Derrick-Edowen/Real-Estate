@@ -387,6 +387,43 @@ async function processQueue() {
   isProcessing = false;
 }
 
+app.post('/nearby-details', nearbyPropertyDetails);
+
+async function nearbyPropertyDetails(req, res) {
+  const zpid = req.body.zpid;
+
+  try {
+    const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+    const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+
+    const propertyResponse = await axios.get(propertyUrl, {
+      params: { zpid },
+      headers: {
+        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+      },
+    });
+
+    const imageResponse = await axios.get(imagesUrl, {
+      params: { zpid },
+      headers: {
+        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+      },
+    });
+
+    const data = {
+      property: propertyResponse.data,
+      images: imageResponse.data,
+    };
+
+    res.json(data);
+  } catch (error) {
+    console.error(`Error fetching data for zpid ${zpid}:`, error.message);
+    res.status(500).json({ error: 'Failed to fetch property details' });
+  }
+}
+
 app.post('/api/geocode', async (req, res) => {
   const { address } = req.body;
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${process.env.GOOGLE_API_KEY}`;

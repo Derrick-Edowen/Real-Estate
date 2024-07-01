@@ -227,6 +227,17 @@ font-weight: 400;
 	margin-top: 4px;
 padding: 10px;
 }
+.descTextQ {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 20px;
+    text-align: center;
+    color: #333;
+    letter-spacing: 2px;
+    background-color: #f8f8f8;
+    border-radius: 5px;
+	margin-top: 4px;
+padding: 10px;
+}
 .noSchool {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 46px;
@@ -394,10 +405,20 @@ width: fit-content;
   /* Hide scrollbar for Firefox */
   scrollbar-width: none;
 }
-
+.currency {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 20px;
+  color: #333;
+  text-shadow: 1px 1px 0px rgba(0,0,0,0.4);
+  letter-spacing: 1px;
+  padding: 0px;
+  border-radius: 5px;
+width: fit-content;
+font-weight: 600;
+}
 .pPrice  {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 34px;
+    font-size: 28px;
     color: #333;
     text-shadow: 1px 1px 0px rgba(0,0,0,0.4);
     letter-spacing: 1px;
@@ -518,9 +539,6 @@ font-weight: 500;
     width: 100%;
     text-align: center;
     border-bottom: 1px dashed black;
-  }
-  .bedd {
-    border-right: 1px dashed black;
   }
   .dayss {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -668,6 +686,7 @@ padding: 2px;
   width: 100%;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.45);
+  padding-left: 12px;
   }
 .containText {
   height: 50%;

@@ -141,38 +141,19 @@ function Header() {
               </NavLink>
             </div>
           </li>
-          <li className={`dropdown ${dropdownVisible1 ? "active" : ""}`}>
-          <div className={`missin ${location.pathname.includes('Find%20Listings%20%7C%20For%20Lease') || location.pathname.includes('Find%20Listings%20%7C%20For%20Sale') || location.pathname.includes('Find%20Listings%20%7C%20Recently%20Sold') ? 'active' : ''}`} 
-          onClick={handleClick1}>FIND LISTINGS
-              <li
-                className={`navbar--content findingList arrow-rotate ${dropdownVisible1 ? "active" : ""} `}
+          <li>
+            <NavLink
+              onClick={closeMenu}
+              activeclass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
+              to="/Find Listings | Property Search"
+              className={`navbar--content ${location.pathname === '/Find Listings | Property Search' ? 'active' : ''}`}
               >
-                <FontAwesomeIcon icon={faChevronDown} />
-              </li>
-            </div>
-            <div className={`dropdown-content ${dropdownVisible1 ? "active" : ""}`}>
-              <NavLink
-                onClick={closeMenu}
-                to="/Find Listings | For Sale"
-                className="navbar--content transformer"
-              >
-                For Sale
-              </NavLink>
-              <NavLink
-                onClick={closeMenu}
-                to="/Find Listings | For Lease"
-                className="navbar--content transformer"
-              >
-                For Lease
-              </NavLink>
-              <NavLink
-                onClick={closeMenu}
-                to="/Find Listings | Recently Sold"
-                className="navbar--content transformer"
-              >
-                Recently Sold
-              </NavLink>
-            </div>
+              FIND LISTINGS
+            </NavLink>
           </li>
           <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
           <div className={`missin ${location.pathname.includes('Calculators%20%7C%20Mortgage%20Calculator') || location.pathname.includes('Calculators%20%7C%20Rent%20Affordability%20Calculator') ? 'active' : ''}`}

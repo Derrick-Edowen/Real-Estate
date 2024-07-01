@@ -20,22 +20,29 @@ const PropertyDetails = () => {
     const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
     const [visibleComponent, setVisibleComponent] = useState('map');
     const [showAdditionalFacts, setShowAdditionalFacts] = useState(false);
-
+    const [showNearbyHomes, setShowNearbyHomes] = useState(true); // State to control visibility of Nearby Homes
 
     useEffect(() => {
-      const storedData = sessionStorage.getItem('propertyData');
-      if (storedData) {
-        const data = JSON.parse(storedData);
-        setProperty(data.property);
-        setInfoData(data.info);
-        setApi(data.api);
-        console.log("Property Data:", data.property);
-        console.log("Info Data:", data.info);
-        console.log("API Data:", data.api);
-  
-        const fullAddress = `${safeAccess(data.api, 'address.streetAddress')} ${safeAccess(data.api, 'address.zipcode')} ${safeAccess(data.api, 'address.city')} ${safeAccess(data.api, 'address.state')}`;
-        updateMapLocation(fullAddress);
-      }
+        const pathname = window.location.pathname;
+        const storageKey = pathname.includes('/Nearby-Property-Details/') ? 'nearbyData' : 'propertyData';
+        
+        const storedData = sessionStorage.getItem(storageKey);
+        if (storedData) {
+            const data = JSON.parse(storedData);
+            setProperty(data.property);
+            setInfoData(data.info);
+            setApi(data.api);
+            console.log("Property Data:", data.property);
+            console.log("Info Data:", data.info);
+            console.log("API Data:", data.api);
+
+
+            const fullAddress = `${safeAccess(data.api, 'address.streetAddress')} ${safeAccess(data.api, 'address.zipcode')} ${safeAccess(data.api, 'address.city')} ${safeAccess(data.api, 'address.state')}`;
+            updateMapLocation(fullAddress);
+        }
+
+        // Check URL for /Nearby-Property-Details/ to disable Nearby Homes button
+        setShowNearbyHomes(!pathname.includes('/Nearby-Property-Details/'));
     }, []);
   
     function safeAccess(obj, path) {
@@ -44,7 +51,9 @@ const PropertyDetails = () => {
         }
         return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Undisclosed"), obj);
       }
-  
+      const getHistory = (priceHistory) => {
+        return priceHistory && Array.isArray(priceHistory) && priceHistory.length > 0 ? priceHistory : null;
+      };
     const formatNumberWithCommas = (number) => {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
@@ -97,6 +106,7 @@ const PropertyDetails = () => {
       }
     };
     const schools = safeAccess(api, 'schools', []);
+    const history = getHistory(api, 'priceHistory');
     const nearbyHomes = safeAccess(api, 'nearbyHomes', []);
     const monthlyPrice = safeAccess(api, 'price', 0);
     const yearlyPrice = monthlyPrice * 12;
@@ -105,6 +115,44 @@ const garage = safeAccess(api, 'resoFacts.hasGarage');
 const furnished = safeAccess(api, 'resoFacts.furnished');
 const homeType = safeAccess(api, 'homeType')?.replace(/_/g, ' '); // Replace underscores with spaces
 const homeStatus = safeAccess(api, 'homeStatus')?.replace(/_/g, ' '); // Replace underscores with spaces
+
+const handleNearClick = async (zpid) => {
+
+  try {
+      const response = await fetch('/nearby-details', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ zpid })
+      });
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+
+      const propertyDetails = await response.json();
+      console.log('Property details:', propertyDetails); // Debugging
+
+      // Construct the address and URL
+      const property = propertyDetails.property;
+      const images = propertyDetails.images; // Corrected here
+      const address = `${safeAccess(property, 'address.streetAddress')} ${safeAccess(property, 'address.zipcode')} ${safeAccess(property, 'address.city')} ${safeAccess(property, 'address.state')}`;
+      const urlAddress = encodeURIComponent(address.replace(/\s+/g, '-').toLowerCase());
+  
+      const nearbyData = {
+          property: property,
+          info: images,
+          api: property
+      };
+  
+      sessionStorage.setItem('nearbyData', JSON.stringify(nearbyData));
+  
+      const url = `/Nearby-Property-Details/${urlAddress}`;
+      window.open(url, '_blank');
+  } catch (error) {
+      console.error('Error fetching property details:', error.message);
+  }
+};
 
     return (
         <>
@@ -135,20 +183,27 @@ const homeStatus = safeAccess(api, 'homeStatus')?.replace(/_/g, ' '); // Replace
                 {homeStatus === 'FOR RENT' && (
     <>
       <div className='pPrice notranslate'>
-        ${formatNumberWithCommas(monthlyPrice)} {safeAccess(api, 'currency')}/Month
+        ${formatNumberWithCommas(monthlyPrice)} <span className='currency'>{safeAccess(api, 'currency')}/Month</span>
       </div>
       <div className='pminiPrice notranslate'>
         Est. ${formatNumberWithCommas(yearlyPrice)} annually
       </div>
     </>
   )}
+                  {homeStatus !== 'FOR RENT' && (
+    <>
+      <div className='pPrice notranslate'>
+        ${formatNumberWithCommas(monthlyPrice)} <span className='currency'>{safeAccess(api, 'currency')}</span>
+      </div>
+    </>
+  )}
                     <div className='bedd'>{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
                     <div className='bathh'>{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
-                  <div className='dayss'><FontAwesomeIcon icon={faCircle} style={{color: "#00a303",}} />&nbsp; Active ({safeAccess(api, 'timeOnZillow')})</div>
+                  <div className='dayss'><FontAwesomeIcon icon={faCircle} style={{color: "#00a303",}} /> Active ({safeAccess(api, 'timeOnZillow')})</div>
                   <div className='holding1 notranslate'>
 
-                  <div className='descTextF notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
-                  <div className='descTextF notranslate'><FontAwesomeIcon icon={faEye} />&nbsp;Views: {safeAccess(api, 'pageViewCount')}</div>
+                  <div className='descTextQ notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
+                  <div className='descTextQ notranslate'><FontAwesomeIcon icon={faEye} />&nbsp;Views: {safeAccess(api, 'pageViewCount')}</div>
                   <button className='contact-button' onClick={handleContactClick}>Contact</button>
                   </div>
                 </div>
@@ -198,11 +253,19 @@ const homeStatus = safeAccess(api, 'homeStatus')?.replace(/_/g, ' '); // Replace
           Schools
         </button>
         <button
-          className={`toggle-button ${visibleComponent === 'homes' ? 'active' : ''}`}
-          onClick={() => handleMissClick('homes')}
+    className={`toggle-button ${visibleComponent === 'homes' ? 'active' : ''} ${window.location.pathname.includes(`/Nearby-Property-Details/`) ? 'disabled' : ''}`}
+    onClick={() => handleMissClick('homes')}
+    disabled={window.location.pathname.includes(`/Nearby-Property-Details/`)}
+>
+    Nearby Homes
+</button>
+<button
+          className={`toggle-button ${visibleComponent === 'history' ? 'active' : ''}`}
+          onClick={() => handleMissClick('history')}
         >
-          Nearby Homes
+          Price History
         </button>
+
       </div>
       {visibleComponent === 'map' && (
         <div className="map">
@@ -222,7 +285,7 @@ const homeStatus = safeAccess(api, 'homeStatus')?.replace(/_/g, ' '); // Replace
         href={school.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="school-card-link"
+        className="school-card-link descTextF"
       >
         <div className="school-card">
           <div><strong>Name:</strong> {school.name}</div>
@@ -235,35 +298,51 @@ const homeStatus = safeAccess(api, 'homeStatus')?.replace(/_/g, ' '); // Replace
       </a>
           ))
         ) : (
-          <div className='noSchool'>Sorry, No Local School Data!</div>
+          <div className='noSchool'>No Local School Data Available!</div>
         )}
       </div>
       )}
       {visibleComponent === 'homes' && (
         <div className="nearby-homes">
       {nearbyHomes.length > 0 ? (
-        nearbyHomes.map((home, index) => (
-          <div
-            className="home-card"
-            key={index}
-            style={{ backgroundImage: `url(${home.miniCardPhotos[0].url})` }}
-            alt='No Image Available'
-          >
-            <div className="home-card-content">
-              <div className="home-address">
-                {home.address.streetAddress} {home.address.zipcode} {home.address.city}, {home.address.state}
-              </div>
-              <div className="home-price">
-                ${formatNumberWithCommas(home.price)}
-              </div>
+      nearbyHomes.map((home, index) => (
+        <div
+          className="home-card"
+          key={index}
+          style={{ backgroundImage: `url(${home.miniCardPhotos[0]?.url || 'default-image-url'})` }}
+          alt='No Image Available'
+          onClick={() => handleNearClick(home.zpid)}  // Handle card click
+        >
+          <div className="home-card-content">
+            <div className="home-address">
+              {home.address.streetAddress} {home.address.zipcode} {home.address.city}, {home.address.state}
             </div>
-            <div className="home-card-overlay">View Nearby Home Details</div>
+            <div className="home-price">
+              ${formatNumberWithCommas(home.price)}
+            </div>
           </div>
-        ))
-      ) : (
-        <div>No Nearby Homes Found!</div>
-      )}
+          <div className="home-card-overlay">View Nearby Home Details</div>
+        </div>
+      ))
+    ) : (
+      <div className='noSchool'>No Nearby Homes Found!</div>
+    )}
     </div>
+      )}
+{visibleComponent === 'history' && (
+        <div className="history">
+          {history ? (
+            history.map((historyItem, index) => (
+              <div className="history-card descTextF" key={index}>
+                <div><strong>Price:</strong> ${historyItem.price}</div>
+                <div><strong>Event:</strong> {historyItem.event}</div>
+                <div><strong>Date:</strong> {historyItem.date}</div>
+              </div>
+            ))
+          ) : (
+            <div className='noSchool'>Pricing History Not Available!</div>
+          )}
+      </div>
       )}
     </div>
       </div>
