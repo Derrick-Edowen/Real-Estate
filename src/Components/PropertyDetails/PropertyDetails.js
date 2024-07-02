@@ -6,8 +6,14 @@ import './propDetails.css'
 import { useParams, useLocation } from 'react-router-dom';
 import Contact from '../Contact/Contact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircle, faEye } from '@fortawesome/free-solid-svg-icons';
-
+import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircle, faEye, 
+  faBasketShopping, faLightbulb, faShirt, faCarSide, faDollarSign } from '@fortawesome/free-solid-svg-icons';
+  import Chart from 'chart.js/auto';
+  import ChartDataLabels from 'chartjs-plugin-datalabels';
+  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+  import jsPDF from 'jspdf';
+  import 'jspdf-autotable';
 const PropertyDetails = () => {
     const { address } = useParams();
   
@@ -21,7 +27,32 @@ const PropertyDetails = () => {
     const [visibleComponent, setVisibleComponent] = useState('map');
     const [showAdditionalFacts, setShowAdditionalFacts] = useState(false);
     const [showNearbyHomes, setShowNearbyHomes] = useState(true); // State to control visibility of Nearby Homes
-
+    const [rent, setRent] = useState('');
+    const [income, setIncome] = useState('');
+    const [groceries, setGroceries] = useState(0);
+    const [utilities, setUtilities] = useState(0);
+    const [clothing, setClothing] = useState(0);
+    const [transportation, setTransportation] = useState(0);
+  
+    const [homePrice, setHomePrice] = useState('');
+    const [downPaymentPercentage, setDownPaymentPercentage] = useState('');
+    const [interestRate, setInterestRate] = useState('');
+    const [loanTerm, setLoanTerm] = useState('');
+    const [loanAmount, setLoanAmount] = useState('');
+    const [monthlyAmortization, setMonthlyAmortization] = useState([]);
+    const [annualAmortization, setAnnualAmortization] = useState([]);
+    const [monthlyDropdownActive, setMonthlyDropdownActive] = useState(false);
+    const [annualDropdownActive, setAnnualDropdownActive] = useState(false);
+    const [principalPercentage, setPrincipalPercentage] = useState(0);
+    const [interestPercentage, setInterestPercentage] = useState(0);
+    const [chartInstance, setChartInstance] = useState(null);
+    const [doughnutChartInstance, setDoughnutChartInstance] = useState(null);
+    const [selectedSchedule, setSelectedSchedule] = useState(null);
+    const [showPopUp, setShowPopUp] = useState(false);
+const [showPopUp2, setShowPopUp2] = useState(false);
+const [showScheduleButts, setShowScheduleButts] = useState(false);
+const [showDrops, setShowDrops] = useState(false);
+    
     useEffect(() => {
         const pathname = window.location.pathname;
         const storageKey = pathname.includes('/Nearby-Property-Details/') ? 'nearbyData' : 'propertyData';
@@ -51,9 +82,7 @@ const PropertyDetails = () => {
         }
         return path.split('.').reduce((acc, key) => (acc && acc[key] ? acc[key] : "Undisclosed"), obj);
       }
-      const getHistory = (priceHistory) => {
-        return priceHistory && Array.isArray(priceHistory) && priceHistory.length > 0 ? priceHistory : null;
-      };
+
     const formatNumberWithCommas = (number) => {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
@@ -105,8 +134,10 @@ const PropertyDetails = () => {
         console.error('Error fetching data:', error);
       }
     };
+
+    
     const schools = safeAccess(api, 'schools', []);
-    const history = getHistory(api, 'priceHistory');
+    const history = safeAccess(api, 'priceHistory', []); // Assuming api.priceHistory is where price history data resides
     const nearbyHomes = safeAccess(api, 'nearbyHomes', []);
     const monthlyPrice = safeAccess(api, 'price', 0);
     const yearlyPrice = monthlyPrice * 12;
@@ -116,6 +147,29 @@ const furnished = safeAccess(api, 'resoFacts.furnished');
 const homeType = safeAccess(api, 'homeType')?.replace(/_/g, ' '); // Replace underscores with spaces
 const homeStatus = safeAccess(api, 'homeStatus')?.replace(/_/g, ' '); // Replace underscores with spaces
 
+useEffect(() => {
+  const calculateIncome = (rent, expenses) => {
+    const monthlyRent = parseFloat(rent);
+    const monthlyExpenses = expenses.reduce((acc, curr) => acc + parseFloat(curr), 0);
+    const annualRentAndExpenses = (monthlyRent + monthlyExpenses) * 12;
+    const requiredIncome = annualRentAndExpenses / 0.3;
+    return requiredIncome.toFixed(0);
+  };
+
+  const handleCalculate = () => {
+    if (rent) {
+      const expenses = [groceries, utilities, clothing, transportation];
+      const result = calculateIncome(rent, expenses);
+      setIncome(result);
+    }
+  };
+
+  handleCalculate();
+}, [rent, groceries, utilities, clothing, transportation]);
+
+useEffect(() => {
+  setRent(monthlyPrice);
+}, [monthlyPrice]);
 const handleNearClick = async (zpid) => {
 
   try {
@@ -154,6 +208,185 @@ const handleNearClick = async (zpid) => {
   }
 };
 
+
+
+
+const renderDoughnutChart = (principalPercentage, interestPercentage) => {
+  if (doughnutChartInstance) {
+      doughnutChartInstance.destroy();
+  }
+
+  const ctx = document.getElementById('doughnutChart').getContext('2d');
+
+  const chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+          labels: ['Principal', 'Interest'],
+          datasets: [{
+              label: 'Principal vs Interest',
+              data: [principalPercentage, interestPercentage],
+              backgroundColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(54, 162, 235)'
+              ],
+              borderColor: ['rgb(255, 99, 132)',
+              'rgb(54, 162, 235)'],
+              hoverOffset: 4
+          }]
+      },
+      options: {
+          responsive: false,
+          maintainAspectRatio: false,
+          cutoutPercentage: 41,
+          plugins: {
+              legend: {
+                  display: true,
+                  position: 'bottom',
+                  labels: {
+                      fontFamily: "myriadpro-regular",
+                      boxWidth: 30,
+                      boxHeight: 8,
+                      color: 'white',
+              font: {
+                  size: 16
+              }
+                  },
+              },
+              tooltip: {
+                  enabled: false
+              },
+              datalabels: {
+                  formatter: (value, ctx) => {
+                      let sum = 0;
+                      let dataArr = ctx.chart.data.datasets[0].data;
+                      dataArr.map(data => {
+                          sum += data;
+                      });
+                      let percentage = (value * 100 / sum).toFixed(0) + "%";
+                      return percentage;
+                  },
+                  color: '#fff',
+                  font: {
+                      size: 16,
+                  },
+              }
+          }
+      },
+      plugins: [ChartDataLabels],
+  });
+
+  setDoughnutChartInstance(chart);
+};
+
+const renderLineChart = () => {
+
+  if (chartInstance) {
+      chartInstance.destroy();
+  }
+  const ctx = document.getElementById('lineChart').getContext('2d');
+
+  // Generate labels for the x-axis based on the loan term
+  const loanTermYears = parseInt(loanTerm);
+  const labels = annualAmortization.map(entry => entry.year);
+
+  const chartData = {
+      labels: labels,
+      datasets: [
+          {
+              label: 'Principal',
+              data: annualAmortization.map(entry => entry.totalPrincipal),
+              borderColor: 'rgb(255, 99, 132)',
+              backgroundColor: 'rgb(255, 99, 132)',
+              fill: false, // Ensure lines are not filled
+              borderDash: [] // Make the line solid
+
+          },
+          {
+              label: 'Interest',
+              data: annualAmortization.map(entry => entry.totalInterest),
+              borderColor: 'rgb(54, 162, 235)',
+              backgroundColor: 'rgb(54, 162, 235)',
+              fill: false, // Ensure lines are not filled
+              borderDash: [] // Make the line solid
+
+          },
+          {
+              label: 'Balance',
+              data: annualAmortization.map(entry => entry.totalRemainingBalance),
+              borderColor: 'rgb(75, 192, 192)',
+              backgroundColor: 'rgb(75, 192, 192)',
+              fill: false, // Ensure lines are not filled
+              borderDash: [] // Make the line solid
+
+          }
+      ],
+  };
+  
+  const chartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+          x: {
+              title: {
+                  display: true,
+                  text: 'Loan Term (Years)',
+                  color: 'white',
+                  font: {
+                      size: 20,
+                  }
+              },
+              ticks: {
+                  color: 'white',
+                  font: {
+                      size: 16
+                  }
+              },
+              grid: {
+                  color: 'rgba(255, 255, 255, 0.1)'
+              }
+          },
+          y: {
+              beginAtZero: true,
+              suggestedMin: 0, // Ensure y-axis starts at 0
+              title: {
+                  display: true,
+                  text: 'Amount ($)',
+                  color: 'white',
+                  font: {
+                      size: 20,
+                  }
+              },
+              ticks: {
+                  color: 'white',
+                  font: {
+                      size: 16
+                  }
+              },
+              grid: {
+                  color: 'rgba(255, 255, 255, 0.6)'
+              }
+          }
+      },
+      plugins: {
+          legend: {
+              labels: {
+                  color: 'white',
+                  font: {
+                      size: 16
+                  }
+              }
+          }
+      }
+  };
+
+  const newChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: chartOptions
+  });
+
+  setChartInstance(newChartInstance);
+};
     return (
         <>
       <div className='propDets'>
@@ -265,7 +498,6 @@ const handleNearClick = async (zpid) => {
         >
           Price History
         </button>
-
       </div>
       {visibleComponent === 'map' && (
         <div className="map">
@@ -330,21 +562,159 @@ const handleNearClick = async (zpid) => {
     </div>
       )}
 {visibleComponent === 'history' && (
-        <div className="history">
-          {history ? (
-            history.map((historyItem, index) => (
-              <div className="history-card descTextF" key={index}>
-                <div><strong>Price:</strong> ${historyItem.price}</div>
-                <div><strong>Event:</strong> {historyItem.event}</div>
-                <div><strong>Date:</strong> {historyItem.date}</div>
-              </div>
-            ))
-          ) : (
-            <div className='noSchool'>Pricing History Not Available!</div>
-          )}
+  <div className="history">
+    {history && history.length > 0 ? (
+      history.map((historyItem, index) => (
+        <div className="history-card descTextF" key={index}>
+          <div><strong>Price:</strong> ${historyItem.price}</div>
+          <div><strong>Event:</strong> {historyItem.event}</div>
+          <div><strong>Date:</strong> {historyItem.date}</div>
+        </div>
+      ))
+    ) : (
+      <div className='noSchool'>Pricing History Not Available!</div>
+    )}
       </div>
       )}
+
     </div>
+    {homeStatus === 'FOR RENT' && (
+    <div className="calculatorpd-container">
+      <div className='descTextF' >Rent Affordability Calculation</div>
+      <div className='resultdis'>* This Rent Affordability Calculator follows the 30% rule. Most experts traditionally 
+      recommended people not spend more than 30% of their gross (before tax) income on housing costs (such as rent, utilities, etc.).</div>
+    <label htmlFor="rent" className='descTex'>Monthly Rent ($):</label>
+      <div className="input-group">
+        <FontAwesomeIcon icon={faDollarSign} size="lg" style={{color: "#006102",}} />&nbsp;&nbsp; <input
+          type="number"
+          id="rent"
+          className='innie'
+          min={0}
+          value={rent}
+          onChange={(e) => setRent(e.target.value)}
+        />
+      </div>
+      <label htmlFor="groceries" className='descTex'>Groceries ($):</label>
+      <div className="input-group">
+        <FontAwesomeIcon icon={faBasketShopping} size="lg" style={{ color: "#003c8a" }} />&nbsp;&nbsp; <input
+          type="number"
+          id="groceries"
+          className='innie'
+min={0}
+defaultValue={0}
+
+          value={groceries}
+          onChange={(e) => setGroceries(e.target.value)}
+        />
+      </div>
+      <label htmlFor="utilities" className='descTex'>Utilities/Other ($):</label>
+      <div className="input-group">
+        <FontAwesomeIcon icon={faLightbulb} size="lg" style={{ color: "#441b00" }} />&nbsp;&nbsp; <input
+          type="number"
+          id="utilities"
+          className='innie'
+          min={0}
+          defaultValue={0}
+
+          value={utilities}
+          onChange={(e) => setUtilities(e.target.value)}
+        />
+      </div>
+      <label htmlFor="clothing" className='descTex'>Clothing ($):</label>
+      <div className="input-group">
+        <FontAwesomeIcon icon={faShirt} size="lg" style={{ color: "#1e0030fc" }} />&nbsp;&nbsp; <input
+          type="number"
+          id="clothing"
+          className='innie'
+          min={0}
+          defaultValue={0}
+
+          value={clothing}
+          onChange={(e) => setClothing(e.target.value)}
+        />
+      </div>
+      <label htmlFor="transportation" className='descTex'>Transportation ($):</label>
+      <div className="input-group">
+        <FontAwesomeIcon icon={faCarSide} size="lg" style={{ color: "#660101" }} />&nbsp;&nbsp; <input
+          type="number"
+          id="transportation"
+          className='innie'
+          min={0}
+          defaultValue={0}
+
+          value={transportation}
+          onChange={(e) => setTransportation(e.target.value)}
+        />
+      </div>
+      {income && (
+        <div className="result">
+            <div className='descTextF'>Recommended Gross Monthly Income: ${formatNumberWithCommas((income / 12).toFixed(0))}</div>
+            <div className='descTextF'>Recommeded Gross Annual Income: ${formatNumberWithCommas(income)}</div>
+        </div>
+      )}
+    </div>
+    )}
+
+
+
+
+
+
+        {homeStatus !== 'FOR RENT' && (
+    <div className="mortgagepd-container">
+    <div className='descTextF'>Amortization Calculator</div>
+    <label htmlFor="homePrice" className='descTex'>Home Price($):</label>
+    <div className="input-group">
+        <input
+            type="number"
+            id="homePrice"
+            className='innie'
+            min={0}
+            onChange={(e) => setHomePrice(e.target.value)}
+        />
+    </div>
+    <label htmlFor="downPaymentPercentage" className='descTex'>Down Payment Percentage:</label>
+    <div className="input-group">
+        <input
+            type="number"
+            id="downPaymentPercentage"
+            className='innie'
+            min={0}
+            onChange={(e) => setDownPaymentPercentage(e.target.value)}
+        />
+    </div>
+    <label htmlFor="interestRate" className='descTex'>Interest Rate (%):</label>
+    <div className="input-group">
+        <input
+            type="number"
+            id="interestRate"
+            className='innie'
+            min={0}
+            onChange={(e) => setInterestRate(e.target.value)}
+        />
+    </div>
+    <label htmlFor="loanTerm" className='descTex'>Loan Term (Years):</label>
+    <div className="input-group">
+        <input
+            type="number"
+            id="loanTerm"
+            className='innie'
+            min={0}
+            onChange={(e) => setLoanTerm(e.target.value)}
+        />
+    </div>
+</div>
+)}
+
+
+
+
+
+
+
+
+
+
       </div>
 </>
     );

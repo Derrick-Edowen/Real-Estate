@@ -4,7 +4,7 @@
     padding-top: 120px;
     padding-left: 300px;
     padding-right: 300px;
-padding-bottom: 250px;
+padding-bottom: 200px;
 }
 .buttonp-container {
     display: flex;
@@ -58,7 +58,7 @@ padding-bottom: 250px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 50px;
-    width: 24%;
+    width: 24.5%;
     border: 2px solid rgb(37, 37, 37);
     font-weight: 500;
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -69,6 +69,8 @@ background-color: rgb(177, 177, 177);
   }
   .schools {
     width: 100%;
+    max-height: 450px;
+    overflow-y: scroll;
     }
   
   .school-card {
@@ -136,6 +138,10 @@ background-color: rgb(177, 177, 177);
     margin-top: 8px
 
   }
+  .innie {
+    width: 95% !important;
+    border: 1px solid black;
+  }
   .additional-facts .descTextF:nth-child(even) {
     background-color: rgb(170, 170, 170);
   }
@@ -151,6 +157,12 @@ background-color: rgb(177, 177, 177);
   .schools .school-card:nth-child(even) {
     background-color: rgb(170, 170, 170);
   }
+  .result .descTextF:nth-child(even) {
+    background-color: rgb(238, 238, 238);
+  }
+  .result .descTextF:nth-child(odd) {
+    background-color: rgb(170, 170, 170);
+  }
   .history {
     max-height: 450px;
     overflow-y: scroll;
@@ -162,7 +174,12 @@ background-color: rgb(177, 177, 177);
     max-height: 450px;
     overflow-y: scroll;
   }
-  
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin: 2 auto;
+    justify-content: space-between;
+  }
   .home-card {
     position: relative;
     width: 300px; /* Adjust size as needed */
@@ -193,7 +210,11 @@ background-color: rgb(177, 177, 177);
     font-size: 14px;
     font-weight: bold;
   }
-  
+  .resultdis {
+    font-size: 12px;
+    font-weight: bold;
+    margin: 4px;
+  }
   .home-price {
     font-size: 14px;
   }
@@ -215,4 +236,18 @@ background-color: rgb(177, 177, 177);
   
   .home-card:hover .home-card-overlay {
     opacity: 1;
+  }
+  .calculatorpd-container {
+    padding-top: 30px;
+    padding: 24px;
+    background-color: #f3f3f3;
+    margin-top: 18px;
+    border: 1px solid black;
+  }
+  .mortgagepd-container {
+    padding-top: 30px;
+    padding: 24px;
+    background-color: #f3f3f3;
+    margin-top: 18px;
+    border: 1px solid black;
   }
