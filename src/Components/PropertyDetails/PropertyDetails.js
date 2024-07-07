@@ -6,7 +6,7 @@ import './propDetails.css'
 import { useParams, useLocation } from 'react-router-dom';
 import Contact from '../Contact/Contact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircle, faEye, 
+import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircleCheck, faEye, 
   faBasketShopping, faLightbulb, faShirt, faCarSide, faDollarSign } from '@fortawesome/free-solid-svg-icons';
   import Chart from 'chart.js/auto';
   import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -27,6 +27,8 @@ const PropertyDetails = () => {
     const [showAdditionalFacts, setShowAdditionalFacts] = useState(false);
     const [showNearbyHomes, setShowNearbyHomes] = useState(true); // State to control visibility of Nearby Homes
     const [rent, setRent] = useState('');
+    const [monthPrice, setMonthPrice] = useState('');
+
     const [income, setIncome] = useState('');
     const [groceries, setGroceries] = useState(0);
     const [utilities, setUtilities] = useState(0);
@@ -37,29 +39,30 @@ const PropertyDetails = () => {
     const [interestRate, setInterestRate] = useState(6);
     const [loanTerm, setLoanTerm] = useState(20);
     const [loanAmount, setLoanAmount] = useState('');
-    
+    const [monthlyAmortization, setMonthlyAmortization] = useState([]);
+    const [annualAmortization, setAnnualAmortization] = useState([]);
+    const [doughnutChartInstance, setDoughnutChartInstance] = useState(null);
+    const [chartInstance, setChartInstance] = useState(null);
+
     useEffect(() => {
-        const pathname = window.location.pathname;
-        const storageKey = pathname.includes('/Nearby-Property-Details/') ? 'nearbyData' : 'propertyData';
-        
-        const storedData = sessionStorage.getItem(storageKey);
-        if (storedData) {
-            const data = JSON.parse(storedData);
-            setProperty(data.property);
-            setInfoData(data.info);
-            setApi(data.api);
-            console.log("Property Data:", data.property);
-            console.log("Info Data:", data.info);
-            console.log("API Data:", data.api);
+      const pathname = window.location.pathname;
+      const storageKey = pathname.includes('/Nearby-Property-Details/') ? 'nearbyData' : 'propertyData';
+      
+      const storedData = sessionStorage.getItem(storageKey);
+      if (storedData) {
+          const data = JSON.parse(storedData);
+          setProperty(data.property);
+          setInfoData(data.info);
+          setApi(data.property);
+          const fullAddress = `${safeAccess(data.property, 'address.streetAddress')} ${safeAccess(data.property, 'address.zipcode')} ${safeAccess(data.property, 'address.city')} ${safeAccess(data.property, 'address.state')}`;
+          updateMapLocation(fullAddress);
+      }
+  
+      // Check URL for /Nearby-Property-Details/ to disable Nearby Homes button
+      setShowNearbyHomes(!pathname.includes('/Nearby-Property-Details/'));
+  }, []);
+  
 
-
-            const fullAddress = `${safeAccess(data.api, 'address.streetAddress')} ${safeAccess(data.api, 'address.zipcode')} ${safeAccess(data.api, 'address.city')} ${safeAccess(data.api, 'address.state')}`;
-            updateMapLocation(fullAddress);
-        }
-
-        // Check URL for /Nearby-Property-Details/ to disable Nearby Homes button
-        setShowNearbyHomes(!pathname.includes('/Nearby-Property-Details/'));
-    }, []);
     function safeAccess(obj, path) {
         if (!path || typeof path !== 'string') {
           return "Undisclosed";
@@ -85,9 +88,6 @@ const PropertyDetails = () => {
     };
     const toggleAdditionalFacts = () => {
         setShowAdditionalFacts(!showAdditionalFacts);
-      };
-      const handleContactClick = () => {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
       };
     const updateMapLocation = async (address) => {
       try {
@@ -115,10 +115,10 @@ const PropertyDetails = () => {
         console.error('Error fetching data:', error);
       }
     };
+    const monthlyPrice = safeAccess(api, 'price', 0);
     const schools = safeAccess(api, 'schools', []);
     const history = safeAccess(api, 'priceHistory', []); // Assuming api.priceHistory is where price history data resides
     const nearbyHomes = safeAccess(api, 'nearbyHomes', []);
-    const monthlyPrice = safeAccess(api, 'price', 0);
     const yearlyPrice = monthlyPrice * 12;
     const hasPetsAllowed = safeAccess(api, 'resoFacts.hasPetsAllowed');
 const garage = safeAccess(api, 'resoFacts.hasGarage');
@@ -148,6 +148,12 @@ useEffect(() => {
 useEffect(() => {
   setRent(monthlyPrice);
 }, [monthlyPrice]);
+useEffect(() => {
+  if (homeStatus === "FOR RENT") {
+    return; // Skip the mortgage calculation when homeStatus is "FOR RENT"
+  }
+  setHomePrice(monthlyPrice);
+}, [monthlyPrice]);
 const handleNearClick = async (zpid) => {
 
   try {
@@ -163,7 +169,6 @@ const handleNearClick = async (zpid) => {
       }
 
       const propertyDetails = await response.json();
-      console.log('Property details:', propertyDetails); // Debugging
 
       // Construct the address and URL
       const property = propertyDetails.property;
@@ -185,8 +190,251 @@ const handleNearClick = async (zpid) => {
       console.error('Error fetching property details:', error.message);
   }
 };
+useEffect(() => {
+  if (homeStatus === "FOR RENT") {
+    return; // Skip the mortgage calculation when homeStatus is "FOR RENT"
+  }
+  // Calculate loan amount and amortization schedules
+  const downPayment = (homePrice * downPaymentPercentage) / 100;
+  const loanAmount = homePrice - downPayment;
+  setLoanAmount(loanAmount);
+  
+  if (interestRate > 0 && loanTerm > 0) {
+      const monthlyRate = interestRate / 100 / 12;
+      const numberOfPayments = loanTerm * 12;
+      
+      const monthlyPayment = loanAmount * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+      const monthlyAmortization = [];
+      const annualAmortization = [];
+      let balance = loanAmount;
+      let totalInterest = 0;
+
+      for (let i = 0; i < numberOfPayments; i++) {
+          const interest = balance * monthlyRate;
+          const principal = monthlyPayment - interest;
+          balance -= principal;
+          totalInterest += interest;
+          monthlyAmortization.push({ month: i + 1, interest, principal, balance, mortgagePayment: monthlyPayment });
+
+          if ((i + 1) % 12 === 0 || i === numberOfPayments - 1) {
+              const year = Math.ceil((i + 1) / 12);
+              const totalPrincipal = loanAmount - balance;
+              const totalRemainingBalance = balance;
+              const annualPayment = monthlyPayment * 12;
+              annualAmortization.push({ year, totalInterest, totalPrincipal, annualPayment, totalRemainingBalance });
+          }
+      }
+
+      setMonthlyAmortization(monthlyAmortization);
+      setAnnualAmortization(annualAmortization);
+
+      // Render charts
+      const totalPrincipal = loanAmount;
+      const principalPercentage = (totalPrincipal / (totalPrincipal + totalInterest)) * 100;
+      const interestPercentage = (totalInterest / (totalPrincipal + totalInterest)) * 100;
+      renderDoughnutChart(principalPercentage, interestPercentage);
+      renderLineChart(annualAmortization);
+
+  }
+}, [homePrice, downPaymentPercentage, interestRate, loanTerm]);
 
 
+
+const renderDoughnutChart = (principalPercentage, interestPercentage) => {
+  if (doughnutChartInstance) {
+    doughnutChartInstance.destroy();
+    setDoughnutChartInstance(null); // Clear the chart instance
+  }
+
+  // Clear the canvas element to ensure it's not reused incorrectly
+  const canvas = document.getElementById('doughnutChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const chart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Principal', 'Interest'],
+      datasets: [{
+        label: 'Principal vs Interest',
+        data: [principalPercentage, interestPercentage],
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)'
+        ],
+        borderColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)'
+        ],
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      responsive: false,
+      maintainAspectRatio: false,
+      cutoutPercentage: 41,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            fontFamily: "myriadpro-regular",
+            boxWidth: 30,
+            boxHeight: 8,
+            color: 'white',
+            font: {
+              size: 16
+            }
+          },
+        },
+        tooltip: {
+          enabled: false
+        },
+        datalabels: {
+          formatter: (value, ctx) => {
+            let sum = 0;
+            let dataArr = ctx.chart.data.datasets[0].data;
+            dataArr.map(data => {
+              sum += data;
+            });
+            let percentage = (value * 100 / sum).toFixed(0) + "%";
+            return percentage;
+          },
+          color: '#fff',
+          font: {
+            size: 16,
+          },
+        }
+      }
+    },
+    plugins: [ChartDataLabels],
+  });
+
+  setDoughnutChartInstance(chart);
+};
+
+
+
+const renderLineChart = (annualAmortization) => {
+  if (chartInstance) {
+    chartInstance.destroy();
+    setChartInstance(null); // Clear the chart instance
+  }
+
+  // Clear the canvas element to ensure it's not reused incorrectly
+  const canvas = document.getElementById('lineChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const labels = annualAmortization.map(entry => entry.year);
+
+  const chartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Principal',
+        data: annualAmortization.map(entry => entry.totalPrincipal),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgb(255, 99, 132)',
+        fill: false
+      },
+      {
+        label: 'Interest',
+        data: annualAmortization.map(entry => entry.totalInterest),
+        borderColor: 'rgb(54, 162, 235)',
+        backgroundColor: 'rgb(54, 162, 235)',
+        fill: false
+      },
+      {
+        label: 'Balance',
+        data: annualAmortization.map(entry => entry.totalRemainingBalance),
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgb(75, 192, 192)',
+        fill: false
+      }
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Loan Term (Years)',
+          color: 'black',
+          font: {
+            size: 20,
+          }
+        },
+        ticks: {
+          color: 'black',
+          font: {
+            size: 16
+          }
+        },
+        grid: {
+          color: 'black'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        suggestedMin: 0,
+        title: {
+          display: true,
+          text: 'Amount ($)',
+          color: 'black',
+          font: {
+            size: 20,
+          }
+        },
+        ticks: {
+          color: 'black',
+          font: {
+            size: 16
+          }
+        },
+        grid: {
+          color: 'black'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: 'black',
+          font: {
+            size: 16
+          }
+        }
+      }
+    }
+  };
+
+  const newChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: chartData,
+    options: chartOptions
+  });
+
+  setChartInstance(newChartInstance);
+};
+
+
+const downloadPDF = () => {
+  const doc = new jsPDF();
+  
+  // Add monthly table
+  doc.text('Monthly Amortization Schedule', 10, 10);
+  doc.autoTable({ html: '#monthlyTable', startY: 15 });
+  
+  // Add annual table
+  doc.text('Annual Amortization Summary', 10, doc.autoTable.previous.finalY + 10);
+  doc.autoTable({ html: '#annualTable', startY: doc.autoTable.previous.finalY + 15 });
+  
+  doc.save('Amortization_Schedules.pdf');
+};
 
     return (
         <>
@@ -195,10 +443,10 @@ const handleNearClick = async (zpid) => {
           <>
             <div className='aver'>
               <div className='pAddress-1 notranslate'>
-                {safeAccess(api, 'address.streetAddress')} <br/>
-                  {safeAccess(api, 'address.city') + " , " + safeAccess(api, 'address.state') + " " + safeAccess(api, 'address.zipcode') }
+                {safeAccess(api, 'address.streetAddress')+ " " + safeAccess(api, 'address.city') + " , " + safeAccess(api, 'address.state') + " " + safeAccess(api, 'address.zipcode') }
                   &nbsp;<FontAwesomeIcon icon={faLocationDot} />
               </div>
+              <div className='descTextM notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')} | {homeStatus}</div>
             </div>
             <div className='side-by-side-container notranslate'>
               <div className='fixer notranslate'>
@@ -209,36 +457,39 @@ const handleNearClick = async (zpid) => {
                 <button className="lightbox-right notranslate" onClick={handleNextImage}>
                 <FontAwesomeIcon icon={faArrowRight} style={{color: "#ffffff",}} />                
                 </button>
-                <div className='cardAsk notranslate'>Listing provided courtesy of: {safeAccess(api, 'brokerageName')}</div>
+                <div className='cardAsk descTex notranslate'>Listing provided courtesy of: {safeAccess(api, 'brokerageName')}</div>
   
               </div>
               <div className="cardText notranslate">
                 <div className='containText notranslate'>
                 {homeStatus === 'FOR RENT' && (
     <>
+    <div className='ghost'>
       <div className='pPrice notranslate'>
         ${formatNumberWithCommas(monthlyPrice)} <span className='currency'>{safeAccess(api, 'currency')}/Month</span>
       </div>
       <div className='pminiPrice notranslate'>
         Est. ${formatNumberWithCommas(yearlyPrice)} annually
       </div>
+      </div>
     </>
   )}
                   {homeStatus !== 'FOR RENT' && (
     <>
+    <div className='ghost'>
       <div className='pPrice notranslate'>
         ${formatNumberWithCommas(monthlyPrice)} <span className='currency'>{safeAccess(api, 'currency')}</span>
+      </div>
       </div>
     </>
   )}
                     <div className='bedd'>{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
                     <div className='bathh'>{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
-                  <div className='dayss'><FontAwesomeIcon icon={faCircle} style={{color: "#00a303",}} /> Active ({safeAccess(api, 'timeOnZillow')})</div>
+                  <div className='dayss'><FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active ({safeAccess(api, 'timeOnZillow')})</div>
                   <div className='holding1 notranslate'>
-
+                  <div className='descTextQ notranslate'>Property Status:<br/>{homeStatus}</div>
                   <div className='descTextQ notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
                   <div className='descTextQ notranslate'><FontAwesomeIcon icon={faEye} />&nbsp;Views: {safeAccess(api, 'pageViewCount')}</div>
-                  <button className='contact-button' onClick={handleContactClick}>Contact</button>
                   </div>
                 </div>
               </div>
@@ -364,7 +615,7 @@ const handleNearClick = async (zpid) => {
       )}
 {visibleComponent === 'history' && (
   <div className="history">
-    {history && history.length > 0 ? (
+    {Array.isArray(history) && history?.length > 0 ? (
       history.map((historyItem, index) => (
         <div className="history-card descTextF" key={index}>
           <div><strong>Price:</strong> ${historyItem.price}</div>
@@ -375,8 +626,9 @@ const handleNearClick = async (zpid) => {
     ) : (
       <div className='noSchool'>Pricing History Not Available!</div>
     )}
-      </div>
-      )}
+  </div>
+)}
+
 
     </div>
     {homeStatus === 'FOR RENT' && (
@@ -408,19 +660,7 @@ defaultValue={0}
           onChange={(e) => setGroceries(e.target.value)}
         />
       </div>
-      <label htmlFor="utilities" className='descTex'>Utilities/Other ($):</label>
-      <div className="input-group">
-        <FontAwesomeIcon icon={faLightbulb} size="lg" style={{ color: "#441b00" }} />&nbsp;&nbsp; <input
-          type="number"
-          id="utilities"
-          className='innie'
-          min={0}
-          defaultValue={0}
-
-          value={utilities}
-          onChange={(e) => setUtilities(e.target.value)}
-        />
-      </div>
+      
       <label htmlFor="clothing" className='descTex'>Clothing ($):</label>
       <div className="input-group">
         <FontAwesomeIcon icon={faShirt} size="lg" style={{ color: "#1e0030fc" }} />&nbsp;&nbsp; <input
@@ -447,6 +687,19 @@ defaultValue={0}
           onChange={(e) => setTransportation(e.target.value)}
         />
       </div>
+      <label htmlFor="utilities" className='descTex'>Utilities/Other ($):</label>
+      <div className="input-group">
+        <FontAwesomeIcon icon={faLightbulb} size="lg" style={{ color: "#441b00" }} />&nbsp;&nbsp; <input
+          type="number"
+          id="utilities"
+          className='innie'
+          min={0}
+          defaultValue={0}
+
+          value={utilities}
+          onChange={(e) => setUtilities(e.target.value)}
+        />
+      </div>
       {income && (
         <div className="result">
             <div className='descTextF'>Recommended Gross Monthly Income: ${formatNumberWithCommas((income / 12).toFixed(0))}</div>
@@ -457,9 +710,12 @@ defaultValue={0}
     )}
 
 
-{homeStatus !== 'FOR RENT' && (
+{homeStatus !== 'FOR RENT' && (<>
+<div className='besty'>
+            <div className='descTextF'>Amortization Calculator</div>
+            <button className='downPDF' onClick={downloadPDF}>Download Monthly & Annual Amortization Tables &nbsp;<FontAwesomeIcon icon={faFilePdf} size="lg"/></button>
+            </div>
         <div className="mortgagepd-container">
-          <div className='descTextF'>Amortization Calculator</div>
           <label htmlFor="homePrice" className='descTex'>Home Price($):</label>
           <div className="input-group">
             <input
@@ -467,11 +723,11 @@ defaultValue={0}
               id="homePrice"
               className='innie'
               min={0}
-              value={monthlyPrice}
+              value={homePrice}
               onChange={(e) => setHomePrice(e.target.value)}
             />
           </div>
-          <label htmlFor="downPaymentPercentage" className='descTex'>Down Payment Percentage:</label>
+          <label htmlFor="downPaymentPercentage" className='descTex'>Down Payment(%):</label>
           <div className="input-group">
             <input
               type="number"
@@ -483,7 +739,7 @@ defaultValue={0}
               onChange={(e) => setDownPaymentPercentage(e.target.value)}
             />
           </div>
-          <label htmlFor="interestRate" className='descTex'>Interest Rate:</label>
+          <label htmlFor="interestRate" className='descTex'>Interest Rate(%):</label>
           <div className="input-group">
             <input
               type="number"
@@ -495,7 +751,7 @@ defaultValue={0}
               onChange={(e) => setInterestRate(e.target.value)}
             />
           </div>
-          <label htmlFor="loanTerm" className='descTex'>Loan Term (Years):</label>
+          <label htmlFor="loanTerm" className='descTex'>Loan Term(Years):</label>
           <div className="input-group">
             <input
               type="number"
@@ -507,8 +763,96 @@ defaultValue={0}
               onChange={(e) => setLoanTerm(e.target.value)}
             />
           </div>
+          <label htmlFor="loanAmount" className='descTex'>Loan Amount($):</label>
+          <div className="input-group">
+            <input
+              type="number"
+              id="loanAmount"
+              className='innie'
+              disabled
+              value={loanAmount}
+            />
+          </div>
         </div>
-      )}
+
+        <div className='descTextF'>Equated Monthly Instalment (EMI) Details</div>
+        <div className="mortgagepd-container">
+                   <div className='textChart'>
+                   <div className='text-container'>
+    <div className='descTex'>Monthly Payment: ${monthlyAmortization.length > 0 ? formatNumberWithCommas(monthlyAmortization[0].mortgagePayment.toFixed(2)) : '-'}</div>
+    <div className='descTex'>Home Price: ${formatNumberWithCommas(homePrice)}</div>
+    <div className='descTex'>Down Payment: ${formatNumberWithCommas((homePrice * downPaymentPercentage / 100).toFixed(0))}</div>
+    <div className='descTex'>Loan Amount: ${formatNumberWithCommas(loanAmount)}</div>
+    <div className='descTex'>Total Interest: ${annualAmortization.length > 0 ? formatNumberWithCommas(annualAmortization[annualAmortization.length - 1].totalInterest.toFixed(2)) : '-'}</div>
+    <div className='descTex'>Total Repayment: ${annualAmortization.length > 0 ? formatNumberWithCommas((annualAmortization[annualAmortization.length - 1].totalPrincipal + annualAmortization[annualAmortization.length - 1].totalInterest).toFixed(2)) : '-'}</div>
+</div>
+
+    <div className='doughnut-chart-container'>
+        <canvas id="doughnutChart" width="300" height="250"></canvas>
+    </div>
+</div>
+        </div>
+        
+        <div className='descTextF'>Annual Amortization Line Graph</div>
+        <div className="mortgagepd-container">
+        <div className="chart-container">
+            <canvas id="lineChart" width="500" height="350"></canvas>
+          </div>
+        </div>
+
+        <div className='descTextF'>Monthly Amortization Schedule</div>
+        <div className="schtables-container">
+          <table className="excel" id='monthlyTable'>
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Interest Payment</th>
+                <th>Principal Payment</th>
+                <th>Monthly Payment</th>
+                <th>Remaining Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {monthlyAmortization.map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.month}</td>
+                  <td>${formatNumberWithCommas(entry.interest.toFixed(2))}</td>
+                  <td>${formatNumberWithCommas(entry.principal.toFixed(2))}</td>
+                  <td>${formatNumberWithCommas((entry.principal + entry.interest).toFixed(2))}</td>
+                  <td>${formatNumberWithCommas(entry.balance.toFixed(2))}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          </div>
+          <div className='descTextF'>Annual Amortization Schedule</div>
+          <div className="schtables-container">
+
+          <table  className="excel" id="annualTable">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Total Interest</th>
+                <th>Total Principal</th>
+                <th>Annual Payment</th>
+                <th>Total Remaining Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {annualAmortization.map((entry, index) => (
+                <tr key={index}>
+                   <td>{entry.year}</td>
+          <td>${formatNumberWithCommas(entry.totalInterest.toFixed(2))}</td>
+          <td>${formatNumberWithCommas(entry.totalPrincipal.toFixed(2))}</td>
+          <td>${formatNumberWithCommas(entry.annualPayment.toFixed(2))}</td>
+          <td>${formatNumberWithCommas(entry.totalRemainingBalance.toFixed(2))}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div> 
+        
+        </>)}
 
       </div>
 </>

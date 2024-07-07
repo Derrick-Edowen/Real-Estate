@@ -201,7 +201,7 @@ async function processQueue() {
   isProcessing = false;
 }*/
 const maxRequestsPerSecond = 1;
-const delayBetweenRequests = 1200 / maxRequestsPerSecond; // Adjust delay for optimization
+const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
 
 const limiter = new Bottleneck({
   maxConcurrent: maxRequestsPerSecond,
@@ -239,8 +239,8 @@ function getOrCreateWebSocket(id) {
 }
 
 async function handlePropertySearch(req) {
-  const id = req.body.id; // Ensure the request contains a unique identifier
-  const ws = getOrCreateWebSocket(id); // Ensure WebSocket is open
+  const id = req.body.id;
+  const ws = getOrCreateWebSocket(id);
 
   if (!ws) {
     console.error('WebSocket not found for id:', id);
@@ -248,7 +248,7 @@ async function handlePropertySearch(req) {
   }
 
   try {
-    const { address, state, page, type, sort, minPrice, maxPrice, maxBeds, maxBaths } = req.body; // Ensure req.body is parsed correctly
+    const { address, state, page, type, tier, sort, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
     let status = '';
     let rentMinPrice, rentMaxPrice, saleMinPrice, saleMaxPrice;
 
@@ -272,7 +272,7 @@ async function handlePropertySearch(req) {
         page: page,
         status_type: status,
         sort: sort,
-        home_type: 'Houses, Townhomes',
+        home_type: tier,
         rentMinPrice: rentMinPrice,
         rentMaxPrice: rentMaxPrice,
         minPrice: saleMinPrice,
@@ -287,9 +287,10 @@ async function handlePropertySearch(req) {
     }));
 
     const leaseListings = estateResponse.data.props;
+    const totalResultCount = estateResponse.data.totalResultCount;
     const zpidListings = estateResponse.data;
 
-    if (!leaseListings || leaseListings.length === 0) {
+    if (!leaseListings || leaseListings.length === 0 || totalResultCount === 0) {
       if (ws.readyState === WebSocket.OPEN) {
         ws.send(JSON.stringify({ success: true, noResults: true, message: "No Listings Found" }));
         ws.close();
@@ -301,52 +302,6 @@ async function handlePropertySearch(req) {
 
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(zpidData));  // Send data incrementally
-    }
-
-    const fetchPropertyData = async (zpid) => {
-      try {
-        const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-        const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-
-        const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
-          params: { zpid },
-          headers: {
-            'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-          },
-        }));
-
-        const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
-          params: { zpid },
-          headers: {
-            'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-            'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-          },
-        }));
-
-        const data = { property: propertyResponse.data, images: imageResponse.data };
-
-        return data;
-      } catch (error) {
-        console.error(`Error fetching data for zpid ${zpid}:`, error.message);
-        return null;
-      }
-    };
-
-    const fetchPropertyDataPromises = leaseListings.map((listing) => fetchPropertyData(listing.zpid));
-
-    // Process and send data in increments to all clients
-    let activeClients = Array.from(clients.values());
-    while (fetchPropertyDataPromises.length > 0) {
-      const promisesBatch = fetchPropertyDataPromises.splice(0, activeClients.length);
-      const results = await Promise.all(promisesBatch);
-      results.forEach((result, index) => {
-        const client = activeClients[index];
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(result));
-        }
-      });
-      await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
     }
 
     if (ws.readyState === WebSocket.OPEN) {
@@ -361,7 +316,41 @@ async function handlePropertySearch(req) {
   }
 }
 
-// Middleware to limit requests and add them to the queue
+// New endpoint to fetch property details and images
+async function handleFetchPropertyDetails(req, res) {
+  const { zpid } = req.body;
+
+  try {
+    const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+    const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+
+    const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
+      params: { zpid },
+      headers: {
+        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+      },
+    }));
+
+    const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
+      params: { zpid },
+      headers: {
+        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+      },
+    }));
+
+    const data = { property: propertyResponse.data, images: imageResponse.data };
+
+    res.json(data);
+  } catch (error) {
+    console.error(`Error fetching data for zpid ${zpid}:`, error.message);
+    res.status(500).json({ error: 'Failed to fetch property details and images' });
+  }
+}
+
+app.post('/api/fetch-property-details', handleFetchPropertyDetails);
+
 app.use(express.json());
 app.post('/api/search-listings', (req, res) => {
   addToQueue(req, res, handlePropertySearch);

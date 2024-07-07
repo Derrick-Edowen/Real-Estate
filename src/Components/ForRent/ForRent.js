@@ -8,7 +8,8 @@ import Footer from '../Footer/Footer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
 import Contact from '../Contact/Contact';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 function ForRent() {
 
@@ -39,17 +40,23 @@ const [selectedBeds, setSelectedBeds] = useState('');
 const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
+const [selectedTypes, setSelectedTypes] = useState([]);
 const [selectedPType, setSelectedPType] = useState(1);
+const [selectedStatus, setSelectedStatus] = useState('');
+const [selectedPropertyTypes, setSelectedPropertyTypes] = useState([]);
+const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
 
 
 
-
 const handleSearch = async (e) => {
   e.preventDefault();
   setIsRotated(!isRotated);
+  setIsDropdownOpen(false);
   setShowFilter(false);
   setInitialData(null);
   setApiData([]);
@@ -64,6 +71,11 @@ const handleSearch = async (e) => {
   } else if (country === 'USA') {
     state = document.getElementById('state').value;
   }
+  if (selectedTypes.length === 0) {
+    window.alert('Please select at least one property type.');
+    return;
+  }
+  const selectedTypesString = selectedTypes.join(', ');
   const sort = document.getElementById('sortList').value;
   const minPrice = document.getElementById('min-price').value;
   const maxPrice = document.getElementById('max-price').value;
@@ -71,8 +83,10 @@ const handleSearch = async (e) => {
   const maxBaths = document.getElementById('choose-baths').value;
   const page = 1;
   const type = parseInt(document.getElementById('choose-search').value, 10); // Parse as integer
+const tier = selectedTypesString;
   try {
     setIsLoading(true);
+
     if (parseInt(minPrice) > parseInt(maxPrice)) {
       window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
       return;
@@ -101,6 +115,7 @@ const handleSearch = async (e) => {
           state,
           page,
           type,
+          tier,
           country,
           sort,
           minPrice,
@@ -128,15 +143,10 @@ const handleSearch = async (e) => {
         } else {
           setNoResults(false);
         }
-        if (data.zpids) {
-          initialDataRef.current = data.zpids;
-          setInitialData(data.zpids);
+        if (data) {
+          initialDataRef.current = data;
+          setInitialData(data);
         }
-
-        if (data.property) {
-          setApiData((prevData) => [...prevData, data.property]);
-          setInfoData((prevData) => [...prevData, data.images]);
-        } 
       } catch (error) {
         console.error('Error processing WebSocket message:', error);
       }
@@ -172,13 +182,19 @@ const handleNPage = async (e) => {
   } else if (country === 'USA') {
     state = document.getElementById('state').value;
   }
+  if (selectedTypes.length === 0) {
+    window.alert('Please select at least one property type.');
+    return;
+  }
+  const selectedTypesString = selectedTypes.join(', ');
   const sort = document.getElementById('sortList').value;
   const minPrice = document.getElementById('min-price').value;
   const maxPrice = document.getElementById('max-price').value;
   const maxBeds = document.getElementById('choose-beds').value;
   const maxBaths = document.getElementById('choose-baths').value;
   const page = nextPage + 1;
-  const type = 1;
+  const type = parseInt(document.getElementById('choose-search').value, 10); // Parse as integer
+  const tier = selectedTypesString;
 
   try {
     setIsLoading(true);
@@ -210,6 +226,7 @@ const handleNPage = async (e) => {
           state,
           page,
           type,
+          tier,
           country,
           sort,
           minPrice,
@@ -237,15 +254,10 @@ const handleNPage = async (e) => {
         } else {
           setNoResults(false);
         }
-        if (data.zpids) {
-          initialDataRef.current = data.zpids;
-          setInitialData(data.zpids);
+        if (data) {
+          initialDataRef.current = data;
+          setInitialData(data);
         }
-
-        if (data.property) {
-          setApiData((prevData) => [...prevData, data.property]);
-          setInfoData((prevData) => [...prevData, data.images]);
-        } 
       } catch (error) {
         console.error('Error processing WebSocket message:', error);
       }
@@ -280,14 +292,19 @@ const handleNPage = async (e) => {
   } else if (country === 'USA') {
     state = document.getElementById('state').value;
   }
+  if (selectedTypes.length === 0) {
+    window.alert('Please select at least one property type.');
+    return;
+  }
+  const selectedTypesString = selectedTypes.join(', ');
   const sort = document.getElementById('sortList').value;
   const minPrice = document.getElementById('min-price').value;
   const maxPrice = document.getElementById('max-price').value;
   const maxBeds = document.getElementById('choose-beds').value;
   const maxBaths = document.getElementById('choose-baths').value;
   const page = nextPage - 1;
-  const type = 1;
-
+  const type = parseInt(document.getElementById('choose-search').value, 10); // Parse as integer
+  const tier = selectedTypesString;
   try {
     setIsLoading(true);
     if (parseInt(minPrice) > parseInt(maxPrice)) {
@@ -318,6 +335,7 @@ const handleNPage = async (e) => {
           state,
           page,
           type,
+          tier,
           country,
           sort,
           minPrice,
@@ -345,15 +363,10 @@ const handleNPage = async (e) => {
         } else {
           setNoResults(false);
         }
-        if (data.zpids) {
-          initialDataRef.current = data.zpids;
-          setInitialData(data.zpids);
+        if (data) {
+          initialDataRef.current = data;
+          setInitialData(data);
         }
-
-        if (data.property) {
-          setApiData((prevData) => [...prevData, data.property]);
-          setInfoData((prevData) => [...prevData, data.images]);
-        } 
       } catch (error) {
         console.error('Error processing WebSocket message:', error);
       }
@@ -371,22 +384,45 @@ const handleNPage = async (e) => {
     setIsLoading(false);
   }
 };
-const handleOpenLightbox = (index) => {
-  const property = apiData[index];
-  const address = `${safeAccess(property, 'address.streetAddress')} ${safeAccess(property, 'address.zipcode')} ${safeAccess(property, 'address.city')} ${safeAccess(property, 'address.state')}`;
-  const urlAddress = encodeURIComponent(address.replace(/\s+/g, '-').toLowerCase());
+const handleOpenLightbox = async (index) => {
+  const property = initialDataRef.current.zpids.props[index];
 
-  const propertyData = {
-    property: property,
-    info: infoData[index],
-    api: apiData[index]
-  };
+  try {
+    const response = await fetch('/api/fetch-property-details', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ zpid: property.zpid }),
+    });
 
-  sessionStorage.setItem('propertyData', JSON.stringify(propertyData));
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
 
-  const url = `/Property-Details/${urlAddress}`;
-  window.open(url, '_blank');
+    const data = await response.json();
+
+    const propertyData = {
+      property: data.property,
+      images: data.images,
+      info: data.images, // Ensure data.info exists in your API response
+      api: data.api // Ensure data.api exists in your API response
+    };
+
+    sessionStorage.setItem('propertyData', JSON.stringify(propertyData));
+
+    const address = `${safeAccess(data.property, 'address.streetAddress')} ${safeAccess(data.property, 'address.zipcode')} ${safeAccess(data.property, 'address.city')} ${safeAccess(data.property, 'address.state')}`;
+    const urlAddress = encodeURIComponent(address.replace(/\s+/g, '-').toLowerCase());
+
+    const url = `/Property-Details/${urlAddress}`;
+    window.open(url, '_blank');
+  } catch (error) {
+    console.error('Error fetching property details:', error);
+  }
 };
+
+
+
 
 
       const handleCloseLightbox = () => {
@@ -430,35 +466,49 @@ const handleOpenLightbox = (index) => {
     setNextPage(nextPage + 1);
     handleNPage(e); // Trigger handleSearch with the updated page number
   };
+
 let state = '';
+let status = '';
+const handleCheckboxChange = (type) => {
+  if (selectedTypes.includes(type)) {
+    setSelectedTypes(selectedTypes.filter(t => t !== type));
+  } else {
+    setSelectedTypes([...selectedTypes, type]);
+  }
+};
+
+const renderPlaceholderOrSelected = () => {
+  if (selectedTypes.length === 0) {
+    return `Select a Property Type     \u2304`; // Include the downward chevron
+  }
+  return selectedTypes.join(', ');
+};
+const toggleDropdown = () => {
+  setIsDropdownOpen(!isDropdownOpen);
+};
+const handlePropertyStatusChange = (e) => {
+  setSelectedPType(e.target.value);
+  setSelectedTypes([]); // Reset selectedTypes when property status changes
+  setSelectedSort(''); // Reset selected sort when property status changes
+
+};
+
+const handleSortChange = (e) => {
+  setSelectedSort(e.target.value); // Update selected sort
+};
 return (
   <>
   <div className='lists notranslate'>
     <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splash'></img>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
-        <div className='starter'>Find Listings - Property Search</div>
         <button className="toggle" onClick={toggleFilter}> Property Search Filter  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
           <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
 
-          <select className='notranslate' 
-          id="choose-search" 
-          name="search" 
-          placeholder='Property Status Type' 
-          required
-          style={{ backgroundColor: selectedBaths ? '#d3d3d3' : 'white' }}
-          onChange={(e) => {
-            setSelectedPType(e.target.value); // Update selected type
-          }}
-  >
-    <option value="" disabled selected>Property Status</option>
-    <option value="1">For Rent</option>
-    <option value="2">For Sale</option>
-    <option value="3">Recently Sold</option>
-  </select>
+   
           <select
             className="notranslate"
             id="country"
@@ -472,15 +522,6 @@ return (
 
               const selectElement = e.target;
               const selectedOption = selectElement.options[selectElement.selectedIndex];
-
-              // Remove the green check mark from all options
-              selectElement.querySelectorAll('option').forEach(option => {
-                option.style.color = 'black'; // Reset color to black for all options
-              });
-              // Change color of the selected option
-              selectedOption.style.color = 'black'; // Change color to dark grey for the selected option
-            
-            
               // Update state variable based on selected country
               if (selectedOption.value === 'Canada') {
                 state = document.getElementById('province').value; // Update state with province value
@@ -586,27 +627,160 @@ return (
 <option value="WI">Wisconsin</option>
 <option value="WY">Wyoming</option>
 </select>
-       <select
-  className="notranslate"
-  id="sortList"
-  name="sort"
-  placeholder="Sort Listings"
-  required
-  style={{ backgroundColor: selectedSort ? '#d3d3d3' : 'white' }}
-  onChange={(e) => {
-    setSelectedSort(e.target.value); // Update selected sort
-  }}
->
-  <option value="" disabled selected>Sort Listings</option>
-  <option value="Newest">Newest</option>
-  <option value="Payment_High_Low">Ascending - Price</option>
-  <option value="Payment_Low_High">Descending - Price</option>
-  <option value="Lot_Size">Lot Size</option>
-  <option value="Square_Feet">Square Footage</option>
-  <option value="Bedrooms">Bedrooms</option>
-  <option value="Bathrooms">Bathrooms</option>
 
-</select>
+
+  <select
+            className="notranslate"
+            id="choose-search" 
+          name="search" 
+          placeholder='Property Status Type'
+            required
+            onChange={handlePropertyStatusChange}
+          >
+    <option value="" disabled selected>Property Status</option>
+    <option value="1">For Rent</option>
+    <option value="2">For Sale</option>
+    <option value="3">Recently Sold</option>
+          </select>
+
+
+          <div className="custom-checkbox-select">
+        <div className="selected-value" onClick={toggleDropdown}>{renderPlaceholderOrSelected()}</div>
+        {isDropdownOpen && (
+          <div className="options">
+            {selectedPType === '1' ? (
+              <>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Houses"
+                    checked={selectedTypes.includes('Houses')}
+                    onChange={() => handleCheckboxChange('Houses')}
+                  />
+                  Houses
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Townhomes"
+                    checked={selectedTypes.includes('Townhomes')}
+                    onChange={() => handleCheckboxChange('Townhomes')}
+                  />
+                  Townhomes
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Apartments_Condos_Co-ops"
+                    checked={selectedTypes.includes('Apartments_Condos_Co-ops')}
+                    onChange={() => handleCheckboxChange('Apartments_Condos_Co-ops')}
+                  />
+                  Condos / Apartments
+                </label>
+              </>
+            ) : (
+              <>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Houses"
+                    checked={selectedTypes.includes('Houses')}
+                    onChange={() => handleCheckboxChange('Houses')}
+                  />
+                  Houses
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Townhomes"
+                    checked={selectedTypes.includes('Townhomes')}
+                    onChange={() => handleCheckboxChange('Townhomes')}
+                  />
+                  Townhomes
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Condos"
+                    checked={selectedTypes.includes('Condos')}
+                    onChange={() => handleCheckboxChange('Condos')}
+                  />
+                  Condominiums
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Apartments"
+                    checked={selectedTypes.includes('Apartments')}
+                    onChange={() => handleCheckboxChange('Apartments')}
+                  />
+                  Apartments
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Multi-family"
+                    checked={selectedTypes.includes('Multi-family')}
+                    onChange={() => handleCheckboxChange('Multi-family')}
+                  />
+                  Multi-family
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="LotsLand"
+                    checked={selectedTypes.includes('LotsLand')}
+                    onChange={() => handleCheckboxChange('LotsLand')}
+                  />
+                  Land Lots
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    value="Manufactured"
+                    checked={selectedTypes.includes('Manufactured')}
+                    onChange={() => handleCheckboxChange('Manufactured')}
+                  />
+                  Manufactured
+                </label>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+
+
+
+
+
+      <select
+        className="notranslate"
+        id="sortList"
+        name="sort"
+        placeholder="Sort Listings"
+        required
+        style={{ backgroundColor: selectedSort ? '#d3d3d3' : 'white' }}
+        onChange={handleSortChange}
+      >
+        <option value="" disabled selected>Sort Listings</option>
+        <option value="Newest">Newest</option>
+        {selectedPType === '1' ? ( // For Rent selected
+          <>
+            <option value="Payment_High_Low">Ascending - Price</option>
+            <option value="Payment_Low_High">Descending - Price</option>
+          </>
+        ) : ( // For Sale or Recently Sold selected (or no selection)
+          <>
+            <option value="Price_High_Low">Ascending - Price</option>
+            <option value="Price_Low_High">Descending - Price</option>
+          </>
+        )}
+        <option value="Lot_Size">Lot Size</option>
+        <option value="Square_Feet">Square Footage</option>
+        <option value="Bedrooms">Bedrooms</option>
+        <option value="Bathrooms">Bathrooms</option>
+      </select>
 
                     <select className='notranslate' 
                     id="choose-beds" 
@@ -656,127 +830,66 @@ return (
   </div>
 ) : (
   <>
-    {initialData && (
-        <div className='capture'>
-          {initialData.totalPages > 1 && (
-            <button
-              className={`prevButton ${initialData.currentPage === 1 ? 'disabled' : ''}`}
-              onClick={handlePrevPage}
-              disabled={initialData.currentPage === 1}
-            >
-              Previous Page
-            </button>
-          )}
-          <div className='alone'>{initialData.totalResultCount} Results - Page {initialData.currentPage} of {initialData.totalPages}</div>
-          {initialData.totalPages > 1 && (
-            <button
-              className={`nextButton ${initialData.currentPage === initialData.totalPages ? 'disabled' : ''}`}
-              onClick={handleNextPage}
-              disabled={initialData.currentPage === initialData.totalPages}
-            >
-              Next Page
-            </button>
-          )}
-        </div>
-      )}
-
-{apiData && apiData.length > 0 ? (
-        <div className="cardContainer notranslate">
-          {apiData.map((property, index) => (
-            property && ( // Check if property is not null/undefined
-              <div
-                className="cardi1 notranslate"
-                key={index}
-                onClick={() => handleOpenLightbox(index)}
-              >
-                <div className='indigo'>
-                  <img className='mommy' src={property.imgSrc || infoData[index]?.imgSrc || noImg} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
-
-                </div>
-                <div className="cardText1 notranslate">
-                <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))}</div>
-                  <div className='holding2 notranslate'>
-                    <div className='cardBed notranslate'>{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
-                    <div className='cardBaths notranslate'>{safeAccess(property, 'bathrooms')} Baths&nbsp;|</div>
-                    <div className='cardMls notranslate'>MLS&reg;:{safeAccess(property, 'mlsid')}</div>
-                  </div>
-                  <div className='cPrice1 notranslate'>{safeAccess(property, 'address.streetAddress') +" "+ safeAccess(property, 'address.zipcode')+" - "+ 
-                safeAccess(property, 'address.city') +" , "+ safeAccess(property, 'address.state')
-                }</div>
-                </div>
-                <div className="binlay">
-    View Property Details
+{initialDataRef.current && initialDataRef.current.zpids && (
+  <div className='capture'>
+    {initialDataRef.current.zpids.totalPages > 1 && (
+      <button
+        className={`prevButton ${initialDataRef.current.zpids.currentPage === 1 ? 'disabled' : ''}`}
+        onClick={handlePrevPage}
+        disabled={initialDataRef.current.zpids.currentPage === 1}
+      >
+        Previous Page
+      </button>
+    )}
+    <div className='alone'>{initialDataRef.current.zpids.totalResultCount} Results - Page {initialDataRef.current.zpids.currentPage} of {initialDataRef.current.zpids.totalPages}</div>
+    {initialDataRef.current.zpids.totalPages > 1 && (
+      <button
+        className={`nextButton ${initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages ? 'disabled' : ''}`}
+        onClick={handleNextPage}
+        disabled={initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages}
+      >
+        Next Page
+      </button>
+    )}
   </div>
-              </div>
-            )
-          ))}
-        </div>
-      ) : (
-        noResults && (
-          <div className="noResultsMessage">
-            Sorry, No Listings Found!
-          </div>
-        )
-      )}
+)}
 
-{/*lightboxActive && selectedCardIndex !== null && (
-        <div className="lightbox notranslate" onClick={handleCloseLightbox}>
-          <div className="lightbox-content notranslate" onClick={(e) => e.stopPropagation()}>
-            {apiData[selectedCardIndex] && (
-              <>
-                <div className='aver'>
-                  <div className='pAddress-1 notranslate'>
-                    {safeAccess(apiData[selectedCardIndex], 'address.streetAddress') + " " + safeAccess(apiData[selectedCardIndex], 'address.zipcode') + " - " +
-                      safeAccess(apiData[selectedCardIndex], 'address.city') + " , " + safeAccess(apiData[selectedCardIndex], 'address.state')}
-                  </div>
-                  <button className="lightbox-close notranslate" onClick={handleCloseLightbox}>
-                    Close
-                  </button>
-                </div>
-                <div className='side-by-side-container notranslate'>
-                  <div className='fixer notranslate'>
-                    <button className="lightbox-left notranslate" onClick={handlePrevImage}>
-                      &#8678;
-                    </button>
-                    <img src={infoData[selectedCardIndex].images[currentImageIndex] || noImg} alt="Sorry, Image Unavailable!" />
-                    <button className="lightbox-right notranslate" onClick={handleNextImage}>
-                      &#8680;
-                    </button>
-                  </div>
-                  <div className="cardText notranslate">
-                    <div className='containText notranslate'>
-                      <div className='pAddress notranslate'>{safeAccess(apiData[selectedCardIndex], 'address.streetAddress') + " " + safeAccess(apiData[selectedCardIndex], 'address.zipcode')}</div>
-                      <div className='pPrice notranslate'>${formatNumberWithCommas(safeAccess(apiData[selectedCardIndex], 'price'))}/Month</div>
-                      <div className='heallin'>
-                        <div className='bedd'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bedrooms')}&nbsp;Bed(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                        <div className='bathh'>&nbsp;{safeAccess(apiData[selectedCardIndex], 'bathrooms')}&nbsp;Bath(s)&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                        <div className='dayss'>&nbsp; Active ({safeAccess(apiData[selectedCardIndex], 'timeOnZillow')})</div>
-                      </div>
-                      <div className='descText notranslate'>{safeAccess(apiData[selectedCardIndex], 'description')}</div>
-                      <div className='holding1 notranslate'>
-                        <div className='cardPark notranslate'>&nbsp;Allocated Parking Spaces - {safeAccess(apiData[selectedCardIndex], 'resoFacts.parkingCapacity')}</div>
-                        <div className='cardFire notranslate'>&nbsp;Heating Status - {safeAccess(apiData[selectedCardIndex], 'resoFacts.heating.0')} &nbsp;</div>
-                        <div className='cardWind notranslate'>&nbsp;Cooling Status - {safeAccess(apiData[selectedCardIndex], 'resoFacts.cooling.0')}&nbsp;</div>
-                        <div className='cardMl notranslate'>&nbsp;MLS&reg;: {safeAccess(apiData[selectedCardIndex], 'mlsid')}&nbsp;</div>
-                        <div className='cardBroke notranslate'>&nbsp;Listing Provided by: {safeAccess(apiData[selectedCardIndex], 'brokerageName')}&nbsp;</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-          <div className='map notranslate'>
-            <APIProvider apiKey={apiKey}>
-              <Map center={position} zoom={zoomLevel} mapTypeId ='hybrid' >
-                <Marker position={position}/>
-              </Map>
-            </APIProvider>
+{initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0 ? (
+  <div className="cardContainer notranslate">
+    {initialDataRef.current.zpids.props.map((property, index) => (
+      property && (
+        <div
+          className="cardi1 notranslate"
+          key={index}
+          onClick={() => handleOpenLightbox(index)}
+        >
+          <div className='indigo'>
+            <img className='mommy' src={property.imgSrc || noImg} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
           </div>
-                      
-                               
-                    </>
-                  )}
-                </div>
-              </div>
-            )*/}
+          <div className="cardText1 notranslate">
+            <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))} <span className='currency1'>{safeAccess(property, 'currency')}</span></div>
+            <div className='holding2 notranslate'>
+              <div className='cardBed notranslate'>{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
+              <div className='cardBaths notranslate'>{safeAccess(property, 'bathrooms')} Baths&nbsp;|</div>
+              <div className='cardMls notranslate'>Active: {safeAccess(property, 'daysOnZillow')} day(s)</div>
+            </div>
+            <div className='cPrice1 notranslate'>{safeAccess(property, 'address')}</div>
+          </div>
+          <div className="binlay">
+            View Property Details
+          </div>
+        </div>
+      )
+    ))}
+  </div>
+) : (
+  noResults && (
+    <div className="noResultsMessage">
+      Sorry, No Listings Found!
+    </div>
+  )
+)}
+
           </>
         )}
       </main>

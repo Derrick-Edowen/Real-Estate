@@ -155,33 +155,6 @@ function Header() {
               FIND LISTINGS
             </NavLink>
           </li>
-          <li className={`dropdown ${dropdownVisible2 ? "active" : ""}`}>
-          <div className={`missin ${location.pathname.includes('Calculators%20%7C%20Mortgage%20Calculator') || location.pathname.includes('Calculators%20%7C%20Rent%20Affordability%20Calculator') ? 'active' : ''}`}
-           onClick={handleClick2}>CALCULATORS
-            <li
-              className={`navbar--content findingList big-rotate2 ${dropdownVisible2 ? "active" : ""}`}
-              
-            >
-               <FontAwesomeIcon icon={faChevronDown} />
-            </li>
-            </div>
-            <div className={`dropdown-content3 ${dropdownVisible2 ? "active" : ""}`}>
-              <NavLink
-                onClick={closeMenu}
-                to="/Calculators | Mortgage Calculator"
-                className="navbar--content transformer"
-              >
-                Mortgage Calculator
-              </NavLink>
-              <NavLink
-                onClick={closeMenu}
-                to="/Calculators | Rent Affordability Calculator"
-                className="navbar--content transformer"
-              >
-                Lease Calculator
-              </NavLink>
-            </div>
-          </li>
           <li>
             <ScrollLink
               onClick={closeMenu}

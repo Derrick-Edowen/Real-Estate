@@ -269,25 +269,7 @@ margin-bottom: 14px;
 
 
 }
-.downPDF {
-    background-color: rgba(8, 1, 12, 0.99);
-    width: 28%;
-    color: white;
-    border: 1px solid #afafaf2f;
-    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-  border-radius: 5px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin-right: 0;
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin-left: 2px;
-}
-.downPDF:hover {
-    background-color:rgba(175, 149, 1, 0.877);
 
-}
 .annual  {
     background-color: rgba(8, 1, 12, 0.99);
     width: 35%;
@@ -309,35 +291,7 @@ margin-bottom: 14px;
 .annual.inactive  {
     background-color: #363636fb;
 }
-table {
-    border-collapse: collapse;
-    width: 100%;
-    text-align: center;
 
-}
-
-table td {
-    border: 1px solid #afafafd5;
-}
-table th {
-    border: 1px solid #afafafd5;
-}
-th, td {
-    border: 1px solid #000000;
-    padding: 8px;
-    background-color: #f2f2f2;
-    font-size: 20px;
-    color: #000;
-    text-align: center;
-}
-
-th {
-    background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
-    color: rgb(250, 250, 250);
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
 
 .dropdown-contentCalc {
     display: none;
@@ -354,35 +308,7 @@ box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
 .dropdown-contentCalc.active {
     display: block;
 }
-.doughnut-chart-container {
-    position: relative;
-    width: 300px; /* Or adjust to your desired width */
-    height: 225px; /* Or adjust to your desired height */
-    
-}
 
-.doughnut-chart-container canvas {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-top: 10px;
-    margin-right: 50px;
-    background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
-    padding: 8px;
-padding-top: 10px;
-
-border-radius: 5px;
-}
-.line-chart-container canvas {
-    background: linear-gradient(to right, rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
-    padding: 10px;
-border-radius: 5px;
-}
-.line-chart-container {
-    position: relative;
-    width: 100%; /* Or adjust to your desired width */
-    height: 85%;
-    }
 .tableHold {
     justify-content: center;
     width: 50%;
