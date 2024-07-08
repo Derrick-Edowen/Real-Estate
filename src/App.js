@@ -23,6 +23,9 @@ import Bio from './Components/Bio/Bio';
 import Access from './Components/AgentAccess/Access';
 import PropertyDetails from './Components/PropertyDetails/PropertyDetails';
 import Announce from './Components/Announce/Announce';
+import Service from './Components/Service/Service';
+import Mission from './Components/Mission/Mission';
+import Privacy from './Components/Privacy/Privacy';
 
 function App() {
   const location = useLocation();
@@ -53,6 +56,10 @@ function App() {
         <Route path="/Contact Me" element={<Contact />} />
         <Route path="/Pricing" element={<Pricing />} />
         <Route path="/Agent Access" element={<Access />} />
+        <Route path="/Terms of Service" element={<Service />} />
+        <Route path="/Privacy Policy" element={<Privacy />} />
+        <Route path="/Our Mission" element={<Mission />} />
+
         <Route path="/Announcements/:title" element={<Announce />} />
         <Route path="/Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Nearby-Property-Details/:address" element={<PropertyDetails />} />

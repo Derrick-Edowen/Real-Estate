@@ -49,9 +49,17 @@ background: rgb(240, 240, 240);
 }
 .moon {
     width: 80%;
-    height: 100%;
+    max-height: 100%;
+    min-height: 100%;
+    overflow-y: scroll;
 padding: 14px;
 padding-left: 10px;
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+scrollbar-width: none;
 }
 .sun, .moon {
     flex: 1;
@@ -62,6 +70,7 @@ padding-left: 10px;
     padding-right: 16px;
     padding-left: 16px;
     margin-top: 12px;
+
   }
 .mainimg1 {
     display: flex;

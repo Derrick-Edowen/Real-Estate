@@ -1,0 +1,30 @@
+[
+    {
+      "imgSrc": "https://storage.googleapis.com/realestate-images/temphouse4.jpg",
+      "price": "900,000",
+      "currency": "USD",
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "daysOnZillow": 19,
+      "address": "321 Center St, Anytown, USA"
+    },
+    {
+      "imgSrc": "https://storage.googleapis.com/realestate-images/temphouse5.jpg",
+      "price": "950,000",
+      "currency": "CAD",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "daysOnZillow": 23,
+      "address": "456 Birch St, Anytown, CAN"
+    },
+    {
+      "imgSrc": "https://storage.googleapis.com/realestate-images/temphouse6.jpg",
+      "price": "1,450,000",
+      "currency": "USD",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "daysOnZillow": 36,
+      "address": "987 Oaktree St, Anytown, USA"
+    }
+
+  ]

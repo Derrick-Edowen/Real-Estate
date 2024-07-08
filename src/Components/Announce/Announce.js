@@ -6,17 +6,16 @@ function Announce() {
 
     useEffect(() => {
         // Get the post data from sessionStorage
-        const postDataString = sessionStorage.getItem("selectedPost");
-        if (postDataString) {
+        const storedPostData = sessionStorage.getItem("selectedPost");
+        if (storedPostData) {
           try {
-            const post = JSON.parse(postDataString);
+            const post = JSON.parse(storedPostData);
             setPostData(post);
-            // Clear sessionStorage after fetching data
-            sessionStorage.removeItem("selectedPost");
           } catch (error) {
             console.error('Error parsing post data:', error);
           }
         }
+
       }, []);
     
       if (!postData) {
@@ -26,10 +25,11 @@ function Announce() {
     return (
       <div className="bentley">
         <div className="post-details">
-          <h2 className="descTextF">{postData.title}</h2>
-          <img src={postData.image} alt="Post Image" />
+          <h2 className="descTextZ">{postData.title}</h2>
+          <img className="annImg" src={postData.image} alt="Post Image" />
           <p className="descTextF">{postData.content}</p>
-          <div className="descTextF">Posted on: {new Date(postData.created_at).toLocaleDateString()}</div>
+          <div className="descTextW">[Email Link] | [Phone Number]</div>
+          <div className="descTextW">Posted on: {new Date(postData.created_at).toLocaleDateString()}</div>
           </div>
       </div>
     );

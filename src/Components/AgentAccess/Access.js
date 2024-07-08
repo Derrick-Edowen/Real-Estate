@@ -269,140 +269,149 @@ function Access() {
     return (
         <div className='access'>
 
-<div className='Info-container'>
-      <div>Update Banner Statement</div>
-      <div>Current Banner Statement - {banner}</div>
-      <input
-        type='text'
-        value={newBanner}
-        onChange={(e) => setNewBanner(e.target.value)}
-        placeholder='New Banner Statement'
-      />
-      <button onClick={handleUpdateBanner}>Update Banner</button>
+<div>
+      {isLoggedIn ? (
+        <>
+          <div className='Info-container'>
+            <div>Update Banner Statement</div>
+            <div>Current Banner Statement - {banner}</div>
+            <input
+              type='text'
+              value={newBanner}
+              onChange={(e) => setNewBanner(e.target.value)}
+              placeholder='New Banner Statement'
+            />
+            <button onClick={handleUpdateBanner}>Update Banner</button>
 
-      <div>Update Your Message</div>
-      <div>Current Message - {message}</div>
-      <input
-        type='text'
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        placeholder='New Message'
-      />
-      <button onClick={handleUpdateMessage}>Update Message</button>
+            <div>Update Your Message</div>
+            <div>Current Message - {message}</div>
+            <input
+              type='text'
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder='New Message'
+            />
+            <button onClick={handleUpdateMessage}>Update Message</button>
 
-      <div>Update Contact Information</div>
-      <div>Current Email Address - {email}</div>
-      <input
-        type='email'
-        value={newEmail}
-        onChange={(e) => setNewEmail(e.target.value)}
-        placeholder='New Email Address'
-      />
-      <button onClick={handleUpdateEmail}>Update Email</button>
+            <div>Update Contact Information</div>
+            <div>Current Email Address - {email}</div>
+            <input
+              type='email'
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder='New Email Address'
+            />
+            <button onClick={handleUpdateEmail}>Update Email</button>
 
-      <div>Your Phone Number</div>
-      <div>Current Phone Number - {phone}</div>
-      <input
-        type='tel'
-        value={newPhone}
-        onChange={(e) => setNewPhone(e.target.value)}
-        placeholder='New Phone Number'
-      />
-      <button onClick={handleUpdatePhone}>Update Phone Number</button>
-    </div>
-<div className='biog'>
-<div>Your Bio/Resume</div>
-      <div>Current Bio</div>
-        <div>{bio}</div>
-      <input
-        type='text'
-        value={newBio}
-        onChange={(e) => setNewBio(e.target.value)}
-        placeholder='New Bio'
-      />
-      <button onClick={handleUpdateBio}>Update Bio</button>
+            <div>Your Phone Number</div>
+            <div>Current Phone Number - {phone}</div>
+            <input
+              type='tel'
+              value={newPhone}
+              onChange={(e) => setNewPhone(e.target.value)}
+              placeholder='New Phone Number'
+            />
+            <button onClick={handleUpdatePhone}>Update Phone Number</button>
+          </div>
 
-</div>
-<div className="blog-containera" id='announcement'>
-      <div className="posts-containera">
-        {posts.slice().reverse().map((post, index) => (
-          <div key={index} className="posta" onClick={() => handleClick(index)}>
-            <img className="windowsa" src={post.image || noImg} alt="Post Image" />
-            {isNewPost(post.created_at) && (
-              <div className='burstera'>
-                <FontAwesomeIcon icon={faBurst} style={{color: "#8f0a00",}} />
-                <div className='updatera'>New</div>
+          <div className='biog'>
+            <div>Your Bio/Resume</div>
+            <div>Current Bio</div>
+            <div>{bio}</div>
+            <input
+              type='text'
+              value={newBio}
+              onChange={(e) => setNewBio(e.target.value)}
+              placeholder='New Bio'
+            />
+            <button onClick={handleUpdateBio}>Update Bio</button>
+          </div>
+
+          <div className="blog-containera" id='announcement'>
+            <div className="posts-containera">
+              {posts.slice().reverse().map((post, index) => (
+                <div key={index} className="posta" onClick={() => handleClick(index)}>
+                  <img className="windowsa" src={post.image || noImg} alt="Post Image" />
+                  {isNewPost(post.created_at) && (
+                    <div className='burstera'>
+                      <FontAwesomeIcon icon={faBurst} style={{ color: "#8f0a00", }} />
+                      <div className='updatera'>New</div>
+                    </div>
+                  )}
+                  <div className="finalssa">
+                    <div className="blogHeada">{post.title}</div>
+                    <div className="blogConta">{post.content}</div>
+                    <button onClick={() => handleClick(index)} className="moorea">
+                      LEARN MORE
+                    </button>
+                    <div className="timera">Posted on: {formatCreatedAt(post.created_at)}</div>
+                  </div>
+                  {isLoggedIn && (
+                    <button className="delbutta" onClick={() => handleDelete(post.id)}>
+                      Delete this post?
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            {selectedPost && !isLoggedIn && (
+              <div className="lightboxBa" onClick={handleClose}>
+                <div className="lightbox-contentBa" onClick={(e) => e.stopPropagation()}>
+                  <div className="chassera" onClick={handleClose}>
+                    <FontAwesomeIcon icon={faXmark} size="2xl" />
+                  </div>
+                  <h3 className="blogHead1a">{selectedPost.title}</h3>
+                  <img className="windows1a" src={selectedPost.image || noImg} alt="Posted Image Expanded" />
+                  <div className="blogContla">{selectedPost.content}</div>
+                  <div className="timer1a">Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
+                </div>
               </div>
             )}
-            <div className="finalssa">
-              <div className="blogHeada">{post.title}</div>
-              <div className="blogConta">{post.content}</div>
-              <button onClick={() => handleClick(index)} className="moorea">
-                LEARN MORE
-              </button>
-              <div className="timera">Posted on: {formatCreatedAt(post.created_at)}</div>
-            </div>
+
             {isLoggedIn && (
-              <button className="delbutta" onClick={() => handleDelete(post.id)}>
-                Delete this post?
-              </button>
+              <div className="text-area-containera">
+                <input
+                  type="text"
+                  className="text-titlea"
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  placeholder="Enter announcement title"
+                  required
+                />
+                <textarea
+                  className="text-areaa"
+                  value={newContent}
+                  onChange={(e) => setNewContent(e.target.value)}
+                  placeholder="Enter your announcement content here..."
+                  rows={5}
+                  cols={50}
+                  required
+                />
+                <input
+                  type="file"
+                  className="select-inputa"
+                  accept="image/png, image/jpeg, image/webp, image/gif"
+                  onChange={(e) => handleImageChange(e)}
+                  required
+                />
+
+                {selectedImage && (
+                  <img
+                    src={selectedImage}
+                    alt="Selected Image"
+                    style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '4px', marginLeft: 'auto', marginRight: 'auto' }}
+                  />
+                )}
+
+                <button className="postbutta" onClick={handlePost}>
+                  Create Post
+                </button>
+              </div>
             )}
           </div>
-        ))}
-      </div>
-      {selectedPost && !isLoggedIn && (
-        <div className="lightboxBa" onClick={handleClose}>
-          <div className="lightbox-contentBa" onClick={(e) => e.stopPropagation()}>
-            <div className="chassera" onClick={handleClose}>
-              <FontAwesomeIcon icon={faXmark} size="2xl" />
-            </div>
-            <h3 className="blogHead1a">{selectedPost.title}</h3>
-            <img className="windows1a" src={selectedPost.image || noImg} alt="Posted Image Expanded" />
-            <div className="blogContla">{selectedPost.content}</div>
-            <div className="timer1a">Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
-          </div>
-        </div>
-      )}
-
-      {isLoggedIn && (
-        <div className="text-area-containera">
-          <input
-            type="text"
-            className="text-titlea"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Enter announcement title"
-            required
-          />
-          <textarea
-            className="text-areaa"
-            value={newContent}
-            onChange={(e) => setNewContent(e.target.value)}
-            placeholder="Enter your announcement content here..."
-            rows={5}
-            cols={50}
-            required
-          />
-          <input
-            type="file"
-            className="select-inputa"
-            accept="image/png, image/jpeg, image/webp, image/gif"
-            onChange={(e) => handleImageChange(e)}
-            required
-          />
-
-          {selectedImage && (
-            <img
-              src={selectedImage}
-              alt="Selected Image"
-              style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '4px', marginLeft: 'auto', marginRight: 'auto' }}
-            />
-          )}
-
-          <button className="postbutta" onClick={handlePost}>
-            Create Post
-          </button>
-        </div>
+        </>
+      ) : (
+        <div>Please Log In to Reach Agent Access</div>
       )}
     </div>
 </div>

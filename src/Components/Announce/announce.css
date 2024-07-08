@@ -1,3 +1,37 @@
 .bentley {
-    padding-top: 110px;
+    padding-top: 150px;
+    padding-left: 300px;
+    padding-right: 300px;
+    padding-bottom: 120px;
 }
+.annImg {
+
+    max-width: 100%;
+    min-width: 100%;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    max-height: 600px;
+    margin-bottom: 8px;
+}
+.descTextZ {
+    font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+      font-size: 28px;
+      text-align: center;
+      color: #333;
+      font-weight: 600;
+      letter-spacing: 2px;
+      background-color: #f8f8f8;
+      margin-top: 4px;
+  padding: 10px;
+  }
+  .descTextW {
+    font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+      font-size: 22px;
+      color: #333;
+      letter-spacing: 2px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
+      margin-top: 4px;
+  padding: 10px;
+  font-weight: 600;
+  }
