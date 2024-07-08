@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faBurst } from '@fortawesome/free-solid-svg-icons';
 import noImg from '../../Assets/Images/noimg.jpg'
+
 //Add a comment section to the announcements!
 function Blog() {
   const [posts, setPosts] = useState([]);
@@ -18,6 +19,18 @@ function Blog() {
   const currentUserID = location.state?.currentUserID || '';
   const isLoggedIn = location.state?.isLoggedIn || false;
   const port = process.env.PORT || 3001;
+
+  const handleClick = (index) => {
+    const reversedIndex = posts.length - 1 - index;
+    const post = posts[reversedIndex];
+
+    // Store post data in sessionStorage
+    sessionStorage.setItem("selectedPost", JSON.stringify(post));
+
+    // Open a new tab with the Announce page
+    const postUrl = `/Announcements/${encodeURIComponent(post.title)}`;
+    window.open(postUrl, '_blank');
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -93,12 +106,7 @@ function Blog() {
   function formatCreatedAt(dateString) {
     return `${formatDate(dateString)}`;
   }
-
-  const handleClick = (index) => {
-    const reversedIndex = posts.length - 1 - index;
-    setSelectedPost(posts[reversedIndex]);
-  };
-
+  
   const handleClose = () => {
     setSelectedPost(null);
   };
@@ -109,7 +117,8 @@ function Blog() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= 3;
   };
-  return (
+  return (<>
+    <div className='descTextJ'> [ Announcements ] </div>
     <div className="blog-container" id='announcement'>
         <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
 
@@ -126,9 +135,6 @@ function Blog() {
             <div className="finalss">
               <div className="blogHead">{post.title}</div>
               <div className="blogCont">{post.content}</div>
-              <button onClick={() => handleClick(index)} className="moore">
-                LEARN MORE
-              </button>
               <div className="timer">Posted on: {formatCreatedAt(post.created_at)}</div>
             </div>
             {isLoggedIn && (
@@ -194,7 +200,7 @@ function Blog() {
         </div>
       )}
     </div>
-  );
+    </>);
 }
 
 export default Blog;

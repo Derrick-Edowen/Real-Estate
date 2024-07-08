@@ -3,7 +3,7 @@
 flex-direction:row;
     height: 47vh;
     overflow: hidden;
-
+    box-shadow: 2px 2px 4px 2px #00000052;
   }
   .updater {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -18,7 +18,7 @@ text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, b
   }
   .ban {
 width: 100%;
-filter: blur(1px);
+filter: blur(5px);
 height: 47%;
 z-index: -500;
 position: absolute;  }
@@ -58,14 +58,15 @@ z-index: 1;
   .posts-container {
     width:100%;
     padding: 20px;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 80px;
+    padding-right: 80px;
     text-align: center;
     padding-top: 40px;
     max-height: 80vh;
     display: flex;
-  flex-wrap: wrap;
-  gap: 30px; /* Add some space between posts */
+    overflow-x: auto;
+    white-space: nowrap;
+  gap: 18px; /* Add some space between posts */
   }
   .nerfme {
     width: 100%;
@@ -104,7 +105,8 @@ right: 150px;
     padding-bottom: 0px;
 max-height: 350px;
 min-height: 350px;
-
+display: inline-block;
+flex: 0 0 auto;
 background: #ffffff;
 
     box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
@@ -150,6 +152,7 @@ height: fit-content;
 position: relative;
 float: right;
 padding:6px;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 }
 .moore {
   font-size: 10px;
@@ -211,7 +214,7 @@ padding: 2px;
     text-align:center;
     color: rgb(0, 0, 0);
     text-shadow: 0px 0px 1px black;
-    font-family: 'Oswald', sans-serif; 
+    font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
     font-weight:700;
     font-size: 24px;
     margin-left: auto;
@@ -234,7 +237,7 @@ padding: 4px;
 text-align: center;
 padding-left: 14px;
 padding-right: 14px;
-font-family:Helvetica, Arial,  sans-serif;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 overflow: hidden;
 white-space: nowrap;
 
@@ -248,7 +251,7 @@ color: rgb(0, 0, 0);
 margin-left: auto;
 margin-right: auto;
 text-align: center;
-font-family:Helvetica, Arial,  sans-serif;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 white-space: pre-wrap; /* This will preserve line breaks and white spaces */
 
 padding: 4px;

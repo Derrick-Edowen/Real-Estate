@@ -39,7 +39,7 @@
   text-shadow: 2px 2px 1px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
   align-items: center;     /* centers the items vertically */
   justify-content: center; /* centers the items horizontally */
-padding-top: 350px;
+padding-top: 240px;
 margin-bottom: 50px;
 }
 .gote {

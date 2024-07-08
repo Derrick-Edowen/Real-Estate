@@ -102,8 +102,8 @@ function Header() {
               smooth={true}
               offset={-70}
               duration={1000}
-              to="/Bio"
-              className={`navbar--content ${location.pathname === '/Bio' ? 'active' : ''}`}
+              to="/Biography | About Me"
+              className={`navbar--content ${location.pathname === '/Biography | About Me' ? 'active' : ''}`}
               >
               [BIO / YOUR NAME]
             </NavLink>

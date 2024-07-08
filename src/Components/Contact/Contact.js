@@ -34,10 +34,6 @@ function Contact() {
       form.current.reset();
     }, 3500);
   };
-  useEffect(() => {
-    const randomImage = Math.random() > 0.5 ? man : woman;
-    setImageSrc(randomImage);
-  }, []);
   const navigate = useNavigate();
 
   const handleRouteClick = () => {
@@ -83,7 +79,6 @@ function Contact() {
             <div className='contactForm'>
               <div className='lostboy'>
                 <h2>Lets Start A Conversation!</h2>
-                <img className='mrman' alt='Small Portrait' src={imageSrc}></img>
               </div>
               <div className='formBox'>
                 <div className='inputBox w50'>

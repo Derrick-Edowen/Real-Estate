@@ -18,30 +18,7 @@ function Home() {
       <div className='titCard'>
       [YOUR BANNER STATEMENT]
       </div>
-      <div className='apps'>
-      <div className='biglinks'>
-  <div className='gote'>
-    <FontAwesomeIcon icon={faHouseCircleExclamation} className="icon" size="2xl" />
-  </div>
-  <div className='text'>Find Properties</div>
-</div>
 
-        <div className='biglinks'>
-        <div className='gote'><FontAwesomeIcon icon={faCalculator} className="icon" size="2xl" /></div>
-        <div className='text'>Calculators</div>
-
-        </div>
-        <div className='biglinks'>
-        <div className='gote'><FontAwesomeIcon icon={faBullhorn} className="icon" size="2xl" /></div>
-        <div className='text'>Announcements</div>
-
-        </div>
-        <div className='biglinks'>
-        <div className='gote'><FontAwesomeIcon icon={faPhoneVolume} className="icon" size="2xl" /></div>
-        <div className='text'>Contact</div>
-
-        </div>
-      </div>
     </div>
     </div>
         <Hero />

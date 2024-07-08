@@ -1,0 +1,30 @@
+[
+    {
+      "imgSrc": "https://storage.googleapis.com/realestate-images/temphouse1.jpg",
+      "price": "500,000",
+      "currency": "USD",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "daysOnZillow": 5,
+      "address": "123 Main St, Anytown, USA"
+    },
+    {
+      "imgSrc": "https://storage.googleapis.com/realestate-images/temphouse2.jpg",
+      "price": "750,000",
+      "currency": "USD",
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "daysOnZillow": 10,
+      "address": "456 Oak St, Anytown, USA"
+    },
+    {
+      "imgSrc": "https://storage.googleapis.com/realestate-images/temphouse3.jpg",
+      "price": "1,200,000",
+      "currency": "CAD",
+      "bedrooms": 5,
+      "bathrooms": 4,
+      "daysOnZillow": 2,
+      "address": "789 Pine St, Anytown, CAN"
+    }
+
+  ]

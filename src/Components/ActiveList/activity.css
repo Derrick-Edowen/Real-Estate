@@ -1,3 +1,7 @@
 .activity {
     height: 40vh;
+    padding-right: 26px;
+    padding-left: 26px;
+    box-shadow: 2px 2px 4px 2px #00000052 ;
+
 }

@@ -506,7 +506,7 @@ return (
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
-          <input className='notranslate' id='search' type='text' placeholder='Enter a city!' required />
+          <input className='notranslate' id='search' type='text' placeholder='Enter a City' required />
 
    
           <select
@@ -675,7 +675,7 @@ return (
                     checked={selectedTypes.includes('Apartments_Condos_Co-ops')}
                     onChange={() => handleCheckboxChange('Apartments_Condos_Co-ops')}
                   />
-                  Condos / Apartments
+                  Condos / Apartments / Co-ops
                 </label>
               </>
             ) : (

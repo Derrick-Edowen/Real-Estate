@@ -1,4 +1,85 @@
-.bio {
-    min-height: 100vh;
-    padding-top: 112px;
+.biol {
+    width: 100%;
+    height: 90dvh;
+    border-bottom: 1px solid #afafaf2f;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5) ;
 }
+.boutme {
+    padding: 14px;
+    background: white;
+    max-height: 87vh;
+    min-height: 87vh;
+    width: 100%;
+    border: 1px solid #afafaf2f;
+    border-radius: 3px;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.3) ;
+    display: flex;
+flex-wrap: wrap;
+overflow-y: auto;
+::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+}
+.splasher1 {
+    filter: blur(5px);
+        width: 100vw;
+        height: 100%;
+        position: absolute;
+        box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5) ;
+}
+.testee {
+    display: flex;
+    padding-top: 35px;
+    margin-top: 80px;
+position: absolute;
+width: 100%;
+justify-content: end;
+padding-left: 300px;
+padding-right: 300px;
+
+}
+.sun {
+width: 20%;
+height: 100%;
+padding: 14px;
+background: rgb(240, 240, 240);
+}
+.moon {
+    width: 80%;
+    height: 100%;
+padding: 14px;
+padding-left: 10px;
+}
+.sun, .moon {
+    flex: 1;
+  }
+  
+  .plant {
+    width: 100%;
+    padding-right: 16px;
+    padding-left: 16px;
+    margin-top: 12px;
+  }
+.mainimg1 {
+    display: flex;
+    position: relative;
+padding: 2px;
+margin-right: auto;
+    margin-left: auto;
+    background: rgba(54, 54, 54, 0.918);
+    margin-top: 40px;
+    border-radius: 150px;
+    margin-bottom: 12px;
+  }
+  .sci-hero1 {
+    display: flex;
+    height: fit-content;
+    width: 100%;
+    font-size: 26px;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 24px;
+    }

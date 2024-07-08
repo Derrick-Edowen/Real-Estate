@@ -22,7 +22,7 @@ import Pricing from './Components/Pricing/Pricing';
 import Bio from './Components/Bio/Bio';
 import Access from './Components/AgentAccess/Access';
 import PropertyDetails from './Components/PropertyDetails/PropertyDetails';
-
+import Announce from './Components/Announce/Announce';
 
 function App() {
   const location = useLocation();
@@ -43,7 +43,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
-        <Route path="/Bio" element={<Bio />} />
+        <Route path="/Biography | About Me" element={<Bio />} />
         <Route path="/Calculators | Mortgage Calculator" element={<Calculator />} />
         <Route path="/Announcements" element={<Blog />} />
         <Route path="/Find Listings | For Sale" element={<ForSale />} />
@@ -53,6 +53,7 @@ function App() {
         <Route path="/Contact Me" element={<Contact />} />
         <Route path="/Pricing" element={<Pricing />} />
         <Route path="/Agent Access" element={<Access />} />
+        <Route path="/Announcements/:title" element={<Announce />} />
         <Route path="/Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Nearby-Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Login" element={<Login />} />
