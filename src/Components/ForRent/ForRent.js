@@ -542,7 +542,7 @@ return (
             <option value="USA">USA</option>
           </select>
           <select
-  className="notranslate"
+  className="notranslate nation"
   id="province"
   placeholder="Select a Province"
   style={{ display: 'block', backgroundColor: selectedProvince ? '#d3d3d3' : 'white' }}
@@ -567,7 +567,7 @@ return (
 </select>
 
   <select
-            className="notranslate"
+            className="notranslate nation"
             id="state"
             placeholder="Select a State"
             style={{ display: 'none', backgroundColor: selectedState ? '#d3d3d3' : 'white' }}
@@ -897,6 +897,7 @@ return (
   </div>
   
 </div>
+<Contact />
 </>
 );
 }

@@ -152,12 +152,11 @@ padding-right: 30px;
 	width: 100%;
   margin-bottom: 20px;
 	margin-left: auto;
-padding-right: 16px;
-padding-left: 16px;
+padding-right: 3px;
+padding-left: 3px;
 z-index: 2000;
 margin-right: auto;
 gap: 1px;
-position: fixed;
 top: 114px;
 }
   
@@ -183,6 +182,7 @@ top: 114px;
   border-radius: 1px;
   width: fit-content;
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 15px;
   }
   
   select, option {
@@ -248,14 +248,13 @@ top: 114px;
   }
   
 .fullStage {
-width: 98%;
+width: 100%;
 margin-top: 8px;
 padding-top: 58px;
-position: fixed;
 margin-right: auto; 
 margin-left: auto;
-padding-right: 144px;
-padding-left: 144px;
+padding-right: 10px;
+padding-left: 10px;
 }
 .detts {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -566,7 +565,7 @@ width: 100%;
 .cardi1 {
 	position: relative; /* Ensure relative positioning for absolute positioning inside */
 
-  flex: 0 0 calc(33.33% - 8px); /* Calculate width for three columns with gap */
+  flex: 0 0 calc(25% - 6px); /* Calculate width for three columns with gap */
   align-items: flex-start;
   background: linear-gradient(to right, rgba(230, 230, 230, 0.95),rgba(255, 255, 255, 0.9));
   border-radius: 2px;
@@ -579,6 +578,10 @@ width: 100%;
  cursor: pointer;
  transition: transform 0.1s ease-in-out;
  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+}
+.cardi1:active {
+  box-shadow: 0 0px #666;
+  transform: translateY(1px);
 }
 .cardi1 .binlay {
   position: absolute;
@@ -741,8 +744,8 @@ padding: 4px;
   height: 100vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.45);
-  padding-right: 8px;
-    padding-left: 8px;
+  padding-right: 0px;
+    padding-left: 0px;
 }
 .cover1 {
 	background-color: #dad7d7;
@@ -956,7 +959,10 @@ transform: translateY(-50%);
   text-shadow: 2px 2px 6px #000000;
 
 }
-
+.nation {
+  max-width: 250px;
+  min-width: 250px;
+}
 @media screen and (max-width: 1365px) {
   .cardi1 {
     position: relative; /* Ensure relative positioning for absolute positioning inside */

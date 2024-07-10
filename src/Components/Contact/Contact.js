@@ -40,12 +40,11 @@ function Contact() {
     navigate('/Login');
   };
   return (
-    <div className='underLay' id='contact'>
+    <div className='newsetunderLay' id='contact'>
       <section >
         <div className='container'>
           <div className='contactinfo'>
             <div>
-              <h2>Contact Information</h2>
               <ul className='info'>
                 <li>
                   <span><FontAwesomeIcon icon={faLocationDot} style={{ color: "#ffffff" }} size='2xl' /></span>
@@ -77,17 +76,12 @@ function Contact() {
 
           <form ref={form} onSubmit={sendEmail}>
             <div className='contactForm'>
-              <div className='lostboy'>
-                <h2>Lets Start A Conversation!</h2>
+            <div className='lostboy'>
               </div>
               <div className='formBox'>
-                <div className='inputBox w50'>
+                <div className='inputBox w100'>
                   <input type="text" name="firstName" id="firstName" required></input>
-                  <span>First name</span>
-                </div>
-                <div className='inputBox w50'>
-                  <input type="text" name="lastName" id="lastName" required></input>
-                  <span>Last name</span>
+                  <span>Your Name</span>
                 </div>
                 <div className='inputBox w50'>
                   <input type="email" name="email" id="email" required></input>
@@ -95,7 +89,7 @@ function Contact() {
                 </div>
                 <div className='inputBox w50'>
                   <input type="number" name="phoneNumber" id="phone-number" required></input>
-                  <span>Mobile Number</span>
+                  <span>Phone Number</span>
                 </div>
                 <div className='inputBox w100'>
                   <textarea id="message" name="message" required></textarea>
@@ -109,11 +103,14 @@ function Contact() {
             </div>
           </form>
         </div>
-      </section>
-      <span>&copy;One Estate Web Services</span>
+        <div className='lostboy'>
+        <span>&copy;One Estate Web Services</span>
       <span>Terms of Service</span>
       <span>Privacy Policy</span>
-      <button onClick={handleRouteClick}>Agent Access</button>
+      <button onClick={handleRouteClick}>Agent Portal</button>
+      </div>
+      </section>
+      
 
     </div>
   );

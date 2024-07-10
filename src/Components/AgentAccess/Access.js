@@ -83,92 +83,98 @@ function Access() {
 
   const handleUpdateBio = async () => {
     try {
-      const response = await fetch('/bio', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bio: newBio })
-      });
-      if (response.ok) {
-        fetchBio();
-        setNewBio('');
-      } else {
-        console.error('Failed to update bio');
-      }
+        const response = await fetch('/bio', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bio: newBio })
+        });
+        if (response.ok) {
+            fetchBio();
+            setNewBio('');
+            alert('Bio updated successfully');
+        } else {
+            console.error('Failed to update bio');
+        }
     } catch (error) {
-      console.error('Error updating bio:', error);
+        console.error('Error updating bio:', error);
     }
-  };
-  const handleUpdateBanner = async () => {
+};
+
+const handleUpdateBanner = async () => {
     try {
-      const response = await fetch('/banner', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ banner: newBanner })
-      });
-      if (response.ok) {
-        fetchBanner();
-        setNewBanner('');
-      } else {
-        console.error('Failed to update banner');
-      }
+        const response = await fetch('/banner', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ banner: newBanner })
+        });
+        if (response.ok) {
+            fetchBanner();
+            setNewBanner('');
+            alert('Banner updated successfully');
+        } else {
+            console.error('Failed to update banner');
+        }
     } catch (error) {
-      console.error('Error updating banner:', error);
+        console.error('Error updating banner:', error);
     }
-  };
-  
-  const handleUpdateMessage = async () => {
+};
+
+const handleUpdateMessage = async () => {
     try {
-      const response = await fetch('/message', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: newMessage })
-      });
-      if (response.ok) {
-        fetchMessage();
-        setNewMessage('');
-      } else {
-        console.error('Failed to update message');
-      }
+        const response = await fetch('/message', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: newMessage })
+        });
+        if (response.ok) {
+            fetchMessage();
+            setNewMessage('');
+            alert('Message updated successfully');
+        } else {
+            console.error('Failed to update message');
+        }
     } catch (error) {
-      console.error('Error updating message:', error);
+        console.error('Error updating message:', error);
     }
-  };
-  
-  const handleUpdateEmail = async () => {
+};
+
+const handleUpdateEmail = async () => {
     try {
-      const response = await fetch('/email', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: newEmail })
-      });
-      if (response.ok) {
-        fetchEmail();
-        setNewEmail('');
-      } else {
-        console.error('Failed to update email');
-      }
+        const response = await fetch('/email', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: newEmail })
+        });
+        if (response.ok) {
+            fetchEmail();
+            setNewEmail('');
+            alert('Email updated successfully');
+        } else {
+            console.error('Failed to update email');
+        }
     } catch (error) {
-      console.error('Error updating email:', error);
+        console.error('Error updating email:', error);
     }
-  };
-  
-  const handleUpdatePhone = async () => {
+};
+
+const handleUpdatePhone = async () => {
     try {
-      const response = await fetch('/phone', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: newPhone })
-      });
-      if (response.ok) {
-        fetchPhone();
-        setNewPhone('');
-      } else {
-        console.error('Failed to update phone');
-      }
+        const response = await fetch('/phone', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone: newPhone })
+        });
+        if (response.ok) {
+            fetchPhone();
+            setNewPhone('');
+            alert('Phone number updated successfully');
+        } else {
+            console.error('Failed to update phone');
+        }
     } catch (error) {
-      console.error('Error updating phone:', error);
+        console.error('Error updating phone:', error);
     }
-  };
+};
 
 
   useEffect(() => {

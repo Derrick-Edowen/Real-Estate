@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './bio.css';
 import woman100 from '../../Assets/Images/woman100.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faFacebook, faLinkedin, faSquareXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram, faFacebook, faLinkedin, faSquareXTwitter, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import sampleData from '../samples.json';
 import sampleData1 from '../samples1.json'
+import Contact from '../Contact/Contact';
 
 function Bio() {
   const [bio, setBio] = useState('');
@@ -26,7 +27,7 @@ function Bio() {
     }
   };
 
-  return (
+  return (<>
     <div className="biol">
       <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splasher1' alt='Background'></img>
       <div className='splasher-overlay'>
@@ -46,11 +47,12 @@ function Bio() {
                 <span><a href='https://twitter.com/?lang=en' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faSquareXTwitter} size="xl" style={{ color: "#2e2e2e" }} /></a></span>
                 <span><a href='https://www.tiktok.com/en/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTiktok} style={{ color: "#000000" }} size='xl' /></a></span>
                 <span><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} size="xl" style={{ color: "#072b69" }} /></a></span>
+                <span><a href='https://www.youtube.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faYoutube} size="xl" style={{color: "#d00101",}} /></a></span>
               </div>
             </div>
             <div className='moon'>
               
-                <div className='descTextZ'>[Your Name]</div>
+                <div className='descTextZ'>[About Me / Your Name]</div>
                 <p className='descTextF'>{bio}
               </p>
             </div>
@@ -106,6 +108,8 @@ function Bio() {
         </div>
       </div>
     </div>
+            <Contact />
+            </>
   );
 }
 

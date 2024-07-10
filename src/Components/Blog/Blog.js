@@ -118,8 +118,8 @@ function Blog() {
     return diffDays <= 3;
   };
   return (<>
-    <div className='descTextJ'> [ Announcements ] </div>
-    <div className="blog-container" id='announcement'>
+    <div className='descTextJ' id='announcement'> [ Announcements ] </div>
+    <div className="blog-container" >
         <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
 
       <div className="posts-container">

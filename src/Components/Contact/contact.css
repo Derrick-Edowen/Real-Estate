@@ -6,14 +6,19 @@ position: relative;
 justify-content: center;
 align-items: center;
 display: flex;
-min-height: 65vh;
-background: rgba(24, 0, 0, 0.95);
+min-height: 50vh;
+max-height: 50vh;
 }
+.newsetunderLay {
+  background: rgba(24, 0, 0, 0.507);
+  }
 .text-sm {
   color: black;
+  margin-top: 6px;
 }
 .lostboy {
   display: flex;
+  color: #ffffff;
 }
 
 .lostboy img {
@@ -39,22 +44,21 @@ section::before {
 section .container {
   position: relative;
   min-width: 110px;
-  min-height: 550px;
+  height: 350px;
   display: flex;
   z-index: 10;
 } 
 section .container .contactinfo {
   position: absolute;
   top: 40px;
-  width: 350px;
+  width: fit-content;
   height: calc(100% - 80px);
-  background: linear-gradient(to left, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+  background: transparent;
   z-index: 1;
   padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
 } 
 section .container .contactinfo .info {
   position: relative;
@@ -120,19 +124,18 @@ section .container .contactinfo .sci li:hover a img {
 }
 section .container .contactForm {
   position: absolute;
-  padding: 70px 50px;
-  background: white;
+  padding: 0px 0px;
   width: calc(100% -150px);
   margin-left: 150px;
   padding-left: 250px;
-  height: 100%;
-  box-shadow: 0 50px 50px rgba(0, 0, 0, 0.5);
+  height: fit-content;
 }
 section .container .contactForm h2 {
-color: black;
+color: rgb(255, 255, 255);
 font-size: 32px;
 font-weight: 700;
 text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 font-style: italic;
 }
@@ -141,7 +144,7 @@ position: relative;
 display: flex;
 justify-content: space-between;
 flex-wrap: wrap;
-padding-top: 30px;
+padding-top: 0px;
 }
 section .container .contactForm .formBox .inputBox {
   position: relative;
@@ -157,14 +160,14 @@ section .container .contactForm .formBox .inputBox input,
 section .container .contactForm .formBox .inputBox textarea
   {
 width: 100% !important;
-padding: 5px 0;
+padding: 6px;
 resize: none;
 font-size: 18px;
 font-weight: 300;
-color: #333;
-border: none;
-border-bottom: 1px solid #777;
+color: #000000;
+border: 1px solid black;
 outline: none;
+border-radius: 2px;
 }
 section .container .contactForm .formBox .inputBox textarea {
   min-height: 120px;
@@ -173,35 +176,40 @@ section .container .contactForm .formBox .inputBox textarea {
 section .container .contactForm .formBox .inputBox span {
   position: absolute;
   left: 0;
-  padding: 5px 0;
+  padding: 6px;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 600;
   color: #333;
   transition: 0.3s;
   pointer-events: none;
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+font-style: italic;
 }
 section .container .contactForm .formBox .inputBox input:focus ~ span,
 section .container .contactForm .formBox .inputBox textarea:focus ~ span,
 section .container .contactForm .formBox .inputBox input:valid ~ span,
 section .container .contactForm .formBox .inputBox textarea:valid ~ span {
-  transform: translateY(-24px);
+  transform: translateY(-32px);
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: black;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px 2px rgba(0,0,0,0.6);
+
 }
 section .container .contactForm .formBox .inputBox input[type="submit"] {
   position: relative;
   cursor: pointer;
-  color: white;
+  color: black;
   border: none;
   max-width: 150px;
   padding: 8px;
+  outline: 1px solid black;
   border-radius: 2px;
-  background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+  background: transparent;
 }
 section .container .contactForm .formBox .inputBox input[type="submit"]:hover {
-  background: linear-gradient(to left, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
+  background: white;
 }
 
 
