@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './announce.css';
+import Contact from '../Contact/Contact';
 
 function Announce() {
     const [postData, setPostData] = useState(null);
@@ -31,6 +32,7 @@ function Announce() {
           <div className="descTextW">[Email Link] | [Phone Number]</div>
           <div className="descTextW">Posted on: {new Date(postData.created_at).toLocaleDateString()}</div>
           </div>
+          <Contact />
       </div>
     );
   }

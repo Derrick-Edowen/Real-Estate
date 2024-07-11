@@ -5,7 +5,7 @@ import woman from '../../Assets/Images/small-woman.png';
 import emailjs from '@emailjs/browser';
 import './contact.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faFacebook, faLinkedin, faXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram, faFacebook, faLinkedin, faYoutube,faSquareXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
@@ -66,11 +66,12 @@ function Contact() {
             </div>
 
             <ul className='sci'>
-              <li><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} style={{ color: "#ffffff" }} size='2xl' /></a></li>
-              <li><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} style={{ color: "#ffffff" }} size='2xl' /></a></li>
-              <li><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} style={{ color: "#ffffff" }} size='2xl' /></a></li>
-              <li><a href='https://twitter.com/?lang=en' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faXTwitter} style={{ color: "#ffffff" }} size='2xl' /></a></li>
-              <li><a href='https://www.tiktok.com/en/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTiktok} style={{ color: "#ffffff" }} size='2xl' /></a></li>
+            <li><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></li>
+                <li><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></li>
+                <li><a href='https://twitter.com/?lang=en' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faSquareXTwitter} size="xl" style={{ color: "#2e2e2e" }} /></a></li>
+                <li><a href='https://www.tiktok.com/en/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTiktok} style={{ color: "#000000" }} size='xl' /></a></li>
+                <li><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} size="xl" style={{ color: "#072b69" }} /></a></li>
+                <li><a href='https://www.youtube.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faYoutube} size="xl" style={{color: "#d00101",}} /></a></li>
             </ul>
           </div>
 
@@ -103,14 +104,14 @@ function Contact() {
             </div>
           </form>
         </div>
-        <div className='lostboy'>
+
+      </section>
+      <div className='lostboy'>
         <span>&copy;One Estate Web Services</span>
       <span>Terms of Service</span>
       <span>Privacy Policy</span>
       <button onClick={handleRouteClick}>Agent Portal</button>
       </div>
-      </section>
-      
 
     </div>
   );

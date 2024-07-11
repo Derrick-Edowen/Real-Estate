@@ -10,7 +10,8 @@ min-height: 50vh;
 max-height: 50vh;
 }
 .newsetunderLay {
-  background: rgba(24, 0, 0, 0.507);
+  background: rgb(241, 241, 241);
+  border: 1px solid black;
   }
 .text-sm {
   color: black;
@@ -18,7 +19,8 @@ max-height: 50vh;
 }
 .lostboy {
   display: flex;
-  color: #ffffff;
+  color: #000000;
+  width: 100%;
 }
 
 .lostboy img {
@@ -83,7 +85,7 @@ section .container .contactinfo .info li span:nth-child(1) img {
 
 }
 section .container .contactinfo .info li span:nth-child(2) {
-color: white;
+color: rgb(0, 0, 0);
 font-size: 18px;
 margin-left: 10px;
 font-weight: 300;
@@ -102,7 +104,7 @@ section .container .contactinfo .sci {
 }
 section .container .contactinfo h2 {
 text-align: center;
-color: white;
+color: rgb(0, 0, 0);
 font-weight: 500;
 font-style: italic;
 text-shadow: 1px 1px 2px #000000;
@@ -131,7 +133,7 @@ section .container .contactForm {
   height: fit-content;
 }
 section .container .contactForm h2 {
-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);
 font-size: 32px;
 font-weight: 700;
 text-shadow: 1px 1px 1px rgba(128, 128, 128, 0.7);
@@ -193,7 +195,7 @@ section .container .contactForm .formBox .inputBox textarea:valid ~ span {
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 1px;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   text-shadow: 2px 2px 2px rgba(0,0,0,0.6);
 
 }

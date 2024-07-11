@@ -13,9 +13,9 @@ import { faLocationDot, faArrowLeft, faArrowRight, faChevronDown, faCircleCheck,
   import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
   import jsPDF from 'jspdf';
   import 'jspdf-autotable';
+
 const PropertyDetails = () => {
     const { address } = useParams();
-  
     const [property, setProperty] = useState(null);
     const [infoData, setInfoData] = useState({});
     const [api, setApi] = useState(null);
@@ -853,7 +853,7 @@ defaultValue={0}
         </div> 
         
         </>)}
-
+        <Contact />
       </div>
 </>
     );

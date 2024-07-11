@@ -115,7 +115,7 @@ function Blog() {
     const currentDate = new Date();
     const diffTime = Math.abs(currentDate - postDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays <= 3;
+    return diffDays <= 7;
   };
   return (<>
     <div className='descTextJ' id='announcement'> [ Announcements ] </div>
@@ -134,7 +134,6 @@ function Blog() {
             )}
             <div className="finalss">
               <div className="blogHead">{post.title}</div>
-              <div className="blogCont">{post.content}</div>
               <div className="timer">Posted on: {formatCreatedAt(post.created_at)}</div>
             </div>
             {isLoggedIn && (
@@ -156,47 +155,6 @@ function Blog() {
             <div className="blogContl">{selectedPost.content}</div>
             <div className="timer1">Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
           </div>
-        </div>
-      )}
-
-      {isLoggedIn && (
-        <div className="text-area-container">
-          <input
-            type="text"
-            className="text-title"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Enter announcement title"
-            required
-          />
-          <textarea
-            className="text-area"
-            value={newContent}
-            onChange={(e) => setNewContent(e.target.value)}
-            placeholder="Enter your announcement content here..."
-            rows={5}
-            cols={50}
-            required
-          />
-          <input
-            type="file"
-            className="select-input"
-            accept="image/png, image/jpeg, image/webp, image/gif"
-            onChange={(e) => handleImageChange(e)}
-            required
-          />
-
-          {selectedImage && (
-            <img
-              src={selectedImage}
-              alt="Selected Image"
-              style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '4px', marginLeft: 'auto', marginRight: 'auto' }}
-            />
-          )}
-
-          <button className="postbutt" onClick={handlePost}>
-            Create Post
-          </button>
         </div>
       )}
     </div>

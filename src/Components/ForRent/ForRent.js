@@ -7,7 +7,6 @@ import FadeLoader from "react-spinners/FadeLoader";
 import Footer from '../Footer/Footer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
-import Contact from '../Contact/Contact';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
@@ -45,7 +44,19 @@ const [selectedPType, setSelectedPType] = useState(1);
 const [selectedStatus, setSelectedStatus] = useState('');
 const [selectedPropertyTypes, setSelectedPropertyTypes] = useState([]);
 const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+const [searchParams, setSearchParams] = useState({
+  address: '',
+  state: '',
+  page: 1,
+  type: 0,
+  tier: '',
+  country: '',
+  sort: '',
+  minPrice: '',
+  maxPrice: '',
+  maxBeds: '',
+  maxBaths: ''
+});
 
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -62,6 +73,21 @@ const handleSearch = async (e) => {
   setApiData([]);
   setInfoData([]);
   initialDataRef.current = null;
+
+  // Clear saved search parameters
+  setSearchParams({
+    address: '',
+    state: '',
+    page: 1,
+    type: 0,
+    tier: '',
+    country: '',
+    sort: '',
+    minPrice: '',
+    maxPrice: '',
+    maxBeds: '',
+    maxBaths: ''
+  });
 
   const address = document.getElementById('search').value;
   let state = '';
@@ -83,7 +109,23 @@ const handleSearch = async (e) => {
   const maxBaths = document.getElementById('choose-baths').value;
   const page = 1;
   const type = parseInt(document.getElementById('choose-search').value, 10); // Parse as integer
-const tier = selectedTypesString;
+  const tier = selectedTypesString;
+  
+  // Save search parameters
+  setSearchParams({
+    address,
+    state,
+    page,
+    type,
+    tier,
+    country,
+    sort,
+    minPrice,
+    maxPrice,
+    maxBeds,
+    maxBaths
+  });
+
   try {
     setIsLoading(true);
 
@@ -174,31 +216,12 @@ const handleNPage = async (e) => {
   setInfoData([]);
   initialDataRef.current = null;
 
-  const address = document.getElementById('search').value;
-  let state = '';
-  const country = document.getElementById('country').value;
-  if (country === 'Canada') {
-    state = document.getElementById('province').value;
-  } else if (country === 'USA') {
-    state = document.getElementById('state').value;
-  }
-  if (selectedTypes.length === 0) {
-    window.alert('Please select at least one property type.');
-    return;
-  }
-  const selectedTypesString = selectedTypes.join(', ');
-  const sort = document.getElementById('sortList').value;
-  const minPrice = document.getElementById('min-price').value;
-  const maxPrice = document.getElementById('max-price').value;
-  const maxBeds = document.getElementById('choose-beds').value;
-  const maxBaths = document.getElementById('choose-baths').value;
-  const page = nextPage + 1;
-  const type = parseInt(document.getElementById('choose-search').value, 10); // Parse as integer
-  const tier = selectedTypesString;
+  const nextPage = searchParams.page + 1;
 
   try {
     setIsLoading(true);
-    if (parseInt(minPrice) > parseInt(maxPrice)) {
+
+    if (parseInt(searchParams.minPrice) > parseInt(searchParams.maxPrice)) {
       window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
       return;
     }
@@ -222,24 +245,24 @@ const handleNPage = async (e) => {
         },
         body: JSON.stringify({
           id, // Include the unique ID in the request body
-          address,
-          state,
-          page,
-          type,
-          tier,
-          country,
-          sort,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths,
+          address: searchParams.address,
+          state: searchParams.state,
+          page: nextPage,
+          type: searchParams.type,
+          tier: searchParams.tier,
+          country: searchParams.country,
+          sort: searchParams.sort,
+          minPrice: searchParams.minPrice,
+          maxPrice: searchParams.maxPrice,
+          maxBeds: searchParams.maxBeds,
+          maxBaths: searchParams.maxBaths,
         }),
       }).then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
       }).catch(error => {
-        console.error('Error in handleSearch:', error);
+        console.error('Error in handleNPage:', error);
         setIsLoading(false);
       });
     };
@@ -271,12 +294,19 @@ const handleNPage = async (e) => {
     };
 
   } catch (error) {
-    console.error('Error in handleSearch:', error);
+    console.error('Error in handleNPage:', error);
     setIsLoading(false);
   }
+
+  // Update the search parameters with the new page number
+  setSearchParams(prevParams => ({
+    ...prevParams,
+    page: nextPage
+  }));
 };
-  const handlePPage = async (e) => {
-    e.preventDefault();
+
+const handlePPage = async (e) => {
+  e.preventDefault();
   setIsRotated(!isRotated);
   setShowFilter(false);
   setInitialData(null);
@@ -284,30 +314,12 @@ const handleNPage = async (e) => {
   setInfoData([]);
   initialDataRef.current = null;
 
-  const address = document.getElementById('search').value;
-  let state = '';
-  const country = document.getElementById('country').value;
-  if (country === 'Canada') {
-    state = document.getElementById('province').value;
-  } else if (country === 'USA') {
-    state = document.getElementById('state').value;
-  }
-  if (selectedTypes.length === 0) {
-    window.alert('Please select at least one property type.');
-    return;
-  }
-  const selectedTypesString = selectedTypes.join(', ');
-  const sort = document.getElementById('sortList').value;
-  const minPrice = document.getElementById('min-price').value;
-  const maxPrice = document.getElementById('max-price').value;
-  const maxBeds = document.getElementById('choose-beds').value;
-  const maxBaths = document.getElementById('choose-baths').value;
-  const page = nextPage - 1;
-  const type = parseInt(document.getElementById('choose-search').value, 10); // Parse as integer
-  const tier = selectedTypesString;
+  const prevPage = searchParams.page - 1;
+
   try {
     setIsLoading(true);
-    if (parseInt(minPrice) > parseInt(maxPrice)) {
+
+    if (parseInt(searchParams.minPrice) > parseInt(searchParams.maxPrice)) {
       window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
       return;
     }
@@ -331,24 +343,24 @@ const handleNPage = async (e) => {
         },
         body: JSON.stringify({
           id, // Include the unique ID in the request body
-          address,
-          state,
-          page,
-          type,
-          tier,
-          country,
-          sort,
-          minPrice,
-          maxPrice,
-          maxBeds,
-          maxBaths,
+          address: searchParams.address,
+          state: searchParams.state,
+          page: prevPage,
+          type: searchParams.type,
+          tier: searchParams.tier,
+          country: searchParams.country,
+          sort: searchParams.sort,
+          minPrice: searchParams.minPrice,
+          maxPrice: searchParams.maxPrice,
+          maxBeds: searchParams.maxBeds,
+          maxBaths: searchParams.maxBaths,
         }),
       }).then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
       }).catch(error => {
-        console.error('Error in handleSearch:', error);
+        console.error('Error in handlePPage:', error);
         setIsLoading(false);
       });
     };
@@ -380,9 +392,15 @@ const handleNPage = async (e) => {
     };
 
   } catch (error) {
-    console.error('Error in handleSearch:', error);
+    console.error('Error in handlePPage:', error);
     setIsLoading(false);
   }
+
+  // Update the search parameters with the new page number
+  setSearchParams(prevParams => ({
+    ...prevParams,
+    page: prevPage
+  }));
 };
 const handleOpenLightbox = async (index) => {
   const property = initialDataRef.current.zpids.props[index];
@@ -835,7 +853,7 @@ return (
     {initialDataRef.current.zpids.totalPages > 1 && (
       <button
         className={`prevButton ${initialDataRef.current.zpids.currentPage === 1 ? 'disabled' : ''}`}
-        onClick={handlePrevPage}
+        onClick={handlePPage}
         disabled={initialDataRef.current.zpids.currentPage === 1}
       >
         Previous Page
@@ -845,7 +863,7 @@ return (
     {initialDataRef.current.zpids.totalPages > 1 && (
       <button
         className={`nextButton ${initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages ? 'disabled' : ''}`}
-        onClick={handleNextPage}
+        onClick={handleNPage}
         disabled={initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages}
       >
         Next Page
@@ -897,7 +915,6 @@ return (
   </div>
   
 </div>
-<Contact />
 </>
 );
 }
