@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import man1 from '../../Assets/Images/man1-PhotoRoom.png';
 import woman100 from '../../Assets/Images/woman100.jpg';
 import './hero.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,13 +11,13 @@ function Hero() {
   return (
 
     <div className="heroPage">
-         
-      <img className='mainimg' src={woman100} alt='main' />
+      <div className='boxerT'>
+         <div className='imgBox'>
+      <img className='itImg' src={woman100} alt='main' />
+      </div>
       <div className='heroBox'>
-        <h1>[Your Messsage Title]</h1>
-        <p>[YOUR MESSAGE TO YOUR AUDIENCE<br/>
-        
-          SELECT ONE OF OUR MANY CLIENT FOCUSED MESSAGES, OR CREATE YOUR OWN]
+        <p> - [YOUR MESSAGE TO YOUR AUDIENCE<br/>
+          SELECT ONE OF OUR MANY CLIENT FOCUSED MESSAGES, OR CREATE YOUR OWN!]
         </p>
         <div className='sci-hero'>
                 <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>
@@ -28,6 +27,7 @@ function Hero() {
                 <span><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} size="xl" style={{ color: "#072b69" }} /></a></span>
                 <span><a href='https://www.youtube.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faYoutube} size="xl" style={{color: "#d00101",}} /></a></span>
               </div>
+      </div>
       </div>
       </div>
   );

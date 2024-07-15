@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./login.css"
+import logol from '../../Assets/Images/logo.PNG'
 
 function Login() {
   const [name, setName] = useState('');
@@ -52,8 +53,12 @@ function Login() {
 
   return (
     <div className='logginCont'>
-    <form className="togin" onSubmit={handleSubmit}>
-      <h4 className='idekk'>Agent Access</h4>
+  <form className="togin formBox-specific" onSubmit={handleSubmit}>
+    <div className='logolbox'>
+  <img className="logol" src={logol} />
+  </div>
+    <div className='descTextJl'>Agent Portal Login</div>
+    <div className="inputBox-specific">
       <input
         type="text"
         placeholder="Name"
@@ -61,6 +66,9 @@ function Login() {
         onChange={handleNameChange}
         required
       />
+      <label>Name</label>
+    </div>
+    <div className="inputBox-specific">
       <input
         type="text"
         placeholder="Email"
@@ -68,6 +76,9 @@ function Login() {
         onChange={handleEmailChange}
         required
       />
+      <label>Email</label>
+    </div>
+    <div className="inputBox-specific">
       <input
         type="password"
         placeholder="Password"
@@ -75,9 +86,13 @@ function Login() {
         onChange={handlePasswordChange}
         required
       />
-      <button className='loggg' type="submit">Login</button>
-    </form>
+      <label>Password</label>
     </div>
+    <input className='loggg' type="submit" value="Login" />
+  </form>
+</div>
+
+
   );
 }
 

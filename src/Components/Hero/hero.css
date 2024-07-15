@@ -1,13 +1,14 @@
 
 .heroPage {
+padding: 20px;
   width: 100%;
-  height: 50dvh;
-  border-bottom: 1px solid #afafaf2f;
-  box-shadow: 2px 2px 4px 2px #00000052 ;
-padding-left: 475px;
-padding-right: 50px;
-
-padding-top: 135px;
+  height: 40vh;
+  padding-top: 114px;
+display: flex;
+position: relative;
+box-sizing: border-box; /* Include padding in the container's dimensions */
+z-index: 0;
+justify-content: center;
 }
 .develop {
   clip-path: polygon(0 0, 100% 0, 100% 20%, 0 100%);
@@ -18,6 +19,25 @@ z-index: -5000;
 position: relative;
 
 }
+.boxerT { 
+  width: 75%;
+  display: flex;
+  position: relative;
+  --mask:
+  radial-gradient(40px at 40px 40px,#0000 calc(98% - 3px),#000 calc(100% - 3px) 98%,#0000) -40px -40px,
+    linear-gradient(90deg,#000 6px,#0000 0) -3px 50% /100% calc(100% - 80px + 3px) repeat-x,
+    linear-gradient(      #000 6px,#0000 0) 50% -3px/calc(100% - 80px + 3px) 100% repeat-y;
+}
+.boxerT:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(37, 37, 37, 0.815);
+  -webkit-mask: var(--mask);
+          mask: var(--mask);
+          z-index: -2000;
+}
+
 .develop2 {
   clip-path: polygon(0 0, 100% 0, 100% 10%, 0 100%);
 height: 100%;
@@ -33,203 +53,52 @@ height: fit-content;
 width: fit-content;
 gap: 20px;
 }
-.sci-hero li{
-  width: fit-content;
-}
+.sci-hero span:hover {
+  transition: transform 0.3s ease-in-out; /* Smooth transition for the zoom effect */
+
+  }
+  .sci-hero span:hover {
+    transform: scale(1.15); /* Scale up the element on hover */
+  }
 .imgContainer {
 padding: 0px;
 }
 
-.mainimg {
-  padding: 4px;
-  max-height: 30vh;
-  padding-bottom: 0px;
-  max-width: 15%;
-  min-width: 15%;
-  border-radius: 125%;
-
-  object-fit: cover;
-margin-top: auto;
-margin-bottom: auto;
-}
-
-.newmainimg {
-  position: absolute;
-  padding: 15px;
+.itImg {
+  position: relative;
+  border-radius: 150px;
   height: 100%;
-  padding-left: 110px;
-  height: 100vh;
-  padding-bottom: 0px;
+  border: 2px dashed rgba(0, 0, 0, 0.63);
 }
-
+.imgBox {
+  width: 40%;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  padding: 8px;
+  height: 100%;
+  padding-left: 140px;
+}
 .heroBox {
-  font-size: 40px;
+  font-size: 32px;
   color: azure;
+  position: relative;
+
   display: flex;
   flex-direction: column;
   gap: 4px;
-  position: relative;
-  padding-top: 24px;
-  padding-bottom: auto;
   width: 70%;
-  float: right;
+  height: 100%;
+  padding: 8px;
   text-align:left;
-  box-sizing: border-box;
+justify-content: center;
 }
-.heroBox  h1{
-  font-size: 38px;
-  float: left;
-  text-align:left;
-  padding-left: 0px;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
-}
-.heroBox  h2{
-  font-size: 24px;
-  float: left;
-  text-align:left;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
-
-}
 .heroBox p {
   font-size: 20px;
   float: left;
   text-align:left;
-  text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
-
-}
-.meat {
-  width: fit-content;
-}
-.contactBtn {
-  width: fit-content;
-  float: left;
-font-size: 20px;
-  color: #fff;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 6px;
-  padding-left: 44px;
-  padding-right: 44px;
-
-  background: linear-gradient(to right, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
-  cursor: pointer;
-  border: 1px solid #afafaf2f;
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-border-radius: 2px;
-text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offset, blur radius, color */
-
-}
-.contactBtn:hover {
-
-  background: linear-gradient(to left, rgb(0, 0, 0),rgba(41, 41, 41, 0.99), rgba(71, 71, 71, 0.984),rgba(85, 85, 85, 0.969));
-
-}
-.contactBtn:active {
-  box-shadow: 0 1px #666;
-  transform: translateY(2px);
-}
-@media screen and (max-width: 1455px) {
-
-  .textBox {
-    width: 100%;
-    padding: 15px;
-    padding-top: 45px;
-    text-align: center;
-    align-items: center;
-    
-  }
-  .contactBtn {
-    align-items: center;
-    margin-top: 10px;
-  }
-  .mainimg {
-    padding: 10px;
-    border-radius: 100%;
-    height: 580px;
-    width: 100%;
-    top: 380px; 
-    margin-top: 12px;
-    padding-top: 15px;
-    object-fit: contain;
-
-  }
-  .newmainimg {
-    padding: 10px;
-    border-radius: 100%;
-    height: 580px;
-    width: 100%;
-    top: 380px; 
-    margin-top: 12px;
-    padding-top: 15px;
-    object-fit: contain;
-  }
-  .textBox h1 {
-    font-size: 35px;
-    text-align: center;
-  }
-
-  .textBox h2 {
-    font-size: 30px;
-    text-align: center;
-
-  }
-
-  .textBox p {
-    font-size: 25px;
-    text-align: center;
-margin-bottom: 0px;
-  }
-}
-@media screen and (max-width: 938px) {
-
-  .textBox {
-    width: 100%;
-    padding-top: 50px;
-    text-align: center;
-  }
-
-  .mainimg {
-    padding: 10px;
-    border-radius: 100%;
-    height: 400px;
-    top: 370px; 
-    margin-top: 18px;
-    padding-top: 15px;
-    width: 100%;
-}
-.newmainimg {
-  padding: 10px;
-  height: 400px;
-  top: 390px; 
-  margin-top: 18px;
-  padding-top: 15px;
-  width: 100%;
-  object-fit: contain;
-
-}
-  .textBox h1 {
-    font-size: 30px;
-    text-align: center;
-  }
-
-  .textBox h2 {
-    font-size: 25px;
-    text-align: center;
-
-  }
-
-  .textBox p {
-    font-size: 20px;
-    text-align: center;
-margin-bottom: 0px;
-  }
-  .contactBtn {
-    margin-top: 5px;
-    margin-bottom: 8px;
-
-width: 200px;
-  }
-
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+color: black;
+font-size: 22px;
 }

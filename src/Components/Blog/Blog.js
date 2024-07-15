@@ -3,7 +3,7 @@ import './Blog.css';
 import { useLocation } from 'react-router-dom';
 import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faBurst } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faCertificate } from '@fortawesome/free-solid-svg-icons';
 import noImg from '../../Assets/Images/noimg.jpg'
 
 //Add a comment section to the announcements!
@@ -118,8 +118,7 @@ function Blog() {
     return diffDays <= 7;
   };
   return (<>
-    <div className='descTextJ' id='announcement'> [ Announcements ] </div>
-    <div className="blog-container" >
+    <div className="blog-container" id='announcement'>
         <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
 
       <div className="posts-container">
@@ -128,7 +127,7 @@ function Blog() {
             <img className="windows" src={post.image || noImg} alt="Post Image" />
             {isNewPost(post.created_at) && (
               <div className='burster'>
-                <FontAwesomeIcon icon={faBurst} style={{color: "#8f0a00",}} />
+                <FontAwesomeIcon icon={faCertificate} style={{color: "#984343",}} />
                 <div className='updater'>New</div>
               </div>
             )}

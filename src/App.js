@@ -26,6 +26,9 @@ import Announce from './Components/Announce/Announce';
 import Service from './Components/Service/Service';
 import Mission from './Components/Mission/Mission';
 import Privacy from './Components/Privacy/Privacy';
+import Buying from './Components/Buying/Buying'
+import Selling from './Components/Selling/Selling'
+import Investing from './Components/Investing/Investing'
 
 function App() {
   const location = useLocation();
@@ -54,19 +57,20 @@ function App() {
         <Route path="/Find Listings | Recently Sold" element={<RecentlySold />} />
         <Route path="/Calculators | Rent Affordability Calculator" element={<RentCalculator />} />
         <Route path="/Contact Me" element={<Contact />} />
-        <Route path="/Pricing" element={<Pricing />} />
+        <Route path="/Pricing & Subscriptions" element={<Pricing />} />
         <Route path="/Agent Access" element={<Access />} />
         <Route path="/Terms of Service" element={<Service />} />
         <Route path="/Privacy Policy" element={<Privacy />} />
         <Route path="/Our Mission" element={<Mission />} />
-
+        <Route path="/Real Estate Advice | Buying A Home" element={<Buying />} />
+        <Route path="/Real Estate Advice | Selling Your Home" element={<Selling />} />
+        <Route path="/Real Estate Advice | Investing In Real Estate" element={<Investing />} />
         <Route path="/Announcements/:title" element={<Announce />} />
         <Route path="/Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Nearby-Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Login" element={<Login />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
-      <Footer />
     </>
   );
 }

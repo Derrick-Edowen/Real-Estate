@@ -1,17 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import man from '../../Assets/Images/man2.png';
-import woman from '../../Assets/Images/small-woman.png';
+import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import './contact.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faYoutube,faSquareXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
-import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faAt, faPhoneVolume, faUser, faPencil, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-
+import logo from '../../Assets/Images/minilogo.PNG'
 function Contact() {
   const [textVisible, setTextVisible] = useState(false);
-  const [imageSrc, setImageSrc] = useState([]);
 
   const form = useRef();
 
@@ -42,76 +38,107 @@ function Contact() {
   return (
     <div className='newsetunderLay' id='contact'>
       <section >
-        <div className='container'>
-          <div className='contactinfo'>
-            <div>
-              <ul className='info'>
-                <li>
-                  <span><FontAwesomeIcon icon={faLocationDot} style={{ color: "#ffffff" }} size='2xl' /></span>
-                  <span>[Office
-                    Address /<br /> Business Address]<br />
-                  </span>
-                </li>
-                <li>
-                  <span><FontAwesomeIcon icon={faEnvelope} style={{ color: "#ffffff" }} size='xl' /></span>
-                  <span>[Your Email Address]</span>
+        <div className='fitcontainer'>
 
-                </li>
-                <li>
-                  <span><FontAwesomeIcon icon={faPhone} style={{ color: "#ffffff" }} size='xl' /></span>
-                  <span>[Your Phone Number]
-                  </span>
-                </li>
-              </ul>
-            </div>
 
-            <ul className='sci'>
-            <li><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></li>
-                <li><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></li>
-                <li><a href='https://twitter.com/?lang=en' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faSquareXTwitter} size="xl" style={{ color: "#2e2e2e" }} /></a></li>
-                <li><a href='https://www.tiktok.com/en/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTiktok} style={{ color: "#000000" }} size='xl' /></a></li>
-                <li><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} size="xl" style={{ color: "#072b69" }} /></a></li>
-                <li><a href='https://www.youtube.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faYoutube} size="xl" style={{color: "#d00101",}} /></a></li>
-            </ul>
+        <div className='megainfo'>
+          <div className='descTextJv'>[ Brokerage / Business Icon ]</div>
+          <div className='descTextJv'>[ Brokerage / Business Name ]</div>
+          <div className='descTextJv'>[ Brokerage /  Business Address ]</div>
+          <div className='descTextJv'>[ Brokerage /  Business Number ]</div>
           </div>
 
-          <form ref={form} onSubmit={sendEmail}>
-            <div className='contactForm'>
-            <div className='lostboy'>
+
+          <div className='contactinfo'>
+          <div className='descTextJv'>[ Your Name ]</div>
+          <div className='descTextJv'>[ Sales Representative / Broker ]</div>
+          <div className='descTextJv'>[ Your Email ]</div>
+          <div className='descTextJv'>[ Your Phone Number ]</div>
+          <div className='descTextJv'> Lets Connect! </div>
+          <div className='sci-hero2'>
+                <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>
+                <span><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></span>
+                <span><a href='https://twitter.com/?lang=en' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faSquareXTwitter} size="xl" style={{ color: "#2e2e2e" }} /></a></span>
+                <span><a href='https://www.tiktok.com/en/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTiktok} style={{ color: "#000000" }} size='xl' /></a></span>
+                <span><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} size="xl" style={{ color: "#072b69" }} /></a></span>
+                <span><a href='https://www.youtube.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faYoutube} size="xl" style={{color: "#d00101",}} /></a></span>
               </div>
-              <div className='formBox'>
-                <div className='inputBox w100'>
-                  <input type="text" name="firstName" id="firstName" required></input>
-                  <span>Your Name</span>
-                </div>
-                <div className='inputBox w50'>
-                  <input type="email" name="email" id="email" required></input>
-                  <span>Email Address</span>
-                </div>
-                <div className='inputBox w50'>
-                  <input type="number" name="phoneNumber" id="phone-number" required></input>
-                  <span>Phone Number</span>
-                </div>
-                <div className='inputBox w100'>
-                  <textarea id="message" name="message" required></textarea>
-                  <span>Write your message here...</span>
-                </div>
-                <div className='inputBox w100'>
-                  <input type='submit' value="Send Message" name=''></input> <br /><br />
-                  <span className="text-sm">{textVisible && <p>Message successfully sent!</p>}</span>
-                </div>
-              </div>
-            </div>
-          </form>
+          </div>
+
+
+
+
+            <div className='contactForm-specific'>
+            <div className='descTexcjb'> Contact </div>
+
+            <form ref={form} onSubmit={sendEmail}>
+    <div className='lostboy-specific'></div>
+    <div className='formBox-specific'>
+      <div className='inputBox-specific'>
+        <input type="text" name="firstName" id="firstName" required />
+        <label htmlFor="firstName">Name</label>
+        <FontAwesomeIcon icon={faUser} className="icon-specific"/>
+      </div>
+      <div className='inputRow-specific'>
+        <div className='inputBox-specific'>
+          <div className="inputWrapper-specific">
+            <input type="email" name="email" id="email" required />
+            <label htmlFor="email">Email Address</label>
+            <FontAwesomeIcon icon={faAt} className="icon-specific" />
+          </div>
+        </div>
+        <div className='inputBox-specific'>
+          <input type="tel" name="phoneNumber" id="phone-number" pattern="[0-9]*" required />
+          <label htmlFor="phone-number">Phone Number</label>
+          <FontAwesomeIcon icon={faPhoneVolume} className="icon-specific"/>
+        </div>
+      </div>
+      <div className='inputBox-specific'>
+        <textarea id="message" name="message" required></textarea>
+        <label htmlFor="message">Write your message here...</label>
+        <FontAwesomeIcon icon={faPencil} className="icon-specific"/>
+      </div>
+      <div className='inputBox-specific'>
+        <input type='submit' value="Send Message" name='' />
+        <FontAwesomeIcon icon={faPaperPlane} style={{color: "#ffffff",}} className="icon-specific1"/>
+        <br /><br />
+        <span className="text-sm-specific">{textVisible && <p>Message successfully sent!</p>}</span>
+      </div>
+    </div>
+</form>
+
+</div>
+
+
         </div>
 
       </section>
+      <div className='lostboy1'>
+      <div className='descTextJd'>[ All property listings on this website are provided by third-party real estate agents, brokers, and service providers. We do not guarantee the accuracy, completeness, or reliability of these listings. It is the responsibility of the potential buyer or renter to verify all property details and conduct their due diligence before making any financial decisions. ]</div>
+    </div>
       <div className='lostboy'>
-        <span>&copy;One Estate Web Services</span>
-      <span>Terms of Service</span>
-      <span>Privacy Policy</span>
-      <button onClick={handleRouteClick}>Agent Portal</button>
-      </div>
+      <span>
+        <a href="/Our Mission" target="_blank" rel="noopener noreferrer">
+          &copy;One Estate Web Services
+        </a>
+      </span>
+      <span>
+        <a href="/Terms of Service" target="_blank" rel="noopener noreferrer">
+          Terms of Service
+        </a>
+      </span>
+      <span>
+        <a href="/Privacy Policy" target="_blank" rel="noopener noreferrer">
+          Privacy Policy
+        </a>
+      </span>
+      <span>
+        <a href="/Pricing & Subscriptions" target="_blank" rel="noopener noreferrer">
+          [ Pricing & Subscriptions ]
+        </a>
+      </span>
+<button className="agentPortalButton" onClick={handleRouteClick}>Agent Portal</button>
+    </div>
 
     </div>
   );

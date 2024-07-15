@@ -9,10 +9,10 @@ function ActiveList() {
 
     return (<>
 <div className="activity">
-<div className='descTextJ'> [Active / Featured Listings] </div>
+<div className='descTextJ'> [Your Active / Featured Listings] </div>
               <div className="cardContainer notranslate">
               {sampleData.map((property, index) => (
-                <div className="cardi1 notranslate" key={index}>
+                <div className="cardi2 notranslate" key={index}>
                   <div className='indigo'>
                     <img className='mommy' src={property.imgSrc} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
                   </div>

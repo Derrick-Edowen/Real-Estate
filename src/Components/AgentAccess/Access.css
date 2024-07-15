@@ -10,7 +10,29 @@
         padding: 40px;
     }
     .access {
-        padding-top: 120px;
+        padding: 180px;
+        padding-top: 110px;
+    }
+    .uping {
+      background: #492525;
+      color: #fff;
+      border: none;
+      width: 100%;
+      margin-bottom: 20px;
+      margin-top: 6px;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s;
+      border-radius: 3px;
+      padding: 6px;
+    }
+    
+    .uping:hover {
+      background: rgb(100, 53, 53);
+    }
+    .uping:active {
+      box-shadow: 0 1px #666;
+      transform: translateY(1px);
     }
     .updatera {
       font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -33,11 +55,10 @@
       display: flex;
       flex-direction: column;
       width: 100%;
-      position: absolute;
       text-align: center;
       padding: 20px;
       z-index: 4000;
-      margin-top: 410px;
+      margin-top: 40px;
     }
     .finalssa {
       width: 100%;
@@ -80,48 +101,46 @@
       height: 300px;
     }
     .delbutta {
-      background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+      background: #492525;
       color: white;
-      border: 1px solid #afafaf2f;
-      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
       position: absolute;
       top: 0px;
-      right: 0px;
-      font-size: 26px;
-      border-radius: 2px;
+      left: 0px;
+      font-size: 20px;
+      font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+
+      border-radius: 1px;
     }
     .postbutta {
-      background: linear-gradient(to left, rgba(82, 0, 129, 0.984),rgba(115, 90, 139, 0.969));
+      background: #492525;
       color: white;
-      padding-left: 14px;
-      padding-right: 14px;
-      font-size: 22px;
+      padding: 14px;
+      font-size: 20px;
       margin-left: auto;
       margin-right: auto;
+      margin-top: 8px;
+      margin-bottom: 2px;
       width: fit-content;
-      border: 1px solid #afafaf2f;
-      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-      bottom: 0px;
-  right: 150px;
+      font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+      border: 1px solid black;
+    }
+    .postbutta:hover {
+      background: #6b3131;
     }
     .posta {
-      width: calc(25% - -20px); /* Calculate the width based on the number of posts per row */
+      width: 300px; /* Calculate the width based on the number of posts per row */
       position: relative;
       padding-left: 0px;
       padding-top: 0px;
       padding-bottom: 0px;
-  max-height: 350px;
-  min-height: 350px;
-  
-  background: #ffffff;
-  
-      box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-  border-radius: 1px;
-  cursor: pointer;
+  max-height: 300px;
+  border: 1px solid black;
+
+  min-height: 300px;  
   transition: all 0.2s ease-in-out;
     }
     .posta:hover {
-      transform: scale(1.015);
+      transform: scale(1.0);
       
     }
       .mixtna {
@@ -136,7 +155,7 @@
   }
   
     .timera {
-      font-size: 14px;
+      font-size: 11px;
       color: rgb(0, 0, 0);
       text-align: end;
       text-shadow: 0px 0px 1px black;
@@ -201,13 +220,11 @@
     .blogHeada {
   text-align:center;
   color: rgb(0, 0, 0);
-  text-shadow: 0px 0px 1px black;
-  font-family: 'Oswald', sans-serif; 
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
   font-weight:600;
-  font-size: 19px;
+  font-size: 14px;
   margin-left: auto;
   margin-right: auto;
-  white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding-left: 6px;

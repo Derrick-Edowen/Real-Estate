@@ -485,7 +485,7 @@ const downloadPDF = () => {
   )}
                     <div className='bedd'>{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
                     <div className='bathh'>{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
-                  <div className='dayss'><FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active ({safeAccess(api, 'timeOnZillow')})</div>
+                  <div className='dayss'><FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active - {safeAccess(api, 'timeOnZillow')}</div>
                   <div className='holding1 notranslate'>
                   <div className='descTextQ notranslate'>Property Status:<br/>{homeStatus}</div>
                   <div className='descTextQ notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
@@ -589,28 +589,31 @@ const downloadPDF = () => {
       {visibleComponent === 'homes' && (
         <div className="nearby-homes">
       {nearbyHomes.length > 0 ? (
-      nearbyHomes.map((home, index) => (
-        <div
-          className="home-card"
-          key={index}
-          style={{ backgroundImage: `url(${home.miniCardPhotos[0]?.url || 'default-image-url'})` }}
-          alt='No Image Available'
-          onClick={() => handleNearClick(home.zpid)}  // Handle card click
-        >
-          <div className="home-card-content">
-            <div className="home-address">
-              {home.address.streetAddress} {home.address.zipcode} {home.address.city}, {home.address.state}
-            </div>
-            <div className="home-price">
-              ${formatNumberWithCommas(home.price)}
-            </div>
+  nearbyHomes
+    .filter(home => home.price)  // Filter out homes with price 0/null/undefined
+    .map((home, index) => (
+      <div
+        className="home-card"
+        key={index}
+        style={{ backgroundImage: `url(${home.miniCardPhotos[0]?.url || noImg})` }}
+        alt='No Image Available'
+        onClick={() => handleNearClick(home.zpid)}  // Handle card click
+      >
+        <div className="home-card-content">
+          <div className="home-address">
+            {home.address.streetAddress} {home.address.zipcode} {home.address.city}, {home.address.state}
           </div>
-          <div className="home-card-overlay">View Nearby Home Details</div>
+          <div className="home-price">
+            ${formatNumberWithCommas(home.price)}
+          </div>
         </div>
-      ))
-    ) : (
-      <div className='noSchool'>No Nearby Homes Found!</div>
-    )}
+        <div className="home-card-overlay">View Nearby Home Details</div>
+      </div>
+    ))
+) : (
+  <div className='noSchool'>No Nearby Homes Found!</div>
+)}
+
     </div>
       )}
 {visibleComponent === 'history' && (
@@ -853,8 +856,9 @@ defaultValue={0}
         </div> 
         
         </>)}
-        <Contact />
       </div>
+      <Contact />
+
 </>
     );
   };

@@ -28,11 +28,9 @@ function Bio() {
   };
 
   return (<>
-    <div className="biol">
-      <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splasher1' alt='Background'></img>
-      <div className='splasher-overlay'>
         <div className='testee'>
-          <div className='boutme'>
+          <div className='meteor'>
+            <div className='rock'>
             <div className='sun'>
               <img className='mainimg1' src={woman100} alt='main' />
               <div className='descTextJ'>[Your Name]</div>
@@ -52,15 +50,22 @@ function Bio() {
             </div>
             <div className='moon'>
               
-                <div className='descTextZ'>[About Me / Your Name]</div>
+                <div className='descTextZ'>[ Your Name ]</div>
                 <p className='descTextF'>{bio}
               </p>
             </div>
+</div>
+
+
+
+
+
+            <div className='cookem'>
             <div className='plant'>
-              <div className='descTextJ'> [My Active / Featured Listings] </div>
+              <div className='descTextJ'> [Your Active / Featured Listings] </div>
               <div className="cardContainer notranslate">
                 {sampleData.map((property, index) => (
-                  <div className="cardi1 notranslate" key={index}>
+                  <div className="cardi2 notranslate" key={index}>
                     <div className='indigo'>
                       <img className='mommy' src={property.imgSrc} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
                     </div>
@@ -81,10 +86,10 @@ function Bio() {
               </div>
             </div>
             <div className='plant'>
-              <div className='descTextJ'> [My Recently Sold Listings] </div>
+              <div className='descTextJ'> [Your Recently Sold Listings] </div>
               <div className="cardContainer notranslate">
                 {sampleData1.map((property, index) => (
-                  <div className="cardi1 notranslate" key={index}>
+                  <div className="cardi2 notranslate" key={index}>
                     <div className='indigo'>
                       <img className='mommy' src={property.imgSrc} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
                     </div>
@@ -104,12 +109,16 @@ function Bio() {
                 ))}
               </div>
             </div>
+            </div>
+
+            </div>
+
           </div>
-        </div>
-      </div>
-    </div>
-            <Contact />
+          <Contact />
+
+
             </>
+            
   );
 }
 

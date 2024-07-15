@@ -25,15 +25,5 @@
       "bathrooms": 4,
       "daysOnZillow": 2,
       "address": "789 Pine St, Anytown, CAN"
-    },
-    {
-      "imgSrc": "https://storage.googleapis.com/realestate-images/temphouse7.jfif",
-      "price": "960,000",
-      "currency": "USD",
-      "bedrooms": 3,
-      "bathrooms": 2,
-      "daysOnZillow": 32,
-      "address": "712 - 11 Accord St, Anytown, USA"
     }
-    
   ]

@@ -23,7 +23,7 @@ function Announce() {
         return <div>Loading...</div>;
       }
   
-    return (
+    return (<>
       <div className="bentley">
         <div className="post-details">
           <h2 className="descTextZ">{postData.title}</h2>
@@ -32,9 +32,10 @@ function Announce() {
           <div className="descTextW">[Email Link] | [Phone Number]</div>
           <div className="descTextW">Posted on: {new Date(postData.created_at).toLocaleDateString()}</div>
           </div>
-          <Contact />
       </div>
-    );
+                <Contact />
+
+    </>);
   }
   
   export default Announce;

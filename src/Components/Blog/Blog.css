@@ -1,25 +1,24 @@
 .blog-container {
   display: flex;
 flex-direction:row;
-    height: 47vh;
+    height: 40vh;
     overflow: hidden;
-    box-shadow: 2px 2px 4px 2px #00000052;
   }
   .updater {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-font-size: 14px;
+font-size: 12px;
 font-weight: 800;
 position: absolute;
-top: 42px;
-left: 18px;
-color: rgb(255, 196, 0);
+top: 30px;
+left: 10px;
+color: rgb(206, 158, 0);
 text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
 
   }
   .ban {
 width: 100%;
-filter: blur(5px);
-height: 47%;
+filter: blur(2.5px);
+height: 40%;
 z-index: -500;
 position: absolute;  }
   .text-area-container {
@@ -48,20 +47,17 @@ position: absolute;  }
     width: 50%;
   }
   .burster {
-font-size: 68px;
+font-size: 48px;
 width: fit-content;
 position: absolute;
-top: -42px;
-left: -16px;
+top: -28px;
+left: -12px;
 z-index: 1;
   }
   .posts-container {
     width:100%;
     padding: 20px;
-    padding-left: 80px;
-    padding-right: 80px;
     text-align: center;
-    padding-top: 40px;
     max-height: 80vh;
     display: flex;
     overflow-x: auto;
@@ -98,13 +94,14 @@ z-index: 1;
 right: 150px;
   }
   .post {
-    width: calc(25% - -20px); /* Calculate the width based on the number of posts per row */
     position: relative;
     padding-left: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-max-height: 350px;
-min-height: 350px;
+max-height: 300px;
+min-height: 300px;
+max-width: 350px;
+min-width: 350px;
 display: inline-block;
 flex: 0 0 auto;
 background: #f5f5f5;
@@ -115,7 +112,7 @@ cursor: pointer;
 transition: all 0.2s ease-in-out;
   }
   .post:hover {
-    transform: scale(1.015);
+    transform: scale(1.01);
     
   }
     .mixtn {
@@ -176,10 +173,10 @@ color: white;
   .windows {
     width: 100%;
     height: 75%;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.65);
-margin-bottom: 6px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.45);
+margin-bottom: 2px;
 object-fit: fill;
-box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.75) ;
+box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5) ;
 
   }
   .windows1 {

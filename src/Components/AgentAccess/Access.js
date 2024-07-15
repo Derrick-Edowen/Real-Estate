@@ -5,14 +5,16 @@ import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faBurst } from '@fortawesome/free-solid-svg-icons';
 import noImg from '../../Assets/Images/noimg.jpg'
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Access() {
     const location = useLocation();
     const currentUserID = location.state?.currentUserID || '';
-    const isLoggedIn = location.state?.isLoggedIn || false;
+    const [isLoggedIn, setIsLoggedIn] = useState(location.state?.isLoggedIn || false);
     const port = process.env.PORT || 3001;
+    const navigate = useNavigate();
 
     const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState('');
@@ -31,7 +33,21 @@ function Access() {
   const [newEmail, setNewEmail] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [newBio, setNewBio] = useState('');
+  useEffect(() => {
+    // Clean up function when component unmounts or location state changes
+    return () => {
+      setIsLoggedIn(false); // Set isLoggedIn to false when leaving the page
+    };
+  }, []);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      const timer = setTimeout(() => {
+        navigate('/Login'); // Redirect to login page after 5 seconds
+      }, 4000); // 5000 milliseconds = 5 seconds
 
+      return () => clearTimeout(timer); // Clear the timer if component unmounts
+    }
+  }, [isLoggedIn, navigate]);
   const fetchBanner = async () => {
     try {
       const response = await fetch('/banner');
@@ -279,87 +295,64 @@ const handleUpdatePhone = async () => {
       {isLoggedIn ? (
         <>
           <div className='Info-container'>
-            <div>Update Banner Statement</div>
-            <div>Current Banner Statement - {banner}</div>
+            <div className='descTextJc'>Agent Portal</div>
+            <div className='descTextJv'>The Agent Portal allows you to update the content of your website with ease. Below is your current website content.</div>
+
+            <div className='descTexFp'>Update Banner Statement</div>
+            <div className='descTex'>Current Banner Statement - {banner}</div>
             <input
               type='text'
               value={newBanner}
               onChange={(e) => setNewBanner(e.target.value)}
               placeholder='New Banner Statement'
             />
-            <button onClick={handleUpdateBanner}>Update Banner</button>
+            <button className='uping' onClick={handleUpdateBanner}>Update Banner</button>
 
-            <div>Update Your Message</div>
-            <div>Current Message - {message}</div>
+
+            <div className='descTexFp'>Update Your Message</div>
+            <div className='descTex'>Current Message - {message}</div>
             <input
               type='text'
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder='New Message'
             />
-            <button onClick={handleUpdateMessage}>Update Message</button>
+            <button className='uping' onClick={handleUpdateMessage}>Update Message</button>
 
-            <div>Update Contact Information</div>
-            <div>Current Email Address - {email}</div>
+            <div className='descTexFp'>Update Email Address</div>
+            <div className='descTex'>Current Email Address - {email}</div>
             <input
               type='email'
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
               placeholder='New Email Address'
             />
-            <button onClick={handleUpdateEmail}>Update Email</button>
+            <button className='uping' onClick={handleUpdateEmail}>Update Email</button>
 
-            <div>Your Phone Number</div>
-            <div>Current Phone Number - {phone}</div>
+            <div className='descTexFp'>Update Phone Number</div>
+            <div className='descTex'> Current Phone Number - {phone}</div>
             <input
               type='tel'
               value={newPhone}
               onChange={(e) => setNewPhone(e.target.value)}
               placeholder='New Phone Number'
             />
-            <button onClick={handleUpdatePhone}>Update Phone Number</button>
+            <button className='uping' onClick={handleUpdatePhone}>Update Phone Number</button>
           </div>
 
           <div className='biog'>
-            <div>Your Bio/Resume</div>
-            <div>Current Bio</div>
-            <div>{bio}</div>
+            <div className='descTexFp'>Update Biography</div>
+            <div className='descTex'>Current Biography</div>
+            <div className='descTex'>{bio}</div>
             <input
               type='text'
               value={newBio}
               onChange={(e) => setNewBio(e.target.value)}
-              placeholder='New Bio'
+              placeholder='New Biography'
             />
-            <button onClick={handleUpdateBio}>Update Bio</button>
+            <button className='uping' onClick={handleUpdateBio}>Update Biography</button>
           </div>
 
-          <div className="blog-containera" id='announcement'>
-            <div className="posts-containera">
-              {posts.slice().reverse().map((post, index) => (
-                <div key={index} className="posta" onClick={() => handleClick(index)}>
-                  <img className="windowsa" src={post.image || noImg} alt="Post Image" />
-                  {isNewPost(post.created_at) && (
-                    <div className='burstera'>
-                      <FontAwesomeIcon icon={faBurst} style={{ color: "#8f0a00", }} />
-                      <div className='updatera'>New</div>
-                    </div>
-                  )}
-                  <div className="finalssa">
-                    <div className="blogHeada">{post.title}</div>
-                    <div className="blogConta">{post.content}</div>
-                    <button onClick={() => handleClick(index)} className="moorea">
-                      LEARN MORE
-                    </button>
-                    <div className="timera">Posted on: {formatCreatedAt(post.created_at)}</div>
-                  </div>
-                  {isLoggedIn && (
-                    <button className="delbutta" onClick={() => handleDelete(post.id)}>
-                      Delete this post?
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
             {selectedPost && !isLoggedIn && (
               <div className="lightboxBa" onClick={handleClose}>
                 <div className="lightbox-contentBa" onClick={(e) => e.stopPropagation()}>
@@ -376,6 +369,8 @@ const handleUpdatePhone = async () => {
 
             {isLoggedIn && (
               <div className="text-area-containera">
+                <div className='descTextJfc'> Create a New Announcement</div>
+                <div className='descTex'> Create Announcement Title</div>
                 <input
                   type="text"
                   className="text-titlea"
@@ -384,6 +379,7 @@ const handleUpdatePhone = async () => {
                   placeholder="Enter announcement title"
                   required
                 />
+                <div className='descTex'> Create Announcement Content</div>
                 <textarea
                   className="text-areaa"
                   value={newContent}
@@ -393,6 +389,7 @@ const handleUpdatePhone = async () => {
                   cols={50}
                   required
                 />
+                <div className='descTex'> Add an Image to Your Announcement</div>
                 <input
                   type="file"
                   className="select-inputa"
@@ -405,19 +402,44 @@ const handleUpdatePhone = async () => {
                   <img
                     src={selectedImage}
                     alt="Selected Image"
-                    style={{ maxWidth: '100px', maxHeight: '100px', marginTop: '4px', marginLeft: 'auto', marginRight: 'auto' }}
+                    style={{ width: '350px', height: '200px', marginTop: '8px', marginLeft: 'auto', marginRight: 'auto' }}
                   />
                 )}
 
                 <button className="postbutta" onClick={handlePost}>
-                  Create Post
+                  Create Announcement
                 </button>
+                <div className='descTextJd'> (Announcements require a title, content, and image)</div>
+                <div className='descTextJfc'> Current Announcements:</div>
+
+                <div className="posts-containera">
+
+              {posts.slice().reverse().map((post, index) => (
+                <div key={index} className="posta" onClick={() => handleClick(index)}>
+                  <img className="windowsa" src={post.image || noImg} alt="Post Image" />
+                  {isNewPost(post.created_at) && (
+                    <div className='burstera'>
+                      <FontAwesomeIcon icon={faBurst} style={{ color: "#8f0a00", }} />
+                      <div className='updatera'>New</div>
+                    </div>
+                  )}
+                  <div className="finalssa">
+                    <div className="blogHeada">{post.title}</div>
+                    <div className="timera">Posted on: {formatCreatedAt(post.created_at)}</div>
+                  </div>
+                  {isLoggedIn && (
+                    <button className="delbutta" onClick={() => handleDelete(post.id)}>
+                      Delete this post?
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
               </div>
             )}
-          </div>
         </>
       ) : (
-        <div>Please Log In to Reach Agent Access</div>
+        <div className='descTextJfc'>Please Log In to Reach The Agent Portal</div>
       )}
     </div>
 </div>

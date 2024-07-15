@@ -1,9 +1,4 @@
-.biol {
-    width: 100%;
-    height: 90dvh;
-    border-bottom: 1px solid #afafaf2f;
-    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5) ;
-}
+
 .boutme {
     padding: 14px;
     background: white;
@@ -23,37 +18,42 @@ overflow-y: auto;
   /* Hide scrollbar for Firefox */
   scrollbar-width: none;
 }
+
 .splasher1 {
     filter: blur(5px);
         width: 100vw;
         height: 100%;
         position: absolute;
-        box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.5) ;
 }
 .testee {
     display: flex;
-    padding-top: 35px;
+    padding-top: 46px;
     margin-top: 80px;
-position: absolute;
 width: 100%;
 justify-content: end;
-padding-left: 230px;
-padding-right: 230px;
+padding-left: 260px;
+padding-right: 260px;
+padding-bottom: 80px;
+background: rgb(250, 250, 250);
 
 }
 .sun {
-width: 20%;
+width: 30%;
 height: 100%;
 padding: 14px;
 background: rgb(240, 240, 240);
+border: 1px solid rgba(0, 0, 0, 0.048);
+
 }
 .moon {
-    width: 80%;
-    max-height: 100%;
-    min-height: 100%;
+    width: 70%;
     overflow-y: scroll;
 padding: 14px;
 padding-left: 10px;
+border-right: 1px solid rgba(48, 48, 48, 0.116);
+border-bottom: 1px solid rgba(48, 48, 48, 0.116);
+border-top: 1px solid rgba(48, 48, 48, 0.116);
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -61,14 +61,18 @@ padding-left: 10px;
 /* Hide scrollbar for Firefox */
 scrollbar-width: none;
 }
-.sun, .moon {
-    flex: 1;
+  .rock {
+    display: flex;
   }
-  
   .plant {
     width: 100%;
-    padding-right: 16px;
-    padding-left: 16px;
+
+    margin-top: 12px;
+
+  }
+  .plant2 {
+    width: 100%;
+
     margin-top: 12px;
 
   }
@@ -92,3 +96,10 @@ margin-right: auto;
     gap: 22px;
     margin-top: 24px;
     }
+    .sci-hero1 span:hover {
+      transition: transform 0.3s ease-in-out; /* Smooth transition for the zoom effect */
+    
+      }
+      .sci-hero1 span:hover {
+        transform: scale(1.15); /* Scale up the element on hover */
+      }

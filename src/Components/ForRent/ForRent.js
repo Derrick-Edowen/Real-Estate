@@ -9,6 +9,8 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import Contact from '../Contact/Contact';
+import { useLocation } from 'react-router-dom';
 
 function ForRent() {
 
@@ -44,6 +46,7 @@ const [selectedPType, setSelectedPType] = useState(1);
 const [selectedStatus, setSelectedStatus] = useState('');
 const [selectedPropertyTypes, setSelectedPropertyTypes] = useState([]);
 const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+const [searcherParams, setSearcherParams] = useState('');
 const [searchParams, setSearchParams] = useState({
   address: '',
   state: '',
@@ -57,10 +60,9 @@ const [searchParams, setSearchParams] = useState({
   maxBeds: '',
   maxBaths: ''
 });
-
-
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
+const location = useLocation();
 
 
 
@@ -206,6 +208,132 @@ const handleSearch = async (e) => {
     setIsLoading(false);
   }
 };
+const homeHandler = async (searcherParams) => {
+  setShowFilter(false);
+  setInitialData(null);
+  setApiData([]);
+  setInfoData([]);
+  initialDataRef.current = null;
+
+  try {
+    const { address } = searcherParams;
+    let state = '';
+    const country = '';
+    const minPrice = 600000;
+    const maxPrice = 950000;
+    const maxBeds = '0';
+    const maxBaths = '0';
+    const sort = 'Newest';
+    const page = 1;
+    const type = 2; // Default type if not provided
+    const tier = 'Houses'; // Default tier if not provided
+
+    // Save search parameters
+    setSearchParams({
+      address,
+      state,
+      page,
+      type,
+      tier,
+      country,
+      sort,
+      minPrice,
+      maxPrice,
+      maxBeds,
+      maxBaths
+    });
+
+    setIsLoading(true);
+
+    // WebSocket connection
+    const id = uuidv4(); // Generate a unique ID for this client
+    const wsPort = window.location.port; // Use the port of your backend
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsHost = window.location.hostname;
+    const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
+
+    // WebSocket event listeners
+    ws.onopen = function () {
+      ws.send(JSON.stringify({ id })); // Send the unique identifier to the server upon connection
+
+      // Make API call with the unique ID only after WebSocket is open
+      fetch('/api/search-listings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          address,
+          state,
+          page,
+          type,
+          tier,
+          country,
+          sort,
+          minPrice,
+          maxPrice,
+          maxBeds,
+          maxBaths,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+        })
+        .catch((error) => {
+          console.error('Error in homeHandler:', error);
+          setIsLoading(false);
+        });
+    };
+
+    // Receive progress updates and property data from WebSocket
+    ws.onmessage = function (event) {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.noResults) {
+          setNoResults(true);
+        } else {
+          setNoResults(false);
+        }
+        if (data) {
+          initialDataRef.current = data;
+          setInitialData(data);
+        }
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
+    };
+
+    ws.onerror = function (error) {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = function () {
+    };
+
+    setIsLoading(false); // Set loading state to false after WebSocket setup
+
+  } catch (error) {
+    console.error('Error in homeHandler:', error);
+    setIsLoading(false);
+  }
+};
+
+
+useEffect(() => {
+  if (location.state && location.state.searcherParams) {
+    const { address } = location.state.searcherParams;
+
+    // Set state variables with retrieved search parameters (if needed)
+    // setSearchParams(location.state.searcherParams);
+
+    // Call homeHandler function with optional event parameter
+    homeHandler(location.state.searcherParams);
+  }
+}, [location]);
+
 
 const handleNPage = async (e) => {
   e.preventDefault();
@@ -219,20 +347,13 @@ const handleNPage = async (e) => {
   const nextPage = searchParams.page + 1;
 
   try {
-    setIsLoading(true);
-
-    if (parseInt(searchParams.minPrice) > parseInt(searchParams.maxPrice)) {
-      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
-      return;
-    }
-
     // WebSocket connection
     const id = uuidv4(); // Generate a unique ID for this client
     const wsPort = window.location.port; // Use the port of your backend
     const wsProtocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     const wsHost = window.location.hostname;
     const ws = new WebSocket(`${wsProtocol}://${wsHost}:${wsPort}/api/socket`);
-    
+
     // WebSocket event listeners
     ws.onopen = function () {
       ws.send(JSON.stringify({ id })); // Send the unique identifier to the server upon connection
@@ -268,7 +389,6 @@ const handleNPage = async (e) => {
     };
 
     // Receive progress updates and property data from WebSocket
-    setIsLoading(false);
     ws.onmessage = function (event) {
       try {
         const data = JSON.parse(event.data);
@@ -290,19 +410,20 @@ const handleNPage = async (e) => {
       console.error('WebSocket error:', error);
     };
 
-    ws.onclose = function () {
-    };
+    ws.onclose = function () {};
+
+    setIsLoading(false); // Set loading state to false after WebSocket setup
+
+    // Update the search parameters with the new page number
+    setSearchParams(prevParams => ({
+      ...prevParams,
+      page: nextPage
+    }));
 
   } catch (error) {
     console.error('Error in handleNPage:', error);
     setIsLoading(false);
   }
-
-  // Update the search parameters with the new page number
-  setSearchParams(prevParams => ({
-    ...prevParams,
-    page: nextPage
-  }));
 };
 
 const handlePPage = async (e) => {
@@ -317,13 +438,6 @@ const handlePPage = async (e) => {
   const prevPage = searchParams.page - 1;
 
   try {
-    setIsLoading(true);
-
-    if (parseInt(searchParams.minPrice) > parseInt(searchParams.maxPrice)) {
-      window.alert('MAXIMUM PRICE MUST BE GREATER THAN MINIMUM PRICE! PLEASE TRY AGAIN!');
-      return;
-    }
-
     // WebSocket connection
     const id = uuidv4(); // Generate a unique ID for this client
     const wsPort = window.location.port; // Use the port of your backend
@@ -497,7 +611,7 @@ const handleCheckboxChange = (type) => {
 
 const renderPlaceholderOrSelected = () => {
   if (selectedTypes.length === 0) {
-    return `Select a Property Type     \u2304`; // Include the downward chevron
+    return `Select Property Types`; // Include the downward chevron
   }
   return selectedTypes.join(', ');
 };
@@ -533,7 +647,7 @@ return (
             name="country"
             placeholder="Select a Country"
             required
-            style={{ backgroundColor: selectedCountries ? '#d3d3d3' : 'white' }}
+            style={{ backgroundColor: selectedCountries ? 'white' : 'white' }}
 
             onChange={(e) => {
               setSelectedCountries(e.target.value); // Update selected sort
@@ -563,7 +677,7 @@ return (
   className="notranslate nation"
   id="province"
   placeholder="Select a Province"
-  style={{ display: 'block', backgroundColor: selectedProvince ? '#d3d3d3' : 'white' }}
+  style={{ display: 'block', backgroundColor: selectedProvince ? 'white' : 'white' }}
   onChange={(e) => {
     setSelectedProvince(e.target.value); // Update selected province
   }}
@@ -588,7 +702,7 @@ return (
             className="notranslate nation"
             id="state"
             placeholder="Select a State"
-            style={{ display: 'none', backgroundColor: selectedState ? '#d3d3d3' : 'white' }}
+            style={{ display: 'none', backgroundColor: selectedState ? 'white' : 'white' }}
             onChange={(e) => {
               setSelectedState(e.target.value); // Update selected province
             }}
@@ -778,7 +892,7 @@ return (
         name="sort"
         placeholder="Sort Listings"
         required
-        style={{ backgroundColor: selectedSort ? '#d3d3d3' : 'white' }}
+        style={{ backgroundColor: selectedSort ? 'white' : 'white' }}
         onChange={handleSortChange}
       >
         <option value="" disabled selected>Sort Listings</option>
@@ -805,7 +919,7 @@ return (
                     name="beds" 
                     placeholder='Beds' 
                     required
-                    style={{ backgroundColor: selectedBeds ? '#d3d3d3' : 'white' }}
+                    style={{ backgroundColor: selectedBeds ? 'white' : 'white' }}
   onChange={(e) => {
     setSelectedBeds(e.target.value); // Update selected beds
   }}
@@ -816,14 +930,14 @@ return (
                       <option value="2">2 Beds</option>
                       <option value="3">3 Beds</option>
                       <option value="4">4 Beds</option>
-                      <option value="5">5 Beds</option>
+                      <option value="5">5+ Beds</option>
                     </select>
                     <select className='notranslate' 
                     id="choose-baths" 
                     name="baths" 
                     placeholder='Baths' 
                     required
-                    style={{ backgroundColor: selectedBaths ? '#d3d3d3' : 'white' }}
+                    style={{ backgroundColor: selectedBaths ? 'white' : 'white' }}
                     onChange={(e) => {
                       setSelectedBaths(e.target.value); // Update selected baths
                     }}
@@ -834,7 +948,7 @@ return (
                       <option value="2">2 Baths</option>
                       <option value="3">3 Baths</option>
                       <option value="4">4 Baths</option>
-                      <option value="5">5 Baths</option>
+                      <option value="5">5+ Baths</option>
                     </select>
                   <input className='notranslate' type='number' id="min-price" placeholder='Minimum Price' required />
                   <input className='notranslate' type='number' id="max-price" placeholder='Maximum Price' required />
@@ -915,6 +1029,8 @@ return (
   </div>
   
 </div>
+<Contact />
+
 </>
 );
 }

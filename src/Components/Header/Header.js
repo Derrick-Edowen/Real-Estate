@@ -78,8 +78,8 @@ function Header() {
       
       <NavLink to="/Home" className="heading-link">
       <div className="heading">      
-        <h2>[Your Brokerage/Business]</h2>
-        <h4>[Your Name]<br/> [Sales Representative / Broker]</h4>
+        <h2>[ Brokerage / Business Icon ]</h2>
+        <h4>[ Your Name ]<br/> [ Sales Representative / Broker ]</h4>
       </div>
     </NavLink>
       <a
@@ -105,7 +105,7 @@ function Header() {
               to="/Biography | About Me"
               className={`navbar--content ${location.pathname === '/Biography | About Me' ? 'active' : ''}`}
               >
-              [BIO / YOUR NAME]
+              [YOUR NAME / BIOGRAPHY]
             </NavLink>
           </li>
           <li className={`dropdown ${dropdownVisible3 ? "active" : ""}`}>
@@ -120,21 +120,21 @@ function Header() {
             <div className={`dropdown-content ${dropdownVisible3 ? "active" : ""}`}>
               <NavLink
                 onClick={closeMenu}
-                to="/Find Listings | For Sale"
+                to="/Real Estate Advice | Buying A Home"
                 className="navbar--content transformer"
               >
                 Buying a Home
               </NavLink>
               <NavLink
                 onClick={closeMenu}
-                to="/Find Listings | For Lease"
+                to="/Real Estate Advice | Selling Your Home"
                 className="navbar--content transformer"
               >
                 Selling Your Home
               </NavLink>
               <NavLink
                 onClick={closeMenu}
-                to="/Find Listings | Recently Sold"
+                to="/Real Estate Advice | Investing In Real Estate"
                 className="navbar--content transformer"
               >
                 Investing in Real Estate
@@ -181,22 +181,6 @@ function Header() {
   CONTACT
 </ScrollLink>
           </li>
-          <li>
-            <NavLink
-              onClick={closeMenu}
-              activeclass="navbar--active-content"
-              spy={true}
-              smooth={true}
-              offset={-70}
-              duration={1000}
-              to="/Pricing"
-              className={`navbar--content ${location.pathname === 'Pricing' ? 'active' : ''}`}
-              >
-              [PRICING & SUBSCRIPTIONS]
-            </NavLink>
-          </li>
-
-       
         </ul>
       </div>
     </nav>
