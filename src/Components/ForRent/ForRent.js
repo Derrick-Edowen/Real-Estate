@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+//import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
+import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
+//import { Map, Marker, APIProvider } from '@react-google-maps/api';
 import '../../search.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import noImg from '../../Assets/Images/noimg.jpg'
@@ -25,7 +28,7 @@ const [selectedCard, setSelectedCard] = useState(null);
 const [imageUrls, setImageUrls] = useState([]);
 const [lightboxActive, setLightboxActive] = useState(false);
 const [selectedCardIndex, setSelectedCardIndex] = useState(null);
-const [zoomLevel, setZoomLevel] = useState(11); 
+const [zoomLevel, setZoomLevel] = useState(12); 
 const [currentImageIndex, setCurrentImageIndex] = useState(0);
 const [searchTrigger, setSearchTrigger] = useState(false); // New state variable
 const [noResults, setNoResults] = useState(false); // New state variable
@@ -35,12 +38,15 @@ const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
 const [selectedProvince, setSelectedProvince] = useState('');
 const [selectedState, setSelectedState] = useState('');
+const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // Default position
 const [selectedSort, setSelectedSort] = useState('');
 const [selectedPropertyType, setSelectedPropertyType] = useState('');
 const [selectedBeds, setSelectedBeds] = useState('');
 const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
+const [hasCenteredMap, setHasCenteredMap] = useState(false);
+const [mapMarkers, setMapMarkers] = useState([]);
 const [selectedTypes, setSelectedTypes] = useState([]);
 const [selectedPType, setSelectedPType] = useState(1);
 const [selectedStatus, setSelectedStatus] = useState('');
@@ -628,6 +634,59 @@ const handlePropertyStatusChange = (e) => {
 const handleSortChange = (e) => {
   setSelectedSort(e.target.value); // Update selected sort
 };
+useEffect(() => {
+  const geocodeAddresses = async () => {
+    const markers = [];
+    if (initialDataRef.current && initialDataRef.current.zpids) {
+      for (const property of initialDataRef.current.zpids.props) {
+        const address = safeAccess(property, 'address');
+        if (address) {
+          const geocodeResult = await geocodeAddress(address);
+          if (geocodeResult) {
+            markers.push(geocodeResult);
+          }
+        }
+      }
+      if (markers.length > 0) {
+        setMapMarkers(markers);
+        if (!hasCenteredMap) {
+          const center = calculateCenter(markers);
+          if (center) {
+            setMapCenter(center);
+            setHasCenteredMap(true); // Set the flag to true after centering
+          }
+        }
+      }
+    }
+  };
+
+  geocodeAddresses();
+}, [initialDataRef, handleSearch, homeHandler, handleNPage, handlePPage]);
+
+const geocodeAddress = async (address) => {
+  try {
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
+    const data = await response.json();
+    if (data.results && data.results.length > 0) {
+      const { lat, lng } = data.results[0].geometry.location;
+      return { lat, lng };
+    }
+  } catch (error) {
+    console.error('Geocoding error:', error);
+  }
+  return null;
+};
+
+const calculateCenter = (markers) => {
+  if (markers.length === 0) {
+    return null; // No markers, return null or a default center
+  }
+  const latitudes = markers.map(marker => marker.lat);
+  const longitudes = markers.map(marker => marker.lng);
+  const latCenter = (Math.min(...latitudes) + Math.max(...latitudes)) / 2;
+  const lngCenter = (Math.min(...longitudes) + Math.max(...longitudes)) / 2;
+  return { lat: latCenter, lng: lngCenter };
+};
 return (
   <>
   <div className='lists notranslate'>
@@ -955,6 +1014,22 @@ return (
                   <button className='searchBtn-1'>Search</button>
               </form>
     </aside> 
+    <div className='lite'>
+    <main className="zoo">
+        <div className="mappers">
+          <LoadScript googleMapsApiKey={apiKey}>
+            <GoogleMap
+              mapContainerStyle={{ width: '100%', height: '100%' }}
+              center={mapCenter}
+              zoom={zoomLevel}
+            >
+              {mapMarkers.map((marker, index) => (
+                <Marker key={index} position={marker} />
+              ))}
+            </GoogleMap>
+          </LoadScript>
+        </div>
+      </main>
         <main className='fullStage notranslate'>
         {isLoading ? (
   <div className="loadingMessage1 translate">
@@ -962,8 +1037,10 @@ return (
   </div>
 ) : (
   <>
+  
 {initialDataRef.current && initialDataRef.current.zpids && (
   <div className='capture'>
+        <div className='alone'>{initialDataRef.current.zpids.totalResultCount} Results - Page {initialDataRef.current.zpids.currentPage} of {initialDataRef.current.zpids.totalPages}</div>
     {initialDataRef.current.zpids.totalPages > 1 && (
       <button
         className={`prevButton ${initialDataRef.current.zpids.currentPage === 1 ? 'disabled' : ''}`}
@@ -973,7 +1050,6 @@ return (
         Previous Page
       </button>
     )}
-    <div className='alone'>{initialDataRef.current.zpids.totalResultCount} Results - Page {initialDataRef.current.zpids.currentPage} of {initialDataRef.current.zpids.totalPages}</div>
     {initialDataRef.current.zpids.totalPages > 1 && (
       <button
         className={`nextButton ${initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages ? 'disabled' : ''}`}
@@ -990,27 +1066,25 @@ return (
   <div className="cardContainer notranslate">
     {initialDataRef.current.zpids.props.map((property, index) => (
       property && (
-        <div
-          className="cardi1 notranslate"
-          key={index}
-          onClick={() => handleOpenLightbox(index)}
-        >
-          <div className='indigo'>
-            <img className='mommy' src={property.imgSrc || noImg} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
-          </div>
-          <div className="cardText1 notranslate">
-            <div className='cDress1 notranslate'> ${formatNumberWithCommas(safeAccess(property, 'price'))} <span className='currency1'>{safeAccess(property, 'currency')}</span></div>
-            <div className='holding2 notranslate'>
-              <div className='cardBed notranslate'>{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
-              <div className='cardBaths notranslate'>{safeAccess(property, 'bathrooms')} Baths&nbsp;|</div>
-              <div className='cardMls notranslate'>Active: {safeAccess(property, 'daysOnZillow')} day(s)</div>
-            </div>
-            <div className='cPrice1 notranslate'>{safeAccess(property, 'address')}</div>
-          </div>
-          <div className="binlay">
-            View Property Details
-          </div>
-        </div>
+<div className="cardi1 notranslate" key={index} onClick={() => handleOpenLightbox(index)}>
+  <div className="indigo">
+    <img className="mommy" src={property.imgSrc || noImg} alt="Photo Not Available" style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
+  </div>
+  <div className="cardText1 notranslate">
+  <div className="cPrice1 notranslate">{safeAccess(property, 'address')}</div>
+    <div className="holding2 notranslate">
+      <div className="cardBed notranslate">{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
+      <div className="cardBaths notranslate">{safeAccess(property, 'bathrooms')} Baths&nbsp;</div>
+    </div>
+    <div className="cardBaths notranslate">{safeAccess(property, 'listingStatus')?.replace(/_/g, ' ')} </div>
+    <div className="cardBaths notranslate">{safeAccess(property, 'propertyType')?.replace(/_/g, ' ')} </div>
+    <div className="cDress1 notranslate">${formatNumberWithCommas(safeAccess(property, 'price'))} <span className="currency1">{safeAccess(property, 'currency')}</span></div>
+    <div className="cardMls notranslate"><FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active {safeAccess(property, 'daysOnZillow')} day(s)</div>
+  </div>
+  <div className="binlay">
+    View Property Details
+  </div>
+</div>
       )
     ))}
   </div>
@@ -1025,7 +1099,7 @@ return (
           </>
         )}
       </main>
-
+</div>
   </div>
   
 </div>

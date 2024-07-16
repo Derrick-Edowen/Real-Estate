@@ -33,7 +33,7 @@
   input[type='number'] {
     width: calc(100% - 20px);
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #222222c7;
     border-radius: 1px;
     font-size: 16px;
   }

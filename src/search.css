@@ -13,7 +13,7 @@
   z-index: 1000; /* Ensure it's above other content */
 }
 .screen-1 {
-  padding-top: 0px;
+  padding-top: 3.5px;
 }
 .progress-bar {
   height: 100%;
@@ -67,7 +67,7 @@ margin-left: 2px;
 .capture {
   display: flex;
   min-width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 0px;
 }
 .manual {
   display: flex;
@@ -150,15 +150,13 @@ padding-right: 30px;
 .supyo {
 	display: flex;
 	width: 100%;
-  margin-bottom: 20px;
 	margin-left: auto;
-padding-right: 3px;
-padding-left: 3px;
+padding: 8px;
 z-index: 2000;
+background: white;
 margin-right: auto;
 gap: 1px;
-padding-top: 8px;
-top: 114px;
+border-bottom: 1px solid #222222c7;
 }
   
   .supyo > div {
@@ -179,13 +177,15 @@ top: 114px;
   .supyo select {
 	margin-right: 2px; /* Adjust spacing between elements */
 	font-weight: 500;
-  border: 1px solid #afafaf2f;
+  border: 1px solid #222222c7;
   border-radius: 1px;
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 13px;
   }
   .supyo input {
 width: 160px;
+border: 1px solid #222222c7;
+
   }
   select, option {
     background-color: white; /* Background color when not selected */
@@ -203,10 +203,9 @@ width: 160px;
   
   .selected-value {
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 1px solid #222222c7;
     background-color: white;
     font-weight: 400;
-    border: 1px solid #afafaf2f;
     border-radius: 1px;
     max-width: 206px;
     min-width: 206px;
@@ -226,7 +225,7 @@ width: 160px;
     border-top: none;
     border-radius: 0 0 4px 4px;
     background-color: white;
-    z-index: 1;
+    z-index: 4000;
   }
   
   .custom-checkbox-select .options {
@@ -249,13 +248,12 @@ width: 160px;
   }
   
 .fullStage {
-width: 100%;
-margin-top: 8px;
-padding-top: 0px;
+width: 45%;
+height: 90%;
 margin-right: auto; 
 margin-left: auto;
-padding-right: 10px;
-padding-left: 10px;
+background: white;
+float: right;
 }
 .detts {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -503,17 +501,12 @@ padding: 2px;
 
 }
 .alone {
-  color: white;
+  color: black;
   display: flex;
-  text-shadow: 2px 2px 1px #000000;
-font-size: 26px;
+font-size: 18px;
 font-weight: 500;
 font-style:italic;
-margin-left: 8px;
-margin-right: 8px;
 
-margin-top: 4px;
-margin-bottom: 4px;
 width: fit-content;
 text-align: center;
 }
@@ -557,15 +550,13 @@ input::-webkit-inner-spin-button {
 .cDress1{
 font-size: 24px;
 font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-color: rgb(236, 236, 236);
+color: black;
 width: fit-content;
-text-shadow: 2px 2px 1px #000000;
 }
 
 .cPrice1{
   font-size: 16px;
-  color: rgb(236, 236, 236);
-  text-shadow: 2px 2px 1px #000000;
+  color: black;
   margin-top: 1px;
 border-radius: 4px;
 width: fit-content;
@@ -597,19 +588,11 @@ width: fit-content;
 .cardContainer {
   display: flex;
   flex-wrap: wrap; /* Allow cards to wrap to the next line */
-  gap: 8px;
+  gap: 2px;
   overflow:auto;
-  padding-bottom: 70px;
-
-  max-height: 700px;
+  max-height: 823px;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
-  
-  ::-webkit-scrollbar {
-    display: none;
-  }
 
-  /* Hide scrollbar for Firefox */
-  scrollbar-width: none;
 }
 .currency {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -625,10 +608,8 @@ font-weight: 600;
 .currency1 {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
-  color: rgb(236, 236, 236);
+  color: black;
   width: fit-content;
-  text-shadow: 2px 2px 1px #000000;
-
 }
 .pPrice  {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -681,22 +662,41 @@ width: 100%;
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
+.zoo {
+  width: 55%;
+  height: 100%;
+  z-index: 10;
+
+}
+.mappers {
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+.lite {
+  display: flex;
+  width: 100%;
+    height: 92.5%;
+
+}
 .cardi1 {
 	position: relative; /* Ensure relative positioning for absolute positioning inside */
 
-  flex: 0 0 calc(25% - 6px); /* Calculate width for three columns with gap */
+  flex: 0 0 calc(100% - 0.5px); /* Calculate width for three columns with gap */
   align-items: flex-start;
   background: linear-gradient(to right, rgba(230, 230, 230, 0.95),rgba(255, 255, 255, 0.9));
   border-radius: 2px;
   margin-bottom: 2px; /* Add margin to create gap between rows */
- max-height: 300px;
- min-height: 300px;
-
+ max-height: 265px;
+ min-height: 265px;
+ display: flex;
+ justify-content: space-between;
  overflow: hidden;
  transition: all 1s ease-in-out;
  cursor: pointer;
  transition: transform 0.1s ease-in-out;
- box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
+ box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5) ;
+ border: 1px solid rgba(63, 63, 63, 0.397);
 }
 .cardi2 {
 	position: relative; /* Ensure relative positioning for absolute positioning inside */
@@ -747,17 +747,18 @@ width: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 55%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  font-size: 28px;
+  font-size: 22px;
   text-shadow: 2px 2px 1px #000000;
+  z-index: 10;
 }
 
 .cardi1:hover .binlay {
@@ -783,8 +784,7 @@ width: 100%;
   .cardBaths,
   .cardMls {
 	border-radius: 4px;
-  color: rgb(236, 236, 236);
-  text-shadow: 2px 2px 1px #000000;	
+  color: black;
   padding: 1px;
 	padding-right: 3px;
 	font-size: 16px;
@@ -911,23 +911,20 @@ padding: 4px;
 	background-color: #dad7d7;
 	border-radius: 5px;
 }
-.cardi1:hover {
-transform: scale(1.015);
 
-}
 .indigo {
-  position: relative;
   height: 100%;
-  
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .cardi1 img {
 	width: 100%;
 	height: 100%;
 	object-fit: fill;
 	transition: 275ms transform ease-in-out;
-	z-index: -1; 
-  border-radius: 2px;
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.45) ;
+  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.4) ;
 }
 .cardText {
   font-size: 1rem; /* Initial font size */
@@ -941,19 +938,13 @@ width: 30%;
 }
 .cardText1 {
 	font-size: 1rem;
-	margin: 8px;
-	margin-left: 10px;
-	align-items:flex-end;
-	flex: 0 0 50%;
-	position: absolute; /* Position the text absolutely */
-	bottom: 0; /* Align to the top of the parent container */
-	left: 0; /* Align to the left of the parent container */
-	z-index: 0;
-padding: 2px;
-  width: 100%;
+padding: 20px;
+  width: 45%;
+  display: flex;
+  flex-direction: column;
   border-radius: 0px;
-  background-color: rgba(0, 0, 0, 0.45);
-  padding-left: 12px;
+  background-color: white;
+  height: 100%;
   }
 .containText {
   height: 50%;
