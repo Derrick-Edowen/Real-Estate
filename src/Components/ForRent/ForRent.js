@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
 //import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
-
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { GoogleMap, Marker, LoadScript, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
 //import { Map, Marker, APIProvider } from '@react-google-maps/api';
 import '../../search.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -47,6 +46,7 @@ const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
 const [hasCenteredMap, setHasCenteredMap] = useState(false);
 const [mapMarkers, setMapMarkers] = useState([]);
+const [selectedMarker, setSelectedMarker] = useState(null);
 const [selectedTypes, setSelectedTypes] = useState([]);
 const [selectedPType, setSelectedPType] = useState(1);
 const [selectedStatus, setSelectedStatus] = useState('');
@@ -634,36 +634,10 @@ const handlePropertyStatusChange = (e) => {
 const handleSortChange = (e) => {
   setSelectedSort(e.target.value); // Update selected sort
 };
-useEffect(() => {
-  const geocodeAddresses = async () => {
-    const markers = [];
-    if (initialDataRef.current && initialDataRef.current.zpids) {
-      for (const property of initialDataRef.current.zpids.props) {
-        const address = safeAccess(property, 'address');
-        if (address) {
-          const geocodeResult = await geocodeAddress(address);
-          if (geocodeResult) {
-            markers.push(geocodeResult);
-          }
-        }
-      }
-      if (markers.length > 0) {
-        setMapMarkers(markers);
-        if (!hasCenteredMap) {
-          const center = calculateCenter(markers);
-          if (center) {
-            setMapCenter(center);
-            setHasCenteredMap(true); // Set the flag to true after centering
-          }
-        }
-      }
-    }
-  };
 
-  geocodeAddresses();
-}, [initialDataRef, handleSearch, homeHandler, handleNPage, handlePPage]);
 
-const geocodeAddress = async (address) => {
+
+const geocodeAddress = useCallback(async (address) => {
   try {
     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`);
     const data = await response.json();
@@ -675,9 +649,9 @@ const geocodeAddress = async (address) => {
     console.error('Geocoding error:', error);
   }
   return null;
-};
+}, [apiKey]);
 
-const calculateCenter = (markers) => {
+const calculateCenter = useCallback((markers) => {
   if (markers.length === 0) {
     return null; // No markers, return null or a default center
   }
@@ -686,7 +660,62 @@ const calculateCenter = (markers) => {
   const latCenter = (Math.min(...latitudes) + Math.max(...latitudes)) / 2;
   const lngCenter = (Math.min(...longitudes) + Math.max(...longitudes)) / 2;
   return { lat: latCenter, lng: lngCenter };
+}, []);
+
+useEffect(() => {
+  if (initialDataRef.current && initialDataRef.current.zpids) {
+    const geocodeAddresses = async () => {
+      const markers = [];
+      for (const property of initialDataRef.current.zpids.props) {
+        const address = safeAccess(property, 'address');
+        const image = property.imgSrc
+        const price = safeAccess(property, 'price'); // Get the price of the property
+        if (address) {
+          const geocodeResult = await geocodeAddress(address);
+          if (geocodeResult) {
+            markers.push({ ...geocodeResult, address, image, price });
+          }
+        }
+      }
+      if (markers.length > 0) {
+        setMapMarkers(markers);
+        const center = calculateCenter(markers);
+        if (center) {
+          setMapCenter(center);
+        }
+      }
+    };
+    geocodeAddresses();
+  }
+}, [initialDataRef.current]);
+
+const { isLoaded } = useJsApiLoader({
+  id: 'google-map-script',
+  googleMapsApiKey: apiKey
+});
+
+const mapOptions = useMemo(() => ({
+  disableDefaultUI: true,
+  zoomControl: true,
+}), []);
+
+const handleMarkerClick = (marker) => {
+  setSelectedMarker(marker);
+  // Scroll to the property card corresponding to the clicked marker
+  const propertyElement = document.getElementById(`property-${marker.address}`);
+  if (propertyElement) {
+    propertyElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 };
+
+const handleMarkerMouseOver = (marker) => {
+  setSelectedMarker(marker);
+};
+
+const handleMarkerMouseOut = () => {
+  setSelectedMarker(null);
+};
+
 return (
   <>
   <div className='lists notranslate'>
@@ -939,12 +968,6 @@ return (
           </div>
         )}
       </div>
-
-
-
-
-
-
       <select
         className="notranslate"
         id="sortList"
@@ -1016,20 +1039,40 @@ return (
     </aside> 
     <div className='lite'>
     <main className="zoo">
-        <div className="mappers">
-          <LoadScript googleMapsApiKey={apiKey}>
-            <GoogleMap
-              mapContainerStyle={{ width: '100%', height: '100%' }}
-              center={mapCenter}
-              zoom={zoomLevel}
-            >
-              {mapMarkers.map((marker, index) => (
-                <Marker key={index} position={marker} />
-              ))}
-            </GoogleMap>
-          </LoadScript>
-        </div>
-      </main>
+      <div className="mappers">
+        {isLoaded && mapCenter && (
+          <GoogleMap
+            mapContainerStyle={{ width: '100%', height: '100%' }}
+            center={mapCenter}
+            zoom={12}
+            options={mapOptions}
+          >
+            {mapMarkers.map((marker, index) => (
+              <Marker
+                key={index}
+                position={{ lat: marker.lat, lng: marker.lng }}
+                onClick={() => handleMarkerClick(marker)}
+                onMouseOver={() => handleMarkerMouseOver(marker)}
+                onMouseOut={handleMarkerMouseOut}
+              >
+                {selectedMarker === marker && (
+                  <InfoWindow position={{ lat: marker.lat, lng: marker.lng }}>
+                    <div>
+                      <img className='markImg' src={marker.image}></img>
+                      <br />
+                      <strong>{marker.address}</strong>
+                      <br />
+                      <strong> ${formatNumberWithCommas(marker.price)}</strong>
+                    </div>
+                  </InfoWindow>
+                )}
+              </Marker>
+            ))}
+          </GoogleMap>
+        )}
+      </div>
+    </main>
+
         <main className='fullStage notranslate'>
         {isLoading ? (
   <div className="loadingMessage1 translate">
@@ -1066,7 +1109,7 @@ return (
   <div className="cardContainer notranslate">
     {initialDataRef.current.zpids.props.map((property, index) => (
       property && (
-<div className="cardi1 notranslate" key={index} onClick={() => handleOpenLightbox(index)}>
+<div className="cardi1 notranslate" key={index} id={`property-${safeAccess(property, 'address')}`} onClick={() => handleOpenLightbox(index)}>
   <div className="indigo">
     <img className="mommy" src={property.imgSrc || noImg} alt="Photo Not Available" style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
   </div>
