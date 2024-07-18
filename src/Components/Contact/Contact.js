@@ -69,7 +69,7 @@ function Contact() {
 
 
             <div className='contactForm-specific'>
-            <div className='descTexcjb'> Contact </div>
+            <div className='descTexcjb'> Contact Form</div>
 
             <form ref={form} onSubmit={sendEmail}>
     <div className='lostboy-specific'></div>

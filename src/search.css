@@ -1,28 +1,9 @@
 
-.progress-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  margin: 0;
-  padding: 0;
-  border-radius: 5px;
-  background-color: rgb(161, 161, 161);
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.9) ;
-  z-index: 1000; /* Ensure it's above other content */
-}
-.screen-1 {
-  padding-top: 3.5px;
-}
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(to right, var(--primary),rgb(52, 0, 83));
-  width: 0;
-  transition: width 0.3s ease;
-  border: 1px solid #0000002f;
 
+.screen-1 {
+  padding-top: 3px;
 }
+
 
 input {
 	padding: 6px;
@@ -65,9 +46,9 @@ padding-right: 20px;
 margin-left: 2px;
 }
 .capture {
+  width: 100%;
   display: flex;
-  min-width: 100%;
-  margin-bottom: 0px;
+  padding: 10px;
 }
 .manual {
   display: flex;
@@ -75,68 +56,41 @@ margin-left: 2px;
   gap: 14px;
   width: 100%;
 }
+.spanur {
+  margin-left: auto; /* Ensures the span moves to the end of the flex container */
 
+}
 .prevButton {
-  background: rgb(70, 0, 0);
-  color: white;
-  float: left;
-  gap: 4px;
-  height: 100%;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-
-  width: 170px;
-  text-shadow: 2px 2px 1px #000000;
-
-  border: 1px solid #afafaf2f;
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-border-radius: 2px;
-padding-left: 30px;
-padding-right: 30px;
-padding-top: 4px;
-padding-bottom: 4px;
-margin-left: 4px;
+  color: rgb(17, 17, 17);
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 16px;
+  border: none;
+    background: none;
 }
 .prevButton.disabled {
-  background: #333;
+  color: #b4b4b4;
 }
 .prevButton.disabled:hover {
-  background: #333;
+  color: #b4b4b4;
 }
 .prevButton:hover {
-  background: rgb(92, 25, 25);
-
+color: rgb(119, 119, 119);
 }
 .nextButton {
-  margin-left: auto;
-  margin-top: auto;
-  margin-bottom: auto;
-margin-right: 4px;
-background: rgb(70, 0, 0);
-color: white;
-  float: right;
-  gap: 4px;
-  height: 100%;
-  width: 170px;
-  text-shadow: 2px 2px 1px #000000;
-
-  border: 1px solid #afafaf2f;
-  box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.7) ;
-border-radius: 2px;
-padding-top: 4px;
-padding-bottom: 4px;
-padding-left: 30px;
-padding-right: 30px;
+  color: rgb(17, 17, 17);
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 16px;
+  border: none;
+    background: none;
 }
 .nextButton.disabled {
-  background: #333;
+  color: #b4b4b4;
 }
 .nextButton.disabled:hover {
-  background: #333;
+  color: #b4b4b4;
 }
 .nextButton:hover {
-  background: rgb(92, 25, 25);
+  color: rgb(119, 119, 119);
 
 }
 .searchBtn-1:hover {
@@ -156,6 +110,7 @@ z-index: 2000;
 background: white;
 margin-right: auto;
 gap: 1px;
+border-top: 1px solid #222222c7;
 border-bottom: 1px solid #222222c7;
 }
   
@@ -246,10 +201,19 @@ border: 1px solid #222222c7;
     margin-right: 8px;
     width: 20px;
   }
-  
+  .techer {
+    background: white;
+width: 100%;
+font-size: 14px;
+color: #333;
+text-align: center;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+border-top: 1px solid #222222c7;
+border-bottom: 1px solid #222222c7;
+  }
 .fullStage {
 width: 45%;
-height: 90%;
+height: 100%;
 margin-right: auto; 
 margin-left: auto;
 background: white;
@@ -306,6 +270,20 @@ padding: 6px;
     letter-spacing: 2px;
 	margin-top: 4px;
   margin-bottom: 4px;
+padding: 2px;
+}
+.descTexco {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 22px;
+    color: #252525;
+    letter-spacing: 2px;
+padding: 2px;
+}
+.descTexcop {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 16px;
+    color: #252525;
+    letter-spacing: 2px;
 padding: 2px;
 }
 .descTexcj {
@@ -375,6 +353,13 @@ padding: 10px;
   margin-bottom: 24px;
 
 padding: 10px;
+}
+.descTextJln {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 22px;
+    color: #333;
+    letter-spacing: 2px;
+padding: 2px;
 }
 .descTextJd {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -503,12 +488,14 @@ padding: 2px;
 .alone {
   color: black;
   display: flex;
-font-size: 18px;
-font-weight: 500;
-font-style:italic;
-
-width: fit-content;
-text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; 
+  font-size: 16px;
+font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+color: #252525;
+letter-spacing: 2px;
+padding: 2px;
 }
 .minsmaxs-1 {
   display: flex;
@@ -541,15 +528,6 @@ input::-webkit-inner-spin-button {
   display: flex;
 }
 
-.splash {
-  background-color: #ffffff79;
-  border-radius: 10px;
-  padding: 40px;
-  padding-bottom: 60px;
-  padding-top: 20px;
-  box-shadow: 0px 2px 12px 2px;
-}
-
 .cDress1{
 font-size: 24px;
 font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -557,28 +535,20 @@ color: black;
 width: fit-content;
 }
 
-.cPrice1{
-  font-size: 16px;
-  color: black;
-  margin-top: 1px;
-border-radius: 4px;
-width: fit-content;
-
-}
 .noResultsMessage {
 	display: flex;
 	justify-content: center;
 	align-content: center;
-	font-size: 66px;
-	color: #ffffff;
+	font-size: 50px;
+	color: #202020d5;
 	margin-top: 250px;
-	text-shadow: 2px 2px 2px #000000;
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
 }
 .splash {
 
     width: 100vw;
-    height: 100%;
+    height: 88.5%;
     position: absolute;
     filter: blur(12px);
     z-index: -10;
@@ -591,9 +561,9 @@ width: fit-content;
 .cardContainer {
   display: flex;
   flex-wrap: wrap; /* Allow cards to wrap to the next line */
-  gap: 2px;
+  gap: 0px;
   overflow:auto;
-  max-height: 823px;
+  max-height: 672px;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
 
 }
@@ -679,7 +649,7 @@ width: 100%;
 .lite {
   display: flex;
   width: 100%;
-    height: 92.5%;
+    height: 88.5%;
 
 }
 .cardi1 {
@@ -698,7 +668,6 @@ width: 100%;
  transition: all 1s ease-in-out;
  cursor: pointer;
  transition: transform 0.1s ease-in-out;
- box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.5) ;
  border: 1px solid rgba(63, 63, 63, 0.397);
 }
 .cardi2 {
@@ -763,7 +732,12 @@ width: 100%;
   text-shadow: 2px 2px 1px #000000;
   z-index: 10;
 }
-
+.resolute {
+  display: flex;
+  width: 100%;
+  gap: 2px;
+  justify-content: end;
+}
 .cardi1:hover .binlay {
   opacity: 1;
 }
@@ -780,13 +754,12 @@ width: 100%;
   }
   .holding2 {
 	display: flex;
-	max-width: 100%;
+	width: 100%;
 	margin-bottom: 4px;
   }
   .cardBed,
   .cardBaths,
   .cardMls {
-	border-radius: 4px;
   color: black;
   padding: 1px;
 	padding-right: 3px;
@@ -904,7 +877,7 @@ padding: 4px;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100vh;
+  height: 88.5vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.45);
   padding-right: 0px;

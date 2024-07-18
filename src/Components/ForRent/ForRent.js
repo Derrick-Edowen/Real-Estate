@@ -10,7 +10,7 @@ import Footer from '../Footer/Footer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck, faCircleChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Contact from '../Contact/Contact';
 import { useLocation } from 'react-router-dom';
 
@@ -1083,25 +1083,30 @@ return (
   
 {initialDataRef.current && initialDataRef.current.zpids && (
   <div className='capture'>
-        <div className='alone'>{initialDataRef.current.zpids.totalResultCount} Results - Page {initialDataRef.current.zpids.currentPage} of {initialDataRef.current.zpids.totalPages}</div>
-    {initialDataRef.current.zpids.totalPages > 1 && (
+        <div className='alone'>{initialDataRef.current.zpids.totalResultCount} Results found - Page {initialDataRef.current.zpids.currentPage} of {initialDataRef.current.zpids.totalPages}</div>
+        <div className='resolute'>
+        {initialDataRef.current.zpids.totalPages > 1 && (
       <button
         className={`prevButton ${initialDataRef.current.zpids.currentPage === 1 ? 'disabled' : ''}`}
         onClick={handlePPage}
         disabled={initialDataRef.current.zpids.currentPage === 1}
       >
-        Previous Page
+        &#x3c; Previous 
       </button>
     )}
+    {initialDataRef.current.zpids.totalPages > 1 && (
+      <div>|</div>
+      )}
     {initialDataRef.current.zpids.totalPages > 1 && (
       <button
         className={`nextButton ${initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages ? 'disabled' : ''}`}
         onClick={handleNPage}
         disabled={initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages}
       >
-        Next Page
+        Next &#x3e;
       </button>
     )}
+    </div>
   </div>
 )}
 
@@ -1114,15 +1119,15 @@ return (
     <img className="mommy" src={property.imgSrc || noImg} alt="Photo Not Available" style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
   </div>
   <div className="cardText1 notranslate">
-  <div className="cPrice1 notranslate">{safeAccess(property, 'address')}</div>
+  <div className="descTexco notranslate">{safeAccess(property, 'address')}</div>
     <div className="holding2 notranslate">
-      <div className="cardBed notranslate">{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div>
-      <div className="cardBaths notranslate">{safeAccess(property, 'bathrooms')} Baths&nbsp;</div>
+      <div className="descTexcop notranslate">{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div> 
+      
+      <div className="descTexcop notranslate">{safeAccess(property, 'bathrooms')} Baths&nbsp;</div>
     </div>
-    <div className="cardBaths notranslate">{safeAccess(property, 'listingStatus')?.replace(/_/g, ' ')} </div>
-    <div className="cardBaths notranslate">{safeAccess(property, 'propertyType')?.replace(/_/g, ' ')} </div>
-    <div className="cDress1 notranslate">${formatNumberWithCommas(safeAccess(property, 'price'))} <span className="currency1">{safeAccess(property, 'currency')}</span></div>
-    <div className="cardMls notranslate"><FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active {safeAccess(property, 'daysOnZillow')} day(s)</div>
+    <div className="descTextJln notranslate">${formatNumberWithCommas(safeAccess(property, 'price'))} <span className="currency1">{safeAccess(property, 'currency')}</span> | <FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active: {safeAccess(property, 'daysOnZillow')} day(s)</div>
+    <div className="descTexcop notranslate">{safeAccess(property, 'propertyType')?.replace(/_/g, ' ')} | {safeAccess(property, 'listingStatus')?.replace(/_/g, ' ')}</div>
+
   </div>
   <div className="binlay">
     View Property Details
@@ -1143,6 +1148,8 @@ return (
         )}
       </main>
 </div>
+<div className='techer'>Contact Form <FontAwesomeIcon icon={faCircleChevronDown} style={{color: "#592626",}} /></div>
+
   </div>
   
 </div>
