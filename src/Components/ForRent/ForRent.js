@@ -15,7 +15,7 @@ import Contact from '../Contact/Contact';
 import { useLocation } from 'react-router-dom';
 
 function ForRent() {
-
+  const [showContact, setShowContact] = useState(false);
   const [initialData, setInitialData] = useState(null);
   const [apiData, setApiData] = useState([]);
   const [infoData, setInfoData] = useState([]);
@@ -37,7 +37,7 @@ const [isRotated, setIsRotated] = useState(false);
 const [nextPage, setNextPage] = useState(1);
 const [selectedProvince, setSelectedProvince] = useState('');
 const [selectedState, setSelectedState] = useState('');
-const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // Default position
+const [mapCenter, setMapCenter] = useState({ lat: 38.9072, lng: -77.0369 }); // Default position
 const [selectedSort, setSelectedSort] = useState('');
 const [selectedPropertyType, setSelectedPropertyType] = useState('');
 const [selectedBeds, setSelectedBeds] = useState('');
@@ -709,13 +709,37 @@ const handleMarkerClick = (marker) => {
 };
 
 const handleMarkerMouseOver = (marker) => {
-  setSelectedMarker(marker);
+  setSelectedMarker(marker); // Ensure InfoWindow appears on hover
 };
 
 const handleMarkerMouseOut = () => {
-  setSelectedMarker(null);
+  // Do not clear selectedMarker here to keep InfoWindow visible on hover
+};
+const handleTecherClick = () => {
+  setShowContact((prevShowContact) => {
+    const newShowContact = !prevShowContact;
+    if (newShowContact) {
+      // Scroll to the bottom of the page
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      }, 0);
+    }
+    return newShowContact;
+  });
 };
 
+const handleScroll = () => {
+  if (window.scrollY === 0) {
+    setShowContact(false);
+  }
+};
+
+useEffect(() => {
+  window.addEventListener('scroll', handleScroll);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
 return (
   <>
   <div className='lists notranslate'>
@@ -1049,24 +1073,24 @@ return (
           >
             {mapMarkers.map((marker, index) => (
               <Marker
-                key={index}
-                position={{ lat: marker.lat, lng: marker.lng }}
-                onClick={() => handleMarkerClick(marker)}
-                onMouseOver={() => handleMarkerMouseOver(marker)}
-                onMouseOut={handleMarkerMouseOut}
-              >
-                {selectedMarker === marker && (
-                  <InfoWindow position={{ lat: marker.lat, lng: marker.lng }}>
-                    <div>
-                      <img className='markImg' src={marker.image}></img>
-                      <br />
-                      <strong>{marker.address}</strong>
-                      <br />
-                      <strong> ${formatNumberWithCommas(marker.price)}</strong>
-                    </div>
-                  </InfoWindow>
-                )}
-              </Marker>
+  key={index}
+  position={{ lat: marker.lat, lng: marker.lng }}
+  onClick={() => handleMarkerClick(marker)}
+  onMouseOver={() => handleMarkerMouseOver(marker)}
+  onMouseOut={handleMarkerMouseOut}
+>
+  {selectedMarker === marker && (
+    <InfoWindow position={{ lat: marker.lat, lng: marker.lng }}>
+      <div>
+        <img className='markImg' src={marker.image} alt={marker.address}></img>
+        <br />
+        <strong>{marker.address}</strong>
+        <br />
+        <strong> ${formatNumberWithCommas(marker.price)}</strong>
+      </div>
+    </InfoWindow>
+  )}
+</Marker>
             ))}
           </GoogleMap>
         )}
@@ -1114,8 +1138,13 @@ return (
   <div className="cardContainer notranslate">
     {initialDataRef.current.zpids.props.map((property, index) => (
       property && (
-<div className="cardi1 notranslate" key={index} id={`property-${safeAccess(property, 'address')}`} onClick={() => handleOpenLightbox(index)}>
-  <div className="indigo">
+<div 
+    key={index} 
+    id={`property-${safeAccess(property, 'address')}`} 
+    className={`cardi1 notranslate ${selectedMarker && selectedMarker.address === safeAccess(property, 'address') ? 'selected-card' : ''}`} 
+    onClick={() => handleOpenLightbox(index)}
+  >
+    <div className="indigo">
     <img className="mommy" src={property.imgSrc || noImg} alt="Photo Not Available" style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
   </div>
   <div className="cardText1 notranslate">
@@ -1125,8 +1154,9 @@ return (
       
       <div className="descTexcop notranslate">{safeAccess(property, 'bathrooms')} Baths&nbsp;</div>
     </div>
-    <div className="descTextJln notranslate">${formatNumberWithCommas(safeAccess(property, 'price'))} <span className="currency1">{safeAccess(property, 'currency')}</span> | <FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active: {safeAccess(property, 'daysOnZillow')} day(s)</div>
-    <div className="descTexcop notranslate">{safeAccess(property, 'propertyType')?.replace(/_/g, ' ')} | {safeAccess(property, 'listingStatus')?.replace(/_/g, ' ')}</div>
+    <div className="descTextJln notranslate"><FontAwesomeIcon icon={faCircleCheck} style={{color: "#0c6b00",}} /> Active: {safeAccess(property, 'daysOnZillow')} day(s)</div>
+    <div className="descTextJlnv notranslate">${formatNumberWithCommas(safeAccess(property, 'price'))}<span className="currency1">{safeAccess(property, 'currency')}</span></div>
+    <div className="descTexcope notranslate">{safeAccess(property, 'propertyType')?.replace(/_/g, ' ')} | {safeAccess(property, 'listingStatus')?.replace(/_/g, ' ')}</div>
 
   </div>
   <div className="binlay">
@@ -1138,8 +1168,10 @@ return (
   </div>
 ) : (
   noResults && (
+    <div className='resultsBox'>
     <div className="noResultsMessage">
       Sorry, No Listings Found!
+    </div>
     </div>
   )
 )}
@@ -1148,13 +1180,17 @@ return (
         )}
       </main>
 </div>
-<div className='techer'>Contact Form <FontAwesomeIcon icon={faCircleChevronDown} style={{color: "#592626",}} /></div>
+<div className='techer' onClick={handleTecherClick}>
+        Contact Form &nbsp;
+        <span className={`flippint ${showContact ? 'rotated' : ''}`}>
+          <FontAwesomeIcon icon={faCircleChevronDown} style={{ color: "#592626" }} />
+        </span>
+      </div>
+      {showContact && <Contact />}
 
   </div>
   
 </div>
-<Contact />
-
 </>
 );
 }

@@ -206,10 +206,12 @@ border: 1px solid #222222c7;
 width: 100%;
 font-size: 14px;
 color: #333;
+font-weight: 700;
 text-align: center;
 font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 border-top: 1px solid #222222c7;
 border-bottom: 1px solid #222222c7;
+cursor: pointer;
   }
 .fullStage {
 width: 45%;
@@ -274,10 +276,11 @@ padding: 2px;
 }
 .descTexco {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     color: #252525;
     letter-spacing: 2px;
 padding: 2px;
+font-weight: 600;
 }
 .descTexcop {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -285,6 +288,14 @@ padding: 2px;
     color: #252525;
     letter-spacing: 2px;
 padding: 2px;
+}
+.descTexcope {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #252525;
+    letter-spacing: 2px;
+padding: 2px;
+margin-top: auto;
 }
 .descTexcj {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -356,10 +367,19 @@ padding: 10px;
 }
 .descTextJln {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 22px;
+    font-size: 18px;
     color: #333;
     letter-spacing: 2px;
 padding: 2px;
+}
+.descTextJlnv {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 28px;
+    color: #333;
+    margin-top: auto;
+    letter-spacing: 2px;
+padding: 2px;
+font-weight: 600;
 }
 .descTextJd {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -534,16 +554,26 @@ font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 color: black;
 width: fit-content;
 }
-
+.resultsBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
 .noResultsMessage {
-	display: flex;
-	justify-content: center;
-	align-content: center;
-	font-size: 50px;
-	color: #202020d5;
-	margin-top: 250px;
+	font-size: 52px;
+	color: #202020f1;
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
+}
+.flippint {
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.flippint.rotated {
+  transform: rotate(180deg);
 }
 .splash {
 
@@ -563,9 +593,24 @@ width: fit-content;
   flex-wrap: wrap; /* Allow cards to wrap to the next line */
   gap: 0px;
   overflow:auto;
-  max-height: 672px;
+  max-height: 670.5px;
   position: relative; /* Ensure relative positioning for absolute positioning inside */
+  scrollbar-width: thin; /* Modern scrollbar width (Chrome, Edge) */
+  scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0); /* Modern scrollbar color (thumb, track) */
 
+  /* Firefox scrollbar styles */
+  scrollbar-track-color: rgba(0, 0, 0, 0);
+}
+
+/* Define scrollbar thumb styles */
+.cardContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Thumb color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Define scrollbar track styles (optional, usually matches background) */
+.cardContainer::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0); /* Track color (transparent in this case) */
 }
 .currency {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -580,8 +625,8 @@ font-weight: 600;
 }
 .currency1 {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-  font-size: 14px;
-  color: black;
+  font-size: 16px;
+  color: #333;
   width: fit-content;
 }
 .pPrice  {
@@ -668,7 +713,7 @@ width: 100%;
  transition: all 1s ease-in-out;
  cursor: pointer;
  transition: transform 0.1s ease-in-out;
- border: 1px solid rgba(63, 63, 63, 0.397);
+ border: 1px solid rgba(63, 63, 63, 0.5);
 }
 .cardi2 {
 	position: relative; /* Ensure relative positioning for absolute positioning inside */
@@ -999,6 +1044,9 @@ display: grid;
   padding-bottom: 28px;
 margin-bottom: 10px;
   height: 65vh;
+}
+.selected-card {
+  border: 3px solid rgb(66, 21, 21);
 }
 .map {
   width: auto; /* Set the width to 100% */

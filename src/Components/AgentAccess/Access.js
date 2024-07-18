@@ -370,7 +370,7 @@ const handleUpdatePhone = async () => {
             {isLoggedIn && (
               <div className="text-area-containera">
                 <div className='descTextJfc'> Create a New Announcement</div>
-                <div className='descTex'> Create Announcement Title</div>
+                <div className='descTex'> New Announcement Title</div>
                 <input
                   type="text"
                   className="text-titlea"
@@ -379,7 +379,7 @@ const handleUpdatePhone = async () => {
                   placeholder="Enter announcement title"
                   required
                 />
-                <div className='descTex'> Create Announcement Content</div>
+                <div className='descTex'> New Announcement Content</div>
                 <textarea
                   className="text-areaa"
                   value={newContent}
@@ -389,7 +389,7 @@ const handleUpdatePhone = async () => {
                   cols={50}
                   required
                 />
-                <div className='descTex'> Add an Image to Your Announcement</div>
+                <div className='descTex'> Add an Image to Your Announcement(*Max size: 5mb)</div>
                 <input
                   type="file"
                   className="select-inputa"
@@ -429,7 +429,7 @@ const handleUpdatePhone = async () => {
                   </div>
                   {isLoggedIn && (
                     <button className="delbutta" onClick={() => handleDelete(post.id)}>
-                      Delete this post?
+                      Delete this Announcement?
                     </button>
                   )}
                 </div>

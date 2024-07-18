@@ -61,7 +61,6 @@ function Login() {
     <div className="inputBox-specific">
       <input
         type="text"
-        placeholder="Name"
         value={name}
         onChange={handleNameChange}
         required
@@ -71,7 +70,6 @@ function Login() {
     <div className="inputBox-specific">
       <input
         type="text"
-        placeholder="Email"
         value={emailAddress}
         onChange={handleEmailChange}
         required
@@ -81,7 +79,6 @@ function Login() {
     <div className="inputBox-specific">
       <input
         type="password"
-        placeholder="Password"
         value={password}
         onChange={handlePasswordChange}
         required
