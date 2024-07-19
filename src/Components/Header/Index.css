@@ -276,27 +276,33 @@ border-radius: 3px;
     .inter {
       display: none;
     }
+    .chevyy {
+      display: none;
+    }
+    .inter li {
+      background: rgb(201, 194, 194);
+
+    }
     @media screen and (max-width: 1430px) {
       .nav__hamburger {
         display: flex;
         z-index: 101;
       }
-      .inter {
-        display:contents;
-      }
+
       .navbar--items {
-        position: fixed;
-        display: flex; /* Changed from none to flex */
+        display: none; /* Changed from none to flex */
         align-items: center;
         justify-content: center;
         background: rgba(255, 255, 255);
         width: 100%;
         transition: transform 0.5s ease-in-out; /* Updated transition property */
-        margin-top: 360px;
+        margin-top: 0px;
         transform: translateY(-150%); /* Initial position off-screen to the left */
         height: fit-content;
       }
-    
+      .chevyy {
+        display: contents;
+      }
       .navbar--items.active {
         transform: translateX(0); /* Final position on screen */
       }
@@ -342,7 +348,6 @@ border-radius: 3px;
       }
     
       .inter {
-        display: none;
         flex-direction: column;
         width: 100%;
         background: white; 

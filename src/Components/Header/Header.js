@@ -121,7 +121,7 @@ function Header() {
         className={`missin ${location.pathname.includes('Real%20Estate%20Advice%20%7C%20Selling%20Your%20Home') || location.pathname.includes('Real%20Estate%20Advice%20%7C%20Buying%20A%20Home') || location.pathname.includes('Real%20Estate%20Advice%20%7C%20Investing%20In%20Real%20Estate') ? 'active' : ''}`} 
         onClick={handleClick3}
     >
-        REAL ESTATE ADVICE
+        REAL ESTATE ADVICE <span className="chevyy"><FontAwesomeIcon icon={faChevronDown} /></span>
         <li
             className={`navbar--content findingList arrow-rotate ${dropdownVisible3 ? "active" : ""}`}
         >
@@ -158,7 +158,7 @@ function Header() {
                 onClick={closeMenu}
                 activeclass="navbar--active-content"
                 to="/Real Estate Advice | Buying A Home"
-                className="missin"
+                className="missin scav"
             >
                 Buying a Home
             </NavLink>

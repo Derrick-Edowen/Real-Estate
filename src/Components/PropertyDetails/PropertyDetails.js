@@ -485,7 +485,7 @@ const downloadPDF = () => {
   )}
                     <div className='bedd'>{safeAccess(api, 'bedrooms')}&nbsp;Bed(s)</div>
                     <div className='bathh'>{safeAccess(api, 'bathrooms')}&nbsp;Bath(s)</div>
-                  <div className='dayss'><FontAwesomeIcon icon={faCircleCheck} size="lg" style={{color: "#0c6b00",}} /> Active - {safeAccess(api, 'timeOnZillow')}</div>
+                  <div className='dayss'><FontAwesomeIcon icon={faCircleCheck} style={{color: "#0c6b00",}} /> Active - {safeAccess(api, 'timeOnZillow')}</div>
                   <div className='holding1 notranslate'>
                   <div className='descTextQ notranslate'>Property Status:<br/>{homeStatus}</div>
                   <div className='descTextQ notranslate'>MLS&reg;: {safeAccess(api, 'mlsid')}</div>
