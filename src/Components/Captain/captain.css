@@ -12,3 +12,18 @@ top: 0;
 left: 0;
 z-index: 8000;
 }
+.contact-info,
+.office-info {
+  display: inline;
+}
+
+/* Hide office-info when screen width is 1430px or less */
+@media screen and (max-width: 1430px) {
+  .office-info {
+    display: none;
+  }
+  .captain {
+    padding-left: 4px;
+
+  }
+}

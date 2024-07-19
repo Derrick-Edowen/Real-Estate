@@ -746,7 +746,7 @@ return (
     <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splash'></img>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
-        <button className="toggle" onClick={toggleFilter}> Property Search Filter  
+        <button className="toggle" onClick={toggleFilter}> Listings Search Form  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
@@ -1056,8 +1056,8 @@ return (
                       <option value="4">4 Baths</option>
                       <option value="5">5+ Baths</option>
                     </select>
-                  <input className='notranslate' type='number' id="min-price" placeholder='Minimum Price' required />
-                  <input className='notranslate' type='number' id="max-price" placeholder='Maximum Price' required />
+                  <input className='notranslate' type='number' id="min-price" placeholder='Min. Price' required />
+                  <input className='notranslate' type='number' id="max-price" placeholder='Max. Price' required />
                   <button className='searchBtn-1'>Search</button>
               </form>
     </aside> 
@@ -1097,88 +1097,93 @@ return (
       </div>
     </main>
 
-        <main className='fullStage notranslate'>
-        {isLoading ? (
-  <div className="loadingMessage1 translate">
-    <FadeLoader color="#f5fcff" margin={10} />
-  </div>
-) : (
-  <>
-  
-{initialDataRef.current && initialDataRef.current.zpids && (
-  <div className='capture'>
-        <div className='alone'>{initialDataRef.current.zpids.totalResultCount} Results found - Page {initialDataRef.current.zpids.currentPage} of {initialDataRef.current.zpids.totalPages}</div>
-        <div className='resolute'>
-        {initialDataRef.current.zpids.totalPages > 1 && (
-      <button
-        className={`prevButton ${initialDataRef.current.zpids.currentPage === 1 ? 'disabled' : ''}`}
-        onClick={handlePPage}
-        disabled={initialDataRef.current.zpids.currentPage === 1}
-      >
-        &#x3c; Previous 
-      </button>
-    )}
-    {initialDataRef.current.zpids.totalPages > 1 && (
-      <div>|</div>
+    <main className='fullStage notranslate'>
+  {isLoading ? (
+    <div className="loadingMessage1 translate">
+      <FadeLoader color="#f5fcff" margin={10} />
+    </div>
+  ) : (
+    <>
+      {!initialDataRef.current && (
+        <div className='resultsBox'>
+        <div className="noResultsMessage">
+          Use the Search Form to Find Listings!
+        </div>
+      </div>
       )}
-    {initialDataRef.current.zpids.totalPages > 1 && (
-      <button
-        className={`nextButton ${initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages ? 'disabled' : ''}`}
-        onClick={handleNPage}
-        disabled={initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages}
-      >
-        Next &#x3e;
-      </button>
-    )}
-    </div>
-  </div>
-)}
 
-{initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0 ? (
-  <div className="cardContainer notranslate">
-    {initialDataRef.current.zpids.props.map((property, index) => (
-      property && (
-<div 
-    key={index} 
-    id={`property-${safeAccess(property, 'address')}`} 
-    className={`cardi1 notranslate ${selectedMarker && selectedMarker.address === safeAccess(property, 'address') ? 'selected-card' : ''}`} 
-    onClick={() => handleOpenLightbox(index)}
-  >
-    <div className="indigo">
-    <img className="mommy" src={property.imgSrc || noImg} alt="Photo Not Available" style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
-  </div>
-  <div className="cardText1 notranslate">
-  <div className="descTexco notranslate">{safeAccess(property, 'address')}</div>
-    <div className="holding2 notranslate">
-      <div className="descTexcop notranslate">{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div> 
-      
-      <div className="descTexcop notranslate">{safeAccess(property, 'bathrooms')} Baths&nbsp;</div>
-    </div>
-    <div className="descTextJln notranslate"><FontAwesomeIcon icon={faCircleCheck} style={{color: "#0c6b00",}} /> Active: {safeAccess(property, 'daysOnZillow')} day(s)</div>
-    <div className="descTextJlnv notranslate">${formatNumberWithCommas(safeAccess(property, 'price'))}<span className="currency1">{safeAccess(property, 'currency')}</span></div>
-    <div className="descTexcope notranslate">{safeAccess(property, 'propertyType')?.replace(/_/g, ' ')} | {safeAccess(property, 'listingStatus')?.replace(/_/g, ' ')}</div>
+      {initialDataRef.current && initialDataRef.current.zpids && (
+        <div className='capture'>
+          <div className='alone'>{initialDataRef.current.zpids.totalResultCount} Results found - Page {initialDataRef.current.zpids.currentPage} of {initialDataRef.current.zpids.totalPages}</div>
+          <div className='resolute'>
+            {initialDataRef.current.zpids.totalPages > 1 && (
+              <button
+                className={`prevButton ${initialDataRef.current.zpids.currentPage === 1 ? 'disabled' : ''}`}
+                onClick={handlePPage}
+                disabled={initialDataRef.current.zpids.currentPage === 1}
+              >
+                &#x3c; Previous 
+              </button>
+            )}
+            {initialDataRef.current.zpids.totalPages > 1 && (
+              <div>|</div>
+            )}
+            {initialDataRef.current.zpids.totalPages > 1 && (
+              <button
+                className={`nextButton ${initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages ? 'disabled' : ''}`}
+                onClick={handleNPage}
+                disabled={initialDataRef.current.zpids.currentPage === initialDataRef.current.zpids.totalPages}
+              >
+                Next &#x3e;
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
-  </div>
-  <div className="binlay">
-    View Property Details
-  </div>
-</div>
-      )
-    ))}
-  </div>
-) : (
-  noResults && (
-    <div className='resultsBox'>
-    <div className="noResultsMessage">
-      Sorry, No Listings Found!
-    </div>
-    </div>
-  )
-)}
+      {initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0 ? (
+        <div className="cardContainer notranslate">
+          {initialDataRef.current.zpids.props.map((property, index) => (
+            property && (
+              <div 
+                key={index} 
+                id={`property-${safeAccess(property, 'address')}`} 
+                className={`cardi1 notranslate ${selectedMarker && selectedMarker.address === safeAccess(property, 'address') ? 'selected-card' : ''}`} 
+                onClick={() => handleOpenLightbox(index)}
+              >
+                <div className="indigo">
+                  <img className="mommy" src={property.imgSrc || noImg} alt="Photo Not Available" style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
+                </div>
+                <div className="cardText1 notranslate">
+                  <div className="descTexco notranslate">{safeAccess(property, 'address')}</div>
+                  <div className="holding2 notranslate">
+                    <div className="descTexcop notranslate">{safeAccess(property, 'bedrooms')} Beds&nbsp;|</div> 
+                    <div className="descTexcop notranslate">{safeAccess(property, 'bathrooms')} Baths&nbsp;</div>
+                  </div>
+                  <div className="descTextJln notranslate"><FontAwesomeIcon icon={faCircleCheck} style={{color: "#0c6b00",}} /> Active: {safeAccess(property, 'daysOnZillow')} day(s)</div>
+                  <div className="descTextJlnv notranslate">${formatNumberWithCommas(safeAccess(property, 'price'))}<span className="currency1">{safeAccess(property, 'currency')}</span></div>
+                  <div className="descTexcope notranslate">{safeAccess(property, 'propertyType')?.replace(/_/g, ' ')} | {safeAccess(property, 'listingStatus')?.replace(/_/g, ' ')}</div>
+                </div>
+                <div className="binlay">
+                  View Property Details
+                </div>
+              </div>
+            )
+          ))}
+        </div>
+      ) : (
+        noResults && (
+          <div className='resultsBox'>
+            <div className="noResultsMessage">
+              Sorry, No Listings Found!
+            </div>
+          </div>
+        )
+      )}
+    </>
+  )}
+</main>
 
-          </>
-        )}
-      </main>
 </div>
 <div className='techer' onClick={handleTecherClick}>
         Contact Form &nbsp;

@@ -3,6 +3,8 @@ import './bio.css';
 import woman100 from '../../Assets/Images/woman100.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faSquareXTwitter, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+
 import sampleData from '../samples.json';
 import sampleData1 from '../samples1.json'
 import Contact from '../Contact/Contact';
@@ -62,52 +64,52 @@ function Bio() {
 
             <div className='cookem'>
             <div className='plant'>
-              <div className='descTextJ'> [Your Active / Featured Listings] </div>
+            <div className='descTextJ'> [Your Active / Featured Listings] </div>
               <div className="cardContainer notranslate">
-                {sampleData.map((property, index) => (
-                  <div className="cardi2 notranslate" key={index}>
-                    <div className='indigo'>
-                      <img className='mommy' src={property.imgSrc} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
-                    </div>
-                    <div className="cardText1 notranslate">
-                      <div className='cDress1 notranslate'> ${property.price} <span className='currency1'>{property.currency}</span></div>
-                      <div className='holding2 notranslate'>
-                        <div className='cardBed notranslate'>{property.bedrooms} Beds&nbsp;|</div>
-                        <div className='cardBaths notranslate'>{property.bathrooms} Baths&nbsp;|</div>
-                        <div className='cardMls notranslate'>Active: {property.daysOnZillow} day(s)</div>
-                      </div>
-                      <div className='cPrice1 notranslate'>{property.address}</div>
-                    </div>
-                    <div className="binlay">
-                      [Sample Purposes Only]
-                    </div>
+              {sampleData.map((property, index) => (
+                <div className="cardi2 notranslate" key={index}>
+                  <div className='indigo'>
+                    <img className='mommy' src={property.imgSrc} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
                   </div>
-                ))}
-              </div>
+                  <div className="cardText1 notranslate">
+                  <div className='descTexco1 notranslate'>{property.address}</div>
+                    <div className='holding2 notranslate'>
+                      <div className='descTexcop1 notranslate'>{property.bedrooms} Beds&nbsp;|</div>
+                      <div className='descTexcop1 notranslate'>{property.bathrooms} Baths&nbsp;</div>
+                    </div>
+                    <div className='descTextJln1 notranslate'><FontAwesomeIcon icon={faCircleCheck} style={{color: "#0c6b00",}} /> Active: {property.daysOnZillow} day(s)</div>
+                    <div className='descTextJlnv1 notranslate'> ${property.price}<span className='currency11'>{property.currency}</span></div>
+                  </div>
+                  <div className="binlay">
+                    [Sample Purposes Only]
+                  </div>
+                </div>
+              ))}
+            </div>
             </div>
             <div className='plant'>
               <div className='descTextJ'> [Your Recently Sold Listings] </div>
               <div className="cardContainer notranslate">
-                {sampleData1.map((property, index) => (
-                  <div className="cardi2 notranslate" key={index}>
-                    <div className='indigo'>
-                      <img className='mommy' src={property.imgSrc} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
-                    </div>
-                    <div className="cardText1 notranslate">
-                      <div className='cDress1 notranslate'> ${property.price} <span className='currency1'>{property.currency}</span></div>
-                      <div className='holding2 notranslate'>
-                        <div className='cardBed notranslate'>{property.bedrooms} Beds&nbsp;|</div>
-                        <div className='cardBaths notranslate'>{property.bathrooms} Baths&nbsp;|</div>
-                        <div className='cardMls notranslate'>Active: {property.daysOnZillow} day(s)</div>
-                      </div>
-                      <div className='cPrice1 notranslate'>{property.address}</div>
-                    </div>
-                    <div className="binlay">
-                      [Sample Purposes Only]
-                    </div>
+              {sampleData1.map((property, index) => (
+                <div className="cardi2 notranslate" key={index}>
+                  <div className='indigo'>
+                    <img className='mommy' src={property.imgSrc} alt={'Photo Not Available'} style={{ color: 'black', fontSize: '70px', textAlign: 'center', width: '100%' }} />
                   </div>
-                ))}
-              </div>
+                  <div className="cardText1 notranslate">
+                  <div className='descTexco1 notranslate'>{property.address}</div>
+                    <div className='holding2 notranslate'>
+                      <div className='descTexcop1 notranslate'>{property.bedrooms} Beds&nbsp;|</div>
+                      <div className='descTexcop1 notranslate'>{property.bathrooms} Baths&nbsp;</div>
+                    </div>
+                    <div className='descTextJln1 notranslate'><FontAwesomeIcon icon={faCircleXmark} style={{color: "#bb1907",}} /> Sold: {property.daysOnZillow} day(s) ago</div>
+                    <div className='descTextJlnv1 notranslate'> ${property.price}<span className='currency11'>{property.currency}</span></div>
+                  </div>
+                  <div className="binlay">
+                    [Sample Purposes Only]
+                  </div>
+                </div>
+              ))}
+            </div>
             </div>
             </div>
 

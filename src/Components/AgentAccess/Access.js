@@ -389,7 +389,7 @@ const handleUpdatePhone = async () => {
                   cols={50}
                   required
                 />
-                <div className='descTex'> Add an Image to Your Announcement(*Max size: 5mb)</div>
+                <div className='descTex'> Add an Image to Your Announcement (*Max size: 5MB)</div>
                 <input
                   type="file"
                   className="select-inputa"
@@ -417,12 +417,6 @@ const handleUpdatePhone = async () => {
               {posts.slice().reverse().map((post, index) => (
                 <div key={index} className="posta" onClick={() => handleClick(index)}>
                   <img className="windowsa" src={post.image || noImg} alt="Post Image" />
-                  {isNewPost(post.created_at) && (
-                    <div className='burstera'>
-                      <FontAwesomeIcon icon={faBurst} style={{ color: "#8f0a00", }} />
-                      <div className='updatera'>New</div>
-                    </div>
-                  )}
                   <div className="finalssa">
                     <div className="blogHeada">{post.title}</div>
                     <div className="timera">Posted on: {formatCreatedAt(post.created_at)}</div>

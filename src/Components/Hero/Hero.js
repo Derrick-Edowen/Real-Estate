@@ -6,7 +6,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faSquareXTwitter, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 function Hero() {
+  const [message, setMessage] = useState('');
 
+  useEffect(() => {
+    fetchMessage();
+  }, []);
+
+  const fetchMessage = async () => {
+    try {
+      const response = await fetch('/message');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setMessage(data[0]?.message || '');
+    } catch (error) {
+      console.error('Error fetching message:', error);
+    }
+  };
 
   return (
 
@@ -16,9 +33,7 @@ function Hero() {
       <img className='itImg' src={woman100} alt='main' />
       </div>
       <div className='heroBox'>
-        <p> - [YOUR MESSAGE TO YOUR AUDIENCE<br/>
-          SELECT ONE OF OUR MANY CLIENT FOCUSED MESSAGES, OR CREATE YOUR OWN!]
-        </p>
+        <p className='descTexcpt'> - {message}</p>
         <div className='sci-hero'>
                 <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>
                 <span><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></span>

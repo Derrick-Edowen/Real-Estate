@@ -20,7 +20,7 @@
   width: 100%;
   display: flex;
   padding: 24px;
-  justify-content: center;
+  justify-content: space-between;
 }
 .searchInput {
   flex: 1;

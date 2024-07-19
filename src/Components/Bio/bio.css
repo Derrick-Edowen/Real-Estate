@@ -31,8 +31,8 @@ overflow-y: auto;
     margin-top: 80px;
 width: 100%;
 justify-content: end;
-padding-left: 260px;
-padding-right: 260px;
+padding-left: 180px;
+padding-right: 180px;
 padding-bottom: 80px;
 background: rgb(250, 250, 250);
 
@@ -103,3 +103,4 @@ margin-right: auto;
       .sci-hero1 span:hover {
         transform: scale(1.15); /* Scale up the element on hover */
       }
+

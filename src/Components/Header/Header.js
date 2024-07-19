@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
@@ -13,9 +14,17 @@ function Header() {
 
   const [navActive, setNavActive] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
 
-  
+  const handleAnnouncementClick = () => {
+    // First, navigate to the home page
+    navigate('/Home', {
+      state: { scrollToAnnouncement: true },
+    });
+    // Then, close the menu if necessary
+    closeMenu();
+  };
   const toggleNav = () => {
     
     setNavActive(!navActive);
@@ -51,7 +60,6 @@ function Header() {
     setDropdownVisible3(!dropdownVisible3);
     setDropdownVisible1(false);
     setDropdownVisible2(false);
-    setNavActive(false); // Close the dropdown menu
   };
   
   
@@ -109,38 +117,73 @@ function Header() {
             </NavLink>
           </li>
           <li className={`dropdown ${dropdownVisible3 ? "active" : ""}`}>
-          <div className={`missin ${location.pathname.includes('Find%20Listings%20%7C%20For%20Lease') || location.pathname.includes('Find%20Listings%20%7C%20For%20Sale') || location.pathname.includes('Find%20Listings%20%7C%20Recently%20Sold') ? 'active' : ''}`} 
-          onClick={handleClick3}>REAL ESTATE ADVICE
-              <li
-                className={`navbar--content findingList arrow-rotate ${dropdownVisible3 ? "active" : ""} `}
-              >
-                <FontAwesomeIcon icon={faChevronDown} />
-              </li>
-            </div>
-            <div className={`dropdown-content ${dropdownVisible3 ? "active" : ""}`}>
-              <NavLink
+    <div
+        className={`missin ${location.pathname.includes('Real%20Estate%20Advice%20%7C%20Selling%20Your%20Home') || location.pathname.includes('Real%20Estate%20Advice%20%7C%20Buying%20A%20Home') || location.pathname.includes('Real%20Estate%20Advice%20%7C%20Investing%20In%20Real%20Estate') ? 'active' : ''}`} 
+        onClick={handleClick3}
+    >
+        REAL ESTATE ADVICE
+        <li
+            className={`navbar--content findingList arrow-rotate ${dropdownVisible3 ? "active" : ""}`}
+        >
+            <FontAwesomeIcon icon={faChevronDown} />
+        </li>
+  </div>
+  <div className={`dropdown-content ${dropdownVisible3 ? "active" : ""}`}>
+    <NavLink
+      onClick={closeMenu}
+      to="/Real Estate Advice | Buying A Home"
+      className="navbar--content transformer"
+    >
+      Buying a Home
+    </NavLink>
+    <NavLink
+      onClick={closeMenu}
+      to="/Real Estate Advice | Selling Your Home"
+      className="navbar--content transformer"
+    >
+      Selling Your Home
+    </NavLink>
+    <NavLink
+      onClick={closeMenu}
+      to="/Real Estate Advice | Investing In Real Estate"
+      className="navbar--content transformer"
+    >
+      Investing in Real Estater
+    </NavLink>
+  </div>
+</li>
+<div className={`inter ${dropdownVisible3 ? "active" : ""}`}>
+        <li>
+            <NavLink
                 onClick={closeMenu}
+                activeclass="navbar--active-content"
                 to="/Real Estate Advice | Buying A Home"
-                className="navbar--content transformer"
-              >
+                className="missin"
+            >
                 Buying a Home
-              </NavLink>
-              <NavLink
+            </NavLink>
+        </li>
+        <li>
+            <NavLink
                 onClick={closeMenu}
+                activeclass="navbar--active-content"
                 to="/Real Estate Advice | Selling Your Home"
-                className="navbar--content transformer"
-              >
+                className="missin"
+            >
                 Selling Your Home
-              </NavLink>
-              <NavLink
+            </NavLink>
+        </li>
+        <li>
+            <NavLink
                 onClick={closeMenu}
+                activeclass="navbar--active-content"
                 to="/Real Estate Advice | Investing In Real Estate"
-                className="navbar--content transformer"
-              >
+                className="missin"
+            >
                 Investing in Real Estate
-              </NavLink>
-            </div>
-          </li>
+            </NavLink>
+        </li>
+    </div>
           <li>
             <NavLink
               onClick={closeMenu}
@@ -157,12 +200,11 @@ function Header() {
           </li>
           <li>
             <ScrollLink
-              onClick={closeMenu}
               activeclass="navbar--active-content"
               smooth={true}
               offset={-70}
               duration={2000}
-              to="announcement"
+            onClick={handleAnnouncementClick}
               className="navbar--content"
             >
               ANNOUNCEMENTS
@@ -175,7 +217,7 @@ function Header() {
   to="contact"
   smooth={true}
   offset={-100}
-  duration={2000}
+  duration={300}
   className="navbar--content"
 >
   CONTACT

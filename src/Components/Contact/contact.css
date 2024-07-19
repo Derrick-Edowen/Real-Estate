@@ -185,4 +185,27 @@ input[type="submit"]:active {
       box-shadow: 0 1px #666;
       transform: translateY(1px);
         }
-    
+        @media screen and (max-width: 1460px) {
+          .fitcontainer {
+            width: 100%;
+          justify-content: space-between;
+          flex-direction: column;
+            padding: 14px;
+            padding-left: 200px;
+            padding-right: 200px;
+            padding-bottom: 2px;
+          }
+          .contactForm-specific {
+            width: 100%;
+            padding: 10px;
+          
+          }
+          .lostboy {
+            display: flex;
+            color: #000000;
+            width: 100%;
+          justify-content: space-between;
+            padding-left: 200px;
+            padding-right: 200px;
+          }
+        }
