@@ -17,7 +17,7 @@ text-shadow: 2px 2px 2px rgba(0, 0, 0); /* horizontal offset, vertical offset, b
   }
   .ban {
 width: 100%;
-filter: blur(2.5px);
+filter: blur(4px);
 height: 40%;
 z-index: -500;
 position: absolute;  }

@@ -190,9 +190,9 @@ input[type="submit"]:active {
             width: 100%;
           justify-content: space-between;
           flex-direction: column;
-            padding: 14px;
-            padding-left: 200px;
-            padding-right: 200px;
+            padding: 12px;
+            padding-left: 160px;
+            padding-right: 160px;
             padding-bottom: 2px;
           }
           .contactForm-specific {
@@ -207,5 +207,70 @@ input[type="submit"]:active {
           justify-content: space-between;
             padding-left: 200px;
             padding-right: 200px;
+          }
+        }
+
+        @media screen and (max-width: 890px) {
+          .fitcontainer {
+            width: 100%;
+          justify-content: space-between;
+          flex-direction: column;
+            padding: 8px;
+            padding-left: 100px;
+            padding-right: 100px;
+            padding-bottom: 2px;
+          }
+          .contactForm-specific {
+            width: 100%;
+            padding: 10px;
+          
+          }
+          .lostboy {
+            display: flex;
+            color: #000000;
+            width: 100%;
+          justify-content: space-between;
+            padding-left: 50px;
+            padding-right: 50px;
+          }
+          .lostboy1 {
+            display: flex;
+            color: #000000;
+            width: 100%;
+          justify-content: center;
+            padding-left: 60px;
+            padding-right: 60px;
+          }
+        }
+        @media screen and (max-width: 580px) {
+          .fitcontainer {
+            width: 100%;
+          justify-content: space-between;
+          flex-direction: column;
+            padding: 8px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 2px;
+          }
+          .contactForm-specific {
+            width: 100%;
+            padding: 10px;
+          
+          }
+          .lostboy {
+            flex-direction: column;
+            color: #000000;
+            width: 100%;
+          justify-content: space-between;
+            padding-left: 10px;
+            padding-right: 10px;
+          }
+          .lostboy1 {
+            display: flex;
+            color: #000000;
+            width: 100%;
+          justify-content: center;
+            padding-left: 2px;
+            padding-right: 2px;
           }
         }

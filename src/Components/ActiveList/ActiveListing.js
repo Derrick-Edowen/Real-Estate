@@ -11,7 +11,7 @@ function ActiveList() {
     return (<>
 <div className="activity">
 <div className='descTextJ'> [ Active / Featured Listings ] </div>
-              <div className="cardContainer notranslate">
+              <div className="cardContainer2 notranslate">
               {sampleData.map((property, index) => (
                 <div className="cardi2 notranslate" key={index}>
                   <div className='indigo'>

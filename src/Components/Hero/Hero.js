@@ -33,7 +33,9 @@ function Hero() {
       <img className='itImg' src={woman100} alt='main' />
       </div>
       <div className='heroBox'>
-        <p className='descTexcpt'> - {message}</p>
+        {/*<p className='descTexcpt'> - {message}</p>*/}
+        <p className='descTexcpt'> - [ Message ]</p>
+
         <div className='sci-hero'>
                 <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>
                 <span><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></span>

@@ -118,7 +118,10 @@ function Blog() {
     return diffDays <= 7;
   };
   return (<>
+      <div className='descTextJ'> [ Announcements  / Updates ] </div>
+
     <div className="blog-container" id='announcement'>
+
         <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
 
       <div className="posts-container">

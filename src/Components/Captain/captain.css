@@ -27,3 +27,15 @@ z-index: 8000;
 
   }
 }
+@media screen and (max-width: 430px) {
+  .office-info {
+    display: none;
+  }
+  .captain {
+    padding-left: 4px;
+
+  }
+  .contact-info{
+    font-size: 12px;
+  }
+}

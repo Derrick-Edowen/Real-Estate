@@ -31,13 +31,12 @@
 }
 
 .searchButton {
-  padding: 10px 20px;
   background: rgb(99, 68, 68);
   color: white;
   border: none;
   font-size: 16px;
   cursor: pointer;
-  width: 8%;
+  width: 12%;
   transition: background-color 0.3s;
 }
 
@@ -281,54 +280,91 @@ text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.9); /* horizontal offset, vertical offs
 margin-bottom: 0px;
   }
 }
-@media screen and (max-width: 938px) {
+@media screen and (max-width: 1160px) {
+  .searchInput {
 
-  .textBox {
-    width: 100%;
-    padding-top: 50px;
-    text-align: center;
+    font-size: 16px;
+
   }
+  .searchButton {
 
-  .mainimg {
-    padding: 10px;
-    border-radius: 100%;
-    height: 400px;
-    top: 370px; 
-    margin-top: 18px;
-    padding-top: 15px;
-    width: 100%;
+    font-size: 14px;
+
+  }
+  .titCard {
+    font-size: 84px;
+  padding-top: 240px;
+  margin-bottom: 60px;
+  }
 }
-.newmainimg {
-  padding: 10px;
-  height: 400px;
-  top: 390px; 
-  margin-top: 18px;
-  padding-top: 15px;
+
+@media screen and (max-width: 890px) {
+
+
+.homePage {
   width: 100%;
-  object-fit: contain;
+  height: 63dvh;
+  border-bottom: 1px solid #afafaf2f;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.05) ;
 
 }
-  .textBox h1 {
-    font-size: 30px;
-    text-align: center;
+.splasher {
+  height: 72%;
+
+}
+.searchInput {
+
+  font-size: 14px;
+
+}
+.searchButton {
+
+  font-size: 12px;
+
+}
+.splasher-overlay {
+
+  height: 72%;
+
+}
+.titCard {
+  font-size: 62px;
+padding-top: 240px;
+margin-bottom: 40px;
+}
+}
+@media screen and (max-width: 500px) {
+  .searchInput {
+flex:auto;
+    font-size: 14px;
   }
+  .searchButton {
 
-  .textBox h2 {
-    font-size: 25px;
-    text-align: center;
+    font-size: 12px;
 
   }
-
-  .textBox p {
-    font-size: 20px;
-    text-align: center;
-margin-bottom: 0px;
+  .searchButton {
+    font-size: 12px;
+    width: 18%;
   }
-  .contactBtn {
-    margin-top: 5px;
-    margin-bottom: 8px;
-
-width: 200px;
+  .searchBar-container {
+    display: flex;
+    width: 98%;
+    gap: 8px;
   }
-
+  .splasher {
+    height: 65%;
+  
+  }
+  
+  .splasher-overlay {
+  
+    height: 65%;
+  
+  }
+  .titCard {
+    font-size: 48px;
+  padding-top: 220px;
+  margin-bottom: 20px;
+  }
 }
