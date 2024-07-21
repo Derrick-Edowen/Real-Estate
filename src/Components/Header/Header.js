@@ -148,7 +148,7 @@ function Header() {
       to="/Real Estate Advice | Investing In Real Estate"
       className="navbar--content transformer"
     >
-      Investing in Real Estater
+      Investing in Real Estate
     </NavLink>
   </div>
 </li>
@@ -203,7 +203,7 @@ function Header() {
               activeclass="navbar--active-content"
               smooth={true}
               offset={-70}
-              duration={2000}
+              duration={1500}
             onClick={handleAnnouncementClick}
               className="navbar--content"
             >
@@ -217,7 +217,7 @@ function Header() {
   to="contact"
   smooth={true}
   offset={-100}
-  duration={300}
+  duration={250}
   className="navbar--content"
 >
   CONTACT

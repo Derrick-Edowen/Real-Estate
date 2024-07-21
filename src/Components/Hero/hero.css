@@ -93,13 +93,6 @@ padding: 0px;
   text-align:left;
 justify-content: center;
 }
-
-.heroBox p {
-  float: left;
-  text-align:left;
-  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-color: black;
-}
 @media screen and (max-width: 1180px) {
   .sci-hero {
     margin-left: 10px;
@@ -168,7 +161,7 @@ gap: 10px;
     .itImg {
       position: relative;
       border-radius: 150px;
-      height: 65%;
+      height: 50%;
       width: fit-content;
       border: 2px dashed rgba(0, 0, 0, 0.63);
       margin-top: auto;
@@ -205,7 +198,7 @@ gap: 10px;
   .itImg {
     position: relative;
     border-radius: 150px;
-    height: 70%;
+    height: 55%;
     width: fit-content;
     border: 2px dashed rgba(0, 0, 0, 0.63);
     margin-top: auto;
@@ -236,6 +229,7 @@ gap: 10px;
   }
   .sci-hero {
     margin-left: auto;
+    display: none;
     margin-right: auto;
 font-size: 14px;
 gap: 10px;

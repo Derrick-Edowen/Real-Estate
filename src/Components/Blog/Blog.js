@@ -130,7 +130,7 @@ function Blog() {
             <img className="windows" src={post.image || noImg} alt="Post Image" />
             {isNewPost(post.created_at) && (
               <div className='burster'>
-                <FontAwesomeIcon icon={faCertificate} style={{color: "#984343",}} />
+                <FontAwesomeIcon icon={faCertificate} style={{color: "#c01e1e",}} />
                 <div className='updater'>New</div>
               </div>
             )}

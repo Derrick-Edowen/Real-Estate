@@ -515,7 +515,7 @@ const downloadPDF = () => {
             <div className='descTextF notranslate'> Stories/Levels - {safeAccess(api, 'resoFacts.stories')}</div>
             <div className='descTextF notranslate'> Square Footage - {safeAccess(api, 'resoFacts.livingArea')}</div>
             <div className='descTextF notranslate'> Home Type - {homeType}</div>
-            <div className='descTextF notranslate'> County - {safeAccess(api, 'county')}</div>
+            <div className='descTextF notranslate'> County/Region - {safeAccess(api, 'county')}</div>
             <div className='descTextF notranslate'>Built in: {safeAccess(api, 'yearBuilt')}</div>
 
           </div>
