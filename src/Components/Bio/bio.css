@@ -43,7 +43,8 @@ height: 100%;
 padding: 14px;
 background: rgb(240, 240, 240);
 border: 1px solid rgba(0, 0, 0, 0.048);
-
+margin-top: auto;
+    margin-bottom: auto;
 }
 .moon {
     width: 70%;

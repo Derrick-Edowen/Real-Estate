@@ -365,13 +365,13 @@ const renderLineChart = (annualAmortization) => {
           text: 'Loan Term (Years)',
           color: 'black',
           font: {
-            size: 20,
+            size: 14,
           }
         },
         ticks: {
           color: 'black',
           font: {
-            size: 16
+            size: 12
           }
         },
         grid: {
@@ -386,13 +386,13 @@ const renderLineChart = (annualAmortization) => {
           text: 'Amount ($)',
           color: 'black',
           font: {
-            size: 20,
+            size: 14,
           }
         },
         ticks: {
           color: 'black',
           font: {
-            size: 16
+            size: 12
           }
         },
         grid: {
@@ -405,7 +405,7 @@ const renderLineChart = (annualAmortization) => {
         labels: {
           color: 'black',
           font: {
-            size: 16
+            size: 12
           }
         }
       }
@@ -718,7 +718,7 @@ defaultValue={0}
             <div className='descTextF'>Amortization Calculator</div>
             <button className='downPDF' onClick={downloadPDF}>Download Monthly & Annual Amortization Tables &nbsp;<FontAwesomeIcon icon={faFilePdf} size="lg"/></button>
             </div>
-        <div className="mortgagepd-container">
+        <div className="mortgagepd-container1">
           <label htmlFor="homePrice" className='descTex'>Home Price($):</label>
           <div className="input-group">
             <input
@@ -797,7 +797,7 @@ defaultValue={0}
         </div>
         
         <div className='descTextF'>Annual Amortization Line Graph</div>
-        <div className="mortgagepd-container">
+        <div className="mortgagepd-container1">
         <div className="chart-container">
             <canvas id="lineChart" width="500" height="350"></canvas>
           </div>
