@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faCertificate } from '@fortawesome/free-solid-svg-icons';
 import noImg from '../../Assets/Images/noimg.jpg'
+import Contact from '../Contact/Contact';
 
 //Add a comment section to the announcements!
 function Blog() {
@@ -118,13 +119,10 @@ function Blog() {
     return diffDays <= 7;
   };
   return (<>
-      <div className='descTextJ'> [ Announcements  / Updates ] </div>
 
     <div className="blog-container" id='announcement'>
-
-        <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
-
-      <div className="posts-container">
+    <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
+    <div className="posts-container">
         {posts.slice().reverse().map((post, index) => (
           <div key={index} className="post" onClick={() => handleClick(index)}>
             <img className="windows" src={post.image || noImg} alt="Post Image" />
@@ -138,28 +136,11 @@ function Blog() {
               <div className="blogHead">{post.title}</div>
               <div className="timer">Posted on: {formatCreatedAt(post.created_at)}</div>
             </div>
-            {isLoggedIn && (
-              <button className="delbutt" onClick={() => handleDelete(post.id)}>
-                Delete this post?
-              </button>
-            )}
           </div>
         ))}
       </div>
-      {selectedPost && !isLoggedIn && (
-        <div className="lightboxB" onClick={handleClose}>
-          <div className="lightbox-contentB" onClick={(e) => e.stopPropagation()}>
-            <div className="chasser" onClick={handleClose}>
-              <FontAwesomeIcon icon={faXmark} size="2xl" />
-            </div>
-            <h3 className="blogHead1">{selectedPost.title}</h3>
-            <img className="windows1" src={selectedPost.image || noImg} alt="Posted Image Expanded" />
-            <div className="blogContl">{selectedPost.content}</div>
-            <div className="timer1">Posted on: {formatCreatedAt(selectedPost.created_at)}</div>
-          </div>
-        </div>
-      )}
     </div>
+    <Contact />
     </>);
 }
 

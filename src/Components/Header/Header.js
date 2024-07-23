@@ -199,16 +199,17 @@ function Header() {
             </NavLink>
           </li>
           <li>
-            <ScrollLink
+            <NavLink
               activeclass="navbar--active-content"
               smooth={true}
               offset={-70}
               duration={1500}
-            onClick={handleAnnouncementClick}
+            onClick={closeMenu}
+            to="/Announcements"
               className="navbar--content"
             >
-              ANNOUNCEMENTS
-            </ScrollLink>
+              NEWS
+            </NavLink>
           </li>
           <li>
           <ScrollLink
