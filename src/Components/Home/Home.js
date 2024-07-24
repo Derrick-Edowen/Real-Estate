@@ -96,7 +96,6 @@ function Home() {
     </div>
         <Hero />
         <Element name="announcement" className="announcement-section">
-        <Blog />
         </Element>
         <ActiveList />
         <Contact />

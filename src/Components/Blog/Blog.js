@@ -15,7 +15,25 @@ function Blog() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [image, setImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [transitionClass, setTransitionClass] = useState('');
 
+  const images = [
+    { src: 'https://storage.googleapis.com/realestate-images/luxliving21.jpg', text: 'Placeholder text 1' },
+    { src: 'https://storage.googleapis.com/realestate-images/luxliving3.jpg', text: 'Placeholder text 2' },
+    { src: 'https://storage.googleapis.com/realestate-images/luxliving.jpg', text: 'Placeholder text 3' },
+  ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTransitionClass('slide-out');
+      setTimeout(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setTransitionClass('slide-in');
+      }, 600); // Duration of slide-out transition
+    }, 18000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
   const location = useLocation();
   const currentUserID = location.state?.currentUserID || '';
   const isLoggedIn = location.state?.isLoggedIn || false;
@@ -120,24 +138,46 @@ function Blog() {
   };
   return (<>
 
-    <div className="blog-container" id='announcement'>
-    <img src='https://storage.googleapis.com/realestate-images/AD1122_KING_4.jpg' className='ban'></img>
-    <div className="posts-container">
+<div className="blog-container" id="announcement">
+      <div className="slideshow-container">
+        <img src={images[currentImageIndex].src} className={`ban ${transitionClass}`} alt="Slideshow" />
+        <div className={`slideshow-text ${transitionClass}`}>{images[currentImageIndex].text}</div>
+      </div>
+      <div className="posts-container">
         {posts.slice().reverse().map((post, index) => (
           <div key={index} className="post" onClick={() => handleClick(index)}>
             <img className="windows" src={post.image || noImg} alt="Post Image" />
             {isNewPost(post.created_at) && (
-              <div className='burster'>
-                <FontAwesomeIcon icon={faCertificate} style={{color: "#c01e1e",}} />
-                <div className='updater'>New</div>
+              <div className="burster">
+                <FontAwesomeIcon icon={faCertificate} style={{ color: '#c01e1e' }} />
+                <div className="updater">New</div>
               </div>
             )}
             <div className="finalss">
               <div className="blogHead">{post.title}</div>
-              <div className="timer">Posted on: {formatCreatedAt(post.created_at)}</div>
             </div>
           </div>
         ))}
+                  <div className="post">
+            <img className="windows" src={noImg} alt="Post Image" />
+              <div className='burster'>
+                <FontAwesomeIcon icon={faCertificate} style={{color: "#c01e1e",}} />
+                <div className='updater'>New</div>
+              </div>
+            <div className="finalss">
+              <div className="blogHead">The is the title that will be visible in the card/post</div>
+            </div>
+          </div>
+          <div className="post">
+            <img className="windows" src={noImg} alt="Post Image" />
+              <div className='burster'>
+                <FontAwesomeIcon icon={faCertificate} style={{color: "#c01e1e",}} />
+                <div className='updater'>New</div>
+              </div>
+            <div className="finalss">
+              <div className="blogHead">The is the title that will be visible in the card/post</div>
+            </div>
+          </div>
       </div>
     </div>
     <Contact />
