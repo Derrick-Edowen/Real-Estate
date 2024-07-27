@@ -201,3 +201,17 @@ margin-right: auto;
     width: 80%;
   }
 }
+@media screen and (max-width: 580px) {
+  .rock {
+    flex-direction: column;
+  }
+  .sun {
+    width: 100%;
+  }
+  .moon {
+    width: 100%;
+  }
+  .mainimg1 {
+    width: 30%;
+  }
+}

@@ -29,8 +29,8 @@ function Blog() {
       setTimeout(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
         setTransitionClass('slide-in');
-      }, 600); // Duration of slide-out transition
-    }, 18000);
+      }, 800); // Duration of slide-out transition
+    }, 13000);
 
     return () => clearInterval(interval);
   }, [images.length]);

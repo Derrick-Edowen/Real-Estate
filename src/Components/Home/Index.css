@@ -38,6 +38,8 @@
   cursor: pointer;
   width: 12%;
   transition: background-color 0.3s;
+  text-shadow: 2px 2px 1px #00000075;
+
 }
 
 .searchButton:hover {
