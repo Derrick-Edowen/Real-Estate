@@ -8,6 +8,8 @@
 input {
 	padding: 6px;
   background-color: white;
+  color: black;
+
 }
 select {
 	padding: 8px;
