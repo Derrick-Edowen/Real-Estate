@@ -24,20 +24,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //API CODE//
 
-const maxRequestsPerSecond = 2;
-const delayBetweenRequests = 1100 / maxRequestsPerSecond;
+const maxRequestsPerSecond = 1;
+const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
 
 const limiter = new Bottleneck({
-  maxConcurrent: 2, // Only process one request at a time
-  minTime: delayBetweenRequests,
+  maxConcurrent: maxRequestsPerSecond,
+  minTime: 1000 / maxRequestsPerSecond,
 });
 
 const wss = new WebSocket.Server({ server });
-const clients = new Map();
+const clients = new Map(); // Use a Map to store clients with a unique identifier
 
+// Define the request queue
 const requestQueue = [];
 let isProcessing = false;
 
+// Handle WebSocket connections
 wss.on('connection', function connection(ws) {
   ws.on('message', (message) => {
     const data = JSON.parse(message);
@@ -58,46 +60,6 @@ wss.on('connection', function connection(ws) {
 
 function getOrCreateWebSocket(id) {
   return clients.get(id);
-}
-
-app.use(express.json());
-
-app.post('/api/search-listings', (req, res) => {
-  addToQueue(req, res, handlePropertySearch);
-  res.sendStatus(200); // Immediate response to acknowledge receipt
-});
-
-app.post('/api/fetch-property-details', (req, res) => {
-  addToQueue(req, res, handleFetchPropertyDetails);
-  res.sendStatus(200); // Immediate response to acknowledge receipt
-});
-
-app.post('/nearby-details', (req, res) => {
-  addToQueue(req, res, nearbyPropertyDetails);
-  res.sendStatus(200); // Immediate response to acknowledge receipt
-});
-
-app.post('/api/geocode', (req, res) => {
-  addToQueue(req, res, handleGeocode);
-  res.sendStatus(200); // Immediate response to acknowledge receipt
-});
-
-function addToQueue(req, res, handler) {
-  requestQueue.push({ req, res, handler });
-  processQueue();
-}
-
-async function processQueue() {
-  if (isProcessing) return;
-  isProcessing = true;
-
-  while (requestQueue.length > 0) {
-    const { req, res, handler } = requestQueue.shift();
-    await handler(req, res);
-    await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-  }
-
-  isProcessing = false;
 }
 
 async function handlePropertySearch(req) {
@@ -163,7 +125,7 @@ async function handlePropertySearch(req) {
     const zpidData = { zpids: zpidListings };
 
     if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(zpidData));
+      ws.send(JSON.stringify(zpidData));  // Send data incrementally
     }
 
     if (ws.readyState === WebSocket.OPEN) {
@@ -178,6 +140,7 @@ async function handlePropertySearch(req) {
   }
 }
 
+// New endpoint to fetch property details and images
 async function handleFetchPropertyDetails(req, res) {
   const { zpid } = req.body;
 
@@ -210,6 +173,35 @@ async function handleFetchPropertyDetails(req, res) {
   }
 }
 
+app.post('/api/fetch-property-details', handleFetchPropertyDetails);
+
+app.use(express.json());
+app.post('/api/search-listings', (req, res) => {
+  addToQueue(req, res, handlePropertySearch);
+  res.sendStatus(200); // Immediate response to acknowledge receipt
+});
+
+function addToQueue(req, res, handler) {
+  requestQueue.push({ req, res, handler });
+  processQueue();
+}
+
+async function processQueue() {
+  if (isProcessing) return;
+  isProcessing = true;
+
+  while (requestQueue.length > 0) {
+    const batch = requestQueue.splice(0, clients.size); // Process as many requests as there are clients
+    const handlers = batch.map(({ req, res, handler }) => handler(req, res));
+    await Promise.all(handlers);
+    await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
+  }
+
+  isProcessing = false;
+}
+
+app.post('/nearby-details', nearbyPropertyDetails);
+
 async function nearbyPropertyDetails(req, res) {
   const zpid = req.body.zpid;
 
@@ -217,21 +209,21 @@ async function nearbyPropertyDetails(req, res) {
     const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
     const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
 
-    const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
+    const propertyResponse = await axios.get(propertyUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    }));
+    });
 
-    const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
+    const imageResponse = await axios.get(imagesUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    }));
+    });
 
     const data = {
       property: propertyResponse.data,
@@ -245,24 +237,22 @@ async function nearbyPropertyDetails(req, res) {
   }
 }
 
-async function handleGeocode(req, res) {
+app.post('/api/geocode', async (req, res) => {
   const { address } = req.body;
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${process.env.GOOGLE_API_KEY}`;
 
   try {
-    const response = await limiter.schedule(() => axios.get(geocodeUrl));
-
-    if (response.status !== 200) {
+    const response = await fetch(geocodeUrl);
+    if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-
-    const data = response.data;
+    const data = await response.json();
     res.json(data);
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'An error occurred while fetching the data' });
   }
-}
+});
 
 //DATABASE CODE
 let pool;
