@@ -5,6 +5,7 @@ import Contact from '../Contact/Contact';
 
 
 function Selling() {
+    /*
     useEffect(() => {
         // Ensure adsbygoogle script is loaded
         const adsbygoogleScript = document.createElement('script');
@@ -16,8 +17,9 @@ function Selling() {
         // Push the ads once the script is loaded
         adsbygoogleScript.onload = () => {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
+
         };
-    }, []);
+    }, []);*/
     return (<>
         <div className="sellingIt">
 <div className="descTextJc">The Nuances and Significance of Selling Your Home</div>
@@ -64,12 +66,13 @@ function Selling() {
 <p className="descTexcp">Finalizing the Sale: Work with your real estate agent, attorney, and escrow company to complete the necessary paperwork and finalize the sale. This includes signing the deed, transferring ownership, and receiving payment.</p>
 
 <p className="descTexcp">Moving Out: Plan your move and ensure you leave the property in good condition for the new owners. This includes cleaning the home and removing all personal belongings.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">The Significance of Selling Your Home</div>
 <div className="descTexc">1. Financial Benefits</div>
 <p className="descTexcp">Realizing Equity: Selling your home allows you to access the equity you've built over time. This can provide funds for purchasing a new home, investing, or other financial goals.</p>
@@ -91,12 +94,13 @@ function Selling() {
 <p className="descTexcp">Market Conditions: Selling in a seller's market, where demand exceeds supply, can lead to faster sales and higher prices. In a buyer's market, you may need to be more flexible with pricing and terms.</p>
 
 <p className="descTexcp">Flexibility and Patience: The selling process can take time, especially in fluctuating markets. Being flexible and patient can help you navigate challenges and ultimately achieve a successful sale.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Common Challenges and Considerations</div>
 <div className="descTexc">1. Market Fluctuations</div>
 <p className="descTexcp">Economic Factors: Economic conditions, such as interest rates, employment rates, and consumer confidence, can impact the real estate market and affect your home's sale price and timeline.</p>
@@ -112,12 +116,13 @@ function Selling() {
 <p className="descTexcp">Legal Requirements: Ensure you comply with all legal requirements, including disclosure laws, property taxes, and any homeowners' association rules. Consult with a real estate attorney if needed.</p>
 
 <p className="descTexcp">Moving Costs: Factor in the costs of moving, including hiring movers, transportation, and potential temporary housing. Budget for these expenses to avoid financial strain.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Selling a home is a multifaceted process that requires careful planning, strategic decision-making, and emotional readiness. By understanding the nuances of the home-selling process and recognizing the significance of this major life event, you can make informed decisions that lead to a successful and rewarding outcome. Whether you're selling for the first time or have previous experience, approaching the process with knowledge and confidence will help you achieve your goals and transition smoothly to the next chapter of your life.</p>
               </div>

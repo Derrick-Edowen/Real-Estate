@@ -5,7 +5,8 @@ import Contact from '../Contact/Contact';
 
 
 function Investing() {
-    useEffect(() => {
+
+    /*useEffect(() => {
         // Ensure adsbygoogle script is loaded
         const adsbygoogleScript = document.createElement('script');
         adsbygoogleScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
@@ -17,7 +18,7 @@ function Investing() {
         adsbygoogleScript.onload = () => {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
         };
-    }, []);
+    }, []);*/
     return (<>
         <div className="investingIt">
 
@@ -48,12 +49,13 @@ function Investing() {
 <p className="descTexcp">Cap Rate: The capitalization rate (cap rate) is the ratio of a property's net operating income (NOI) to its purchase price. It helps investors assess the potential return on an investment. Higher cap rates indicate higher potential returns but may also involve higher risks.</p>
 
 <p className="descTexcp">Leverage: Leverage involves using borrowed capital to finance a real estate investment. It allows investors to acquire properties with less upfront capital and amplify potential returns. However, leverage also increases risk if property values decline or rental income falls short.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">The Significance of Real Estate Investment</div>
 <div className="descTexc">1. Financial Benefits</div>
 <p className="descTexcp">Income Generation: Rental properties provide a steady stream of passive income. Properly managed rental properties can generate consistent cash flow, contributing to financial stability and independence.</p>
@@ -81,12 +83,13 @@ function Investing() {
 <p className="descTexcp">Risk Management: Diversify investments across different property types and locations to mitigate risks. Consider insurance policies to protect against unforeseen events and liabilities.</p>
 
 <p className="descTexcp">Professional Guidance: Work with real estate professionals, including agents, property managers, and financial advisors, to navigate the complexities of real estate investment. Their expertise can help identify profitable opportunities and manage properties effectively.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Common Challenges and Considerations</div>
 <div className="descTexc">1. Market Fluctuations</div>
 <p className="descTexcp">Economic Factors: Economic conditions, such as interest rates, employment rates, and consumer confidence, can impact the real estate market. Investors must stay informed about economic trends and adjust their strategies accordingly.</p>
@@ -106,12 +109,13 @@ function Investing() {
 <p className="descTexcp">Financing Options: Explore different financing options, including conventional mortgages, private loans, and partnerships. Understand the terms and conditions of each option to choose the most suitable financing method.</p>
 
 <p className="descTexcp">Tax Implications: Real estate investment involves complex tax considerations. Consult with a tax professional to understand the tax implications of your investments and take advantage of available deductions and credits.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Investing in real estate is a multifaceted endeavor that offers numerous financial and personal benefits. By understanding the nuances of real estate investment and recognizing its significance, investors can make informed decisions that lead to long-term success. Whether you're investing in residential properties, commercial real estate, or REITs, approaching the process with knowledge and strategic planning will help you achieve your financial goals and build a secure future. Real estate investment requires careful research, risk management, and professional guidance, but the rewards can be substantial, providing a pathway to financial independence and wealth accumulation.</p>
               </div>

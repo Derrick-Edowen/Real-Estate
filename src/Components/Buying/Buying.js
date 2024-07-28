@@ -5,6 +5,7 @@ import Contact from '../Contact/Contact';
 
 
 function Buying() {
+    /*
     useEffect(() => {
         // Ensure adsbygoogle script is loaded
         const adsbygoogleScript = document.createElement('script');
@@ -16,8 +17,10 @@ function Buying() {
         // Push the ads once the script is loaded
         adsbygoogleScript.onload = () => {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
         };
-    }, []);
+    }, []);*/
     return (<>
 <div className="buyingIt">
 
@@ -56,12 +59,13 @@ function Buying() {
 <p className="descTexcp">Closing Costs: These include fees for the loan origination, title insurance, escrow, and other services. They typically range from 2-5% of the purchase price.</p>
 
 <p className="descTexcp">Closing Day: Review and sign all closing documents, pay the remaining down payment and closing costs, and receive the keys to your new home.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">The Significance of Homeownership</div>
 <div className="descTexc">1. Financial Benefits</div>
 <p className="descTexcp">Building Equity: Each mortgage payment increases your equity in the home, which can be a valuable financial asset. Over time, your home may appreciate, further increasing your net worth.</p>
@@ -81,12 +85,13 @@ function Buying() {
 <p className="descTexcp">Appreciation Potential: While real estate markets can fluctuate, homes generally appreciate over the long term. This can provide a substantial return on investment if you decide to sell.</p>
 
 <p className="descTexcp">Forced Savings: Regular mortgage payments act as a form of forced savings, gradually increasing your home equity and contributing to your financial stability.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Common Challenges and Considerations</div>
 <div className="descTexc">1. Market Conditions</div>
 <p className="descTexcp">Buyer’s vs. Seller’s Market: In a buyer’s market, there are more homes for sale than buyers, leading to lower prices and more negotiation power. In a seller’s market, high demand and low inventory can drive up prices and reduce negotiating leverage.</p>
@@ -102,12 +107,13 @@ function Buying() {
 <p className="descTexcp">Long-Term Commitment: Buying a home is a long-term commitment that may impact your ability to relocate for job opportunities or other life changes.</p>
 
 <p className="descTexcp">Responsibility: Homeownership comes with responsibilities, including property upkeep, insurance, and adherence to local regulations and homeowners’ association rules.</p>
+{/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>
+                     data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Buying a home is a complex yet rewarding journey that requires careful planning, research, and financial preparation. By understanding the nuances of the home-buying process and recognizing the significance of homeownership, you can make informed decisions that lead to a fulfilling and financially beneficial outcome. Whether you are a first-time buyer or an experienced homeowner, the key is to approach the process with knowledge and confidence, ensuring that your investment aligns with your long-term goals and aspirations.</p>
 </div>
