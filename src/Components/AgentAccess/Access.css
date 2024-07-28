@@ -12,6 +12,8 @@
     .access {
         padding: 180px;
         padding-top: 110px;
+        padding-bottom: 40px;
+
     }
     .uping {
       background: #492525;
@@ -319,7 +321,6 @@
     @media screen and (max-width: 1365px) {
       .post {
         width: calc(25% - 2px); /* Calculate the width based on the number of posts per row */
-  
       }
     }
     @media screen and (max-width: 1180px) {
@@ -327,12 +328,24 @@
         width: calc(33% - 2px); /* Calculate the width based on the number of posts per row */
   
       }
+      .access {
+        padding: 120px;
+        padding-top: 110px;
+        padding-bottom: 40px;
+
+    }
     }
     @media screen and (max-width: 740px) {
       .post {
         width: calc(50% - 2px); /* Calculate the width based on the number of posts per row */
   
       }
+      .access {
+        padding: 80px;
+        padding-top: 110px;
+        padding-bottom: 40px;
+
+    }
     }
     @media screen and (max-width: 580px) {
       .post {
@@ -348,6 +361,12 @@
         font-size: 16px;
   
           }
+          .access {
+            padding: 20px;
+            padding-top: 110px;
+            padding-bottom: 40px;
+
+        }
     }
   
     

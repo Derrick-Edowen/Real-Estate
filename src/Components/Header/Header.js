@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from 'react-router-dom';
 import './Index.css'
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
-import { useNavigate } from 'react-router-dom';
+import woman100 from '../../Assets/Images/woman100.jpg';
 
 function Header() {
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
@@ -16,26 +16,9 @@ function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-
-  const handleAnnouncementClick = () => {
-    // First, navigate to the home page
-    navigate('/Home', {
-      state: { scrollToAnnouncement: true },
-    });
-    // Then, close the menu if necessary
-    closeMenu();
-  };
   const toggleNav = () => {
     
     setNavActive(!navActive);
-    setDropdownVisible1(false);
-    setDropdownVisible2(false);
-    setDropdownVisible3(false);
-
-  };
-
-  const closeMenu = () => {
-    setNavActive(false);
     setDropdownVisible1(false);
     setDropdownVisible2(false);
     setDropdownVisible3(false);
@@ -63,6 +46,13 @@ function Header() {
   };
   
   
+  const closeMenu = () => {
+    setDropdownVisible1(false);
+    setDropdownVisible2(false);
+    setDropdownVisible3(false);
+    setNavActive(false);
+  };
+
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -80,12 +70,16 @@ function Header() {
       document.body.removeEventListener("click", handleOutsideClick);
     };
   }, []);
+  useEffect(() => {
+    closeMenu();
+  }, [location]);
   return (
 
     <nav className={`navbar ${navActive ? "active" : ""}`}>
       
       <NavLink to="/Home" className="heading-link">
-      <div className="heading">      
+      <div className="heading">
+      <img className='mainimg19' src={woman100} alt='main' />      
         <h2>[ Brokerage / Business Icon ]</h2>
         <h4>[ Your Name ]<br/> [ Sales Representative / Broker ]</h4>
       </div>
@@ -129,24 +123,24 @@ function Header() {
         </li>
   </div>
   <div className={`dropdown-content ${dropdownVisible3 ? "active" : ""}`}>
-    <NavLink
-      onClick={closeMenu}
-      to="/Real Estate Advice | Buying A Home"
-      className="navbar--content transformer"
-    >
+  <NavLink
+          onClick={closeMenu}
+          to="/Real Estate Advice | Buying A Home"
+          className="navbar--content transformer miker"
+        >
       Buying a Home
     </NavLink>
     <NavLink
       onClick={closeMenu}
       to="/Real Estate Advice | Selling Your Home"
-      className="navbar--content transformer"
+      className="navbar--content transformer miker2"
     >
       Selling Your Home
     </NavLink>
     <NavLink
       onClick={closeMenu}
       to="/Real Estate Advice | Investing In Real Estate"
-      className="navbar--content transformer"
+      className="navbar--content transformer miker3"
     >
       Investing in Real Estate
     </NavLink>

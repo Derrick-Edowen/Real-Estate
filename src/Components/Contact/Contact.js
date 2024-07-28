@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faYoutube,faSquareXTwitter, faTiktok } from '@fortawesome/free-brands-svg-icons';
 import { faAt, faPhoneVolume, faUser, faPencil, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../Assets/Images/minilogo.PNG'
+import woman100 from '../../Assets/Images/woman100.jpg';
+
 function Contact() {
   const [textVisible, setTextVisible] = useState(false);
 
@@ -42,6 +43,7 @@ function Contact() {
 
 
         <div className='megainfo'>
+        <img className='mainimg199' src={woman100} alt='main' />      
           <div className='descTextJv'>[ Brokerage / Business Icon ]</div>
           <div className='descTextJv'>[ Brokerage / Business Name ]</div>
           <div className='descTextJv'>[ Brokerage /  Business Address ]</div>

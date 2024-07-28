@@ -34,7 +34,7 @@ function Hero() {
       </div>
       <div className='heroBox'>
         {/*<p className='descTexcpt'> - {message}</p>*/}
-        <p className='descTexcpt'> - [ Message ]</p>
+        <p className='descTexcpt'> - {message}</p>
 
         <div className='sci-hero'>
                 <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>

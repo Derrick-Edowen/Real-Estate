@@ -370,6 +370,7 @@ const handleUpdatePhone = async () => {
             {isLoggedIn && (
               <div className="text-area-containera">
                 <div className='descTextJfc'> Create a New Announcement</div>
+                <div className='descTextJd'> (Announcements require a title, content, and image)</div>
                 <div className='descTex'> New Announcement Title</div>
                 <input
                   type="text"
@@ -409,7 +410,6 @@ const handleUpdatePhone = async () => {
                 <button className="postbutta" onClick={handlePost}>
                   Create Announcement
                 </button>
-                <div className='descTextJd'> (Announcements require a title, content, and image)</div>
                 <div className='descTextJfc'> Current Announcements:</div>
 
                 <div className="posts-containera">

@@ -1,16 +1,38 @@
 .activity {
-    height: 40vh;
+    height: 50vh;
     padding-right: 26px;
     padding-left: 26px;
-    box-shadow: 2px 2px 4px 2px #00000052 ;
+    box-shadow: 2px 2px 4px 2px #00000052;
+    padding-top: 92px;
 
 }
 @media screen and (max-width: 1365px) {
 
 .activity {
-    height: 36vh;
-    padding: 2px;
+    height: fit-content;
+        padding: 2px;
+        padding-top: 100px;
     box-shadow: 2px 2px 4px 2px #00000052 ;
+padding-bottom: 20px;
+}
+}
+@media screen and (max-width: 720px) {
 
-}
-}
+    .activity {
+        height: fit-content;
+            padding: 2px;
+            padding-top: 90px;
+        box-shadow: 2px 2px 4px 2px #00000052 ;
+    padding-bottom: 20px;
+    }
+    }
+    @media screen and (max-width: 500px) {
+
+        .activity {
+            height: fit-content;
+                padding: 2px;
+                padding-top: 20px;
+            box-shadow: 2px 2px 4px 2px #00000052 ;
+        padding-bottom: 20px;
+        }
+        }

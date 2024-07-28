@@ -65,7 +65,7 @@
   right: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(46, 46, 46, 0.062);
   z-index: 4000;
 }
 
@@ -79,7 +79,20 @@
   align-items: center;     /* centers the items vertically */
   justify-content: center; /* centers the items horizontally */
 padding-top: 240px;
-margin-bottom: 140px;
+margin-bottom: 10px;
+}
+.messCard {
+  display: flex;
+  text-align: center;
+  color: white;
+  font-size: 32px;
+  font-weight: 300;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
+  align-items: center;     /* centers the items vertically */
+  justify-content: center; /* centers the items horizontally */
+padding-top: 18px;
+margin-bottom: 10px;
+padding-bottom: 18px;
 }
 .gote {
   text-align: center;
@@ -296,7 +309,13 @@ margin-bottom: 0px;
   .titCard {
     font-size: 84px;
   padding-top: 240px;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
+  }
+  .messCard {
+    font-size: 26px;
+  padding-top: 18px;
+  margin-bottom: 10px;
+  padding-bottom: 18px;
   }
 }
 
@@ -334,6 +353,12 @@ margin-bottom: 0px;
 padding-top: 240px;
 margin-bottom: 40px;
 }
+.messCard {
+  font-size: 22px;
+padding-top: 18px;
+margin-bottom: 10px;
+padding-bottom: 18px;
+}
 }
 @media screen and (max-width: 500px) {
   .searchInput {
@@ -367,6 +392,12 @@ flex:auto;
   .titCard {
     font-size: 48px;
   padding-top: 220px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
+  }
+  .messCard {
+    font-size: 20px;
+  padding-top: 18px;
+  margin-bottom: 10px;
+  padding-bottom: 18px;
   }
 }

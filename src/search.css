@@ -347,6 +347,15 @@ margin: auto;
 	margin-top: 0px;
 padding: 0px;
 }
+.descTexcpml {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 18px;
+    color: #252525;
+    letter-spacing: 2px;
+	margin-top: 0px;
+  text-align: center;
+padding: 0px;
+}
 .descTexcpt {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 20px;
@@ -2061,6 +2070,9 @@ padding-bottom: 7px;
 }
 
 @media screen and (max-width: 500px) {
+  .capture {
+    justify-content: space-between;
+  }
   .fixer {
     position: relative;
     width: 100%;

@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Hero from '../Hero/Hero';
-import Blog from '../Blog/Blog';
 import ActiveList from '../ActiveList/ActiveListing';
 import Contact from '../Contact/Contact';
-import { Link } from 'react-router-dom';
-import man1 from '../../Assets/Images/man1-PhotoRoom.png';
-import woman1 from '../../Assets/Images/smiling-blonde-business-woman-posing-with-crossed-arms.png';
 import './Index.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalculator, faBullhorn, faPhoneVolume, faHouseCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { Element, scroller } from 'react-scroll';
 
 function Home() {
   const [city, setCity] = useState('');
   const navigate = useNavigate();
-  const location = useLocation();
   const [banner, setBanner] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     fetchBanner();
+    fetchMessage();
   }, []);
 
   const fetchBanner = async () => {
@@ -33,6 +26,18 @@ function Home() {
       setBanner(data[0]?.banner || '');
     } catch (error) {
       console.error('Error fetching banner:', error);
+    }
+  };
+  const fetchMessage = async () => {
+    try {
+      const response = await fetch('/message');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setMessage(data[0]?.message || '');
+    } catch (error) {
+      console.error('Error fetching message:', error);
     }
   };
   const handleCityChange = (e) => {
@@ -53,25 +58,14 @@ function Home() {
     // Navigate to the find listings page with the search parameters as state
     navigate('/Find Listings | Property Search', { state: { searcherParams: newSearchParams } });
   };
-  useEffect(() => {
-    if (location.state && location.state.scrollToAnnouncement) {
-      scroller.scrollTo('announcement', {
-        duration: 300,
-        delay: 0,
-        smooth: 'easeInOutQuad',
-        offset: -180, // Adjust offset as needed
-      });
-    }
-  }, [location]);
   
   return (
     <>
     <div className="homePage">
-      <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splasher'></img>
+      <img src='https://storage.googleapis.com/realestate-images/luxliving.jpg' className='splasher'></img>
       <div className='splasher-overlay'>
-      <div className='titCard'>
-      {banner}
-      </div>
+      <div className='titCard'> {banner} </div>
+      <p className='messCard'> {message} </p>
       <div className='discover'>
       <div className="searchBar-container">
         <div className='descTexcjn'> Find Your New Home </div>
@@ -94,7 +88,6 @@ function Home() {
 
     </div>
     </div>
-        <Hero />
         <Element name="announcement" className="announcement-section">
         </Element>
         <ActiveList />
