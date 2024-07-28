@@ -43,7 +43,7 @@ function Access() {
     if (!isLoggedIn) {
       const timer = setTimeout(() => {
         navigate('/Login'); // Redirect to login page after 5 seconds
-      }, 4000); // 5000 milliseconds = 5 seconds
+      }, 5000); // 5000 milliseconds = 5 seconds
 
       return () => clearTimeout(timer); // Clear the timer if component unmounts
     }
@@ -433,7 +433,9 @@ const handleUpdatePhone = async () => {
             )}
         </>
       ) : (
+        <div className='LogFalse'>
         <div className='descTextJfc'>Please Log In to Reach The Agent Portal</div>
+        </div>
       )}
     </div>
 </div>

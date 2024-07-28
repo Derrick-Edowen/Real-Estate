@@ -58,7 +58,7 @@ function Login() {
   <img className="logol" src={logol} />
   </div>
     <div className='descTextJl'>Agent Portal Login</div>
-    <div className='descTextJln1'>*Login is case and space sensitive</div>
+    <div className='descTextJln12'>*Login is case and space sensitive</div>
     <div className="inputBox-specific">
       <input
         type="text"

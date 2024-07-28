@@ -413,6 +413,14 @@ padding: 2px;
     letter-spacing: 2px;
 padding: 2px;
 }
+.descTextJln12 {
+  font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #333;
+    text-align: end;
+    letter-spacing: 2px;
+padding: 2px;
+}
 .descTextJlnv {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
     font-size: 28px;
