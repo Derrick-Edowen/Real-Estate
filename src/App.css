@@ -21,5 +21,54 @@ html {
     height:88vh;
 
 }
+.lightbox9 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 8000;
+}
 
+.lightbox9-content {
+  background: #fff;
+  padding: 40px;
+  border-radius: 3px;
+  max-width: 90%;
+  max-height: 80%;
+  overflow: auto;
+  position: relative;
+}
+
+.lightbox9-close {
+  position: absolute;
+  top: -18px;
+  right: 10px;
+  font-size: 54px;
+  cursor: pointer;
+}
+.lightbox9-image {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lightbox9-image img {
+  width: auto;
+  height: 150px;
+}
+.lighters {
+  justify-content: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.lightbox9-text {
+  margin-top: 10px;
+}
 
