@@ -2073,6 +2073,9 @@ padding-bottom: 7px;
   .capture {
     justify-content: space-between;
   }
+  .toggle {
+    padding: 8px;
+  }
   .fixer {
     position: relative;
     width: 100%;
