@@ -113,10 +113,10 @@ function Home() {
             <div className="lightbox9-text">
               <p className='descTexcp'>
                 Welcome to One Estate Web Services Sample site. 
-                This website is used to demonstrate to potential clients the design and functionality that is 
+                This website is used to demonstrate to clients the design and functionality that is 
                 provided to all One Estate Web Services client websites. Please note all content found inside [ brackets ] 
-                is subject to change. When your website is in development this content will be replaced with your information or 
-                you will be able to change it independently. Ready to have your own personal One Estate Web services Real Estate web site, send us an email to get started! <br/>
+                is subject to change and is used for sample purposes. When your website is in development this content will be replaced with your information or 
+                you will be able to change it independently. Ready to have your own personal One Estate Web services Real Estate web site, send us an email to get started! <br/><br/>
                 <a href="mailto:oneestatewebservices@outlook.com" style={{color: 'black'}}>oneestatewebservices@outlook.com</a>
               </p>
             </div>

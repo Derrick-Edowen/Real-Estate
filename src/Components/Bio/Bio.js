@@ -64,7 +64,7 @@ function Bio() {
 
             <div className='cookem'>
             <div className='plant'>
-            <div className='descTextJ'> Active / Featured Listings </div>
+            <div className='descTextJ'> Featured Listings </div>
               <div className="cardContainer notranslate">
               {sampleData.map((property, index) => (
                 <div className="cardi2 notranslate" key={index}>
