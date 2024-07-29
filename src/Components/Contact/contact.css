@@ -97,6 +97,7 @@ input, textarea {
   background: #fff;
   font-size: 1em;
   transition: border-color 0.3s;
+  color: black;
 }
 
 input:focus, textarea:focus {
