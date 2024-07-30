@@ -37,6 +37,7 @@ margin-right: auto;
   position: fixed !important;
   top: 28px;
   left: 0;
+  height: 8vh;
   width: 100%;
   border-bottom: 1px solid #afafaf41;
   z-index: 6000;

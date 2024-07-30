@@ -1,19 +1,17 @@
 .activity {
-    height: 50vh;
-    padding-right: 26px;
-    padding-left: 26px;
+    padding: 20px;
+    padding-top: 2px;
     box-shadow: 2px 2px 4px 2px #00000052;
-    padding-top: 92px;
-
 }
 @media screen and (max-width: 1365px) {
 
 .activity {
     height: fit-content;
         padding: 2px;
-        padding-top: 100px;
     box-shadow: 2px 2px 4px 2px #00000052 ;
 padding-bottom: 20px;
+padding-top: 20px;
+
 }
 }
 @media screen and (max-width: 720px) {

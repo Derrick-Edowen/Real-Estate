@@ -100,7 +100,6 @@ function Home() {
           </div>
         </div>
       </div>
-      <Element name="announcement" className="announcement-section"></Element>
       <ActiveList />
       <Contact />
       {showLightbox && (

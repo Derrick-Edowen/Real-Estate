@@ -743,7 +743,6 @@ useEffect(() => {
 return (
   <>
   <div className='lists notranslate'>
-    <img src='https://storage.googleapis.com/realestate-images/luxury.jpg' className='splash'></img>
     <div className='overlay notranslate'>
       <aside className='screen-1'>
         <button className="toggle" onClick={toggleFilter}> Listings Search Form  
