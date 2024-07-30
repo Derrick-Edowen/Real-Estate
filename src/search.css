@@ -102,7 +102,6 @@ color: rgb(119, 119, 119);
 	width: 100%;
 	margin-left: auto;
 padding: 8px;
-height: 7vh;
 z-index: 2000;
 background: white;
 margin-right: auto;
@@ -189,9 +188,7 @@ border: 1px solid #222222c7;
     padding: 8px;
     cursor: pointer;
   }
-  .screen-1 {
-    height: 7vh;
-  } 
+
   .options label:hover {
     background-color: #f0f0f0;
   }
@@ -203,10 +200,9 @@ border: 1px solid #222222c7;
   .techer {
     background: white;
 width: 100%;
-font-size: 14px;
+font-size: 16px;
 color: #333;
 font-weight: 700;
-height: 3vh;
 text-align: center;
 font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 border-top: 1px solid #222222c7;
@@ -643,6 +639,7 @@ width: fit-content;
   .lists {
     width: 100%;
     padding-top: 102px;
+    height: 100vh;
   }
 .cardContainer {
   display: flex;
@@ -1012,7 +1009,7 @@ padding: 4px;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 88.5vh;
+  height: 100%;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.45);
   padding-right: 0px;
@@ -1216,6 +1213,7 @@ transform: translateY(-50%);
   font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 background: white;
   gap: 8px;
+  height: 5vh;
   width: 100%;
   justify-content: center;
 font-style: italic;
@@ -1300,7 +1298,7 @@ margin-right: auto;
  .lite {
   display: flex;
   width: 100%;
-  height: 91.5%;
+  height: 81vh;
 }
  .visible {
   display: flex;
@@ -1321,7 +1319,24 @@ margin-right: auto;
 display:inline-flex; 
 
 }
+.nation {
+  min-width: 100%;
+}
+.selected-value {
+  display: inline-block;
+  border: 1px solid #222222c7;
+  background-color: white;
+  font-weight: 400;
+  border-radius: 1px;
+min-width: 100%;
 
+  overflow: hidden;
+  padding: 8px 8px 8px 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  height: 100%;
+}
 .supyo #search {
   width: 100%;
 }
@@ -1528,7 +1543,6 @@ text-align: center;
   .lite {
     flex-direction: column;
     width: 100%;
-    height: 91.5%;
   }
   .zoo {
     width: 100%;
@@ -1809,7 +1823,8 @@ border-radius: 0px;
 }
 .lists {
   width: 100%;
-  padding-top: 92px;
+  padding-top: 102px;
+  height: 100vh;
 }
 .techer {
   background: white;
@@ -1856,6 +1871,9 @@ padding-bottom: 7px;
       }
       .zoo {
         display: none;
+      }
+      .lite {
+height: 80vh;
       }
     .detts {
       font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
