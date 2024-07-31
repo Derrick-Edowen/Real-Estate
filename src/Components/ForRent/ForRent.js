@@ -1140,7 +1140,7 @@ return (
       )}
 
       {initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0 ? (
-        <div className="cardContainer notranslate">
+        <div className="cardContainerStress notranslate">
           {/*
 <ins className="adsbygoogle"
                      style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}

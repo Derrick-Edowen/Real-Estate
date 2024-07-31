@@ -24,7 +24,7 @@ function Lost() {
         <div style={styles.container}>
             <div style={styles.sadFace}>:(</div>
             <div style={styles.errorText}>404 Error - Page Not Found!</div>
-            <div style={styles.message}>Rerouting you to the Home page!  In {countdown} Seconds...</div>
+            <div style={styles.message}>Redirecting you in {countdown} seconds...</div>
         </div>
     );
 }

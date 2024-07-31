@@ -665,6 +665,28 @@ width: fit-content;
 .cardContainer::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0); /* Track color (transparent in this case) */
 }
+.cardContainerStress {
+  gap: 0px;
+  overflow:auto;
+  height: 94.5%;
+  position: relative; /* Ensure relative positioning for absolute positioning inside */
+  scrollbar-width: thin; /* Modern scrollbar width (Chrome, Edge) */
+  scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0); /* Modern scrollbar color (thumb, track) */
+
+  /* Firefox scrollbar styles */
+  scrollbar-track-color: rgba(0, 0, 0, 0);
+}
+
+/* Define scrollbar thumb styles */
+.cardContainerStress::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5); /* Thumb color */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* Define scrollbar track styles (optional, usually matches background) */
+.cardContainerStress::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0); /* Track color (transparent in this case) */
+}
 .cardContainer2 {
   display: flex;
   flex-wrap: wrap; /* Allow cards to wrap to the next line */
