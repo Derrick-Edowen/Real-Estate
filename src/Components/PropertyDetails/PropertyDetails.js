@@ -440,7 +440,7 @@ const downloadPDF = () => {
         <>
         <aside className="leftSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Left Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
       <main className='propDets'>
         {api && (
@@ -891,7 +891,7 @@ defaultValue={0}
       </main>
       <aside className="rightSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Right Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
       <Contact />
 

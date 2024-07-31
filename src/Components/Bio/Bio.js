@@ -32,7 +32,7 @@ function Bio() {
   return (<>
   <aside className="leftSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Left Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
         <main className='testee'>
           <div className='meteor'>
@@ -141,7 +141,7 @@ function Bio() {
           </main>
           <aside className="rightSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Right Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
           <Contact />
 

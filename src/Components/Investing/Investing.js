@@ -22,7 +22,7 @@ function Investing() {
     return (<>
     <aside className="leftSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Left Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
         <main className="investingIt">
 
@@ -125,7 +125,7 @@ function Investing() {
               </main>
               <aside className="rightSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Right Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
               <Contact />
 

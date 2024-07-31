@@ -24,7 +24,7 @@ function Selling() {
 
 <aside className="leftSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Left Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
         <main className="sellingIt">
 <div className="descTextJc">The Nuances and Significance of Selling Your Home</div>
@@ -133,7 +133,7 @@ function Selling() {
               </main>
               <aside className="rightSidebar">
                 {/* Place your ad code here */}
-                <div className="ad">Right Sidebar Ad</div>
+                <div className="ad"></div>
             </aside>
               <Contact />
 
