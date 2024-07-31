@@ -36,7 +36,11 @@ function Announce() {
       }
   
     return (<>
-      <div className="bentley">
+    <aside className="leftSidebar">
+                {/* Place your ad code here */}
+                <div className="ad"></div>
+            </aside>
+      <main className="bentley">
         <div className="post-details">
           <h2 className="descTextZ">{postData.title}</h2>
           <img className="annImg" src={postData.image} alt="Post Image" />
@@ -51,7 +55,11 @@ function Announce() {
                      data-ad-client="ca-pub-8295243074005821"
                      data-ad-slot="3483717615"></ins>*/}
           </div>
-      </div>
+      </main>
+      <aside className="rightSidebar">
+                {/* Place your ad code here */}
+                <div className="ad"></div>
+            </aside>
                 <Contact />
 
     </>);
