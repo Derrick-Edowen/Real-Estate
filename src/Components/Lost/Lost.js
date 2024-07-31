@@ -35,7 +35,7 @@ const styles = {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '90vh',
+        height: '80vh',
         textAlign: 'center',
         fontFamily: 'Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif',
     },
