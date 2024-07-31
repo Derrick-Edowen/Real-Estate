@@ -330,7 +330,7 @@ margin-bottom: 0px;
 
 }
 .splasher {
-  height: 72%;
+  height: 100%;
 
 }
 .searchInput {
@@ -345,7 +345,7 @@ margin-bottom: 0px;
 }
 .splasher-overlay {
 
-  height: 72%;
+  height: 74%;
 
 }
 .titCard {
@@ -380,13 +380,13 @@ flex:auto;
     gap: 8px;
   }
   .splasher {
-    height: 65%;
+    height: 100%;
   
   }
   
   .splasher-overlay {
   
-    height: 65%;
+    height: 74%;
   
   }
   .titCard {
