@@ -29,7 +29,7 @@ import Privacy from './Components/Privacy/Privacy';
 import Buying from './Components/Buying/Buying'
 import Selling from './Components/Selling/Selling'
 import Investing from './Components/Investing/Investing'
-
+import Lost from './Components/Lost/Lost'
 function App() {
   const location = useLocation();
 
@@ -71,7 +71,7 @@ function App() {
         <Route path="/Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Nearby-Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Login" element={<Login />} />
-        <Route path="*" element={<div>404 Not Found</div>} />
+        <Route path="*" element={<Lost />} />
       </Routes>
       </div>
     </>
