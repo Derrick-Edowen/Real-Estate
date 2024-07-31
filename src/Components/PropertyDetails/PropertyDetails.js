@@ -438,7 +438,11 @@ const downloadPDF = () => {
 
     return (
         <>
-      <div className='propDets'>
+        <aside className="leftSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Left Sidebar Ad</div>
+            </aside>
+      <main className='propDets'>
         {api && (
           <>
             <div className='aver'>
@@ -634,7 +638,21 @@ const downloadPDF = () => {
 
 
     </div>
+    {/*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/}
     {homeStatus === 'FOR RENT' && (
+      /*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/
     <div className="calculatorpd-container">
       <div className='descTextF' >Rent Affordability Calculator</div>
       <div className='resultdis'>* This Rent Affordability Calculator follows the 30% rule. Most experts traditionally 
@@ -710,6 +728,13 @@ defaultValue={0}
         </div>
       )}
     </div>
+    /*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/
     )}
 
 
@@ -856,7 +881,18 @@ defaultValue={0}
         </div> 
         
         </>)}
-      </div>
+        {/*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/}
+      </main>
+      <aside className="rightSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Right Sidebar Ad</div>
+            </aside>
       <Contact />
 
 </>

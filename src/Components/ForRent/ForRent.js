@@ -743,7 +743,6 @@ useEffect(() => {
 return (
   <>
   <div className='lists notranslate'>
-    <div className='overlay notranslate'>
       <aside className='screen-1'>
         <button className="toggle" onClick={toggleFilter}> Listings Search Form  
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
@@ -1142,6 +1141,13 @@ return (
 
       {initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0 ? (
         <div className="cardContainer notranslate">
+          {/*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/}
           {initialDataRef.current.zpids.props.map((property, index) => (
             property && (
               <div 
@@ -1169,6 +1175,13 @@ return (
               </div>
             )
           ))}
+          {/*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/}
         </div>
       ) : (
         noResults && (
@@ -1192,7 +1205,6 @@ return (
       </div>
       {showContact && <Contact />}
 
-  </div>
   
 </div>
 </>

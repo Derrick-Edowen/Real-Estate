@@ -22,7 +22,11 @@ function Buying() {
         };
     }, []);*/
     return (<>
-<div className="buyingIt">
+    <aside className="leftSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Left Sidebar Ad</div>
+            </aside>
+<main className="buyingIt">
 
 <div className="descTextJc">The Nuances and Significance of Buying a Home</div>
 <p className="descTexcp">Buying a home is a monumental milestone in many people's lives, symbolizing stability, success, and a place to create lasting memories. However, it is also one of the most significant financial decisions one can make, involving a complex process with various factors to consider. This extensive guide explores the nuances and significance of purchasing a home, providing valuable insights to help you navigate this important journey.</p>
@@ -61,7 +65,7 @@ function Buying() {
 <p className="descTexcp">Closing Day: Review and sign all closing documents, pay the remaining down payment and closing costs, and receive the keys to your new home.</p>
 {/*
 <ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center' }}
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-8295243074005821"
@@ -116,7 +120,11 @@ function Buying() {
                      data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Buying a home is a complex yet rewarding journey that requires careful planning, research, and financial preparation. By understanding the nuances of the home-buying process and recognizing the significance of homeownership, you can make informed decisions that lead to a fulfilling and financially beneficial outcome. Whether you are a first-time buyer or an experienced homeowner, the key is to approach the process with knowledge and confidence, ensuring that your investment aligns with your long-term goals and aspirations.</p>
-</div>
+</main>
+<aside className="rightSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Right Sidebar Ad</div>
+            </aside>
             <Contact />
 
     </>)

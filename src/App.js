@@ -46,6 +46,8 @@ function App() {
       <Captain />
       <Header />
       <ScrollToTop />
+      <div className="content-wrapper">
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
@@ -71,6 +73,7 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
+      </div>
     </>
   );
 }

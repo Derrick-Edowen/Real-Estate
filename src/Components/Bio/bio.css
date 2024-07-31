@@ -27,8 +27,6 @@ overflow-y: auto;
 }
 .testee {
     display: flex;
-    padding-top: 46px;
-    margin-top: 80px;
 width: 100%;
 justify-content: end;
 padding-left: 180px;

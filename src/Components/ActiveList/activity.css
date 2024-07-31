@@ -1,6 +1,5 @@
 .activity {
     padding: 20px;
-    padding-top: 2px;
     box-shadow: 2px 2px 4px 2px #00000052;
 }
 @media screen and (max-width: 1365px) {

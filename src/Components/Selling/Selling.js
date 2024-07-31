@@ -21,7 +21,12 @@ function Selling() {
         };
     }, []);*/
     return (<>
-        <div className="sellingIt">
+
+<aside className="leftSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Left Sidebar Ad</div>
+            </aside>
+        <main className="sellingIt">
 <div className="descTextJc">The Nuances and Significance of Selling Your Home</div>
 <p className="descTexcp">Selling a home is a significant financial and emotional undertaking. Whether you're looking to upgrade, downsize, or relocate, the process of selling a home involves numerous steps and considerations. This comprehensive guide will delve into the nuances and significance of selling your home, providing valuable insights to help you navigate this important journey.</p>
 
@@ -125,7 +130,11 @@ function Selling() {
                      data-ad-slot="3483717615"></ins>*/}
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Selling a home is a multifaceted process that requires careful planning, strategic decision-making, and emotional readiness. By understanding the nuances of the home-selling process and recognizing the significance of this major life event, you can make informed decisions that lead to a successful and rewarding outcome. Whether you're selling for the first time or have previous experience, approaching the process with knowledge and confidence will help you achieve your goals and transition smoothly to the next chapter of your life.</p>
-              </div>
+              </main>
+              <aside className="rightSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Right Sidebar Ad</div>
+            </aside>
               <Contact />
 
     </>)

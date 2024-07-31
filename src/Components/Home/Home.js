@@ -100,7 +100,6 @@ function Home() {
           </div>
         </div>
       </div>
-      <ActiveList />
       <Contact />
       {showLightbox && (
         <div className="lightbox9" onClick={closeLightbox}>

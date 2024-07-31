@@ -30,7 +30,11 @@ function Bio() {
   };
 
   return (<>
-        <div className='testee'>
+  <aside className="leftSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Left Sidebar Ad</div>
+            </aside>
+        <main className='testee'>
           <div className='meteor'>
             <div className='rock'>
             <div className='sun'>
@@ -59,7 +63,13 @@ function Bio() {
 </div>
 
 
-
+{/*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/}
 
 
             <div className='cookem'>
@@ -87,6 +97,13 @@ function Bio() {
               ))}
             </div>
             </div>
+            {/*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/}
             <div className='plant'>
               <div className='descTextJ'> Recently Sold Listings </div>
               <div className="cardContainer notranslate">
@@ -114,8 +131,18 @@ function Bio() {
             </div>
 
             </div>
-
-          </div>
+{/*
+<ins className="adsbygoogle"
+                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
+                     data-ad-layout="in-article"
+                     data-ad-format="fluid"
+                     data-ad-client="ca-pub-8295243074005821"
+                     data-ad-slot="3483717615"></ins>*/}
+          </main>
+          <aside className="rightSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Right Sidebar Ad</div>
+            </aside>
           <Contact />
 
 

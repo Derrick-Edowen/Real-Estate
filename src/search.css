@@ -106,8 +106,7 @@ z-index: 2000;
 background: white;
 margin-right: auto;
 gap: 1px;
-border-top: 1px solid #222222c7;
-border-bottom: 1px solid #222222c7;
+border: 1px solid #2222224b;
 }
   
   .supyo > div {
@@ -638,8 +637,9 @@ width: fit-content;
 }
   .lists {
     width: 100%;
-    padding-top: 102px;
     height: 100vh;
+    padding-left: 6px;
+    padding-right: 6px;
   }
 .cardContainer {
   display: flex;
@@ -777,7 +777,8 @@ width: 100%;
 .lite {
   display: flex;
   width: 100%;
-    height: 79vh;
+    height: 100vh;
+
 
 }
 .cardi1 {
@@ -1234,12 +1235,41 @@ justify-content: center;
 
 }
 .investingIt, .buyingIt, .sellingIt, .serviceIt, .privacyIt, .missionIt, .priceIt {
-  padding-top: 150px;
   padding-left: 260px;
   padding-right: 260px;
   padding-bottom: 70px;
+  padding-top: 8px;
 } 
+.leftSidebar, .rightSidebar {
+  width: 150px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+}
 
+.leftSidebar {
+  left: 0;
+  padding-top: 110px;
+}
+
+.rightSidebar {
+  right: 0;
+  padding-top: 110px;
+
+}
+
+.main {
+  flex: 1;
+  margin-left: 220px; /* Adjust according to the width of the leftSidebar */
+  margin-right: 220px; /* Adjust according to the width of the rightSidebar */
+  padding-top: 100px; /* Adjust according to the height of Captain and Header */
+}
+
+.ad {
+  padding: 20px;
+  text-align: center;
+  margin: 10px;
+}
 @media screen and (max-width: 1460px) {
   .supyo {
     padding: 12px;
@@ -1298,7 +1328,7 @@ margin-right: auto;
  .lite {
   display: flex;
   width: 100%;
-  height: 81vh;
+  height: 100vh;
 }
  .visible {
   display: flex;
@@ -1443,7 +1473,6 @@ margin-right: auto;
 
     }
     .investingIt, .buyingIt, .sellingIt, .serviceIt, .privacyIt, .missionIt, .priceIt {
-      padding-top: 150px;
       padding-left: 180px;
       padding-right: 180px;
       padding-bottom: 50px;
@@ -1491,7 +1520,6 @@ margin-right: auto;
 	margin-top: 0px;
 }
 .investingIt, .buyingIt, .sellingIt, .serviceIt, .privacyIt, .missionIt, .priceIt {
-  padding-top: 150px;
   padding-left: 120px;
   padding-right: 120px;
   padding-bottom: 40px;
@@ -1603,7 +1631,6 @@ margin-bottom: 10px;
   
   }
   .investingIt, .buyingIt, .sellingIt, .serviceIt, .privacyIt, .missionIt, .priceIt {
-    padding-top: 150px;
     padding-left: 70px;
     padding-right: 70px;
     padding-bottom: 30px;
@@ -1619,6 +1646,9 @@ margin-bottom: 10px;
     margin-bottom: 6px;
   
   padding: 10px;
+  }
+  .leftSidebar, .rightSidebar {
+    display: none;
   }
   .descTexcp {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -1823,7 +1853,6 @@ border-radius: 0px;
 }
 .lists {
   width: 100%;
-  padding-top: 102px;
   height: 100vh;
 }
 .techer {
@@ -1873,7 +1902,7 @@ padding-bottom: 7px;
         display: none;
       }
       .lite {
-height: 80vh;
+height: 100vh;
       }
     .detts {
       font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -2119,7 +2148,6 @@ height: 80vh;
   margin-top: 0px;
 }
 .investingIt, .buyingIt, .sellingIt, .serviceIt, .privacyIt, .missionIt, .priceIt {
-  padding-top: 150px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 30px;

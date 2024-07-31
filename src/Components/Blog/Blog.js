@@ -123,8 +123,11 @@ function Blog() {
   };
 
   return (<>
-
-<div className="blog-container" id="announcement">
+    <aside className="leftSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Left Sidebar Ad</div>
+            </aside>
+<main className="blog-container">
 <div className="descTextJc">News and Announcements!</div>
 <p className="descTexcpml">Stay up to date with my News and Announcement below. Click on posts to find out more details! </p>
 
@@ -145,7 +148,11 @@ function Blog() {
           </div>
         ))}
       </div>
-    </div>
+    </main>
+    <aside className="rightSidebar">
+                {/* Place your ad code here */}
+                <div className="ad">Right Sidebar Ad</div>
+            </aside>
     <Contact />
     </>);
 }

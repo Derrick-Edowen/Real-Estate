@@ -1,7 +1,5 @@
 .blog-container {
-  padding-top: 120px;
-padding-bottom: 40px;
-
+  min-height: 60vh;
   }
   .updater {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
