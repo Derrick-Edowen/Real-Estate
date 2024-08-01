@@ -342,7 +342,7 @@ const handleUpdatePhone = async () => {
 
           <div className='biog'>
             <div className='descTexFp'>Update Biography</div>
-            <div className='descTex'>Current Biography</div>
+            <div className='descTex'>Current Biography - </div>
             <div className='descTex'>{bio}</div>
             <input
               type='text'
@@ -435,6 +435,8 @@ const handleUpdatePhone = async () => {
       ) : (
         <div className='LogFalse'>
         <div className='descTextJfc'>Please Log In to Reach The Agent Portal</div>
+        <div className='descTextJfc'>Redirecting you...</div>
+
         </div>
       )}
     </div>
