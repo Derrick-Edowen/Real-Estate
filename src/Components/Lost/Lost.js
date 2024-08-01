@@ -40,15 +40,15 @@ const styles = {
         fontFamily: 'Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif',
     },
     sadFace: {
-        fontSize: '100px',
+        fontSize: '140px',
         marginBottom: '20px',
     },
     errorText: {
-        fontSize: '30px',
+        fontSize: '40px',
         marginBottom: '10px',
     },
     message: {
-        fontSize: '20px',
+        fontSize: '28px',
     },
 };
 

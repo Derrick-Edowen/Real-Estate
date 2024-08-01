@@ -1,5 +1,5 @@
 .blog-container {
-  min-height: 80vh;
+  min-height: 90vh;
   }
   .updater {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
@@ -129,8 +129,8 @@ right: 150px;
   .posts-container {
     width: 100%;
     padding: 40px;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 160px;
+    padding-right: 160px;
     overflow-y: auto;
     display: flex;
     flex-wrap: wrap; /* Allow wrapping to the next row */

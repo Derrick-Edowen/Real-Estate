@@ -129,7 +129,7 @@ function Blog() {
             </aside>
 <main className="blog-container">
 <div className="descTextJc">News and Announcements!</div>
-<p className="descTexcpml">Stay up to date with my News and Announcement below. Click on posts to find out more details! </p>
+<p className="descTexcpml">Stay up to date with my News and Announcement below. Click on my posts to find out more details! </p>
 
       <div className="posts-container">
         {posts.slice().reverse().map((post, index) => (

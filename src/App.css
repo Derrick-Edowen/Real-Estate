@@ -16,12 +16,7 @@ body {
 html {
   color-scheme: light dark;
 }
-.App {
-    width: 100%;
-}
-.content-wrapper {
-  padding-top: 102px; /* Adjust this value based on the height of Captain and Header */
-}
+
 .lightbox9 {
   position: fixed;
   top: 0;

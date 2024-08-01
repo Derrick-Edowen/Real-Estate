@@ -637,9 +637,8 @@ width: fit-content;
 }
   .lists {
     width: 100%;
-    height: 100vh;
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 2px;
+    padding-right: 2px;
   }
 .cardContainer {
   display: flex;
@@ -799,10 +798,11 @@ width: 100%;
 .lite {
   display: flex;
   width: 100%;
-    height: 100vh;
-
+  height: calc(100vh - 11vh);
+  flex-grow: 1; /* This will make it fill the remaining space */
 
 }
+
 .cardi1 {
 	position: relative; /* Ensure relative positioning for absolute positioning inside */
 
@@ -1875,7 +1875,6 @@ border-radius: 0px;
 }
 .lists {
   width: 100%;
-  height: 100vh;
 }
 .techer {
   background: white;

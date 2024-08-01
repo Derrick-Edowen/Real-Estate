@@ -46,7 +46,6 @@ function App() {
       <Captain />
       <Header />
       <ScrollToTop />
-      <div className="content-wrapper">
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -73,7 +72,6 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="*" element={<Lost />} />
       </Routes>
-      </div>
     </>
   );
 }

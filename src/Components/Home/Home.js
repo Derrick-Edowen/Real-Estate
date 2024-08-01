@@ -77,8 +77,8 @@ function Home() {
       <div className="homePage">
         <img src='https://storage.googleapis.com/realestate-images/luxliving.jpg' className='splasher' alt='Home Background' />
         <div className='splasher-overlay'>
-          <div className='titCard'>{banner}</div>
-          <p className='messCard'>{message}</p>
+          <div className='titCard'>[ Banner State ]{banner}</div>
+          <p className='messCard'>[ Message State ]{message}</p>
           <div className='discover'>
             <div className="searchBar-container">
               <div className='descTexcjn'>Find Your New Home</div>
