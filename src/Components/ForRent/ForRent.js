@@ -70,12 +70,11 @@ const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
 const location = useLocation();
 
-
 useEffect(() => {
-  if (window.adsbygoogle) {
-      window.adsbygoogle.push({});
-  }
-}, []);
+      if (initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0) {
+              window.adsbygoogle.push({});
+          }
+}, [initialDataRef]);
 const handleSearch = async (e) => {
   e.preventDefault();
   setIsRotated(!isRotated);
@@ -1154,6 +1153,14 @@ return (
      data-ad-client="ca-pub-8295243074005821"
      data-ad-slot="2162671748"></ins>
      </div>
+     <div className='cardi1'>
+<ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-format="fluid"
+     data-ad-layout-key="-f9+4w+7x-eg+3a"
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="3284181728"></ins>
+     </div>
           {initialDataRef.current.zpids.props.map((property, index) => (
             property && (
               <div 
@@ -1181,14 +1188,7 @@ return (
               </div>
             )
           ))}
-                    <div className='cardi1'>
-<ins class="adsbygoogle"
-     style={{display: 'block'}}
-     data-ad-format="fluid"
-     data-ad-layout-key="-f9+4w+7x-eg+3a"
-     data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="3284181728"></ins>
-     </div>
+
         </div>
       ) : (
         noResults && (

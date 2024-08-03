@@ -668,6 +668,10 @@ width: fit-content;
   gap: 0px;
   overflow:auto;
   height: 94.5%;
+  padding-top: 2px;
+  padding-left: 2px;
+  padding-bottom: 2px;
+
   position: relative; /* Ensure relative positioning for absolute positioning inside */
   scrollbar-width: thin; /* Modern scrollbar width (Chrome, Edge) */
   scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0); /* Modern scrollbar color (thumb, track) */
