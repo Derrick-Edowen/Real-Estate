@@ -438,9 +438,11 @@ const downloadPDF = () => {
 
     return (
         <>
-        <aside className="leftSidebar">
-                {/* Place your ad code here */}
-                <div className="ad"></div>
+<aside className="leftSidebar">
+<ins className="adsbygoogle"
+                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    data-ad-client="ca-pub-8295243074005821"
+                    data-ad-slot="2071134414"></ins>
             </aside>
       <main className='propDets'>
         {api && (
@@ -638,21 +640,23 @@ const downloadPDF = () => {
 
 
     </div>
-    {/*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/}
-    {homeStatus === 'FOR RENT' && (
-      /*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/
+    <div className="adContainer">
+     <ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+                </div>
+    {homeStatus === 'FOR RENT' && (<>
+      <div className="adContainer">
+     <ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+                </div>
     <div className="calculatorpd-container">
       <div className='descTextF' >Rent Affordability Calculator</div>
       <div className='resultdis'>* This Rent Affordability Calculator follows the 30% rule. Most experts traditionally 
@@ -728,17 +732,27 @@ defaultValue={0}
         </div>
       )}
     </div>
-    /*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/
-    )}
+    <div className="adContainer">
+     <ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+                </div>
+     
+    </>)}
 
 
 {homeStatus !== 'FOR RENT' && (<>
+  <div className="adContainer">
+     <ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+                </div>
 <div className='besty'>
             <div className='descTextF'>Amortization Calculator</div>
             <button className='downPDF' onClick={downloadPDF}>Download Monthly & Annual Amortization Tables &nbsp;<FontAwesomeIcon icon={faFilePdf} size="lg"/></button>
@@ -820,7 +834,14 @@ defaultValue={0}
     </div>
 </div>
         </div>
-        
+        <div className="adContainer">
+     <ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+                </div>
         <div className='descTextF'>Annual Amortization Line Graph</div>
         <div className="mortgagepd-container1">
         <div className="chart-container">
@@ -881,17 +902,20 @@ defaultValue={0}
         </div> 
         
         </>)}
-        {/*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/}
+        <div className="adContainer">
+     <ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+                </div>
       </main>
       <aside className="rightSidebar">
-                {/* Place your ad code here */}
-                <div className="ad"></div>
+      <ins className="adsbygoogle"
+                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    data-ad-client="ca-pub-8295243074005821"
+                    data-ad-slot="7895989687"></ins>
             </aside>
       <Contact />
 

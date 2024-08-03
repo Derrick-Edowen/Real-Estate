@@ -30,9 +30,11 @@ function Bio() {
   };
 
   return (<>
-  <aside className="leftSidebar">
-                {/* Place your ad code here */}
-                <div className="ad"></div>
+<aside className="leftSidebar">
+<ins className="adsbygoogle"
+                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    data-ad-client="ca-pub-8295243074005821"
+                    data-ad-slot="2071134414"></ins>
             </aside>
         <main className='testee'>
           <div className='meteor'>
@@ -62,14 +64,14 @@ function Bio() {
             </div>
 </div>
 
-
-{/*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/}
+<div className="adContainer">
+                    <ins className="adsbygoogle"
+                        style={{ display: 'block', width: '100%' }}
+                        data-ad-layout="in-article"
+                        data-ad-format="fluid"
+                        data-ad-client="ca-pub-8295243074005821"
+                        data-ad-slot="3483717615"></ins>
+                </div>
 
 
             <div className='cookem'>
@@ -97,13 +99,14 @@ function Bio() {
               ))}
             </div>
             </div>
-            {/*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/}
+            <div className="adContainer">
+                    <ins className="adsbygoogle"
+                        style={{ display: 'block', width: '100%' }}
+                        data-ad-layout="in-article"
+                        data-ad-format="fluid"
+                        data-ad-client="ca-pub-8295243074005821"
+                        data-ad-slot="3483717615"></ins>
+                </div>
             <div className='plant'>
               <div className='descTextJ'> Recently Sold Listings </div>
               <div className="cardContainer notranslate">
@@ -131,17 +134,20 @@ function Bio() {
             </div>
 
             </div>
-{/*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/}
+            <div className="adContainer">
+                    <ins className="adsbygoogle"
+                        style={{ display: 'block', width: '100%' }}
+                        data-ad-layout="in-article"
+                        data-ad-format="fluid"
+                        data-ad-client="ca-pub-8295243074005821"
+                        data-ad-slot="3483717615"></ins>
+                </div>
           </main>
           <aside className="rightSidebar">
-                {/* Place your ad code here */}
-                <div className="ad"></div>
+          <ins className="adsbygoogle"
+                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    data-ad-client="ca-pub-8295243074005821"
+                    data-ad-slot="7895989687"></ins>
             </aside>
           <Contact />
 

@@ -123,15 +123,31 @@ function Blog() {
   };
 
   return (<>
-    <aside className="leftSidebar">
-                {/* Place your ad code here */}
-                <div className="ad"></div>
+<aside className="leftSidebar">
+<ins className="adsbygoogle"
+                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    data-ad-client="ca-pub-8295243074005821"
+                    data-ad-slot="2071134414"></ins>
             </aside>
 <main className="blog-container">
 <div className="descTextJc">News and Announcements!</div>
 <p className="descTexcpml">Stay up to date with my News and Announcement below. Click on my posts to find out more details! </p>
 
       <div className="posts-container">
+        
+<div className='post'>
+
+<ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+</div>
+
+
+
+
         {posts.slice().reverse().map((post, index) => (
           <div key={index} className="post" onClick={() => handleClick(index)}>
             <img className="windows" src={post.image || noImg} alt="Post Image" />
@@ -147,11 +163,27 @@ function Blog() {
             </div>
           </div>
         ))}
+
+
+<div className='post'>
+
+<ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="9978781696"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+</div>
+
+
+
       </div>
     </main>
     <aside className="rightSidebar">
-                {/* Place your ad code here */}
-                <div className="ad"></div>
+      <ins className="adsbygoogle"
+                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    data-ad-client="ca-pub-8295243074005821"
+                    data-ad-slot="7895989687"></ins>
             </aside>
     <Contact />
     </>);

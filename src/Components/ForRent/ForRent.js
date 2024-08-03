@@ -1141,13 +1141,14 @@ return (
 
       {initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0 ? (
         <div className="cardContainerStress notranslate">
-          {/*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/}
+                    <div className='cardi1'>
+<ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-format="fluid"
+     data-ad-layout-key="-7n+ew-1a-28+94"
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="7762444792"></ins>
+     </div>
           {initialDataRef.current.zpids.props.map((property, index) => (
             property && (
               <div 
@@ -1175,13 +1176,14 @@ return (
               </div>
             )
           ))}
-          {/*
-<ins className="adsbygoogle"
-                     style={{ display: 'block', textAlign: 'center', marginTop: '6px', marginBottom: '6px' }}
-                     data-ad-layout="in-article"
-                     data-ad-format="fluid"
-                     data-ad-client="ca-pub-8295243074005821"
-                     data-ad-slot="3483717615"></ins>*/}
+                    <div className='cardi1'>
+<ins class="adsbygoogle"
+     style={{display: 'block'}}
+     data-ad-format="fluid"
+     data-ad-layout-key="-7n+ew-1a-28+94"
+     data-ad-client="ca-pub-8295243074005821"
+     data-ad-slot="7762444792"></ins>
+     </div>
         </div>
       ) : (
         noResults && (

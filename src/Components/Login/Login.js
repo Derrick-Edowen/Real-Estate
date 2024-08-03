@@ -51,7 +51,9 @@ function Login() {
     }
   };
 
-  return (
+  return (<>
+    <img src='https://storage.googleapis.com/realestate-images/luxliving.jpg' className='splasherMiss' alt='Home Background' />
+
     <div className='logginCont'>
   <form className="togin formBox-specific" onSubmit={handleSubmit}>
     <div className='logolbox'>
@@ -91,7 +93,7 @@ function Login() {
 </div>
 
 
-  );
+</>);
 }
 
 export default Login;

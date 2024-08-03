@@ -222,11 +222,8 @@ text-align: start;
     height: 1.813rem;
     flex-direction: column;
     justify-content: space-around;
-    position: fixed;
-    top: 50px;
-    right: 35px;
     cursor: pointer;
-
+margin-right: 8px;
   }
   
   .nav__hamburger__line {
