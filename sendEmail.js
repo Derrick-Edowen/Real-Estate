@@ -15,7 +15,7 @@ const sendEmail = (formData) => {
     to: 'oneestatewebservices@outlook.com',
     subject: 'New Message from One Estate Web Site',
     html: `
-      <h4>New Inquiry - Message from </h4>
+      <h4>New Inquiry - Message from ${formData.firstName}</h4>
       <p><strong>Name:</strong> ${formData.firstName}</p>
       <p><strong>Email:</strong> ${formData.email}</p>
       <p><strong>Phone Number:</strong> ${formData.phoneNumber}</p>

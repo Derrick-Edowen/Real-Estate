@@ -13,9 +13,9 @@ function Buying() {
     return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="2071134414"></ins>
+                    data-ad-slot="4562841472"></ins>
             </aside>
 <main className="buyingIt">
 
@@ -60,7 +60,7 @@ function Buying() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="7857851555"></ins>
                 </div>
 <div className="descTextJf">The Significance of Homeownership</div>
 <div className="descTexc">1. Financial Benefits</div>
@@ -87,7 +87,7 @@ function Buying() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="5638882322"></ins>
                 </div>
 <div className="descTextJf">Common Challenges and Considerations</div>
 <div className="descTexc">1. Market Conditions</div>
@@ -110,7 +110,7 @@ function Buying() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="8118943105"></ins>
                 </div>
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Buying a home is a complex yet rewarding journey that requires careful planning, research, and financial preparation. By understanding the nuances of the home-buying process and recognizing the significance of homeownership, you can make informed decisions that lead to a fulfilling and financially beneficial outcome. Whether you are a first-time buyer or an experienced homeowner, the key is to approach the process with knowledge and confidence, ensuring that your investment aligns with your long-term goals and aspirations.</p>
@@ -120,14 +120,14 @@ function Buying() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="6760392309"></ins>
                 </div>
 </main>
 <aside className="rightSidebar">
 <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="7895989687"></ins>
+                    data-ad-slot="1936678139"></ins>
             </aside>
             <Contact />
 

@@ -30,9 +30,9 @@ function Announce() {
     return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="2071134414"></ins>
+                    data-ad-slot="9659255484"></ins>
             </aside>
       <main className="bentley">
         <div className="post-details">
@@ -47,15 +47,15 @@ function Announce() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="2709466657"></ins>
                 </div>
           </div>
       </main>
       <aside className="rightSidebar">
       <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="7895989687"></ins>
+                    data-ad-slot="4414096843"></ins>
             </aside>
                 <Contact />
 

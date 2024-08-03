@@ -131,7 +131,7 @@ function Blog() {
 <ins className="adsbygoogle"
                     style={{ display: 'inline-block', width: '100%', height: '620px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="2071134414"></ins>
+                    data-ad-slot="8868347173"></ins>
             </aside>
 <main className="blog-container">
 <div className="descTextJc">News and Announcements!</div>
@@ -159,7 +159,7 @@ function Blog() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="1026921148"></ins>
                 </div>
       </div>
     </main>
@@ -167,7 +167,7 @@ function Blog() {
       <ins className="adsbygoogle"
                     style={{ display: 'inline-block', width: '100%', height: '620px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="7895989687"></ins>
+                    data-ad-slot="4966166150"></ins>
             </aside>
     <Contact />
     </>);

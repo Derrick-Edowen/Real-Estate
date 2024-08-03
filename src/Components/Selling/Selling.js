@@ -14,7 +14,7 @@ function Selling() {
 
 <aside className="leftSidebar">
 <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
                     data-ad-slot="2071134414"></ins>
             </aside>
@@ -98,7 +98,7 @@ function Selling() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="9554076609"></ins>
                 </div>
 <div className="descTextJf">Common Challenges and Considerations</div>
 <div className="descTexc">1. Market Fluctuations</div>
@@ -121,7 +121,7 @@ function Selling() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="2988668257"></ins>
                 </div>
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Selling a home is a multifaceted process that requires careful planning, strategic decision-making, and emotional readiness. By understanding the nuances of the home-selling process and recognizing the significance of this major life event, you can make informed decisions that lead to a successful and rewarding outcome. Whether you're selling for the first time or have previous experience, approaching the process with knowledge and confidence will help you achieve your goals and transition smoothly to the next chapter of your life.</p>
@@ -131,14 +131,14 @@ function Selling() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="8049423240"></ins>
                 </div>
               </main>
               <aside className="rightSidebar">
               <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="7895989687"></ins>
+                    data-ad-slot="1006739847"></ins>
             </aside>
               <Contact />
 

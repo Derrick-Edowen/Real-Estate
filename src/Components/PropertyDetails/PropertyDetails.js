@@ -444,9 +444,9 @@ const downloadPDF = () => {
         <>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="2071134414"></ins>
+                    data-ad-slot="1751608205"></ins>
             </aside>
       <main className='propDets'>
         {api && (
@@ -648,7 +648,7 @@ const downloadPDF = () => {
      <ins class="adsbygoogle"
      style={{display: 'block'}}
      data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
+     data-ad-slot="4109344080"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
                 </div>
@@ -657,7 +657,7 @@ const downloadPDF = () => {
      <ins class="adsbygoogle"
      style={{display: 'block'}}
      data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
+     data-ad-slot="3994628164"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
                 </div>
@@ -740,7 +740,7 @@ defaultValue={0}
      <ins class="adsbygoogle"
      style={{display: 'block'}}
      data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
+     data-ad-slot="9055383151"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
                 </div>
@@ -753,7 +753,7 @@ defaultValue={0}
      <ins class="adsbygoogle"
      style={{display: 'block'}}
      data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
+     data-ad-slot="8863811465"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
                 </div>
@@ -842,7 +842,7 @@ defaultValue={0}
      <ins class="adsbygoogle"
      style={{display: 'block'}}
      data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
+     data-ad-slot="8153365028"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
                 </div>
@@ -910,16 +910,16 @@ defaultValue={0}
      <ins class="adsbygoogle"
      style={{display: 'block'}}
      data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
+     data-ad-slot="4419371249"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
                 </div>
       </main>
       <aside className="rightSidebar">
       <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="7895989687"></ins>
+                    data-ad-slot="2686082201"></ins>
             </aside>
       <Contact />
 

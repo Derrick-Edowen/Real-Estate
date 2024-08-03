@@ -13,9 +13,9 @@ function Investing() {
     return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="2071134414"></ins>
+                    data-ad-slot="1124922245"></ins>
             </aside>
         <main className="investingIt">
 
@@ -52,7 +52,7 @@ function Investing() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="8253269505"></ins>
                 </div>
 <div className="descTextJf">The Significance of Real Estate Investment</div>
 <div className="descTexc">1. Financial Benefits</div>
@@ -87,7 +87,7 @@ function Investing() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="6078532301"></ins>
                 </div>
 <div className="descTextJf">Common Challenges and Considerations</div>
 <div className="descTexc">1. Market Fluctuations</div>
@@ -114,7 +114,7 @@ function Investing() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="4141967824"></ins>
                 </div>
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Investing in real estate is a multifaceted endeavor that offers numerous financial and personal benefits. By understanding the nuances of real estate investment and recognizing its significance, investors can make informed decisions that lead to long-term success. Whether you're investing in residential properties, commercial real estate, or REITs, approaching the process with knowledge and strategic planning will help you achieve your financial goals and build a secure future. Real estate investment requires careful research, risk management, and professional guidance, but the rewards can be substantial, providing a pathway to financial independence and wealth accumulation.</p>
@@ -124,14 +124,14 @@ function Investing() {
                         data-ad-layout="in-article"
                         data-ad-format="fluid"
                         data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3483717615"></ins>
+                        data-ad-slot="3367942204"></ins>
                 </div>
               </main>
               <aside className="rightSidebar">
               <ins className="adsbygoogle"
-                    style={{ display: 'inline-block', width: '100%', height: '620px' }}
+                    style={{ display: 'inline-block', width: '100%', height: '680px' }}
                     data-ad-client="ca-pub-8295243074005821"
-                    data-ad-slot="7895989687"></ins>
+                    data-ad-slot="6185677230"></ins>
             </aside>
               <Contact />
 
