@@ -152,6 +152,7 @@ right: 150px;
     border-radius: 1px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    max-width: 350px;
   }
   
   .post:hover {

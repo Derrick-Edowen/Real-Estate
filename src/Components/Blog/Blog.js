@@ -138,20 +138,6 @@ function Blog() {
 <p className="descTexcpml">Stay up to date with my News and Announcement below. Click on my posts to find out more details! </p>
 
       <div className="posts-container">
-        
-<div className='post'>
-
-<ins class="adsbygoogle"
-     style={{display: 'block'}}
-     data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-</div>
-
-
-
-
         {posts.slice().reverse().map((post, index) => (
           <div key={index} className="post" onClick={() => handleClick(index)}>
             <img className="windows" src={post.image || noImg} alt="Post Image" />
@@ -167,20 +153,14 @@ function Blog() {
             </div>
           </div>
         ))}
-
-
-<div className='post'>
-
-<ins class="adsbygoogle"
-     style={{display: 'block'}}
-     data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="9978781696"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-</div>
-
-
-
+        <div className="adContainer">
+                    <ins className="adsbygoogle"
+                        style={{ display: 'block', width: '100%' }}
+                        data-ad-layout="in-article"
+                        data-ad-format="fluid"
+                        data-ad-client="ca-pub-8295243074005821"
+                        data-ad-slot="3483717615"></ins>
+                </div>
       </div>
     </main>
     <aside className="rightSidebar">

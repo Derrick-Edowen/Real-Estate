@@ -1264,19 +1264,20 @@ justify-content: center;
 } 
 .leftSidebar, .rightSidebar {
   width: 140px;
-  position: fixed;
-  top: 0;
+  position: absolute;
   bottom: 0;
 }
 
 .leftSidebar {
-  left: 6px;
-  margin-top: 140px;
+  left: 8px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .rightSidebar {
-  right: 6px;
-  margin-top: 140px;
+  right: 8px;
+  margin-top: auto;
+  margin-bottom: auto;
 
 }
 

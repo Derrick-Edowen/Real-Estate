@@ -70,12 +70,12 @@ const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
 const location = useLocation();
 
+
 useEffect(() => {
   if (window.adsbygoogle) {
       window.adsbygoogle.push({});
   }
 }, []);
-
 const handleSearch = async (e) => {
   e.preventDefault();
   setIsRotated(!isRotated);
@@ -744,6 +744,7 @@ useEffect(() => {
     window.removeEventListener('scroll', handleScroll);
   };
 }, []);
+
 return (
   <>
   <div className='lists notranslate'>

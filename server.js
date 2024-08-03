@@ -15,6 +15,7 @@ const { v4: uuidv4 } = require('uuid'); // Using the 'uuid' package to generate 
 const Bottleneck = require('bottleneck');
 const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
+const sendEmail = require('./sendEmail');
 
 
 // Middleware
@@ -502,6 +503,12 @@ app.delete('/posts/:postId', async (req, res) => {
   }
 });
 
+//Mailing
+app.post('/api/send-email', (req, res) => {
+  const formData = req.body;
+  sendEmail(formData);
+  res.status(200).send('Email sent successfully');
+});
 // API endpoints
 app.use(express.static(path.join(__dirname, 'build')));
 
