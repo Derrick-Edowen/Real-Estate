@@ -6,20 +6,6 @@ import Contact from '../Contact/Contact';
 
 function Buying() {
     useEffect(() => {
-        // Ensure adsbygoogle script is loaded
-        const adsbygoogleScript = document.createElement('script');
-        adsbygoogleScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-        adsbygoogleScript.async = true;
-        adsbygoogleScript.crossOrigin = 'anonymous';
-        document.head.appendChild(adsbygoogleScript);
-
-        // Push the ads once the script is loaded
-        adsbygoogleScript.onload = () => {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-        };
-    }, []);
-
-    useEffect(() => {
         if (window.adsbygoogle) {
             window.adsbygoogle.push({});
         }

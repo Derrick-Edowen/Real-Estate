@@ -35,7 +35,11 @@ function Blog() {
     const postUrl = `/Announcements/${encodeURIComponent(post.title)}`;
     window.open(postUrl, '_blank');
   };
-
+  useEffect(() => {
+    if (window.adsbygoogle) {
+        window.adsbygoogle.push({});
+    }
+}, []);
   useEffect(() => {
     fetchPosts();
   }, []);

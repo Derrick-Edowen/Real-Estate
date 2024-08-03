@@ -61,7 +61,11 @@ const PropertyDetails = () => {
       // Check URL for /Nearby-Property-Details/ to disable Nearby Homes button
       setShowNearbyHomes(!pathname.includes('/Nearby-Property-Details/'));
   }, []);
-  
+  useEffect(() => {
+    if (window.adsbygoogle) {
+        window.adsbygoogle.push({});
+    }
+}, []);
 
     function safeAccess(obj, path) {
         if (!path || typeof path !== 'string') {
