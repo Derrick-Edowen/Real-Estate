@@ -4,11 +4,7 @@ import Contact from '../Contact/Contact';
 
 function Announce() {
     const [postData, setPostData] = useState(null);
-    useEffect(() => {
-      if (window.adsbygoogle) {
-          window.adsbygoogle.push({});
-      }
-  }, []);
+
     useEffect(() => {
         // Get the post data from sessionStorage
         const storedPostData = sessionStorage.getItem("selectedPost");
@@ -16,6 +12,7 @@ function Announce() {
           try {
             const post = JSON.parse(storedPostData);
             setPostData(post);
+            window.adsbygoogle.push({});
           } catch (error) {
             console.error('Error parsing post data:', error);
           }
