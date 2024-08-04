@@ -16,7 +16,7 @@ const Bottleneck = require('bottleneck');
 const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
 const sendEmail = require('./sendEmail');
-const redisClient = new Redis(process.env.REDIS_URL);
+//const redisClient = new Redis(process.env.REDIS_URL);
 
 
 // Middleware
