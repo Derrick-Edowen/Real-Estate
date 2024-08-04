@@ -11,16 +11,12 @@ import Contact from '../Contact/Contact';
 
 function Bio() {
   const [bio, setBio] = useState('');
-  useEffect(() => {
-    if (window.adsbygoogle) {
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
-    }
-}, []);
+
   useEffect(() => {
     fetchBio();
+    window.adsbygoogle.push({});
+    window.adsbygoogle.push({});
+
   }, []);
 
   const fetchBio = async () => {
