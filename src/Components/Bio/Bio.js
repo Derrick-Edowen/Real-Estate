@@ -28,7 +28,14 @@ function Bio() {
       console.error('Error fetching bio:', error);
     }
   };
-
+  useEffect(() => {
+    if (window.adsbygoogle) {
+        window.adsbygoogle.push({});
+        window.adsbygoogle.push({});
+        window.adsbygoogle.push({});
+        window.adsbygoogle.push({});
+    }
+}, []);
   return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"

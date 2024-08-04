@@ -47,6 +47,7 @@ function App() {
     adsbygoogleScript.async = true;
     adsbygoogleScript.crossOrigin = 'anonymous';
     document.head.appendChild(adsbygoogleScript);
+
 }, []);
   return (
     <>
