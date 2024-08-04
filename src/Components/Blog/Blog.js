@@ -122,12 +122,18 @@ function Blog() {
     return diffDays <= 7;
   };
   useEffect(() => {
-    if (window.adsbygoogle) {
-      // Replace with the number of ads you want to push
-      for (let i = 0; i < 3; i++) {
-        window.adsbygoogle.push({});
+    const initializeAds = () => {
+      if (window.adsbygoogle) {
+        window.adsbygoogle.loaded = true;
+        for (let i = 0; i < 3; i++) {
+          window.adsbygoogle.push({});
+        }
+      } else {
+        setTimeout(initializeAds, 500);
       }
-    }
+    };
+    
+    initializeAds();
   }, []);
   return (<>
 <aside className="leftSidebar">
