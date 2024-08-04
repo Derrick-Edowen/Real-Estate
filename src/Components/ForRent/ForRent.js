@@ -743,7 +743,7 @@ useEffect(() => {
   if (initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0) {
       window.adsbygoogle.push({});
           }
-}, [initialDataRef]);
+}, [initialDataRef.current]);
 return (
   <>
   <div className='lists notranslate'>

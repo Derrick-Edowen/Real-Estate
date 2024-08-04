@@ -438,7 +438,7 @@ useEffect(() => {
   const initializeAds = () => {
     if (window.adsbygoogle) {
       window.adsbygoogle.loaded = true;
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 7; i++) {
         window.adsbygoogle.push({});
       }
     }
@@ -651,14 +651,6 @@ useEffect(() => {
 
 
     </div>
-    <div className="adContainer">
-     <ins class="adsbygoogle"
-     style={{display: 'block'}}
-     data-ad-client="ca-pub-8295243074005821"
-     data-ad-slot="4109344080"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-                </div>
     {homeStatus === 'FOR RENT' && (<>
       <div className="adContainer">
      <ins class="adsbygoogle"
