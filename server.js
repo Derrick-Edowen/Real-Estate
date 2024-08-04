@@ -16,6 +16,8 @@ const Bottleneck = require('bottleneck');
 const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
 const sendEmail = require('./sendEmail');
+const Bull = require('bull');
+const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 
 
 // Middleware
@@ -141,40 +143,98 @@ async function handlePropertySearch(req) {
   }
 }
 
-// New endpoint to fetch property details and images
-async function handleFetchPropertyDetails(req, res) {
+
+
+
+
+
+
+
+
+
+
+
+// API endpoint to add jobs to the queue
+app.post('/api/fetch-property-details', async (req, res) => {
   const { zpid } = req.body;
+
+  try {
+    // Add the request to the queue
+    const job = await fetchPropertyQueue.add({ zpid });
+
+    // Wait for the job to complete and get the result
+    const result = await job.finished();
+
+    res.json(result);
+  } catch (error) {
+    console.error(`Error handling fetch property details for zpid ${zpid}:`, error.message);
+    res.status(500).json({ error: 'Failed to fetch property details and images' });
+  }
+});
+
+// New endpoint to fetch property details and images
+const fetchPropertyQueue = new Bull('fetchPropertyQueue', {
+  redis: {
+    url: redisUrl,
+  },
+  limiter: {
+    max: 1, // Maximum number of jobs per interval
+    duration: 1000, // Interval in milliseconds (1 second)
+  },
+});
+
+// Process jobs from the queue
+fetchPropertyQueue.process(async (job, done) => {
+  const { zpid } = job.data;
 
   try {
     const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
     const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
 
-    const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
+    const propertyResponse = await axios.get(propertyUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    }));
+    });
 
-    const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
+    const imageResponse = await axios.get(imagesUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    }));
+    });
 
-    const data = { property: propertyResponse.data, images: imageResponse.data };
+    const data = {
+      property: propertyResponse.data,
+      images: imageResponse.data,
+    };
 
-    res.json(data);
+    // Complete the job with the data
+    done(null, data);
   } catch (error) {
     console.error(`Error fetching data for zpid ${zpid}:`, error.message);
-    res.status(500).json({ error: 'Failed to fetch property details and images' });
+    done(new Error('Failed to fetch property details and images'));
   }
-}
+});
 
-app.post('/api/fetch-property-details', handleFetchPropertyDetails);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.use(express.json());
 app.post('/api/search-listings', (req, res) => {

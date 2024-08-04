@@ -13,7 +13,7 @@ const sendEmail = (formData) => {
   const mailOptions = {
     from: 'oneestatewebservices@outlook.com',
     to: 'oneestatewebservices@outlook.com',
-    subject: 'New Message from One Estate Web Site',
+    subject: `New Message from ${formData.firstName}`,
     html: `
       <h4>New Inquiry - Message from ${formData.firstName}</h4>
       <p><strong>Name:</strong> ${formData.firstName}</p>
@@ -23,8 +23,8 @@ const sendEmail = (formData) => {
       <p>${formData.message}</p>
 
 
-      <p>Powered by One Estate Web Services</p>
-      <p>NO REPLY: Do not reply to this email, for new email purposes only</p>
+      <p><small>Powered by One Estate Web Services</small></p>
+      <p><small>NO REPLY: Do not reply to this email</small></p>
     `,
   };
 

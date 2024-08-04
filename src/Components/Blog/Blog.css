@@ -392,9 +392,11 @@ background-color: rgb(197, 197, 197);
     }
     .posts-container {
       padding: 40px;
-      padding-left: 60px;
-      padding-right: 60px;
+      padding-left: 40px;
+      padding-right: 40px;
       gap: 8px; /* Add some space between posts */
+      max-height: 80vh;
+      overflow-y: auto;
     }
     .windows1 {
       height: 300px;

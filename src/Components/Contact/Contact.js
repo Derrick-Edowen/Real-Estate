@@ -30,14 +30,14 @@ function Contact() {
       await axios.post('/api/send-email', formData);
       setTimeout(() => {
         setTextVisible(true);
-      }, 1500);
+      }, 2000);
     } catch (error) {
       console.error('Error sending email:', error);
     }
     setTimeout(() => {
       setTextVisible(false);
       form.current.reset();
-    }, 2500);
+    }, 4500);
   };
   
   const navigate = useNavigate();

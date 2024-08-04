@@ -1145,7 +1145,7 @@ return (
 
       {initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0 ? (
         <div className="cardContainerStress notranslate">
-                    <div className='cardi1'>
+                    <div className='cardi1Ad'>
 <ins class="adsbygoogle"
      style={{display: 'block', width: '100%'}}
      data-ad-format="fluid"

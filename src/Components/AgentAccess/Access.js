@@ -110,6 +110,8 @@ function Access() {
             alert('Bio updated successfully');
         } else {
             console.error('Failed to update bio');
+            alert('Bio Not Updated - Try Again Later');
+
         }
     } catch (error) {
         console.error('Error updating bio:', error);
@@ -129,6 +131,8 @@ const handleUpdateBanner = async () => {
             alert('Banner updated successfully');
         } else {
             console.error('Failed to update banner');
+            alert('Banner Not Updated - Try Again Later');
+
         }
     } catch (error) {
         console.error('Error updating banner:', error);
@@ -148,6 +152,8 @@ const handleUpdateMessage = async () => {
             alert('Message updated successfully');
         } else {
             console.error('Failed to update message');
+            alert('Message Not Updated - Try Again Later');
+
         }
     } catch (error) {
         console.error('Error updating message:', error);
@@ -167,6 +173,8 @@ const handleUpdateEmail = async () => {
             alert('Email updated successfully');
         } else {
             console.error('Failed to update email');
+            alert('Email Not Updated - Try Again Later');
+
         }
     } catch (error) {
         console.error('Error updating email:', error);
@@ -186,6 +194,8 @@ const handleUpdatePhone = async () => {
             alert('Phone number updated successfully');
         } else {
             console.error('Failed to update phone');
+            alert('Phone Number Not Updated - Try Again Later');
+
         }
     } catch (error) {
         console.error('Error updating phone:', error);
