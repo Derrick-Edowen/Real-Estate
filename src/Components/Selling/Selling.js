@@ -12,7 +12,6 @@ function Selling() {
             window.adsbygoogle.push({});
             window.adsbygoogle.push({});
             window.adsbygoogle.push({});
-
         }
     }, []);
     return (<>

@@ -22,7 +22,13 @@ function Announce() {
       if (!postData) {
         return <div>Loading...</div>;
       }
-  
+      useEffect(() => {
+        if (window.adsbygoogle) {
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+        }
+    }, []);
     return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"

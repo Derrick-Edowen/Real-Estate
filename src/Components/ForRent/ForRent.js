@@ -70,11 +70,7 @@ const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
 const location = useLocation();
 
-useEffect(() => {
-      if (initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0) {
 
-          }
-}, [initialDataRef]);
 const handleSearch = async (e) => {
   e.preventDefault();
   setIsRotated(!isRotated);
@@ -743,7 +739,11 @@ useEffect(() => {
     window.removeEventListener('scroll', handleScroll);
   };
 }, []);
-
+useEffect(() => {
+  if (initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0) {
+          window.adsbygoogle.push({});
+      }
+}, [initialDataRef]);
 return (
   <>
   <div className='lists notranslate'>

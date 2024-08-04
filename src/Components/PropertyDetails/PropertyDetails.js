@@ -434,7 +434,18 @@ const downloadPDF = () => {
   
   doc.save('Amortization_Schedules.pdf');
 };
-
+useEffect(() => {
+  if (window.adsbygoogle) {
+      window.adsbygoogle.push({});
+      window.adsbygoogle.push({});
+      window.adsbygoogle.push({});
+      window.adsbygoogle.push({});
+      window.adsbygoogle.push({});
+      window.adsbygoogle.push({});
+      window.adsbygoogle.push({});
+      window.adsbygoogle.push({});
+  }
+}, []);
     return (
         <>
 <aside className="leftSidebar">
