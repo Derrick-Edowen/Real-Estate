@@ -35,16 +35,12 @@ function Blog() {
     const postUrl = `/Announcements/${encodeURIComponent(post.title)}`;
     window.open(postUrl, '_blank');
   };
-  useEffect(() => {
-    if (window.adsbygoogle) {
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
 
-    }
-}, []);
   useEffect(() => {
     fetchPosts();
+    window.adsbygoogle.push({});
+    window.adsbygoogle.push({});
+    window.adsbygoogle.push({});
   }, []);
 
   const handleImageChange = (e) => {

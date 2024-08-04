@@ -16,6 +16,8 @@ function Bio() {
     fetchBio();
     window.adsbygoogle.push({});
     window.adsbygoogle.push({});
+    window.adsbygoogle.push({});
+    window.adsbygoogle.push({});
 
   }, []);
 
