@@ -8,6 +8,11 @@ function Investing() {
     useEffect(() => {
         if (window.adsbygoogle) {
             window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+
         }
     }, []);
     return (<>
@@ -118,14 +123,7 @@ function Investing() {
                 </div>
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Investing in real estate is a multifaceted endeavor that offers numerous financial and personal benefits. By understanding the nuances of real estate investment and recognizing its significance, investors can make informed decisions that lead to long-term success. Whether you're investing in residential properties, commercial real estate, or REITs, approaching the process with knowledge and strategic planning will help you achieve your financial goals and build a secure future. Real estate investment requires careful research, risk management, and professional guidance, but the rewards can be substantial, providing a pathway to financial independence and wealth accumulation.</p>
-<div className="adContainer">
-                    <ins className="adsbygoogle"
-                        style={{ display: 'block', width: '100%' }}
-                        data-ad-layout="in-article"
-                        data-ad-format="fluid"
-                        data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="3367942204"></ins>
-                </div>
+
               </main>
               <aside className="rightSidebar">
               <ins className="adsbygoogle"

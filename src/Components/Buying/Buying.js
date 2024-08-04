@@ -8,6 +8,11 @@ function Buying() {
     useEffect(() => {
         if (window.adsbygoogle) {
             window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+            window.adsbygoogle.push({});
+
         }
     }, []);
     return (<>
@@ -114,14 +119,6 @@ function Buying() {
                 </div>
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Buying a home is a complex yet rewarding journey that requires careful planning, research, and financial preparation. By understanding the nuances of the home-buying process and recognizing the significance of homeownership, you can make informed decisions that lead to a fulfilling and financially beneficial outcome. Whether you are a first-time buyer or an experienced homeowner, the key is to approach the process with knowledge and confidence, ensuring that your investment aligns with your long-term goals and aspirations.</p>
-<div className="adContainer">
-                    <ins className="adsbygoogle"
-                        style={{ display: 'block', width: '100%' }}
-                        data-ad-layout="in-article"
-                        data-ad-format="fluid"
-                        data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="6760392309"></ins>
-                </div>
 </main>
 <aside className="rightSidebar">
 <ins className="adsbygoogle"

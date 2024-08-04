@@ -73,6 +73,8 @@ const location = useLocation();
 useEffect(() => {
       if (initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0) {
               window.adsbygoogle.push({});
+              window.adsbygoogle.push({});
+
           }
 }, [initialDataRef]);
 const handleSearch = async (e) => {
@@ -1155,7 +1157,7 @@ return (
      </div>
      <div className='cardi1'>
 <ins class="adsbygoogle"
-     style={{display: 'block'}}
+     style={{display: 'block', width: '100%'}}
      data-ad-format="fluid"
      data-ad-layout-key="-f9+4w+7x-eg+3a"
      data-ad-client="ca-pub-8295243074005821"

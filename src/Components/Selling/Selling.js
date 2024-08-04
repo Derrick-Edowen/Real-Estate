@@ -130,14 +130,7 @@ function Selling() {
                 </div>
 <div className="descTextJf">Conclusion</div>
 <p className="descTexcp">Selling a home is a multifaceted process that requires careful planning, strategic decision-making, and emotional readiness. By understanding the nuances of the home-selling process and recognizing the significance of this major life event, you can make informed decisions that lead to a successful and rewarding outcome. Whether you're selling for the first time or have previous experience, approaching the process with knowledge and confidence will help you achieve your goals and transition smoothly to the next chapter of your life.</p>
-<div className="adContainer">
-                    <ins className="adsbygoogle"
-                        style={{ display: 'block', width: '100%' }}
-                        data-ad-layout="in-article"
-                        data-ad-format="fluid"
-                        data-ad-client="ca-pub-8295243074005821"
-                        data-ad-slot="8049423240"></ins>
-                </div>
+
               </main>
               <aside className="rightSidebar">
               <ins className="adsbygoogle"

@@ -14,6 +14,9 @@ function Bio() {
   useEffect(() => {
     if (window.adsbygoogle) {
         window.adsbygoogle.push({});
+        window.adsbygoogle.push({});
+        window.adsbygoogle.push({});
+        window.adsbygoogle.push({});
     }
 }, []);
   useEffect(() => {
