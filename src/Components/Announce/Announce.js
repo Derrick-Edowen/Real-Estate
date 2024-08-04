@@ -12,14 +12,16 @@ function Announce() {
           try {
             const post = JSON.parse(storedPostData);
             setPostData(post);
-            for (let i = 0; i < 3; i++) {
-              window.adsbygoogle.push({});
-            }
           } catch (error) {
             console.error('Error parsing post data:', error);
           }
         }
-
+        if (window.adsbygoogle) {
+          // Replace with the number of ads you want to push
+          for (let i = 0; i < 3; i++) {
+            window.adsbygoogle.push({});
+          }
+        }
       }, []);
     
       if (!postData) {

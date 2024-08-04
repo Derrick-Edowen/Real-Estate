@@ -14,6 +14,12 @@ function Bio() {
 
   useEffect(() => {
     fetchBio();
+    if (window.adsbygoogle) {
+      // Replace with the number of ads you want to push
+      for (let i = 0; i < 4; i++) {
+        window.adsbygoogle.push({});
+      }
+    }
   }, []);
 
   const fetchBio = async () => {
@@ -28,14 +34,7 @@ function Bio() {
       console.error('Error fetching bio:', error);
     }
   };
-  useEffect(() => {
-    if (window.adsbygoogle) {
-      // Replace with the number of ads you want to push
-      for (let i = 0; i < 4; i++) {
-        window.adsbygoogle.push({});
-      }
-    }
-  }, []);
+
   return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"
