@@ -16,8 +16,6 @@ const Bottleneck = require('bottleneck');
 const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
 const sendEmail = require('./sendEmail');
-const Bull = require('bull');
-const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 
 
 // Middleware
@@ -64,7 +62,29 @@ wss.on('connection', function connection(ws) {
 function getOrCreateWebSocket(id) {
   return clients.get(id);
 }
+app.post('/api/search-listings', (req, res) => {
+  addToQueue(req, res, handlePropertySearch);
+  res.sendStatus(200); // Immediate response to acknowledge receipt
+});
 
+function addToQueue(req, res, handler) {
+  requestQueue.push({ req, res, handler });
+  processQueue();
+}
+
+async function processQueue() {
+  if (isProcessing) return;
+  isProcessing = true;
+
+  while (requestQueue.length > 0) {
+    const batch = requestQueue.splice(0, clients.size); // Process as many requests as there are clients
+    const handlers = batch.map(({ req, res, handler }) => handler(req, res));
+    await Promise.all(handlers);
+    await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
+  }
+
+  isProcessing = false;
+}
 async function handlePropertySearch(req) {
   const id = req.body.id;
   const ws = getOrCreateWebSocket(id);
@@ -143,123 +163,42 @@ async function handlePropertySearch(req) {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-// API endpoint to add jobs to the queue
-app.post('/api/fetch-property-details', async (req, res) => {
-  const { zpid } = req.body;
-
-  try {
-    // Add the request to the queue
-    const job = await fetchPropertyQueue.add({ zpid });
-
-    // Wait for the job to complete and get the result
-    const result = await job.finished();
-
-    res.json(result);
-  } catch (error) {
-    console.error(`Error handling fetch property details for zpid ${zpid}:`, error.message);
-    res.status(500).json({ error: 'Failed to fetch property details and images' });
-  }
-});
-
 // New endpoint to fetch property details and images
-const fetchPropertyQueue = new Bull('fetchPropertyQueue', {
-  redis: {
-    url: redisUrl,
-  },
-  limiter: {
-    max: 1, // Maximum number of jobs per interval
-    duration: 1000, // Interval in milliseconds (1 second)
-  },
-});
-
-// Process jobs from the queue
-fetchPropertyQueue.process(async (job, done) => {
-  const { zpid } = job.data;
+async function handleFetchPropertyDetails(req, res) {
+  const { zpid } = req.body;
 
   try {
     const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
     const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
 
-    const propertyResponse = await axios.get(propertyUrl, {
+    const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    });
+    }));
 
-    const imageResponse = await axios.get(imagesUrl, {
+    const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    });
+    }));
 
-    const data = {
-      property: propertyResponse.data,
-      images: imageResponse.data,
-    };
+    const data = { property: propertyResponse.data, images: imageResponse.data };
 
-    // Complete the job with the data
-    done(null, data);
+    res.json(data);
   } catch (error) {
     console.error(`Error fetching data for zpid ${zpid}:`, error.message);
-    done(new Error('Failed to fetch property details and images'));
+    res.status(500).json({ error: 'Failed to fetch property details and images' });
   }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.use(express.json());
-app.post('/api/search-listings', (req, res) => {
-  addToQueue(req, res, handlePropertySearch);
-  res.sendStatus(200); // Immediate response to acknowledge receipt
-});
-
-function addToQueue(req, res, handler) {
-  requestQueue.push({ req, res, handler });
-  processQueue();
 }
 
-async function processQueue() {
-  if (isProcessing) return;
-  isProcessing = true;
+app.post('/api/fetch-property-details', handleFetchPropertyDetails);
 
-  while (requestQueue.length > 0) {
-    const batch = requestQueue.splice(0, clients.size); // Process as many requests as there are clients
-    const handlers = batch.map(({ req, res, handler }) => handler(req, res));
-    await Promise.all(handlers);
-    await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
-  }
 
-  isProcessing = false;
-}
 
 app.post('/nearby-details', nearbyPropertyDetails);
 

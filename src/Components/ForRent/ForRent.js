@@ -739,10 +739,15 @@ useEffect(() => {
     window.removeEventListener('scroll', handleScroll);
   };
 }, []);
+
 useEffect(() => {
-  if (initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0) {
-      window.adsbygoogle.push({});
-          }
+  const initializeAds = () => {
+    if (initialDataRef.current && initialDataRef.current.zpids && initialDataRef.current.zpids.props.length > 0) {
+        window.adsbygoogle.push({});
+    }
+  };
+  const timeoutId = setTimeout(initializeAds, 1000); // Push ads 1 second after page load
+  return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
 }, [initialDataRef.current]);
 return (
   <>
