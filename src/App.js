@@ -47,19 +47,7 @@ function App() {
     adsbygoogleScript.async = true;
     adsbygoogleScript.crossOrigin = 'anonymous';
     document.head.appendChild(adsbygoogleScript);
-
-    // Push the ads once the script is loaded
-    adsbygoogleScript.onload = () => {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-    };
-  }, []);
-
-  useEffect(() => {
-    // Push the ads whenever the route changes
-    if (window.adsbygoogle) {
-      window.adsbygoogle.push({});
-    }
-  }, [location]);
+}, []);
   return (
     <>
       <Captain />
