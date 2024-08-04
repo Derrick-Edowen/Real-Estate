@@ -2,14 +2,19 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-  service: 'Outlook365',
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false, // Use STARTTLS
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.EMAIL_USER, // your Outlook email address
+    pass: process.env.EMAIL_PASS, // your Outlook email password
   },
+  tls: {
+    ciphers: 'SSLv3'
+  }
 });
 
-const sendEmail = (formData) => {
+const sendEmail = async (formData) => {
   const mailOptions = {
     from: 'oneestatewebservices@outlook.com',
     to: 'oneestatewebservices@outlook.com',
@@ -21,20 +26,19 @@ const sendEmail = (formData) => {
       <p><strong>Phone Number:</strong> ${formData.phoneNumber}</p>
       <h4><strong>Message:</strong></h4>
       <p>${formData.message}</p>
-
-
       <p><small>Powered by One Estate Web Services</small></p>
       <p><small>NO REPLY: Do not reply to this email</small></p>
     `,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
+    return 'Email sent successfully';
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('Failed to send email');
+  }
 };
 
 module.exports = sendEmail;

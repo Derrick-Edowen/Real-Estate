@@ -625,10 +625,14 @@ app.delete('/posts/:postId', async (req, res) => {
 });
 
 //Mailing
-app.post('/api/send-email', (req, res) => {
+app.post('/api/send-email', async (req, res) => {
   const formData = req.body;
-  sendEmail(formData);
-  res.status(200).send('Email sent successfully');
+  try {
+    await sendEmail(formData);
+    res.status(200).send('Email sent successfully');
+  } catch (error) {
+    res.status(500).send('Failed to send email');
+  }
 });
 // API endpoints
 app.use(express.static(path.join(__dirname, 'build')));

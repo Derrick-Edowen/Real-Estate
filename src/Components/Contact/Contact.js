@@ -112,7 +112,7 @@ function Contact() {
         <div className='inputBox-specific'>
           <input type='submit' value="Send Message" name='' />
           <FontAwesomeIcon icon={faPaperPlane} style={{color: "#ffffff",}} className="icon-specific1"/>
-          <br /><br />
+          <br />
           <span className="text-sm-specific">{textVisible && <p>Message successfully sent!</p>}</span>
         </div>
       </div>
