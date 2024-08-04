@@ -14,14 +14,20 @@ function Bio() {
 
   useEffect(() => {
     fetchBio();
-    if (window.adsbygoogle) {
-      // Replace with the number of ads you want to push
-      for (let i = 0; i < 4; i++) {
-        window.adsbygoogle.push({});
-      }
-    }
   }, []);
-
+  useEffect(() => {
+    const initializeAds = () => {
+      if (window.adsbygoogle) {
+        window.adsbygoogle.loaded = true;
+        for (let i = 0; i < 4; i++) {
+          window.adsbygoogle.push({});
+        }
+      }
+    };
+    
+    const timeoutId = setTimeout(initializeAds, 1000); // Push ads 1 second after page load
+    return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
+  }, []);
   const fetchBio = async () => {
     try {
       const response = await fetch('/bio');

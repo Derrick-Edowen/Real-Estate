@@ -12,18 +12,26 @@ function Announce() {
           try {
             const post = JSON.parse(storedPostData);
             setPostData(post);
+
           } catch (error) {
             console.error('Error parsing post data:', error);
           }
         }
-        if (window.adsbygoogle) {
-          // Replace with the number of ads you want to push
-          for (let i = 0; i < 3; i++) {
-            window.adsbygoogle.push({});
-          }
-        }
+
       }, []);
-    
+      useEffect(() => {
+        const initializeAds = () => {
+          if (window.adsbygoogle) {
+            window.adsbygoogle.loaded = true;
+            for (let i = 0; i < 3; i++) {
+              window.adsbygoogle.push({});
+            }
+          }
+        };
+        
+        const timeoutId = setTimeout(initializeAds, 1000); // Push ads 1 second after page load
+        return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
+      }, []);
       if (!postData) {
         return <div>Loading...</div>;
       }

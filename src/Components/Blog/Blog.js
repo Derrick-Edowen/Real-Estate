@@ -128,12 +128,11 @@ function Blog() {
         for (let i = 0; i < 3; i++) {
           window.adsbygoogle.push({});
         }
-      } else {
-        setTimeout(initializeAds, 500);
       }
     };
     
-    initializeAds();
+    const timeoutId = setTimeout(initializeAds, 1000); // Push ads 1 second after page load
+    return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
   }, []);
   return (<>
 <aside className="leftSidebar">

@@ -435,12 +435,17 @@ const downloadPDF = () => {
   doc.save('Amortization_Schedules.pdf');
 };
 useEffect(() => {
-  if (window.adsbygoogle) {
-    // Replace with the number of ads you want to push
-    for (let i = 0; i < 8; i++) {
-      window.adsbygoogle.push({});
+  const initializeAds = () => {
+    if (window.adsbygoogle) {
+      window.adsbygoogle.loaded = true;
+      for (let i = 0; i < 8; i++) {
+        window.adsbygoogle.push({});
+      }
     }
-  }
+  };
+  
+  const timeoutId = setTimeout(initializeAds, 1000); // Push ads 1 second after page load
+  return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
 }, []);
     return (
         <>
