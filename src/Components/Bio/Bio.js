@@ -30,12 +30,12 @@ function Bio() {
   };
   useEffect(() => {
     if (window.adsbygoogle) {
+      // Replace with the number of ads you want to push
+      for (let i = 0; i < 4; i++) {
         window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
-        window.adsbygoogle.push({});
+      }
     }
-}, []);
+  }, []);
   return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"

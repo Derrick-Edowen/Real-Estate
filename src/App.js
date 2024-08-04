@@ -41,14 +41,16 @@ function App() {
     document.title = `${pageTitle} - One Estate Web Services`;
   }, [location]);
   useEffect(() => {
-    // Ensure adsbygoogle script is loaded
-    const adsbygoogleScript = document.createElement('script');
-    adsbygoogleScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-    adsbygoogleScript.async = true;
-    adsbygoogleScript.crossOrigin = 'anonymous';
-    document.head.appendChild(adsbygoogleScript);
-
-}, []);
+    const scriptId = 'adsbygoogle-script';
+    if (!document.getElementById(scriptId)) {
+      const adsbygoogleScript = document.createElement('script');
+      adsbygoogleScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+      adsbygoogleScript.async = true;
+      adsbygoogleScript.crossOrigin = 'anonymous';
+      adsbygoogleScript.id = scriptId;
+      document.head.appendChild(adsbygoogleScript);
+    }
+  }, []);
   return (
     <>
       <Captain />
