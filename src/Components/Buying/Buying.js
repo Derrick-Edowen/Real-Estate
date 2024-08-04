@@ -5,16 +5,7 @@ import Contact from '../Contact/Contact';
 
 
 function Buying() {
-    useEffect(() => {
-        if (window.adsbygoogle) {
-            window.adsbygoogle.push({});
-            window.adsbygoogle.push({});
-            window.adsbygoogle.push({});
-            window.adsbygoogle.push({});
-            window.adsbygoogle.push({});
 
-        }
-    }, []);
     return (<>
 <aside className="leftSidebar">
 <ins className="adsbygoogle"

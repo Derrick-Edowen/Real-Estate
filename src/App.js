@@ -52,7 +52,14 @@ function App() {
     adsbygoogleScript.onload = () => {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
     };
-}, []);
+  }, []);
+
+  useEffect(() => {
+    // Push the ads whenever the route changes
+    if (window.adsbygoogle) {
+      window.adsbygoogle.push({});
+    }
+  }, [location]);
   return (
     <>
       <Captain />

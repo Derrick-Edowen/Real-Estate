@@ -38,9 +38,7 @@ function Blog() {
 
   useEffect(() => {
     fetchPosts();
-    window.adsbygoogle.push({});
-    window.adsbygoogle.push({});
-    window.adsbygoogle.push({});
+
   }, []);
 
   const handleImageChange = (e) => {

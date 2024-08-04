@@ -57,10 +57,6 @@ const PropertyDetails = () => {
           const fullAddress = `${safeAccess(data.property, 'address.streetAddress')} ${safeAccess(data.property, 'address.zipcode')} ${safeAccess(data.property, 'address.city')} ${safeAccess(data.property, 'address.state')}`;
           updateMapLocation(fullAddress);
       }
-      window.adsbygoogle.push({});
-      window.adsbygoogle.push({});
-      window.adsbygoogle.push({});
-      window.adsbygoogle.push({});
       // Check URL for /Nearby-Property-Details/ to disable Nearby Homes button
       setShowNearbyHomes(!pathname.includes('/Nearby-Property-Details/'));
   }, []);

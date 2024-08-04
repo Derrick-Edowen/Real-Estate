@@ -14,11 +14,6 @@ function Bio() {
 
   useEffect(() => {
     fetchBio();
-    window.adsbygoogle.push({});
-    window.adsbygoogle.push({});
-    window.adsbygoogle.push({});
-    window.adsbygoogle.push({});
-
   }, []);
 
   const fetchBio = async () => {

@@ -12,9 +12,6 @@ function Announce() {
           try {
             const post = JSON.parse(storedPostData);
             setPostData(post);
-            window.adsbygoogle.push({});
-            window.adsbygoogle.push({});
-            window.adsbygoogle.push({});
           } catch (error) {
             console.error('Error parsing post data:', error);
           }
