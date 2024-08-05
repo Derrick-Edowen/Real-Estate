@@ -125,7 +125,7 @@ function Blog() {
     const initializeAds = () => {
       if (window.adsbygoogle) {
         window.adsbygoogle.loaded = true;
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
           window.adsbygoogle.push({});
         }
       }

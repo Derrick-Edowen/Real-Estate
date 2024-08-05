@@ -282,14 +282,11 @@ background-color: rgb(177, 177, 177);
     color: white;
     border: 1px solid #afafaf2f;
     box-shadow: 1px 1px 2px 1px #000000b3;
-      border-radius: 5px;
+      border-radius: 3px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-right: 0;
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin-left: 2px;
+    font-size: 14px;
+    padding: 6px;
 }
 .downPDF:hover {
     background-color:rgba(54, 54, 54, 0.877);
