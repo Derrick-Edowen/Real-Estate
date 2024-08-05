@@ -331,21 +331,21 @@ async function nearbyPropertyDetails(req, res) {
     const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
     const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
 
-    const propertyResponse = await axios.get(propertyUrl, {
+    const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    });
+    }));
 
-    const imageResponse = await axios.get(imagesUrl, {
+    const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
       params: { zpid },
       headers: {
         'X-RapidAPI-Key': process.env.RAPID_API_KEY,
         'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
       },
-    });
+    }));
 
     const data = {
       property: propertyResponse.data,
