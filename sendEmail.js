@@ -10,9 +10,11 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS, // your Outlook email password
   },
   tls: {
-    ciphers: 'SSLv3'
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false // Add this if you're having TLS issues
   }
 });
+
 
 const sendEmail = (formData) => {
   const mailOptions = {
