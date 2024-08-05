@@ -22,7 +22,7 @@ function Pricing() {
 <div className="descTexc"> - <strong>Rapid Support:</strong> Access expert assistance whenever you need it, ensuring peace of mind.</div>
 <div className="descTextJfc">Limited Time Promotion</div>
 
-<div className="descTexc"> - But that's not all! For a limited time, use promo code "ONEESTATE24" and receive a generous 15% discount for the first 2 months of your subscription. This exclusive offer allows you to experience the full benefits of our services at an unbeatable price.</div>
+<div className="descTexc"> - But that's not all! For a limited time, use promo code "ONEESTATE24" and receive a 15% discount for the first 2 months of your subscription. This exclusive offer allows you to experience the full benefits of our services at an unbeatable price.</div>
 <div className="descTextJfc">Getting Started</div>
 
 <div className="descTexc">Ready to take your real estate business to new heights? Join One Estate Web Services today and start your journey towards success. Click the link below and begin your monthly subscription once approved by One Estate Web Services. Don't miss out on this opportunity to transform your online presence affordably and effectively!</div>

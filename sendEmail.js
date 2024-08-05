@@ -31,7 +31,7 @@ const sendEmail = (formData) => {
 
 
       <p><small>Powered by One Estate Web Services</small></p>
-      <p><small>NO REPLY: Do not reply to this email</small></p>
+      <p><small>*NO REPLY: Do not reply to this email</small></p>
     `,
   };
 

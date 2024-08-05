@@ -17,7 +17,8 @@ const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
 const sendEmail = require('./sendEmail');
 //const redisClient = new Redis(process.env.REDIS_URL);
-
+const wss = new WebSocket.Server({ server });
+const clients = new Map(); // Use a Map to store clients with a unique identifier
 
 // Middleware
 app.use(cors());
@@ -26,6 +27,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //API CODE//
 
+
+
+
 const maxRequestsPerSecond = 1;
 const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
 
@@ -33,134 +37,15 @@ const limiter = new Bottleneck({
   maxConcurrent: maxRequestsPerSecond,
   minTime: 1000 / maxRequestsPerSecond,
 });
-/*
-const redisClient = new Redis(process.env.REDIS_URL);
 
-// Create a Bull queue
-const propertySearchQueue = new Bull('property-search', { redis: redisClient });
-
-// WebSocket server setup
-const wss = new WebSocket.Server({ noServer: true });
-const clients = new Map();
-
-wss.on('connection', function connection(ws) {
-  ws.on('message', (message) => {
-    const data = JSON.parse(message);
-    if (data.id) {
-      clients.set(data.id, ws);
-    }
-  });
-
-  ws.on('close', () => {
-    for (let [key, value] of clients.entries()) {
-      if (value === ws) {
-        clients.delete(key);
-        break;
-      }
-    }
-  });
-});
-
-function getOrCreateWebSocket(id) {
-  return clients.get(id);
-}
-
-// Route to add a job to the queue
-app.post('/api/search-listings', async (req, res) => {
-  try {
-    // Add job to queue
-    const job = await propertySearchQueue.add(req.body, {
-      attempts: 3, // Number of retries if a job fails
-    });
-
-    // Respond to client with a message indicating job has been queued
-    res.json({ success: true, message: 'Search request added to the queue', jobId: job.id });
-  } catch (error) {
-    console.error('Error adding job to queue:', error);
-    res.status(500).json({ error: 'Failed to add job to queue' });
-  }
-});
-
-// Process property search requests
-propertySearchQueue.process(async (job) => {
-  const { address, state, page, type, tier, sort, minPrice, maxPrice, maxBeds, maxBaths, id } = job.data;
-  const ws = getOrCreateWebSocket(id);
-
-  if (!ws) {
-    console.error('WebSocket not found for id:', id);
-    return;
-  }
-
-  let status = '';
-  let rentMinPrice, rentMaxPrice, saleMinPrice, saleMaxPrice;
-
-  if (type === 1) {
-    status = 'ForRent';
-    rentMinPrice = minPrice;
-    rentMaxPrice = maxPrice;
-  } else if (type === 2) {
-    status = 'ForSale';
-    saleMinPrice = minPrice;
-    saleMaxPrice = maxPrice;
-  } else if (type === 3) {
-    status = 'RecentlySold';
-    saleMinPrice = minPrice;
-    saleMaxPrice = maxPrice;
-  }
-
-  try {
-    const estateResponse = await axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
-      params: {
-        location: `${address},${state}`,
-        page: page,
-        status_type: status,
-        sort: sort,
-        home_type: tier,
-        rentMinPrice: rentMinPrice,
-        rentMaxPrice: rentMaxPrice,
-        minPrice: saleMinPrice,
-        maxPrice: saleMaxPrice,
-        bathsMin: maxBaths,
-        bedsMin: maxBeds,
-      },
-      headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-      },
-    });
-
-    const leaseListings = estateResponse.data.props;
-    const totalResultCount = estateResponse.data.totalResultCount;
-
-    if (!leaseListings || leaseListings.length === 0 || totalResultCount === 0) {
-      if (ws.readyState === WebSocket.OPEN) {
-        ws.send(JSON.stringify({ success: true, noResults: true, message: "No Listings Found" }));
-        ws.close();
-      }
-      return;
-    }
-
-    const zpidData = { zpids: estateResponse.data };
-
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(zpidData));
-      ws.close();
-    }
-  } catch (error) {
-    console.error('Error fetching lease listings:', error);
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ error: 'Failed to fetch lease listings' }));
-      ws.close();
-    }
-  }
-});
-*/
-const wss = new WebSocket.Server({ server });
-const clients = new Map(); // Use a Map to store clients with a unique identifier
 
 // Define the request queue
 const requestQueue = [];
 let isProcessing = false;
+const fetchPropertyDetailsQueue = [];
+let isProcessingFetchQueue = false;
+const nearbyDetailsQueue = [];
+let isProcessingNearbyQueue = false;
 
 // Handle WebSocket connections
 wss.on('connection', function connection(ws) {
@@ -286,31 +171,58 @@ async function handlePropertySearch(req) {
 }
 
 // New endpoint to fetch property details and images
+app.post('/api/fetch-property-details', (req, res) => {
+  addToFetchQueue(req, res);
+});
+function addToFetchQueue(req, res) {
+  fetchPropertyDetailsQueue.push({ req, res });
+  processFetchQueue();
+}
+async function processFetchQueue() {
+  if (isProcessingFetchQueue) return; // Exit if already processing
+
+  isProcessingFetchQueue = true;
+
+  while (fetchPropertyDetailsQueue.length > 0) {
+    const { req, res } = fetchPropertyDetailsQueue.shift(); // Get the next request
+
+    await handleFetchPropertyDetails(req, res); // Process the request
+
+    // Wait before processing the next request if necessary
+    // await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
+  }
+
+  isProcessingFetchQueue = false; // Mark processing as complete
+}
 async function handleFetchPropertyDetails(req, res) {
   const { zpid } = req.body;
-
+  if (!zpid) {
+    console.error('No zpid provided in request');
+    return res.status(400).json({ error: 'Missing zpid in request' });
+  }
   try {
     const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
     const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-
-    const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
-      params: { zpid },
-      headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-      },
-    }));
-
-    const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
-      params: { zpid },
-      headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-      },
-    }));
-
+    // Fetch property details and images
+    const propertyResponse = await limiter.schedule(() =>
+      axios.get(propertyUrl, {
+        params: { zpid },
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+        },
+      })
+    );
+    const imageResponse = await limiter.schedule(() =>
+      axios.get(imagesUrl, {
+        params: { zpid },
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+        },
+      })
+    );
     const data = { property: propertyResponse.data, images: imageResponse.data };
-
     res.json(data);
   } catch (error) {
     console.error(`Error fetching data for zpid ${zpid}:`, error.message);
@@ -318,46 +230,73 @@ async function handleFetchPropertyDetails(req, res) {
   }
 }
 
-app.post('/api/fetch-property-details', handleFetchPropertyDetails);
 
 
 
-app.post('/nearby-details', nearbyPropertyDetails);
+
+app.post('/nearby-details', (req, res) => {
+  addToNearbyQueue(req, res);
+});
+function addToNearbyQueue(req, res) {
+  nearbyDetailsQueue.push({ req, res });
+  processNearbyQueue();
+}
+async function processNearbyQueue() {
+  if (isProcessingNearbyQueue) return; // Exit if already processing
+
+  isProcessingNearbyQueue = true;
+
+  while (nearbyDetailsQueue.length > 0) {
+    const { req, res } = nearbyDetailsQueue.shift(); // Get the next request
+
+    await nearbyPropertyDetails(req, res); // Process the request
+
+    // Wait before processing the next request if necessary
+    // await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
+  }
+
+  isProcessingNearbyQueue = false; // Mark processing as complete
+}
 
 async function nearbyPropertyDetails(req, res) {
   const zpid = req.body.zpid;
-
+  if (!zpid) {
+    console.error('No zpid provided in request');
+    return res.status(400).json({ error: 'Missing zpid in request' });
+  }
   try {
     const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
     const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-
-    const propertyResponse = await limiter.schedule(() => axios.get(propertyUrl, {
-      params: { zpid },
-      headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-      },
-    }));
-
-    const imageResponse = await limiter.schedule(() => axios.get(imagesUrl, {
-      params: { zpid },
-      headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-      },
-    }));
-
+    // Fetch property details and images
+    const propertyResponse = await limiter.schedule(() =>
+      axios.get(propertyUrl, {
+        params: { zpid },
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+        },
+      })
+    );
+    const imageResponse = await limiter.schedule(() =>
+      axios.get(imagesUrl, {
+        params: { zpid },
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+        },
+      })
+    );
     const data = {
       property: propertyResponse.data,
       images: imageResponse.data,
     };
-
     res.json(data);
   } catch (error) {
     console.error(`Error fetching data for zpid ${zpid}:`, error.message);
     res.status(500).json({ error: 'Failed to fetch property details' });
   }
 }
+
 
 app.post('/api/geocode', async (req, res) => {
   const { address } = req.body;
