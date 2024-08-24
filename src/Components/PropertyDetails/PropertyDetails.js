@@ -820,7 +820,7 @@ defaultValue={0}
           </div>
         </div>
 
-        <div className='descTextF'>Equated Monthly Instalment (EMI) Details</div>
+        <div className='descTextFf'>Equated Monthly Instalment (EMI) Details</div>
         <div className="mortgagepd-container">
                    <div className='textChart'>
                    <div className='text-container'>
@@ -845,14 +845,14 @@ defaultValue={0}
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
                 </div>
-        <div className='descTextF'>Annual Amortization Line Graph</div>
+        <div className='descTextFf'>Annual Amortization Line Graph</div>
         <div className="mortgagepd-container1">
         <div className="chart-container">
             <canvas id="lineChart" width="500" height="350"></canvas>
           </div>
         </div>
 
-        <div className='descTextF'>Monthly Amortization Schedule</div>
+        <div className='descTextFf'>Monthly Amortization Schedule</div>
         <div className="schtables-container">
           <table className="excel" id='monthlyTable'>
             <thead>
@@ -877,7 +877,7 @@ defaultValue={0}
             </tbody>
           </table>
           </div>
-          <div className='descTextF'>Annual Amortization Schedule</div>
+          <div className='descTextFf'>Annual Amortization Schedule</div>
           <div className="schtables-container">
 
           <table  className="excel" id="annualTable">
