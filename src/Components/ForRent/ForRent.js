@@ -224,8 +224,8 @@ const homeHandler = async (searcherParams) => {
     const { address } = searcherParams;
     let state = '';
     const country = '';
-    const minPrice = 600000;
-    const maxPrice = 950000;
+    const minPrice = 500000;
+    const maxPrice = 1000000;
     const maxBeds = '0';
     const maxBaths = '0';
     const sort = 'Newest';

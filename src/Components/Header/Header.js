@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
 import woman100 from '../../Assets/Images/woman100.jpg';
+import silo from '../../Assets/Images/YourPhotoHEre.jpg'
 
 function Header() {
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
@@ -79,7 +80,7 @@ function Header() {
       
       <NavLink to="/Home" className="heading-link">
       <div className="heading">
-      <img className='mainimg19' src={woman100} alt='main' />      
+      <img className='mainimg19' src={silo} alt='main' />      
         <h2>[ Brokerage / Business Icon ]</h2>
         <h4>[ Your Name ]<br/> [ Sales Representative / Broker ]</h4>
       </div>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './bio.css';
 import woman100 from '../../Assets/Images/woman100.jpg';
+import silo from '../../Assets/Images/YourPhotoHEre.jpg'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faFacebook, faLinkedin, faSquareXTwitter, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -52,7 +54,7 @@ function Bio() {
           <div className='meteor'>
             <div className='rock'>
             <div className='sun'>
-              <img className='mainimg1' src={woman100} alt='main' />
+              <img className='mainimg1' src={silo} alt='main' />
               <div className='descTextJ'>[Your Name]</div>
               <div className='descTextJ'>[Sales Representative / Broker]</div>
               <div className='descTextJ'>[Email Address]</div>

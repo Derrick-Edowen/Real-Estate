@@ -63,10 +63,7 @@ function App() {
         <Route path="/Biography | About Me" element={<Bio />} />
         <Route path="/Calculators | Mortgage Calculator" element={<Calculator />} />
         <Route path="/Announcements" element={<Blog />} />
-        <Route path="/Find Listings | For Sale" element={<ForSale />} />
         <Route path="/Find Listings | Property Search" element={<ForRent />} />
-        <Route path="/Find Listings | Recently Sold" element={<RecentlySold />} />
-        <Route path="/Calculators | Rent Affordability Calculator" element={<RentCalculator />} />
         <Route path="/Contact Me" element={<Contact />} />
         <Route path="/Pricing & Subscriptions" element={<Pricing />} />
         <Route path="/Agent Access" element={<Access />} />

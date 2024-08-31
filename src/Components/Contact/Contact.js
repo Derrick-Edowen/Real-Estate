@@ -6,6 +6,7 @@ import { faInstagram, faFacebook, faLinkedin, faYoutube,faSquareXTwitter, faTikt
 import { faAt, faPhoneVolume, faUser, faPencil, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import woman100 from '../../Assets/Images/woman100.jpg';
+import silo from '../../Assets/Images/YourPhotoHEre.jpg'
 
 function Contact() {
   const [textVisible, setTextVisible] = useState(false);
@@ -52,7 +53,7 @@ function Contact() {
 
 
         <div className='megainfo'>
-        <img className='mainimg199' src={woman100} alt='main' />      
+        <img className='mainimg199' src={silo} alt='main' />      
           <div className='descTextJv'>[ Brokerage / Business Icon ]</div>
           <div className='descTextJv'>[ Brokerage / Business Name ]</div>
           <div className='descTextJv'>[ Brokerage /  Business Address ]</div>
@@ -68,7 +69,7 @@ function Contact() {
           <div className='descTextJv'> Lets Connect! </div>
           <div className='sci-hero2'>
                 <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>
-                <span><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></span>
+                <span><a href='https://www.facebook.com/profile.php?id=61563967121868' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></span>
                 <span><a href='https://twitter.com/?lang=en' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faSquareXTwitter} size="xl" style={{ color: "#2e2e2e" }} /></a></span>
                 <span><a href='https://www.tiktok.com/en/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faTiktok} style={{ color: "#000000" }} size='xl' /></a></span>
                 <span><a href='https://www.linkedin.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faLinkedin} size="xl" style={{ color: "#072b69" }} /></a></span>
