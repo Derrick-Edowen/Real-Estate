@@ -525,7 +525,9 @@ useEffect(() => {
             <div className='descTextF notranslate'>Cooling - {safeAccess(api, 'resoFacts.cooling.0')}</div>
             <div className='descTextF notranslate'>Allocated Parking Spaces - {safeAccess(api, 'resoFacts.parkingCapacity')}</div>
             <div className='descTextF notranslate'>Flooring Type - {safeAccess(api, 'resoFacts.flooring.0')}</div>
-            <div className='descTextF notranslate'>Pets Allowed - {hasPetsAllowed === true ? 'Yes' : 'No'}</div>
+            <div className='descTextF notranslate'>
+  Pets Allowed - {homeStatus === 'FOR RENT' ? (hasPetsAllowed === true ? 'Yes' : 'No') : 'N/A'}
+</div>
             <div className='descTextF notranslate'>Garage - {garage === true ? 'Yes' : 'No'}</div>
             <div className='descTextF notranslate'> Laundry - {safeAccess(api, 'resoFacts.laundryFeatures.0')}</div>
             <div className='descTextF notranslate'> Furnished - {furnished === true ? 'Yes' : 'No'}</div>
