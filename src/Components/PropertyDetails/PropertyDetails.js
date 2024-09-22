@@ -28,7 +28,6 @@ const PropertyDetails = () => {
     const [showNearbyHomes, setShowNearbyHomes] = useState(true); // State to control visibility of Nearby Homes
     const [rent, setRent] = useState('');
     const [monthPrice, setMonthPrice] = useState('');
-
     const [income, setIncome] = useState('');
     const [groceries, setGroceries] = useState(0);
     const [utilities, setUtilities] = useState(0);
