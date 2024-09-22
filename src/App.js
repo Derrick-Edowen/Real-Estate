@@ -32,7 +32,6 @@ import Investing from './Components/Investing/Investing'
 import Lost from './Components/Lost/Lost'
 function App() {
   const location = useLocation();
-
   useEffect(() => {
     let pageTitle = decodeURIComponent(location.pathname.replace(/^\/+/, '')); // Remove leading '/'
     if (pageTitle === "") {
@@ -56,7 +55,6 @@ function App() {
       <Captain />
       <Header />
       <ScrollToTop />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
