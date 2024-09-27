@@ -758,8 +758,6 @@ return (
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
           <input className='notranslate' id='search' type='text' placeholder='Enter a City' required />
-
-   
           <select
             className="notranslate"
             id="country"

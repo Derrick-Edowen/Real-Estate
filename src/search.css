@@ -285,6 +285,7 @@ margin-right: auto;
 margin-left: auto;
 background: white;
 float: right;
+display: block;
 }
 .detts {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
