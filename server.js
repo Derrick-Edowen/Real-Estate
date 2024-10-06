@@ -298,6 +298,122 @@ async function nearbyPropertyDetails(req, res) {
 }
 
 
+//City suggestions
+app.get('/api/citySuggestions', async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const response = await axios.get('https://maps.googleapis.com/maps/api/place/autocomplete/json', {
+      params: {
+        input: query,
+        key: process.env.GOOGLE_API_KEY,
+        types: '(cities)'
+      }
+    });
+
+    // Filter suggestions to include only those with "USA" or "Canada" in the description
+    const suggestions = response.data.predictions
+      .filter(prediction => 
+        prediction.description.includes('USA') || 
+        prediction.description.includes('Canada')
+      )
+      .map(prediction => prediction.description);
+
+    res.json({ suggestions });
+  } catch (error) {
+    console.error('Error fetching city suggestions:', error);
+    res.status(500).json({ message: 'Error fetching city suggestions' });
+  }
+});
+
+
+
+
+
+
+
+
+
+//Market Location and Data
+app.get('/api/marketData', async (req, res) => {
+  let { city } = req.query; // Get the city from the query parameters
+
+  // Stringify the city parameter to ensure it is treated as a string
+  city = JSON.stringify(city).replace(/"/g, ''); // Remove quotes
+
+  // Validate that city is a non-empty string
+  if (typeof city !== 'string' || city.trim() === '') {
+    return res.status(400).json({ message: 'City parameter must be a non-empty string.' });
+  }
+
+  // Remove the country part from the city string
+  // Split by commas and take the first two parts (city and state)
+  const cityParts = city.split(',');
+  if (cityParts.length >= 2) {
+    city = cityParts.slice(0, 2).join(',').trim(); // Join the first two parts
+  }
+
+  try {
+    // Step 1: Get the resource_id
+    const locationOptions = {
+      method: 'GET',
+      url: 'https://zillow-com1.p.rapidapi.com/marketLocation',
+      params: { 
+        location: city // Now it will be like 'Orlando, FL'
+      },
+      headers: {
+        'x-rapidapi-key': process.env.RAPID_API_KEY, // Your API key
+        'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
+      },
+    };
+
+    const locationResponse = await axios.request(locationOptions);
+
+    // Log the entire response from the location API to the console
+
+    // Extract the resource_id from the location response
+    const resourceId = locationResponse.data?.data[0]?.resourceId; // Updated to match your structure
+
+    // Validate that resourceId is present
+    if (!resourceId) {
+      return res.status(404).json({ message: 'Resource ID not found for the specified city.' });
+    }
+
+    // Step 2: Get the market data using resource_id
+    const dataOptions = {
+      method: 'GET',
+      url: 'https://zillow-com1.p.rapidapi.com/marketData',
+      params: {
+        resourceId: resourceId // Use the extracted resourceId
+      },
+      headers: {
+        'x-rapidapi-key': process.env.RAPID_API_KEY, // Your API key
+        'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
+      },
+    };
+
+    const marketDataResponse = await axios.request(dataOptions);
+    
+    // Send the market data back to the frontend
+    res.json(marketDataResponse.data);
+  } catch (error) {
+    console.error('Error fetching market data:', error);
+    res.status(500).json({ message: 'Error fetching market data' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/api/geocode', async (req, res) => {
   const { address } = req.body;
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${process.env.GOOGLE_API_KEY}`;

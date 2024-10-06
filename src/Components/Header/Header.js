@@ -12,6 +12,8 @@ function Header() {
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible3, setDropdownVisible3] = useState(false);
+  const [dropdownVisible4, setDropdownVisible4] = useState(false);
+
 
   const [navActive, setNavActive] = useState(false);
   const location = useLocation();
@@ -23,6 +25,7 @@ function Header() {
     setDropdownVisible1(false);
     setDropdownVisible2(false);
     setDropdownVisible3(false);
+    setDropdownVisible4(false);
 
   };
 
@@ -30,6 +33,8 @@ function Header() {
     setDropdownVisible1(!dropdownVisible1);
     setDropdownVisible2(false);
     setDropdownVisible3(false);
+    setDropdownVisible4(false);
+
     setNavActive(false); // Close the dropdown menu
   };
   
@@ -37,6 +42,8 @@ function Header() {
     setDropdownVisible2(!dropdownVisible2);
     setDropdownVisible1(false);
     setDropdownVisible3(false);
+    setDropdownVisible4(false);
+
     setNavActive(false); // Close the dropdown menu
   };
   
@@ -44,13 +51,22 @@ function Header() {
     setDropdownVisible3(!dropdownVisible3);
     setDropdownVisible1(false);
     setDropdownVisible2(false);
+    setDropdownVisible4(false);
+
   };
-  
+  const handleClick4 = () => {
+    setDropdownVisible4(!dropdownVisible3);
+    setDropdownVisible1(false);
+    setDropdownVisible2(false);
+    setDropdownVisible3(false);
+
+  };
   
   const closeMenu = () => {
     setDropdownVisible1(false);
     setDropdownVisible2(false);
     setDropdownVisible3(false);
+    setDropdownVisible4(false);
     setNavActive(false);
   };
 
@@ -61,6 +77,7 @@ function Header() {
         setDropdownVisible1(false);
         setDropdownVisible2(false);
         setDropdownVisible3(false);
+        setDropdownVisible4(false);
 
       }
     };
@@ -108,7 +125,7 @@ function Header() {
               to="/Biography | About Me"
               className={`navbar--content ${location.pathname === '/Biography | About Me' ? 'active' : ''}`}
               >
-              [YOUR NAME / BIOGRAPHY]
+              [Your Name / Biography]
             </NavLink>
           </li>
           <li className={`dropdown ${dropdownVisible3 ? "active" : ""}`}>
@@ -116,7 +133,7 @@ function Header() {
         className={`missin ${location.pathname.includes('Real%20Estate%20Advice%20%7C%20Selling%20Your%20Home') || location.pathname.includes('Real%20Estate%20Advice%20%7C%20Buying%20A%20Home') || location.pathname.includes('Real%20Estate%20Advice%20%7C%20Investing%20In%20Real%20Estate') ? 'active' : ''}`} 
         onClick={handleClick3}
     >
-        REAL ESTATE ADVICE <span className="chevyy"><FontAwesomeIcon icon={faChevronDown} /></span>
+        Real Estate Advice <span className="chevyy"><FontAwesomeIcon icon={faChevronDown} /></span>
         <li
             className={`navbar--content findingList arrow-rotate ${dropdownVisible3 ? "active" : ""}`}
         >
@@ -179,7 +196,21 @@ function Header() {
             </NavLink>
         </li>
     </div>
-          <li>
+    <li>
+            <NavLink
+              onClick={closeMenu}
+              activeclass="navbar--active-content"
+              spy={true}
+              smooth={true}
+              offset={-70}
+              duration={1000}
+              to="/Rental Market Data"
+              className={`navbar--content ${location.pathname === '/Rental Market Data' ? 'active' : ''}`}
+              >
+              Market Data
+            </NavLink>
+          </li>
+    <li>
             <NavLink
               onClick={closeMenu}
               activeclass="navbar--active-content"
@@ -190,7 +221,7 @@ function Header() {
               to="/Find Listings | Property Search"
               className={`navbar--content ${location.pathname === '/Find Listings | Property Search' ? 'active' : ''}`}
               >
-              FIND LISTINGS
+              Find Listings
             </NavLink>
           </li>
           <li>
@@ -203,9 +234,10 @@ function Header() {
             to="/Announcements"
               className="navbar--content"
             >
-              NEWS
+              Announcements
             </NavLink>
           </li>
+
           <li>
           <ScrollLink
   onClick={closeMenu}
@@ -216,7 +248,7 @@ function Header() {
   duration={250}
   className="navbar--content"
 >
-  CONTACT
+  Contact
 </ScrollLink>
           </li>
         </ul>

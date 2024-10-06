@@ -26,10 +26,13 @@ import Announce from './Components/Announce/Announce';
 import Service from './Components/Service/Service';
 import Mission from './Components/Mission/Mission';
 import Privacy from './Components/Privacy/Privacy';
-import Buying from './Components/Buying/Buying'
-import Selling from './Components/Selling/Selling'
-import Investing from './Components/Investing/Investing'
-import Lost from './Components/Lost/Lost'
+import Buying from './Components/Buying/Buying';
+import Selling from './Components/Selling/Selling';
+import Investing from './Components/Investing/Investing';
+import Lost from './Components/Lost/Lost';
+import MarketRent from './Components/MarketRent/MarketRent';
+import MarketSale from './Components/MarketSale/MarketSale';
+
 function App() {
   const location = useLocation();
   useEffect(() => {
@@ -75,6 +78,9 @@ function App() {
         <Route path="/Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Nearby-Property-Details/:address" element={<PropertyDetails />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/Rental Market Data" element={<MarketRent />} />
+        <Route path="/Purchase Market Data" element={<MarketSale />} />
+
         <Route path="*" element={<Lost />} />
       </Routes>
     </>

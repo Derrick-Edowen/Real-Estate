@@ -280,7 +280,8 @@ border-radius: 3px;
     transform: rotate(-1deg); /* Rotate arrow when dropdown is active */
   }
   .active {
-    color:rgba(170, 145, 0, 0.993);
+    color:rgba(197, 168, 0, 0.993);
+    /*text-decoration: underline !important;*/
     }
     .zod{
       border: 0.5px solid black;
@@ -295,7 +296,7 @@ border-radius: 3px;
       background: rgb(255, 245, 245);
 
     }
-    @media screen and (max-width: 1430px) {
+    @media screen and (max-width: 1550px) {
       .nav__hamburger {
         display: flex;
         z-index: 101;
