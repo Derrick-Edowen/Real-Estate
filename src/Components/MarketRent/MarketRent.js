@@ -321,10 +321,10 @@ return (<>
         Median Rent Price: ${(marketData?.summary.medianRent).toFixed(0)}
       </div>
       <div className="descTextF">
-        Maximum Price: ${marketData?.rentHistogram.maxPrice}
+        Highest Priced Rental: ${marketData?.rentHistogram.maxPrice}
       </div>
       <div className="descTextF">
-        Minimum Price: ${marketData?.rentHistogram.minPrice}
+        Lowest Priced Rental: ${marketData?.rentHistogram.minPrice}
       </div>
       <div className="descTextF">
         Total Listings: {marketData?.summary.availableRentals}
