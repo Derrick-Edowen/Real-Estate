@@ -335,70 +335,70 @@ app.get('/api/citySuggestions', async (req, res) => {
 
 
 //Market Location and Data
-app.get('/api/marketData', async (req, res) => {
-  let { city } = req.query; // Get the city from the query parameters
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  // Stringify the city parameter to ensure it is treated as a string
+app.get('/api/marketData', async (req, res) => {
+  let { city } = req.query;
   city = JSON.stringify(city).replace(/"/g, ''); // Remove quotes
 
-  // Validate that city is a non-empty string
   if (typeof city !== 'string' || city.trim() === '') {
     return res.status(400).json({ message: 'City parameter must be a non-empty string.' });
   }
 
-  // Remove the country part from the city string
-  // Split by commas and take the first two parts (city and state)
   const cityParts = city.split(',');
   if (cityParts.length >= 2) {
-    city = cityParts.slice(0, 2).join(',').trim(); // Join the first two parts
+    city = cityParts.slice(0, 2).join(',').trim();
   }
 
-  try {
-    // Step 1: Get the resource_id
-    const locationOptions = {
-      method: 'GET',
-      url: 'https://zillow-com1.p.rapidapi.com/marketLocation',
-      params: { 
-        location: city // Now it will be like 'Orlando, FL'
-      },
-      headers: {
-        'x-rapidapi-key': process.env.RAPID_API_KEY, // Your API key
-        'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
-      },
-    };
+  const MAX_RETRIES = 15;
+  let attempts = 0;
 
-    const locationResponse = await axios.request(locationOptions);
+  while (attempts < MAX_RETRIES) {
+    try {
+      // Step 1: Get the resource_id
+      const locationOptions = {
+        method: 'GET',
+        url: 'https://zillow-com1.p.rapidapi.com/marketLocation',
+        params: { location: city },
+        headers: {
+          'x-rapidapi-key': process.env.RAPID_API_KEY,
+          'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
+        },
+      };
 
-    // Log the entire response from the location API to the console
+      const locationResponse = await axios.request(locationOptions);
+      const resourceId = locationResponse.data?.data[0]?.resourceId;
 
-    // Extract the resource_id from the location response
-    const resourceId = locationResponse.data?.data[0]?.resourceId; // Updated to match your structure
+      if (!resourceId) {
+        return res.status(404).json({ message: 'Resource ID not found for the specified city.' });
+      }
 
-    // Validate that resourceId is present
-    if (!resourceId) {
-      return res.status(404).json({ message: 'Resource ID not found for the specified city.' });
+      // Step 2: Get the market data using resource_id
+      const dataOptions = {
+        method: 'GET',
+        url: 'https://zillow-com1.p.rapidapi.com/marketData',
+        params: { resourceId },
+        headers: {
+          'x-rapidapi-key': process.env.RAPID_API_KEY,
+          'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
+        },
+      };
+
+      const marketDataResponse = await axios.request(dataOptions);
+      return res.json(marketDataResponse.data);
+      
+    } catch (error) {
+      console.error('Error fetching market data:', error);
+      attempts++;
+
+      // If we've hit the max retries, return an error response
+      if (attempts === MAX_RETRIES) {
+        return res.status(500).json({ message: 'Error fetching market data after multiple attempts' });
+      }
+
+      // Wait for 1.5 second before trying again
+      await delay(1500);
     }
-
-    // Step 2: Get the market data using resource_id
-    const dataOptions = {
-      method: 'GET',
-      url: 'https://zillow-com1.p.rapidapi.com/marketData',
-      params: {
-        resourceId: resourceId // Use the extracted resourceId
-      },
-      headers: {
-        'x-rapidapi-key': process.env.RAPID_API_KEY, // Your API key
-        'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
-      },
-    };
-
-    const marketDataResponse = await axios.request(dataOptions);
-    
-    // Send the market data back to the frontend
-    res.json(marketDataResponse.data);
-  } catch (error) {
-    console.error('Error fetching market data:', error);
-    res.status(500).json({ message: 'Error fetching market data' });
   }
 });
 
