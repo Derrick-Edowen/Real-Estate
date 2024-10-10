@@ -31,13 +31,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const maxRequestsPerSecond = 1;
-const delayBetweenRequests = 1000 / maxRequestsPerSecond; // Adjust delay for optimization
-
+const delayBetweenRequests = 1700 / maxRequestsPerSecond; // Adjust delay for optimization
 const limiter = new Bottleneck({
   maxConcurrent: maxRequestsPerSecond,
   minTime: 1000 / maxRequestsPerSecond,
 });
 
+const MAX_RETRIESS = 30; // Maximum number of retry attempts
+const RETRY_DELAYS = 1700; // Delay between retries (1 second)
 
 // Define the request queue
 const requestQueue = [];
@@ -69,6 +70,8 @@ wss.on('connection', function connection(ws) {
 function getOrCreateWebSocket(id) {
   return clients.get(id);
 }
+
+// Add retry logic to the property search function
 app.post('/api/search-listings', (req, res) => {
   addToQueue(req, res, handlePropertySearch);
   res.sendStatus(200); // Immediate response to acknowledge receipt
@@ -92,6 +95,29 @@ async function processQueue() {
 
   isProcessing = false;
 }
+
+// Retry request function
+async function retryRequest(requestFn, retries) {
+  let attempts = 0;
+
+  while (attempts < retries) {
+    try {
+      const response = await requestFn();
+      return response; // Return the successful response
+    } catch (error) {
+      attempts++;
+      console.error(`Attempt ${attempts} failed:`, error.message);
+
+      if (attempts >= retries) {
+        throw new Error(`Request failed after ${retries} attempts`);
+      }
+
+      // Wait before retrying
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAYS));
+    }
+  }
+}
+
 async function handlePropertySearch(req) {
   const id = req.body.id;
   const ws = getOrCreateWebSocket(id);
@@ -120,25 +146,27 @@ async function handlePropertySearch(req) {
       saleMaxPrice = maxPrice;
     }
 
-    const estateResponse = await limiter.schedule(() => axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
-      params: {
-        location: `${address},${state}`,
-        page: page,
-        status_type: status,
-        sort: sort,
-        home_type: tier,
-        rentMinPrice: rentMinPrice,
-        rentMaxPrice: rentMaxPrice,
-        minPrice: saleMinPrice,
-        maxPrice: saleMaxPrice,
-        bathsMin: maxBaths,
-        bedsMin: maxBeds,
-      },
-      headers: {
-        'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-        'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-      },
-    }));
+    const estateResponse = await retryRequest(() => limiter.schedule(() => 
+      axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
+        params: {
+          location: `${address},${state}`,
+          page: page,
+          status_type: status,
+          sort: sort,
+          home_type: tier,
+          rentMinPrice: rentMinPrice,
+          rentMaxPrice: rentMaxPrice,
+          minPrice: saleMinPrice,
+          maxPrice: saleMaxPrice,
+          bathsMin: maxBaths,
+          bedsMin: maxBeds,
+        },
+        headers: {
+          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+        },
+      })
+    ), MAX_RETRIESS);
 
     const leaseListings = estateResponse.data.props;
     const totalResultCount = estateResponse.data.totalResultCount;
@@ -170,14 +198,29 @@ async function handlePropertySearch(req) {
   }
 }
 
+
+
+
+
+
+
+
+
 // New endpoint to fetch property details and images
+const delayF = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const MAX_RETRIESF = 25; // Maximum number of retry attempts
+const RETRY_DELAYF = 1700; // Delay between retries (1 second)
+
 app.post('/api/fetch-property-details', (req, res) => {
   addToFetchQueue(req, res);
 });
+
 function addToFetchQueue(req, res) {
   fetchPropertyDetailsQueue.push({ req, res });
   processFetchQueue();
 }
+
 async function processFetchQueue() {
   if (isProcessingFetchQueue) return; // Exit if already processing
 
@@ -185,62 +228,98 @@ async function processFetchQueue() {
 
   while (fetchPropertyDetailsQueue.length > 0) {
     const { req, res } = fetchPropertyDetailsQueue.shift(); // Get the next request
-
     await handleFetchPropertyDetails(req, res); // Process the request
-
-    // Wait before processing the next request if necessary
-    // await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
   }
 
   isProcessingFetchQueue = false; // Mark processing as complete
 }
+
 async function handleFetchPropertyDetails(req, res) {
   const { zpid } = req.body;
   if (!zpid) {
     console.error('No zpid provided in request');
     return res.status(400).json({ error: 'Missing zpid in request' });
   }
+
   try {
-    const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-    const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-    // Fetch property details and images
-    const propertyResponse = await limiter.schedule(() =>
-      axios.get(propertyUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-        },
-      })
-    );
-    const imageResponse = await limiter.schedule(() =>
-      axios.get(imagesUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-        },
-      })
-    );
-    const data = { property: propertyResponse.data, images: imageResponse.data };
-    res.json(data);
+    // Fetch property details and images with retry logic
+    const propertyData = await retryRequest(() => getPropertyDetails(zpid), MAX_RETRIESF);
+    const imageData = await retryRequest(() => getPropertyImages(zpid), MAX_RETRIESF);
+
+    // Send back both property and image data
+    res.json({ property: propertyData, images: imageData });
   } catch (error) {
-    console.error(`Error fetching data for zpid ${zpid}:`, error.message);
+    console.error(`Error fetching data after retries for zpid ${zpid}:`, error.message);
     res.status(500).json({ error: 'Failed to fetch property details and images' });
   }
 }
 
+// Function to retry requests
+async function retryRequest(requestFn, retries) {
+  let attempts = 0;
+
+  while (attempts < retries) {
+    try {
+      const response = await requestFn(); // Call the provided request function
+      return response; // Return the successful response
+    } catch (error) {
+      attempts++;
+      console.error(`Attempt ${attempts} failed:`, error.message);
+
+      if (attempts >= retries) {
+        throw new Error(`Request failed after ${retries} attempts`);
+      }
+
+      // Wait before retrying
+      await delayF(RETRY_DELAYF);
+    }
+  }
+}
+
+// Function to fetch property details
+async function getPropertyDetails(zpid) {
+  const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+  const propertyResponse = await axios.get(propertyUrl, {
+    params: { zpid },
+    headers: {
+      'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+    },
+  });
+  return propertyResponse.data;
+}
+
+// Function to fetch property images
+async function getPropertyImages(zpid) {
+  const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+  const imageResponse = await axios.get(imagesUrl, {
+    params: { zpid },
+    headers: {
+      'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+    },
+  });
+  return imageResponse.data;
+}
 
 
 
+
+
+const delayN = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const MAX_RETRIES = 25; // Number of retries in case of error
+const RETRY_DELAY = 1600; // 1 second delay between retries
 
 app.post('/nearby-details', (req, res) => {
   addToNearbyQueue(req, res);
 });
+
 function addToNearbyQueue(req, res) {
   nearbyDetailsQueue.push({ req, res });
   processNearbyQueue();
 }
+
 async function processNearbyQueue() {
   if (isProcessingNearbyQueue) return; // Exit if already processing
 
@@ -248,11 +327,7 @@ async function processNearbyQueue() {
 
   while (nearbyDetailsQueue.length > 0) {
     const { req, res } = nearbyDetailsQueue.shift(); // Get the next request
-
     await nearbyPropertyDetails(req, res); // Process the request
-
-    // Wait before processing the next request if necessary
-    // await new Promise(resolve => setTimeout(resolve, delayBetweenRequests));
   }
 
   isProcessingNearbyQueue = false; // Mark processing as complete
@@ -264,37 +339,65 @@ async function nearbyPropertyDetails(req, res) {
     console.error('No zpid provided in request');
     return res.status(400).json({ error: 'Missing zpid in request' });
   }
+
   try {
-    const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
-    const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
-    // Fetch property details and images
-    const propertyResponse = await limiter.schedule(() =>
-      axios.get(propertyUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-        },
-      })
-    );
-    const imageResponse = await limiter.schedule(() =>
-      axios.get(imagesUrl, {
-        params: { zpid },
-        headers: {
-          'X-RapidAPI-Key': process.env.RAPID_API_KEY,
-          'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
-        },
-      })
-    );
-    const data = {
-      property: propertyResponse.data,
-      images: imageResponse.data,
-    };
-    res.json(data);
+    const propertyData = await retryRequest(() => getPropertyDetails(zpid), MAX_RETRIES);
+    const imageData = await retryRequest(() => getPropertyImages(zpid), MAX_RETRIES);
+    
+    // Send back both property and image data
+    res.json({ property: propertyData, images: imageData });
   } catch (error) {
-    console.error(`Error fetching data for zpid ${zpid}:`, error.message);
+    console.error(`Error fetching data after retries for zpid ${zpid}:`, error.message);
     res.status(500).json({ error: 'Failed to fetch property details' });
   }
+}
+
+// Function to retry requests
+async function retryRequest(requestFn, retries) {
+  let attempts = 0;
+
+  while (attempts < retries) {
+    try {
+      const response = await requestFn(); // Call the provided request function
+      return response; // If success, return the result
+    } catch (error) {
+      attempts++;
+      console.error(`Attempt ${attempts} failed:`, error.message);
+
+      if (attempts >= retries) {
+        throw new Error(`Request failed after ${retries} attempts`);
+      }
+
+      // Wait before retrying
+      await delayN(RETRY_DELAY);
+    }
+  }
+}
+
+// Function to get property details
+async function getPropertyDetails(zpid) {
+  const propertyUrl = 'https://zillow-com1.p.rapidapi.com/property';
+  const propertyResponse = await axios.get(propertyUrl, {
+    params: { zpid },
+    headers: {
+      'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+    },
+  });
+  return propertyResponse.data;
+}
+
+// Function to get property images
+async function getPropertyImages(zpid) {
+  const imagesUrl = 'https://zillow-com1.p.rapidapi.com/images';
+  const imageResponse = await axios.get(imagesUrl, {
+    params: { zpid },
+    headers: {
+      'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+      'X-RapidAPI-Host': 'zillow-com1.p.rapidapi.com',
+    },
+  });
+  return imageResponse.data;
 }
 
 
@@ -350,7 +453,7 @@ app.get('/api/marketData', async (req, res) => {
     city = cityParts.slice(0, 2).join(',').trim();
   }
 
-  const MAX_RETRIES = 15;
+  const MAX_RETRIES = 25;
   let attempts = 0;
 
   while (attempts < MAX_RETRIES) {
@@ -396,7 +499,7 @@ app.get('/api/marketData', async (req, res) => {
         return res.status(500).json({ message: 'Error fetching market data after multiple attempts' });
       }
 
-      // Wait for 1.5 second before trying again
+      // Wait for 1 second before trying again
       await delay(1500);
     }
   }
