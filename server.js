@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 const maxRequestsPerSecond = 1;
-const delayBetweenRequests = 1700 / maxRequestsPerSecond; // Adjust delay for optimization
+const delayBetweenRequests = 1300 / maxRequestsPerSecond; // Adjust delay for optimization
 const limiter = new Bottleneck({
   maxConcurrent: maxRequestsPerSecond,
   minTime: 1000 / maxRequestsPerSecond,

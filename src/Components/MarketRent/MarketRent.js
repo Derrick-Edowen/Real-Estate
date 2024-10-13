@@ -47,7 +47,6 @@ function MarketRent() {
     
           const marketData = response.data; // Capture the market data response
           setMarketData(marketData); // Set the market data
-          console.log('Market Data:', marketData);
         } catch (error) {
           console.error('Error fetching market data:', error);
           setError('Failed to fetch market data. Please try again.');
@@ -58,191 +57,99 @@ function MarketRent() {
 
       useEffect(() => {
         if (marketData && marketData.medianRentPriceOverTime) {
+          const { prevYear, currentYear } = marketData.medianRentPriceOverTime;
+      
           if (selectedYear === '2023') {
-            renderPrevYearChart(marketData.medianRentPriceOverTime.prevYear);
+            prevYear?.length 
+              ? renderPrevYearChart(prevYear) 
+              : handleNoData('prevYearChart', 'No Data for 2023');
           } else if (selectedYear === '2024') {
-            renderCurrentYearChart(marketData.medianRentPriceOverTime.currentYear);
+            currentYear?.length 
+              ? renderCurrentYearChart(currentYear) 
+              : handleNoData('currentYearChart', 'No Data for 2024');
           }
         }
-      }, [marketData, selectedYear]); // Run when marketData or selectedYear changes
-    
+      }, [marketData, selectedYear]);
+      
+      const handleNoData = (canvasId, message) => {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+        ctx.font = '16px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText(message, canvas.width / 2, canvas.height / 2);
+      };
+      
       const renderPrevYearChart = (prevYearData) => {
         if (prevYearChart) {
           prevYearChart.destroy();
           setPrevYearChart(null);
         }
-    
-        const canvas = document.getElementById('prevYearChart');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-        const labels = prevYearData.map((entry) => `${entry.month} ${entry.year}`);
-        const chartData = {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Median Rental Prices - 2023',
-              data: prevYearData.map((entry) => entry.price),
-              borderColor: 'rgb(75, 192, 192)',
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              fill: true,
-            }
-          ]
-        };
-    
-        const chartOptions = {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Month',
-                color: 'black',
-                font: {
-                  size: 14,
-                }
-              },
-              ticks: {
-                color: 'black',
-                font: {
-                  size: 12
-                }
-              },
-              grid: {
-                color: 'black'
-              }
-            },
-            y: {
-              beginAtZero: false,
-              title: {
-                display: true,
-                text: 'Median Rent Price ($)',
-                color: 'black',
-                font: {
-                  size: 14,
-                }
-              },
-              ticks: {
-                color: 'black',
-                font: {
-                  size: 12
-                }
-              },
-              grid: {
-                color: 'black'
-              }
-            }
-          },
-          plugins: {
-            legend: {
-              labels: {
-                color: 'black',
-                font: {
-                  size: 12
-                }
-              }
-            }
-          }
-        };
-    
-        const newPrevYearChart = new Chart(ctx, {
-          type: 'line',
-          data: chartData,
-          options: chartOptions,
-        });
-    
-        setPrevYearChart(newPrevYearChart);
+        renderChart('prevYearChart', prevYearData, 'Median Rental Prices - 2023', 'rgb(75, 192, 192)', 'rgba(75, 192, 192, 0.2)');
       };
-    
+      
       const renderCurrentYearChart = (currentYearData) => {
         if (currentYearChart) {
           currentYearChart.destroy();
           setCurrentYearChart(null);
         }
-    
-        const canvas = document.getElementById('currentYearChart');
+        renderChart('currentYearChart', currentYearData, 'Median Rental Prices - 2024', 'rgb(54, 162, 235)', 'rgba(54, 162, 235, 0.2)');
+      };
+      
+      const renderChart = (canvasId, data, label, borderColor, backgroundColor) => {
+        const canvas = document.getElementById(canvasId);
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-        const labels = currentYearData.map((entry) => `${entry.month} ${entry.year}`);
+      
+        const labels = data.map((entry) => `${entry.month} ${entry.year}`);
         const chartData = {
           labels: labels,
           datasets: [
             {
-              label: 'Median Rental Prices - 2024',
-              data: currentYearData.map((entry) => entry.price),
-              borderColor: 'rgb(54, 162, 235)',
-              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              label: label,
+              data: data.map((entry) => entry.price),
+              borderColor: borderColor,
+              backgroundColor: backgroundColor,
               fill: true,
-            }
-          ]
+            },
+          ],
         };
-    
+      
         const chartOptions = {
           responsive: true,
           maintainAspectRatio: false,
           scales: {
             x: {
-              title: {
-                display: true,
-                text: 'Month',
-                color: 'black',
-                font: {
-                  size: 14,
-                }
-              },
-              ticks: {
-                color: 'black',
-                font: {
-                  size: 12
-                }
-              },
-              grid: {
-                color: 'black'
-              }
+              title: { display: true, text: 'Month', color: 'black', font: { size: 14 } },
+              ticks: { color: 'black', font: { size: 12 } },
+              grid: { color: 'black' },
             },
             y: {
               beginAtZero: false,
-              title: {
-                display: true,
-                text: 'Median Rent Price ($)',
-                color: 'black',
-                font: {
-                  size: 14,
-                }
-              },
-              ticks: {
-                color: 'black',
-                font: {
-                  size: 12
-                }
-              },
-              grid: {
-                color: 'black'
-              }
-            }
+              title: { display: true, text: 'Median Rent Price ($)', color: 'black', font: { size: 14 } },
+              ticks: { color: 'black', font: { size: 12 } },
+              grid: { color: 'black' },
+            },
           },
           plugins: {
             legend: {
-              labels: {
-                color: 'black',
-                font: {
-                  size: 12
-                }
-              }
-            }
-          }
+              labels: { color: 'black', font: { size: 12 } },
+            },
+          },
         };
-    
-        const newCurrentYearChart = new Chart(ctx, {
+      
+        const chart = new Chart(ctx, {
           type: 'line',
           data: chartData,
           options: chartOptions,
         });
-    
-        setCurrentYearChart(newCurrentYearChart);
+      
+        if (canvasId === 'prevYearChart') setPrevYearChart(chart);
+        else setCurrentYearChart(chart);
       };
+      
       
 return (<>
 <div className="mrdata">
@@ -275,67 +182,67 @@ return (<>
 {/* Add displayed code here*/}
 
 {marketData ? (
-    <div>
-        <div className="typenull2">
-            Rental Market Data for: {marketData.areaName}<br/>
-        </div>
-        <div className="sugsBut">
-        <button
-    className={`prevBu ${selectedYear === '2023' ? 'selected' : ''}`}
-    onClick={() => setSelectedYear('2023')}
-    disabled={selectedYear === '2023'}
-  >
-    2023
-  </button>
-  <button
-    className={`currBu ${selectedYear === '2024' ? 'selected' : ''}`}
-    onClick={() => setSelectedYear('2024')}
-    disabled={selectedYear === '2024'}
-  >
-    2024
-  </button>
-      </div>
-
-      {selectedYear === '2023' && (
-        <div>
-          <canvas id="prevYearChart" width="400" height="400"></canvas>
-        </div>
-      )}
-
-      {selectedYear === '2024' && (
-        <div>
-          <canvas id="currentYearChart" width="400" height="400"></canvas>
-        </div>
-      )}
-
-      {/* Add drop down*/}
-<div className="dropindata">
-    <div className="toggle-facts-button">
-      Rental Market Data Summary
+  <div>
+    <div className="typenull2">
+      Rental Market Data for: {marketData.areaName || "Area Name Not Available"}<br/>
     </div>
-    <div className="additional-facts">
-    <div className="descTextF">
-        Market Temperature: {marketData?.marketTemperature.temperature}
-      </div>
-      <div className="descTextF">
-        Median Rent Price: ${(marketData?.summary.medianRent).toFixed(0)}
-      </div>
-      <div className="descTextF">
-        Highest Priced Rental: ${marketData?.rentHistogram.maxPrice}
-      </div>
-      <div className="descTextF">
-        Lowest Priced Rental: ${marketData?.rentHistogram.minPrice}
-      </div>
-      <div className="descTextF">
-        Total Listings: {marketData?.summary.availableRentals}
-      </div>
-
+    <div className="sugsBut">
+      <button
+        className={`prevBu ${selectedYear === '2023' ? 'selected' : ''}`}
+        onClick={() => setSelectedYear('2023')}
+        disabled={selectedYear === '2023'}
+      >
+        2023
+      </button>
+      <button
+        className={`currBu ${selectedYear === '2024' ? 'selected' : ''}`}
+        onClick={() => setSelectedYear('2024')}
+        disabled={selectedYear === '2024'}
+      >
+        2024
+      </button>
     </div>
-</div>
-              </div>
+
+    {selectedYear === '2023' && (
+      <div>
+        <canvas id="prevYearChart" width="400" height="400"></canvas>
+      </div>
+    )}
+
+    {selectedYear === '2024' && (
+      <div>
+        <canvas id="currentYearChart" width="400" height="400"></canvas>
+      </div>
+    )}
+
+    {/* Add drop down */}
+    <div className="dropindata">
+      <div className="toggle-facts-button">
+        Rental Market Data Summary - 2024
+      </div>
+      <div className="additional-facts">
+        <div className="descTextF">
+          Market Temperature: {marketData?.marketTemperature?.temperature || "N/A"}
+        </div>
+        <div className="descTextF">
+          Median Rent Price: ${marketData?.summary?.medianRent ? marketData.summary.medianRent.toFixed(0) : "N/A"}
+        </div>
+        <div className="descTextF">
+          Highest Priced Rental: ${marketData?.rentHistogram?.maxPrice || "N/A"}
+        </div>
+        <div className="descTextF">
+          Lowest Priced Rental: ${marketData?.rentHistogram?.minPrice || "N/A"}
+        </div>
+        <div className="descTextF">
+          Total Listings: {marketData?.summary?.availableRentals || "No Listings Available"}
+        </div>
+      </div>
+    </div>
+  </div>
 ) : (
-    <div className="descTextJfc"></div>
+  <div></div>
 )}
+
 
 
 
