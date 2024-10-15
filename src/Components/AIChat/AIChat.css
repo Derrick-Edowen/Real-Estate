@@ -1,0 +1,144 @@
+.chat-container {
+    width: 388px;
+margin: 0.5px;
+    border: 1px solid #7a7a7a;
+    border-radius: 1px;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 0px;
+    z-index: 8000;
+  }
+  .chat-container.closed {
+    height: 48px;
+  }
+  .gonne {
+    display: none;
+  }
+  .chat-container.open {
+    height: 400px;
+  }
+  .bannerMan {
+    display: flex;
+        background-color: rgb(99, 68, 68);
+        padding: 4px;
+        border: 1px solid #00000052;
+color: white;
+cursor: pointer;
+  }
+  
+  .AIBanner {
+    padding: 4px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+    margin-left: 8px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.chevyAI {
+    display: flex;
+    margin-left: auto;
+    padding: 4px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+    width: fit-content;
+}
+.notif {
+    padding: 2px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+background-color: white;
+color: #222222;
+font-weight: 700;
+text-align: center;
+border-radius: 100%;
+width: 30px;
+margin-right: 6px;
+margin-top: auto;
+margin-bottom: auto;
+}
+.minchev {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+  .chat-window {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: #f0e9e9;
+    border: 1px solid #00000052;
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: rgb(99, 68, 68) transparent; /* Firefox: thumb color / track color */
+  }
+  /* Chrome, Edge, and Safari */
+.chat-window::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .chat-window::-webkit-scrollbar-track {
+    background: transparent; /* Optional: track background */
+  }
+  
+  .chat-window::-webkit-scrollbar-thumb {
+    background-color: rgb(99, 68, 68);
+    border-radius: 10px; /* Optional: round the scrollbar */
+    border: 2px solid transparent; /* Optional: padding around scrollbar */
+  }
+  .mainimgBanner {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .message {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+    max-width: 70%;
+  }
+  
+  .message.user {
+    background-color: #d1e7dd;
+    align-self: flex-end;
+    margin-left: auto;
+
+  }
+  
+  .message.bot {
+    background-color: #f8d7da;
+    align-self: flex-start;
+    margin-right: auto;
+
+  }
+  
+  .chat-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+    padding: 0px;
+    background-color: white;
+  }
+  
+  .chat-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 1px;
+    border: 1px solid #00000052;
+
+  }
+  
+  .chat-input button {
+    padding: 10px 20px;
+    background-color: rgb(99, 68, 68);
+    color: white;
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+  }
+  
+  .chat-input button:hover {
+    background-color: rgb(68, 40, 40);
+  }
+  

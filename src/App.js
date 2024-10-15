@@ -32,6 +32,8 @@ import Investing from './Components/Investing/Investing';
 import Lost from './Components/Lost/Lost';
 import MarketRent from './Components/MarketRent/MarketRent';
 import MarketSale from './Components/MarketSale/MarketSale';
+import AIChat from './Components/AIChat/AIChat'
+
 
 function App() {
   const location = useLocation();
@@ -53,6 +55,7 @@ function App() {
       document.head.appendChild(adsbygoogleScript);
     }
   }, []);
+  
   return (
     <>
       <Captain />
@@ -83,6 +86,7 @@ function App() {
 
         <Route path="*" element={<Lost />} />
       </Routes>
+      <AIChat />
     </>
   );
 }

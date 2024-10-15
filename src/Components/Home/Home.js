@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ActiveList from '../ActiveList/ActiveListing';
 import Contact from '../Contact/Contact';
+import AIChat from '../AIChat/AIChat'
 import './Index.css';
 import { useNavigate } from 'react-router-dom';
 import { Element, scroller } from 'react-scroll';
