@@ -516,13 +516,13 @@ app.post('/api/chat', async (req, res) => {
   if (message.toLowerCase().includes('listings')) {
     reply = 'You can look at listings on our Property Search page: <a href="https://www.oneestatewebservices.com/Find%20Listings%20%7C%20Property%20Search"> Find Listings </a>';
   } else if (message.toLowerCase().includes('selling') || message.toLowerCase().includes('sell')) {
-    reply = 'For selling your home, visit our Selling information page: <a href="https://www.oneestatewebservices.com/Selling%20Your%20Home"> Selling Your Home </a> or contact [Realtor Name] for personalized assistance!';
+    reply = 'For selling your home, visit our Selling information page: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Selling%20Your%20Home"> Selling Your Home </a> or contact [Realtor Name] for personalized assistance!';
   } else if (message.toLowerCase().includes('sell') || message.toLowerCase().includes('sell')) {
-    reply = 'For selling your home, visit our Selling information page: <a href="https://www.oneestatewebservices.com/Selling%20Your%20Home"> Selling Your Home </a> or contact [Realtor Name] for personalized assistance!';
+    reply = 'For selling your home, visit our Selling information page: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Selling%20Your%20Home"> Selling Your Home </a> or contact [Realtor Name] for personalized assistance!';
   } else if (message.toLowerCase().includes('buying') || message.toLowerCase().includes('buy')) {
-    reply = 'If you"re looking to buy a home, check out our Buying Guide: <a href="https://www.oneestatewebservices.com/Buying%20Your%20Home"> Buying Your Home </a> , contact [Realtor Name] for more info, or explore available listings: <a href="https://www.oneestatewebservices.com/Find%20Listings%20%7C%20Property%20Search"> Find Listings </a>';
+    reply = 'If you"re looking to buy a home, check out our Buying Guide: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Buying%20A%20Home"> Buying Your Home </a> , contact [Realtor Name] for more info, or explore available listings: <a href="https://www.oneestatewebservices.com/Find%20Listings%20%7C%20Property%20Search"> Find Listings </a>';
   } else if (message.toLowerCase().includes('buy') || message.toLowerCase().includes('buy')) {
-    reply = 'If you"re looking to buy a home, check out our Buying Guide: <a href="https://www.oneestatewebservices.com/Buying%20Your%20Home"> Buying Your Home </a> , contact [Realtor Name] for more info, or explore available listings: <a href="https://www.oneestatewebservices.com/Find%20Listings%20%7C%20Property%20Search"> Find Listings </a>';
+    reply = 'If you"re looking to buy a home, check out our Buying Guide: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Buying%20A%20Home"> Buying Your Home </a> , contact [Realtor Name] for more info, or explore available listings: <a href="https://www.oneestatewebservices.com/Find%20Listings%20%7C%20Property%20Search"> Find Listings </a>';
   } else if (message.toLowerCase().includes('contact') || message.toLowerCase().includes('agent') || message.toLowerCase().includes('realtor')) {
     reply = "[Realtor's Name] would love to assist you! Get in touch via our contact form.";
   } else if (message.toLowerCase().includes('contact') || message.toLowerCase().includes('talk') || message.toLowerCase().includes('realtor')) {
@@ -536,13 +536,13 @@ app.post('/api/chat', async (req, res) => {
   } else if (message.toLowerCase().includes('property tax')) {
     reply = "Property taxes vary by location. You can find more details in your area's tax assessor website or contact [Realtor's Name] for help.";
   } else if (message.toLowerCase().includes('closing costs')) {
-    reply = 'Closing costs usually range from 2% to 5% of the purchase price. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Buying%20Your%20Home"> Buying Your Home </a>.';
+    reply = 'Closing costs usually range from 2% to 5% of the purchase price. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Buying%20A%20Home"> Buying Your Home </a>.';
   } else if (message.toLowerCase().includes('closing cost')) {
-    reply = 'Closing costs usually range from 2% to 5% of the purchase price. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Buying%20Your%20Home"> Buying Your Home </a>.';
+    reply = 'Closing costs usually range from 2% to 5% of the purchase price. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Buying%20A%20Home"> Buying Your Home </a>.';
   } else if (message.toLowerCase().includes('home inspection')) {
-    reply = 'We recommend getting a home inspection before buying. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Buying%20Your%20Home"> Buying Your Home </a>.';
+    reply = 'We recommend getting a home inspection before buying. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Buying%20A%20Home"> Buying Your Home </a>.';
   } else if (message.toLowerCase().includes('pre-approval')) {
-    reply = 'A mortgage pre-approval strengthens your buying power. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Buying%20Your%20Home"> Buying Your Home </a>.';
+    reply = 'A mortgage pre-approval strengthens your buying power. Visit our Buying Guide for more information: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Buying%20A%20Home"> Buying Your Home </a>.';
   } else if (message.toLowerCase().includes('investment property')) {
     reply = 'Looking to invest? Read our guide to investment properties: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Investing%20In%20Real%20Estate> Investing In Real Estate </a>.';
   } else if (message.toLowerCase().includes('invest')) {
@@ -554,7 +554,7 @@ app.post('/api/chat', async (req, res) => {
   } else if (message.toLowerCase().includes('market trends')) {
     reply = 'Stay updated with the latest market trends on our Real Estate Market page: <a href="https://www.oneestatewebservices.com/Rental%20Market%20Data> Market Data </a>.';
   } else if (message.toLowerCase().includes('first-time buyer')) {
-    reply = 'Check out our Buyer Guide: <a href="https://www.oneestatewebservices.com/Buying%20Your%20Home"> Buying Your Home </a> for everything you need to know!';
+    reply = 'Check out our Buyer Guide: <a href="https://www.oneestatewebservices.com/Real%20Estate%20Advice%20%7C%20Buying%20A%20Home"> Buying Your Home </a> for everything you need to know!';
   } else if (message.toLowerCase().includes('foreclosure')) {
     reply = 'Interested in foreclosure properties? Browse listings: <a href="https://www.oneestatewebservices.com/Find%20Listings%20%7C%20Property%20Search"> Find Listings </a> or contact [Realtor Name] for further assistance.';
   } else if (message.toLowerCase().includes('agent')) {
