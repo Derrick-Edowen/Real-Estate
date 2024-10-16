@@ -1,11 +1,11 @@
 .chat-container {
-    width: 388px;
+    width: 290px;
 margin: 0.5px;
     border: 1px solid #7a7a7a;
     border-radius: 1px;
     display: flex;
     flex-direction: column;
-    height: 400px;
+    height: 380px;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -13,7 +13,7 @@ margin: 0.5px;
     z-index: 8000;
   }
   .chat-container.closed {
-    height: 48px;
+    height: 42px;
   }
   .gonne {
     display: none;
@@ -102,14 +102,18 @@ margin-bottom: auto;
     background-color: #d1e7dd;
     align-self: flex-end;
     margin-left: auto;
-
+    font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    color: #333;
+    letter-spacing: 1px;
   }
   
   .message.bot {
     background-color: #f8d7da;
     align-self: flex-start;
     margin-right: auto;
-
+    font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
+    color: #333;
+    letter-spacing: 1px;
   }
   
   .chat-input {
@@ -141,4 +145,12 @@ margin-bottom: auto;
   .chat-input button:hover {
     background-color: rgb(68, 40, 40);
   }
-  
+  @media screen and (max-width: 580px) {
+    .chat-container {
+      width: 250px;
+      height: 320px;
+    }
+    .AIBanner {
+      font-size: 12px;
+  }
+  }

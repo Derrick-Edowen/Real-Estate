@@ -9,7 +9,7 @@ const Chatbox = () => {
     const [userInput, setUserInput] = useState('');
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [notifCount, setNotifCount] = useState(0); // State for notification count
-    const [header, setHeader] = useState('OEWS Sample Chatbot');
+    const [header, setHeader] = useState('OEWS Chatbot');
     const [initialMessageSent, setInitialMessageSent] = useState(false); // Track initial message state
     const location = useLocation();
     const chatWindowRef = useRef(null); // Ref for chat window
