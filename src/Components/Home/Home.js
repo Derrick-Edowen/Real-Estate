@@ -101,8 +101,8 @@ function Home() {
         <div className='splasher-overlay'>
           <div className='titCard'>{banner}</div>
           <p className='messCard'>{message}</p>
-          <div className='discover'>
           <div className="descTexcjn">Find Your New Home</div>
+          <div className='discover'>
           <div className="searchBar-container">
               <input
             type="text"

@@ -422,7 +422,7 @@ padding: 2px;
 }
 .descTexcjn {
   font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 30px;
+    font-size: 44px;
     color: #e2e2e2;
     letter-spacing: 2px;
 text-shadow: 2px 2px 1px #000000;
@@ -1565,7 +1565,7 @@ min-width: 100%;
   }
   .descTexcjn {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-      font-size: 22px;
+      font-size: 32px;
       color: #e2e2e2;
       letter-spacing: 2px;
   text-shadow: 2px 2px 1px #000000;
@@ -1768,7 +1768,7 @@ margin-bottom: 10px;
 @media screen and (max-width: 890px) {
   .descTexcjn {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-      font-size: 14px;
+      font-size: 22px;
       color: #e2e2e2;
       letter-spacing: 2px;
   text-shadow: 2px 2px 1px #000000;
@@ -1884,7 +1884,7 @@ margin-bottom: 10px;
 @media screen and (max-width: 740px) {
   .descTexcjn {
     font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-      font-size: 12px;
+      font-size: 20px;
       color: #e2e2e2;
       letter-spacing: 2px;
   text-shadow: 2px 2px 1px #000000;
@@ -2057,7 +2057,7 @@ padding-bottom: 7px;
 @media screen and (max-width: 580px) {
     .descTexcjn {
       font-family:"Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-        font-size: 12px;
+        font-size: 18px;
         color: #e2e2e2;
         letter-spacing: 1px;
     text-shadow: 2px 2px 1px #000000;
