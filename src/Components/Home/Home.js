@@ -6,6 +6,7 @@ import './Index.css';
 import { useNavigate } from 'react-router-dom';
 import { Element, scroller } from 'react-scroll';
 import Logo from '../../Assets/Images/logo2.PNG'
+import axios from 'axios';
 
 function Home() {
   const [city, setCity] = useState('');
@@ -13,6 +14,10 @@ function Home() {
   const [banner, setBanner] = useState('');
   const [message, setMessage] = useState('');
   const [showLightbox, setShowLightbox] = useState(false);
+  const [suggestions, setSuggestions] = useState([]); // Store city suggestions
+  const [error, setError] = useState('');
+
+
 
   useEffect(() => {
     fetchBanner();
@@ -51,16 +56,32 @@ function Home() {
     }
   };
 
-  const handleCityChange = (e) => {
-    setCity(e.target.value);
-  };
+  const handleCityInput = async (e) => {
+    const input = e.target.value;
+    setCity(input);
 
-  const handleSearchClick = () => {
+    if (input.length > 2) {  // Start searching after 3 characters
+      try {
+        const response = await axios.get('/api/citySuggestions', {
+          params: { query: input }
+        });
+        setSuggestions(response.data.suggestions); // Update with city suggestions from API
+      } catch (err) {
+        console.error('Error fetching city suggestions:', err);
+        setError('Failed to fetch city suggestions. Please try again.');
+      }
+    } else {
+      setSuggestions([]); // Clear suggestions when input is less than 3 characters
+    }
+  };
+  const handleSearchClick = async (cityName) => {
     if (city.trim() === '') {
       alert('Please enter a city name.');
       return;
     }
-  
+    setCity(cityName);
+    setSuggestions([]);  // Clear suggestions when a city is selected
+
     // Define the search parameters with only the address
     const newSearchParams = {
       address: city,
@@ -81,22 +102,28 @@ function Home() {
           <div className='titCard'>{banner}</div>
           <p className='messCard'>{message}</p>
           <div className='discover'>
-            <div className="searchBar-container">
-              <div className='descTexcjn'>Find Your New Home</div>
+          <div className="descTexcjn">Find Your New Home</div>
+          <div className="searchBar-container">
               <input
-                type="text"
-                placeholder="Enter City Name"
-                className="searchInput"
-                required
-                value={city}
-                onChange={handleCityChange}
-              />
-              <button
-                className="searchButton"
-                onClick={handleSearchClick}
-              >
-                Search
-              </button>
+            type="text"
+            value={city}
+            onChange={handleCityInput}
+            placeholder="Enter city name"
+            className="searchInput"
+          />
+          {suggestions.length > 0 && (
+            <ul className="suggestionss">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSearchClick(suggestion)}  // Call handleCitySelect when clicked
+                  className="suggestion-item"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
             </div>
           </div>
         </div>

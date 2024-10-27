@@ -11,16 +11,16 @@
   display: inline-block;
 }
 .searchBar-container {
-  display: flex;
-  width: 96%;
-  gap: 20px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
 }
 .discover {
-  background: rgba(235, 235, 235, 0.301);
+  background: rgba(235, 235, 235, 0.35);
   width: 100%;
-  display: flex;
-  padding: 24px;
-  justify-content: space-between;
+  padding: 14px;
+  max-height: 130px;
 }
 .searchInput {
   flex: 1;
@@ -30,7 +30,18 @@
   box-sizing: border-box;
   color: black;
 }
-
+.suggestionss {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Ensure it matches the input field width */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 1000;
+}
 .searchButton {
   background: rgb(99, 68, 68);
   color: white;
@@ -77,7 +88,7 @@
   text-shadow: 2px 2px 1px rgba(0, 0, 0); /* horizontal offset, vertical offset, blur radius, color */
   align-items: center;     /* centers the items vertically */
   justify-content: center; /* centers the items horizontally */
-padding-top: 270px;
+padding-top: 230px;
 margin-bottom: 10px;
 }
 .messCard {
@@ -374,9 +385,7 @@ flex:auto;
     width: 18%;
   }
   .searchBar-container {
-    display: flex;
-    width: 98%;
-    gap: 8px;
+    width: 100%;
   }
   .splasher {
     height: 100%;

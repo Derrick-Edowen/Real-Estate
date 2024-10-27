@@ -44,6 +44,8 @@ const [selectedBeds, setSelectedBeds] = useState('');
 const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
+const [showLoader, setShowLoader] = useState(true); // Control loader visibility
+  const [showMessage, setShowMessage] = useState(false); // Control message visibility
 const [hasCenteredMap, setHasCenteredMap] = useState(false);
 const [mapMarkers, setMapMarkers] = useState([]);
 const [selectedMarker, setSelectedMarker] = useState(null);
@@ -70,7 +72,16 @@ const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 const [ws, setWs] = useState(null);
 const location = useLocation();
 
+useEffect(() => {
+  const timer = setTimeout(() => {
+    if (!initialDataRef.current) {
+      setShowLoader(false);  // Hide loader after 5 seconds
+      setShowMessage(true);  // Show message if no data exists
+    }
+  }, 6000);
 
+  return () => clearTimeout(timer); // Cleanup timer on unmount
+}, []);
 const handleSearch = async (e) => {
   e.preventDefault();
   setIsRotated(!isRotated);
@@ -225,7 +236,7 @@ const homeHandler = async (searcherParams) => {
     let state = '';
     const country = '';
     const minPrice = 500000;
-    const maxPrice = 1000000;
+    const maxPrice = 1500000;
     const maxBeds = '0';
     const maxBaths = '0';
     const sort = 'Newest';
@@ -1110,11 +1121,17 @@ return (
   ) : (
     <>
       {!initialDataRef.current && (
-        <div className='resultsBox'>
-        <div className="noResultsMessage">
-          Use the Search Form to Find Listings!
-        </div>
-      </div>
+ <div className="resultsBox">
+ {showLoader && (
+   <div className="loader"></div> // Show spinning loader initially
+ )}
+
+ {!showLoader && showMessage && (
+   <div className="noResultsMessage">
+     Use the Search Form to Find Listings!
+   </div>
+ )}
+</div>
       )}
 
       {initialDataRef.current && initialDataRef.current.zpids && (

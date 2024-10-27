@@ -37,7 +37,7 @@ const limiter = new Bottleneck({
   minTime: 1000 / maxRequestsPerSecond,
 });
 
-const MAX_RETRIESS = 30; // Maximum number of retry attempts
+const MAX_RETRIESS = 45; // Maximum number of retry attempts
 const RETRY_DELAYS = 1400; // Delay between retries (1 second)
 
 // Define the request queue
@@ -209,8 +209,8 @@ async function handlePropertySearch(req) {
 // New endpoint to fetch property details and images
 const delayF = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const MAX_RETRIESF = 25; // Maximum number of retry attempts
-const RETRY_DELAYF = 1700; // Delay between retries (1 second)
+const MAX_RETRIESF = 45; // Maximum number of retry attempts
+const RETRY_DELAYF = 1300; // Delay between retries (1 second)
 
 app.post('/api/fetch-property-details', (req, res) => {
   addToFetchQueue(req, res);
@@ -308,7 +308,7 @@ async function getPropertyImages(zpid) {
 
 const delayN = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const MAX_RETRIES = 35; // Number of retries in case of error
+const MAX_RETRIES = 45; // Number of retries in case of error
 const RETRY_DELAY = 1400; // 1 second delay between retries
 
 app.post('/nearby-details', (req, res) => {
@@ -453,7 +453,7 @@ app.get('/api/marketData', async (req, res) => {
     city = cityParts.slice(0, 2).join(',').trim();
   }
 
-  const MAX_RETRIES = 35;
+  const MAX_RETRIES = 45;
   let attempts = 0;
 
   while (attempts < MAX_RETRIES) {
@@ -500,7 +500,7 @@ app.get('/api/marketData', async (req, res) => {
       }
 
       // Wait for 1 second before trying again
-      await delay(1200);
+      await delay(1600);
     }
   }
 });
