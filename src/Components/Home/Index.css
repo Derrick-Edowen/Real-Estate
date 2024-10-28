@@ -20,7 +20,7 @@
   background: rgba(235, 235, 235, 0.35);
   width: 100%;
   padding: 14px;
-  max-height: 130px;
+  max-height: 80px;
 }
 .searchInput {
   flex: 1;
