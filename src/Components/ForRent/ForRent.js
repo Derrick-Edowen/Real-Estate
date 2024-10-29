@@ -73,15 +73,30 @@ const [ws, setWs] = useState(null);
 const location = useLocation();
 
 useEffect(() => {
-  const timer = setTimeout(() => {
-    if (!initialDataRef.current) {
-      setShowLoader(false);  // Hide loader after 5 seconds
-      setShowMessage(true);  // Show message if no data exists
-    }
-  }, 6000);
+  let loaderTimeout;
+  let messageTimeout;
 
-  return () => clearTimeout(timer); // Cleanup timer on unmount
-}, []);
+  if (!initialDataRef.current) {
+    // Show loader initially
+    setShowLoader(true);
+
+    // Delay showing the "no results" message by 5 seconds
+    loaderTimeout = setTimeout(() => setShowLoader(false), 5000);
+    messageTimeout = setTimeout(() => setShowMessage(true), 5000);
+  } else {
+    // Reset states if data becomes available
+    setShowLoader(false);
+    setShowMessage(false);
+  }
+
+  return () => {
+    clearTimeout(loaderTimeout);
+    clearTimeout(messageTimeout);
+  };
+}, [initialDataRef.current]);
+
+
+
 const handleSearch = async (e) => {
   e.preventDefault();
   setIsRotated(!isRotated);
@@ -1121,16 +1136,16 @@ return (
   ) : (
     <>
       {!initialDataRef.current && (
- <div className="resultsBox">
- {showLoader && (
-   <div className="loader"></div> // Show spinning loader initially
- )}
+  <div className="resultsBox">
+  {!initialDataRef.current && showLoader && (
+    <div className="loader"></div> // Show loader initially
+  )}
 
- {!showLoader && showMessage && (
-   <div className="noResultsMessage">
-     Use the Search Form to Find Listings!
-   </div>
- )}
+  {!initialDataRef.current && !showLoader && showMessage && (
+    <div className="noResultsMessage">
+      Use the Search Form to Find Listings!
+    </div>
+  )}
 </div>
       )}
 
