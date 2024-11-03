@@ -15,7 +15,8 @@ function MarketRent() {
     const [prevYearChart, setPrevYearChart] = useState(null);
     const [currentYearChart, setCurrentYearChart] = useState(null);
     const [selectedYear, setSelectedYear] = useState('2024'); // State for selecting the year
-  
+    const [showLoader, setShowLoader] = useState(false); // Control loader visibility
+
     const handleCityInput = async (e) => {
       const input = e.target.value;
       setCity(input);
@@ -36,6 +37,7 @@ function MarketRent() {
     };
   
     const handleCitySelect = async (cityName) => {
+      setShowLoader(true);
         setCity(cityName);
         setSuggestions([]);  // Clear suggestions when a city is selected
         
@@ -47,6 +49,9 @@ function MarketRent() {
     
           const marketData = response.data; // Capture the market data response
           setMarketData(marketData); // Set the market data
+          if (marketData) {
+            setShowLoader(false);
+          }
         } catch (error) {
           console.error('Error fetching market data:', error);
           setError('Failed to fetch market data. Please try again.');
@@ -179,8 +184,9 @@ return (<>
 
 
 <div className="markData">
-{/* Add displayed code here*/}
-
+  {!marketData && showLoader && (
+        <div className="loader"></div> // Show loader initially
+  )}
 {marketData ? (
   <div>
     <div className="typenull2">
