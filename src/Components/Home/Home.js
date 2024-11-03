@@ -13,7 +13,7 @@ function Home() {
   const navigate = useNavigate();
   const [banner, setBanner] = useState('');
   const [message, setMessage] = useState('');
-  const [showLightbox, setShowLightbox] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const [suggestions, setSuggestions] = useState([]); // Store city suggestions
   const [error, setError] = useState('');
 
@@ -24,7 +24,7 @@ function Home() {
     fetchMessage();
 
     // Show the lightbox 4 seconds after the component mounts
-    const timer = setTimeout(() => setShowLightbox(true), 4000);
+    const timer = setTimeout(() => setShowNotification(true), 4000); // Show after 4 seconds
 
     // Clean up the timer on component unmount
     return () => clearTimeout(timer);
@@ -92,7 +92,7 @@ function Home() {
   };
 
   // Close lightbox handler
-  const closeLightbox = () => setShowLightbox(false);
+  const closeLightbox = () => setShowNotification(false);
 
   return (
     <>
@@ -129,23 +129,27 @@ function Home() {
         </div>
       </div>
       <Contact />
-      {showLightbox && (
+      {showNotification && (
         <div className="lightbox9" onClick={closeLightbox}>
           <div className="lightbox9-content" onClick={(e) => e.stopPropagation()}>
+          <div className="slideInBox">
+
             <span className="lightbox9-close" onClick={closeLightbox}>&times;</span>
             <div className="lightbox9-image">
               <img src={Logo} alt="Disclaimer" />
             </div>
-            <div className="lightbox9-text">
-              <p className='descTexcp'>
-                Welcome to One Estate Web Services Sample site. 
-                This website is used to demonstrate to clients the design and functionality that is 
-                provided to all One Estate Web Services client websites. Please note all content found inside [ brackets ] 
-                is subject to change and is used for sample purposes. When your website is in development this content will be replaced with your information or 
-                you will be able to change it independently. Ready to have your own personal One Estate Web services Real Estate web site, send us an email to get started! <br/><br/>
-                <a href="mailto:oneestatewebservices@outlook.com" style={{color: 'black'}}>oneestatewebservices@outlook.com</a>
-              </p>
-            </div>
+          <p className="descTexcp">
+            Welcome to One Estate Web Services Sample site.
+            This website is used to demonstrate to clients the design and functionality provided to 
+            all One Estate Web Services client websites. Please note all content found inside [ brackets ] 
+            is subject to change and is used for sample purposes. When your website is in development this 
+            content will be replaced with your information, or you will be able to change it independently.
+            Ready to have your own personal One Estate Web services Real Estate website? Send us an email to get started! 
+            <br/><br/>
+            <a href="mailto:oneestatewebservices@outlook.com" style={{ color: 'black' }}>oneestatewebservices@outlook.com</a>
+          </p>
+        </div>
+
           </div>
         </div>
       )}
