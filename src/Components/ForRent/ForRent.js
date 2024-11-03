@@ -15,10 +15,10 @@ import Contact from '../Contact/Contact';
 import { useLocation } from 'react-router-dom';
 
 function ForRent() {
-  const [showContact, setShowContact] = useState(false);
-  const [initialData, setInitialData] = useState(null);
-  const [apiData, setApiData] = useState([]);
-  const [infoData, setInfoData] = useState([]);
+const [showContact, setShowContact] = useState(false);
+const [initialData, setInitialData] = useState(null);
+const [apiData, setApiData] = useState([]);
+const [infoData, setInfoData] = useState([]);
 const [position, setPosition] = useState({ lat: 43.6426, lng: -79.3871 });
 const [cardIndex, setCardIndex] = useState(0);
 const [searchClicked, setSearchClicked] = useState(false); 
@@ -45,7 +45,7 @@ const [selectedBaths, setSelectedBaths] = useState('');
 const [selectedCountries, setSelectedCountries] = useState('');
 const initialDataRef = useRef(null);
 const [showLoader, setShowLoader] = useState(true); // Control loader visibility
-  const [showMessage, setShowMessage] = useState(false); // Control message visibility
+const [showMessage, setShowMessage] = useState(false); // Control message visibility
 const [hasCenteredMap, setHasCenteredMap] = useState(false);
 const [mapMarkers, setMapMarkers] = useState([]);
 const [selectedMarker, setSelectedMarker] = useState(null);
@@ -94,8 +94,6 @@ useEffect(() => {
     clearTimeout(messageTimeout);
   };
 }, [initialDataRef.current]);
-
-
 
 const handleSearch = async (e) => {
   e.preventDefault();
@@ -583,11 +581,6 @@ const handleOpenLightbox = async (index) => {
     console.error('Error fetching property details:', error);
   }
 };
-
-
-
-
-
       const handleCloseLightbox = () => {
         setSelectedCardIndex(null);
         setLightboxActive(false);

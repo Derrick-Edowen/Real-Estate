@@ -12,6 +12,16 @@ padding-left: 10%;
 padding-right: 10%;
 min-height: 45vh;
 }
+.markData {
+  align-items: center;
+  display: flex;
+  margin-top: 30px;
+  justify-content: center;
+  width: 100%;
+}
+.newData {
+  width: 100%;
+}
 .prevBu {
 background-color: white;
 border-color: rgb(0, 190, 190);

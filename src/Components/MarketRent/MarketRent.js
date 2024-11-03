@@ -188,7 +188,7 @@ return (<>
         <div className="loader"></div> // Show loader initially
   )}
 {marketData ? (
-  <div>
+  <div className="newData">
     <div className="typenull2">
       Rental Market Data for: {marketData.areaName || "Area Name Not Available"}<br/>
     </div>
