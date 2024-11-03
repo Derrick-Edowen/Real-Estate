@@ -403,6 +403,8 @@ padding-bottom: 18px;
 @media screen and (max-width: 500px) {
   .slideInBox {
     max-width: 300px;
+    bottom: 60px;
+
   }
   .searchInput {
 flex:auto;
