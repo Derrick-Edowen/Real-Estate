@@ -15,7 +15,6 @@ function Access() {
     const [isLoggedIn, setIsLoggedIn] = useState(location.state?.isLoggedIn || false);
     const port = process.env.PORT || 3001;
     const navigate = useNavigate();
-
     const [posts, setPosts] = useState([]);
   const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');

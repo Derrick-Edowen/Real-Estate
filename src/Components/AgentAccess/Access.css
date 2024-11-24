@@ -7,7 +7,7 @@
     }
     .Info-container {
         background: rgb(255, 255, 255);
-        padding: 40px;
+        padding: 20px;
     }
     .access {
         padding: 180px;
@@ -67,7 +67,7 @@ margin-right: auto;
       flex-direction: column;
       width: 100%;
       text-align: center;
-      padding: 20px;
+      padding: 10px;
       z-index: 4000;
       margin-top: 40px;
     }

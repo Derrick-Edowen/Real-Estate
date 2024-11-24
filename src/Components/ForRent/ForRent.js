@@ -15,6 +15,8 @@ import Contact from '../Contact/Contact';
 import { useLocation } from 'react-router-dom';
 
 function ForRent() {
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 const [showContact, setShowContact] = useState(false);
 const [city, setCity] = useState('');
 const [initialData, setInitialData] = useState(null);
@@ -131,8 +133,12 @@ const handleSearch = async (e) => {
   }
   const selectedTypesString = selectedTypes.join(', ');
   const sort = document.getElementById('sortList').value;
-  const minPrice = document.getElementById('min-price').value;
-  const maxPrice = document.getElementById('max-price').value;
+
+  const removeCommas = (value) => {
+    return value.replace(/,/g, ''); // Removes all commas
+  };
+  const minPrice = removeCommas(document.getElementById('min-price').value);
+  const maxPrice = removeCommas(document.getElementById('max-price').value);  
   const maxBeds = document.getElementById('choose-beds').value;
   const maxBaths = document.getElementById('choose-baths').value;
   const page = 1;
@@ -777,6 +783,39 @@ const handleCitySelect = (selectedCity) => {
   searchInput.value = selectedCity; // Set the input element's value
 };
 
+const formatWithCommas = (number) => {
+  if (!number) return '';
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+const handleInputChange = (e, setValue) => {
+  const rawValue = e.target.value.replace(/,/g, ''); // Remove existing commas
+  if (!isNaN(rawValue)) {
+    setValue(formatWithCommas(rawValue)); // Format the number with commas
+  }
+};
+
+const handleBlur = (e, setValue) => {
+  const rawValue = e.target.value.replace(/,/g, ''); // Remove commas
+  if (!rawValue) {
+    setValue(''); // Clear input if it's empty
+  } else {
+    setValue(formatWithCommas(rawValue)); // Ensure proper formatting
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 return (
   <>
   <div className='lists notranslate'>
@@ -989,56 +1028,79 @@ return (
                       <option value="4">4 Baths</option>
                       <option value="5">5+ Baths</option>
                     </select>
-                    <div className='stilt' style={{ position: 'relative', display: 'inline-block', width: '200px'}}>
-  <input 
-    className="notranslate" 
-    type="number" 
-    id="min-price" 
-    placeholder="Min. Price" 
-    required 
-    style={{ 
-      paddingLeft: '30px', // Add padding for the icon
-      width: '200px', // Full width to fit container
-      boxSizing: 'border-box' // Include padding in width calculation
-    }} 
-  />
-  <FontAwesomeIcon 
-    icon={faDollarSign} 
-    className="icon-specific" 
-    style={{ 
-      position: 'absolute', 
-      top: '50%', 
-      left: '10px', 
-      transform: 'translateY(-50%)', 
-      color: '#666' 
-    }} 
-  />
-</div>
-<div className='stilt' style={{ position: 'relative', display: 'inline-block', width: '200px' }}>
-  <input 
-    className="notranslate" 
-    type="number" 
-    id="max-price" 
-    placeholder="Max. Price" 
-    required 
-    style={{ 
-      paddingLeft: '30px', // Add padding for the icon
-      width: '200px', // Full width to fit container
-      boxSizing: 'border-box' // Include padding in width calculation
-    }} 
-  />
-  <FontAwesomeIcon 
-    icon={faDollarSign} 
-    className="icon-specific" 
-    style={{ 
-      position: 'absolute', 
-      top: '50%', 
-      left: '10px', 
-      transform: 'translateY(-50%)', 
-      color: '#666' 
-    }} 
-  />
-</div>
+                    <div
+        className="stilt"
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          width: '200px',
+        }}
+      >
+        <input
+          className="notranslate"
+          type="text"
+          id="min-price"
+          placeholder="Min. Price"
+          required
+          value={minPrice}
+          onChange={(e) => handleInputChange(e, setMinPrice)}
+          onBlur={(e) => handleBlur(e, setMinPrice)}
+          style={{
+            paddingLeft: '30px',
+            width: '200px',
+            boxSizing: 'border-box',
+            height: '100%',
+          }}
+        />
+        <FontAwesomeIcon
+          icon={faDollarSign}
+          className="icon-specific"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '10px',
+            transform: 'translateY(-50%)',
+            color: '#666',
+          }}
+        />
+      </div>
+
+      <div
+        className="stilt"
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          width: '200px',
+        }}
+      >
+        <input
+          className="notranslate"
+          type="text"
+          id="max-price"
+          placeholder="Max. Price"
+          required
+          value={maxPrice}
+          onChange={(e) => handleInputChange(e, setMaxPrice)}
+          onBlur={(e) => handleBlur(e, setMaxPrice)}
+          style={{
+            paddingLeft: '30px',
+            width: '200px',
+            boxSizing: 'border-box',
+            height: '100%',
+          }}
+        />
+        <FontAwesomeIcon
+          icon={faDollarSign}
+          className="icon-specific"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '10px',
+            transform: 'translateY(-50%)',
+            color: '#666',
+          }}
+        />
+      </div>
                   <button className='searchBtn-1'>Search</button>
               </form>
     </aside> 

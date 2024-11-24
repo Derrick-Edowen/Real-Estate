@@ -20,6 +20,7 @@ const sendEmail = require('./sendEmail');
 const wss = new WebSocket.Server({ server });
 const clients = new Map(); // Use a Map to store clients with a unique identifier
 const jwt = require('jsonwebtoken'); // Import the JWT library
+const jwtSecret = process.env.JWT_SECRET;
 
 // Middleware
 app.use(cors());
@@ -631,39 +632,36 @@ app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+    // Query the database to fetch the user by name and email
     const [results] = await pool.execute('SELECT id, password FROM users WHERE name = ? AND email = ?', [name, email]);
 
     if (results.length > 0) {
       const user = results[0];
 
-      // Compare the provided password with the stored hashed password
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (isMatch) {
+      // Compare the provided password with the stored password (plaintext comparison)
+      if (password === user.password) {
         const token = jwt.sign(
-          { userID: user.id, name: user.name, email: user.email },
+          { userID: user.id, name, email },
           process.env.JWT_SECRET,
-          { expiresIn: '1h' }
+          { expiresIn: '45m' } // Token expires in 30 minutes
         );
 
         res.json({
           success: true,
           message: 'Login successful',
-          userID: user.id,
-          token: token,
+          token,
         });
       } else {
-        res.json({ success: false, message: 'Incorrect password' });
+        res.status(401).json({ success: false, message: 'Incorrect password' });
       }
     } else {
-      res.json({ success: false, message: 'Incorrect email or name' });
+      res.status(401).json({ success: false, message: 'Incorrect email or name' });
     }
   } catch (error) {
-    console.error('Error executing MySQL query:', error);
+    console.error('Login error:', error);
     res.status(500).json({ success: false, message: 'Error logging in' });
   }
 });
-
 const verifyToken = (req, res, next) => {
   const token = req.headers['authorization'];
 
@@ -671,6 +669,7 @@ const verifyToken = (req, res, next) => {
     return res.status(403).json({ success: false, message: 'Token is required' });
   }
 
+  // Extract the token part after "Bearer"
   const tokenWithoutBearer = token.split(' ')[1];
 
   jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET, (err, decoded) => {
@@ -678,14 +677,14 @@ const verifyToken = (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Invalid token' });
     }
 
-    req.user = decoded;
+    req.user = decoded; // Attach user info to the request object
     next();
   });
 };
-
 app.get('/protected-route', verifyToken, (req, res) => {
-  res.json({ success: true, message: 'You have access to this route', user: req.user });
+  res.json({ success: true, message: 'Access granted', user: req.user });
 });
+
 
 
 
