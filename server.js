@@ -19,6 +19,7 @@ const sendEmail = require('./sendEmail');
 //const redisClient = new Redis(process.env.REDIS_URL);
 const wss = new WebSocket.Server({ server });
 const clients = new Map(); // Use a Map to store clients with a unique identifier
+const jwt = require('jsonwebtoken'); // Import the JWT library
 
 // Middleware
 app.use(cors());
@@ -37,8 +38,8 @@ const limiter = new Bottleneck({
   minTime: 1000 / maxRequestsPerSecond,
 });
 
-const MAX_RETRIESS = 45; // Maximum number of retry attempts
-const RETRY_DELAYS = 1400; // Delay between retries (1 second)
+const MAX_RETRIESS = 145; // Maximum number of retry attempts
+const RETRY_DELAYS = 1200; // Delay between retries (1 second)
 
 // Define the request queue
 const requestQueue = [];
@@ -128,7 +129,7 @@ async function handlePropertySearch(req) {
   }
 
   try {
-    const { address, state, page, type, tier, sort, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
+    const { address, page, type, tier, sort, minPrice, maxPrice, maxBeds, maxBaths } = req.body;
     let status = '';
     let rentMinPrice, rentMaxPrice, saleMinPrice, saleMaxPrice;
 
@@ -149,7 +150,7 @@ async function handlePropertySearch(req) {
     const estateResponse = await retryRequest(() => limiter.schedule(() => 
       axios.get('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch', {
         params: {
-          location: `${address},${state}`,
+          location: `${address}`,
           page: page,
           status_type: status,
           sort: sort,
@@ -209,8 +210,8 @@ async function handlePropertySearch(req) {
 // New endpoint to fetch property details and images
 const delayF = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const MAX_RETRIESF = 45; // Maximum number of retry attempts
-const RETRY_DELAYF = 1300; // Delay between retries (1 second)
+const MAX_RETRIESF = 145; // Maximum number of retry attempts
+const RETRY_DELAYF = 1200; // Delay between retries (1 second)
 
 app.post('/api/fetch-property-details', (req, res) => {
   addToFetchQueue(req, res);
@@ -308,8 +309,8 @@ async function getPropertyImages(zpid) {
 
 const delayN = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const MAX_RETRIES = 45; // Number of retries in case of error
-const RETRY_DELAY = 1400; // 1 second delay between retries
+const MAX_RETRIES = 145; // Number of retries in case of error
+const RETRY_DELAY = 1200; // 1 second delay between retries
 
 app.post('/nearby-details', (req, res) => {
   addToNearbyQueue(req, res);
@@ -625,20 +626,69 @@ if (process.env.JAWSDB_URL) {
     database: process.env.DB_DATABASE,
   });
 }
+
 app.post('/login', async (req, res) => {
   const { name, email, password } = req.body;
+
   try {
-    const [results] = await pool.execute('SELECT id FROM users WHERE id = 1 AND name = ? AND email = ? AND password = ?', [name, email, password]);
+    const [results] = await pool.execute('SELECT id, password FROM users WHERE name = ? AND email = ?', [name, email]);
+
     if (results.length > 0) {
-      res.json({ success: true, message: 'Login successful', userID: results[0].id });
+      const user = results[0];
+
+      // Compare the provided password with the stored hashed password
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (isMatch) {
+        const token = jwt.sign(
+          { userID: user.id, name: user.name, email: user.email },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+
+        res.json({
+          success: true,
+          message: 'Login successful',
+          userID: user.id,
+          token: token,
+        });
+      } else {
+        res.json({ success: false, message: 'Incorrect password' });
+      }
     } else {
-      res.json({ success: false, message: 'Incorrect email, name, or password' });
+      res.json({ success: false, message: 'Incorrect email or name' });
     }
   } catch (error) {
     console.error('Error executing MySQL query:', error);
     res.status(500).json({ success: false, message: 'Error logging in' });
   }
 });
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+
+  if (!token) {
+    return res.status(403).json({ success: false, message: 'Token is required' });
+  }
+
+  const tokenWithoutBearer = token.split(' ')[1];
+
+  jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ success: false, message: 'Invalid token' });
+    }
+
+    req.user = decoded;
+    next();
+  });
+};
+
+app.get('/protected-route', verifyToken, (req, res) => {
+  res.json({ success: true, message: 'You have access to this route', user: req.user });
+});
+
+
+
 
 const storage = new Storage({
   keyFilename: serviceKey,

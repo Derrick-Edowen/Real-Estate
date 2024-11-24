@@ -31,11 +31,11 @@
   }
   
   input[type='number'] {
-    width: calc(100% - 20px);
+    width: 200px;
     padding: 10px;
     border: 1px solid #222222c7;
     border-radius: 1px;
-    font-size: 14px;
+    font-size: 18px;
   }
   .input-with-icon {
     display: flex;

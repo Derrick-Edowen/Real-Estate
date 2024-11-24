@@ -10,12 +10,13 @@ import Footer from '../Footer/Footer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faCircleChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck, faCircleChevronDown, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import Contact from '../Contact/Contact';
 import { useLocation } from 'react-router-dom';
 
 function ForRent() {
 const [showContact, setShowContact] = useState(false);
+const [city, setCity] = useState('');
 const [initialData, setInitialData] = useState(null);
 const [apiData, setApiData] = useState([]);
 const [infoData, setInfoData] = useState([]);
@@ -31,6 +32,7 @@ const [zoomLevel, setZoomLevel] = useState(12);
 const [currentImageIndex, setCurrentImageIndex] = useState(0);
 const [searchTrigger, setSearchTrigger] = useState(false); // New state variable
 const [noResults, setNoResults] = useState(false); // New state variable
+const [suggestions, setSuggestions] = useState([]);
 const [page, setPage] = useState(1);
 const [showFilter, setShowFilter] = useState(false);
 const [isRotated, setIsRotated] = useState(false);
@@ -51,17 +53,16 @@ const [mapMarkers, setMapMarkers] = useState([]);
 const [selectedMarker, setSelectedMarker] = useState(null);
 const [selectedTypes, setSelectedTypes] = useState([]);
 const [selectedPType, setSelectedPType] = useState(1);
+const [error, setError] = useState('');
 const [selectedStatus, setSelectedStatus] = useState('');
 const [selectedPropertyTypes, setSelectedPropertyTypes] = useState([]);
 const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 const [searcherParams, setSearcherParams] = useState('');
 const [searchParams, setSearchParams] = useState({
   address: '',
-  state: '',
   page: 1,
   type: 0,
   tier: '',
-  country: '',
   sort: '',
   minPrice: '',
   maxPrice: '',
@@ -81,8 +82,8 @@ useEffect(() => {
     setShowLoader(true);
 
     // Delay showing the "no results" message by 5 seconds
-    loaderTimeout = setTimeout(() => setShowLoader(false), 5000);
-    messageTimeout = setTimeout(() => setShowMessage(true), 5000);
+    loaderTimeout = setTimeout(() => setShowLoader(false), 12000);
+    messageTimeout = setTimeout(() => setShowMessage(true), 12000);
   } else {
     // Reset states if data becomes available
     setShowLoader(false);
@@ -108,11 +109,9 @@ const handleSearch = async (e) => {
   // Clear saved search parameters
   setSearchParams({
     address: '',
-    state: '',
     page: 1,
     type: 0,
     tier: '',
-    country: '',
     sort: '',
     minPrice: '',
     maxPrice: '',
@@ -120,15 +119,13 @@ const handleSearch = async (e) => {
     maxBaths: ''
   });
 
-  const address = document.getElementById('search').value;
-  let state = '';
-  const country = document.getElementById('country').value;
-  if (country === 'Canada') {
-    state = document.getElementById('province').value;
-  } else if (country === 'USA') {
-    state = document.getElementById('state').value;
-  }
-  if (selectedTypes.length === 0) {
+  let address = document.getElementById('search').value;
+
+  // Split the address by commas and remove the last part (country)
+  const parts = address.split(',').map(part => part.trim()); // Ensure no extra spaces
+  address = parts.slice(0, 2).join(', '); // Join city and province/state
+  
+    if (selectedTypes.length === 0) {
     window.alert('Please select at least one property type.');
     return;
   }
@@ -145,11 +142,9 @@ const handleSearch = async (e) => {
   // Save search parameters
   setSearchParams({
     address,
-    state,
     page,
     type,
     tier,
-    country,
     sort,
     minPrice,
     maxPrice,
@@ -185,11 +180,9 @@ const handleSearch = async (e) => {
         body: JSON.stringify({
           id, // Include the unique ID in the request body
           address,
-          state,
           page,
           type,
           tier,
-          country,
           sort,
           minPrice,
           maxPrice,
@@ -246,8 +239,6 @@ const homeHandler = async (searcherParams) => {
 
   try {
     const { address } = searcherParams;
-    let state = '';
-    const country = '';
     const minPrice = 500000;
     const maxPrice = 1500000;
     const maxBeds = '0';
@@ -260,11 +251,9 @@ const homeHandler = async (searcherParams) => {
     // Save search parameters
     setSearchParams({
       address,
-      state,
       page,
       type,
       tier,
-      country,
       sort,
       minPrice,
       maxPrice,
@@ -294,11 +283,9 @@ const homeHandler = async (searcherParams) => {
         body: JSON.stringify({
           id,
           address,
-          state,
           page,
           type,
           tier,
-          country,
           sort,
           minPrice,
           maxPrice,
@@ -396,11 +383,9 @@ const handleNPage = async (e) => {
         body: JSON.stringify({
           id, // Include the unique ID in the request body
           address: searchParams.address,
-          state: searchParams.state,
           page: nextPage,
           type: searchParams.type,
           tier: searchParams.tier,
-          country: searchParams.country,
           sort: searchParams.sort,
           minPrice: searchParams.minPrice,
           maxPrice: searchParams.maxPrice,
@@ -487,11 +472,9 @@ const handlePPage = async (e) => {
         body: JSON.stringify({
           id, // Include the unique ID in the request body
           address: searchParams.address,
-          state: searchParams.state,
           page: prevPage,
           type: searchParams.type,
           tier: searchParams.tier,
-          country: searchParams.country,
           sort: searchParams.sort,
           minPrice: searchParams.minPrice,
           maxPrice: searchParams.maxPrice,
@@ -768,6 +751,32 @@ useEffect(() => {
   const timeoutId = setTimeout(initializeAds, 1000); // Push ads 1 second after page load
   return () => clearTimeout(timeoutId); // Cleanup timeout on component unmount
 }, [initialDataRef.current]);
+
+const handleCityInput = async (e) => {
+  const input = e.target.value;
+  setCity(input);
+
+  if (input.length > 2) {  // Start searching after 3 characters
+    try {
+      const response = await axios.get('/api/citySuggestions', {
+        params: { query: input }
+      });
+      setSuggestions(response.data.suggestions); // Update with city suggestions from API
+    } catch (err) {
+      console.error('Error fetching city suggestions:', err);
+      setError('Failed to fetch city suggestions. Please try again.');
+    }
+  } else {
+    setSuggestions([]); // Clear suggestions when input is less than 3 characters
+  }
+};
+const handleCitySelect = (selectedCity) => {
+  setCity(selectedCity); // Update the input value
+  setSuggestions([]); // Clear suggestions list
+  const searchInput = document.getElementById('search');
+  searchInput.value = selectedCity; // Set the input element's value
+};
+
 return (
   <>
   <div className='lists notranslate'>
@@ -776,128 +785,28 @@ return (
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
-          <input className='notranslate' id='search' type='text' placeholder='Enter a City' required />
-          <select
-            className="notranslate"
-            id="country"
-            name="country"
-            placeholder="Select a Country"
+        <input
+        id='search'
+            type="text"
+            value={city}
+            onChange={handleCityInput}
+            placeholder="Enter city name"
+            className="input citt"
             required
-            style={{ backgroundColor: selectedCountries ? 'white' : 'white' }}
-
-            onChange={(e) => {
-              setSelectedCountries(e.target.value); // Update selected sort
-
-              const selectElement = e.target;
-              const selectedOption = selectElement.options[selectElement.selectedIndex];
-              // Update state variable based on selected country
-              if (selectedOption.value === 'Canada') {
-                state = document.getElementById('province').value; // Update state with province value
-                document.getElementById('province').style.display = 'block'; // Show the province select
-                document.getElementById('state').style.display = 'none'; // Hide the state select
-              } else if (selectedOption.value === 'USA') {
-                state = document.getElementById('state').value; // Update state with state value
-                document.getElementById('province').style.display = 'none'; // Hide the province select
-                document.getElementById('state').style.display = 'block'; // Show the state select
-              } else {
-                state = ''; // Reset state if neither Canada nor USA is selected
-                document.getElementById('province').style.display = 'none'; // Hide both selects
-                document.getElementById('state').style.display = 'none';
-              }
-            }}
-          >
-            <option value="Canada">Canada</option>
-            <option value="USA">USA</option>
-          </select>
-          <select
-  className="notranslate nation"
-  id="province"
-  placeholder="Select a Province"
-  style={{ display: 'block', backgroundColor: selectedProvince ? 'white' : 'white' }}
-  onChange={(e) => {
-    setSelectedProvince(e.target.value); // Update selected province
-  }}
->
-  <option disabled selected value="">Select a Province</option>
-  <option value="Alberta">Alberta</option>
-  <option value="British Columbia">British Columbia</option>
-  <option value="Manitoba">Manitoba</option>
-  <option value="New Brunswick">New Brunswick</option>
-  <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-  <option value="Nova Scotia">Nova Scotia</option>
-  <option value="Ontario">Ontario</option>
-  <option value="Prince Edward Island">Prince Edward Island</option>
-  <option value="Quebec">Quebec</option>
-  <option value="Saskatchewan">Saskatchewan</option>
-  <option value="Northwest Territories">Northwest Territories</option>
-  <option value="Nunavut">Nunavut</option>
-  <option value="Yukon">Yukon</option>
-</select>
-
-  <select
-            className="notranslate nation"
-            id="state"
-            placeholder="Select a State"
-            style={{ display: 'none', backgroundColor: selectedState ? 'white' : 'white' }}
-            onChange={(e) => {
-              setSelectedState(e.target.value); // Update selected province
-            }}
-          >
-              <option disabled selected value="">Select a State</option>
-<option value="AL">Alabama</option>
-<option value="AK">Alaska</option>
-<option value="AZ">Arizona</option>
-<option value="AR">Arkansas</option>
-<option value="CA">California</option>
-<option value="CO">Colorado</option>
-<option value="CT">Connecticut</option>
-<option value="DE">Delaware</option>
-<option value="FL">Florida</option>
-<option value="GA">Georgia</option>
-<option value="HI">Hawaii</option>
-<option value="ID">Idaho</option>
-<option value="IL">Illinois</option>
-<option value="IN">Indiana</option>
-<option value="IA">Iowa</option>
-<option value="KS">Kansas</option>
-<option value="KY">Kentucky</option>
-<option value="LA">Louisiana</option>
-<option value="ME">Maine</option>
-<option value="MD">Maryland</option>
-<option value="MA">Massachusetts</option>
-<option value="MI">Michigan</option>
-<option value="MN">Minnesota</option>
-<option value="MS">Mississippi</option>
-<option value="MO">Missouri</option>
-<option value="MT">Montana</option>
-<option value="NE">Nebraska</option>
-<option value="NV">Nevada</option>
-<option value="NH">New Hampshire</option>
-<option value="NJ">New Jersey</option>
-<option value="NM">New Mexico</option>
-<option value="NY">New York</option>
-<option value="NC">North Carolina</option>
-<option value="ND">North Dakota</option>
-<option value="OH">Ohio</option>
-<option value="OK">Oklahoma</option>
-<option value="OR">Oregon</option>
-<option value="PA">Pennsylvania</option>
-<option value="RI">Rhode Island</option>
-<option value="SC">South Carolina</option>
-<option value="SD">South Dakota</option>
-<option value="TN">Tennessee</option>
-<option value="TX">Texas</option>
-<option value="UT">Utah</option>
-<option value="VT">Vermont</option>
-<option value="VA">Virginia</option>
-<option value="WA">Washington</option>
-<option value="WV">West Virginia</option>
-<option value="WI">Wisconsin</option>
-<option value="WY">Wyoming</option>
-</select>
-
-
-  <select
+          />
+          {suggestions.length > 0 && (
+            <ul className="suggestionsv">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleCitySelect(suggestion)}  // Call handleCitySelect when clicked
+                  className="suggestion-item"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}  <select
             className="notranslate"
             id="choose-search" 
           name="search" 
@@ -1080,8 +989,56 @@ return (
                       <option value="4">4 Baths</option>
                       <option value="5">5+ Baths</option>
                     </select>
-                  <input className='notranslate' type='number' id="min-price" placeholder='Min. Price' required />
-                  <input className='notranslate' type='number' id="max-price" placeholder='Max. Price' required />
+                    <div className='stilt' style={{ position: 'relative', display: 'inline-block', width: '200px'}}>
+  <input 
+    className="notranslate" 
+    type="number" 
+    id="min-price" 
+    placeholder="Min. Price" 
+    required 
+    style={{ 
+      paddingLeft: '30px', // Add padding for the icon
+      width: '200px', // Full width to fit container
+      boxSizing: 'border-box' // Include padding in width calculation
+    }} 
+  />
+  <FontAwesomeIcon 
+    icon={faDollarSign} 
+    className="icon-specific" 
+    style={{ 
+      position: 'absolute', 
+      top: '50%', 
+      left: '10px', 
+      transform: 'translateY(-50%)', 
+      color: '#666' 
+    }} 
+  />
+</div>
+<div className='stilt' style={{ position: 'relative', display: 'inline-block', width: '200px' }}>
+  <input 
+    className="notranslate" 
+    type="number" 
+    id="max-price" 
+    placeholder="Max. Price" 
+    required 
+    style={{ 
+      paddingLeft: '30px', // Add padding for the icon
+      width: '200px', // Full width to fit container
+      boxSizing: 'border-box' // Include padding in width calculation
+    }} 
+  />
+  <FontAwesomeIcon 
+    icon={faDollarSign} 
+    className="icon-specific" 
+    style={{ 
+      position: 'absolute', 
+      top: '50%', 
+      left: '10px', 
+      transform: 'translateY(-50%)', 
+      color: '#666' 
+    }} 
+  />
+</div>
                   <button className='searchBtn-1'>Search</button>
               </form>
     </aside> 

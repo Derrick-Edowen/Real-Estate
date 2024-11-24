@@ -163,14 +163,16 @@ select {
   border: 1px solid #222222c7;
   border-radius: 1px;
   font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
+  width: 30%;
 }
 
 .supyo input {
-  width: 160px;
   border: 1px solid #222222c7;
 }
-
+#search {
+  width: 65%;
+}
 select,
 option {
   background-color: white;
@@ -180,7 +182,17 @@ option {
 select option:valid {
   background-color: rgb(93, 7, 163);
 }
-
+.suggestionsv {
+  background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px #0000001a;
+    list-style-type: none;
+    padding: 0;
+    z-index: 50000;
+    position: absolute;
+    top: 168px;
+    width: 18%;
+}
 .custom-checkbox-select {
   position: relative;
   display: inline-block;
@@ -199,7 +211,7 @@ select option:valid {
   padding: 13px 8px 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 13px;
+  font-size: 14px;
   height: 100%;
 }
 
@@ -1350,17 +1362,16 @@ transform: translateY(-50%);
 .toggle {
   display: none;
   color: #333;
-  font-size: 18px;
+  font-size: 14px;
   padding: 6px;
-  font-weight: 600;
+  font-weight: 400;
   margin: 0px;
   font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 background: white;
   gap: 8px;
   height: 5vh;
   width: 100%;
-  justify-content: center;
-font-style: italic;
+  cursor: pointer;
 }
 .nation {
   max-width: 250px;
@@ -2015,14 +2026,13 @@ margin-right: auto;
 
 .toggle {
   color: #333;
-  font-size: 18px;
+  font-size: 14px;
   padding: 6px;
   margin: 0px;
   font-family: "Open Sans", Arial, Helvetica Neue, Helvetica, sans-serif;
 
   gap: 8px;
   width: 100%;
-  justify-content: center;
 border-radius: 0px;
 }
 .lists {
