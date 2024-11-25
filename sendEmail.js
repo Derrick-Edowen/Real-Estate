@@ -1,25 +1,13 @@
-const nodemailer = require('nodemailer');
+const sendGridMail = require('@sendgrid/mail');
 require('dotenv').config();
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp-mail.outlook.com',
-  port: 587,
-  secure: false, // Use STARTTLS
-  auth: {
-    user: process.env.EMAIL_USER, // your Outlook email address
-    pass: process.env.EMAIL_PASS, // your Outlook email password
-  },
-  tls: {
-    ciphers: 'SSLv3',
-    rejectUnauthorized: false // Add this if you're having TLS issues
-  }
-});
+// Set SendGrid API key
+sendGridMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-
-const sendEmail = (formData) => {
-  const mailOptions = {
-    from: 'oneestatewebservices@outlook.com',
-    to: 'oneestatewebservices@outlook.com',
+const sendEmail = async (formData) => {
+  const msg = {
+    to: 'oneestatewebservices@outlook.com',  // Recipient email address
+    from: 'oneestatewebservices@outlook.com',         // Sender email address (make sure it is verified in SendGrid)
     subject: `New Message from ${formData.firstName}`,
     html: `
       <h4>New Inquiry - Message from ${formData.firstName}</h4>
@@ -29,19 +17,18 @@ const sendEmail = (formData) => {
       <h4><strong>Message:</strong></h4>
       <p>${formData.message}</p>
 
-
       <p><small>Powered by One Estate Web Services</small></p>
-      <p><small>*NO REPLY: Do not reply to this email</small></p>
+      <p><small>*NO REPLY: Do not reply directly to this email</small></p>
     `,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
+  try {
+    await sendGridMail.send(msg);
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
 };
 
 module.exports = sendEmail;
+

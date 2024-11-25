@@ -913,13 +913,14 @@ app.delete('/posts/:postId', async (req, res) => {
 app.post('/api/send-email', async (req, res) => {
   const formData = req.body;
   try {
-    await sendEmail(formData);
+    await sendEmail(formData);  // Call the SendGrid email sending function
     res.status(200).send('Email sent successfully');
   } catch (error) {
     console.error('Failed to send email:', error);
     res.status(500).send('Failed to send email');
   }
 });
+
 // API endpoints
 app.use(express.static(path.join(__dirname, 'build')));
 
