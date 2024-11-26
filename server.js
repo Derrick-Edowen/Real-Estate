@@ -16,13 +16,11 @@ const Bottleneck = require('bottleneck');
 const server = http.createServer(app); // Create HTTP server
 const PORT = process.env.PORT || 3001;
 const sendEmail = require('./sendEmail');
-//const redisClient = new Redis(process.env.REDIS_URL);
 const wss = new WebSocket.Server({ server });
 const clients = new Map(); // Use a Map to store clients with a unique identifier
 const jwt = require('jsonwebtoken'); // Import the JWT library
 const jwtSecret = process.env.JWT_SECRET;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
@@ -212,7 +210,7 @@ async function handlePropertySearch(req) {
 const delayF = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const MAX_RETRIESF = 145; // Maximum number of retry attempts
-const RETRY_DELAYF = 1200; // Delay between retries (1 second)
+const RETRY_DELAYF = 1400; // Delay between retries (1 second)
 
 app.post('/api/fetch-property-details', (req, res) => {
   addToFetchQueue(req, res);
@@ -311,7 +309,7 @@ async function getPropertyImages(zpid) {
 const delayN = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const MAX_RETRIES = 145; // Number of retries in case of error
-const RETRY_DELAY = 1200; // 1 second delay between retries
+const RETRY_DELAY = 1300; // 1 second delay between retries
 
 app.post('/nearby-details', (req, res) => {
   addToNearbyQueue(req, res);
@@ -431,14 +429,6 @@ app.get('/api/citySuggestions', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
 //Market Location and Data
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -455,7 +445,7 @@ app.get('/api/marketData', async (req, res) => {
     city = cityParts.slice(0, 2).join(',').trim();
   }
 
-  const MAX_RETRIES = 45;
+  const MAX_RETRIES = 145;
   let attempts = 0;
 
   while (attempts < MAX_RETRIES) {
@@ -585,16 +575,6 @@ app.post('/api/chat', async (req, res) => {
   // Send the reply as JSON
   res.json({ reply });
 });
-
-
-
-
-
-
-
-
-
-
 
 
 app.post('/api/geocode', async (req, res) => {
