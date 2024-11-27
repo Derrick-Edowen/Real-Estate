@@ -158,7 +158,6 @@ select {
 .supyo input,
 .supyo option,
 .supyo select {
-  margin-right: 2px;
   font-weight: 500;
   border: 1px solid #222222c7;
   border-radius: 1px;
@@ -166,7 +165,9 @@ select {
   font-size: 14px;
   width: 30%;
 }
-
+.supyo select {
+  cursor: pointer;
+}
 .supyo input {
   border: 1px solid #222222c7;
 }
@@ -190,8 +191,7 @@ select option:valid {
     padding: 0;
     z-index: 50000;
     position: absolute;
-    top: 168px;
-    width: 18%;
+    width: 100%;
 }
 .custom-checkbox-select {
   position: relative;
@@ -205,14 +205,14 @@ select option:valid {
   background-color: white;
   font-weight: 400;
   border-radius: 1px;
-  max-width: 206px;
-  min-width: 206px;
   overflow: hidden;
   padding: 13px 8px 8px;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 14px;
   height: 100%;
+  cursor: pointer;
+  max-width: 220px;
 }
 
 .loader {

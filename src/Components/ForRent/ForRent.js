@@ -10,7 +10,7 @@ import Footer from '../Footer/Footer';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid'; // Using 'uuid' package for unique ID generation
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faCircleChevronDown, faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck, faCircleChevronDown, faDollarSign, faBed, faBath, faSort, faBuilding, faSignHanging, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 import Contact from '../Contact/Contact';
 import { useLocation } from 'react-router-dom';
 
@@ -824,216 +824,360 @@ return (
           <div className={`changin ${isRotated && 'rotate'}`}>&#9660;</div>
         </button>
         <form className={`supyo ${showFilter && 'visible'}`} onSubmit={handleSearch}>
-        <input
-        id='search'
-            type="text"
-            value={city}
-            onChange={handleCityInput}
-            placeholder="Enter city name"
-            className="input citt"
-            required
-          />
-          {suggestions.length > 0 && (
-            <ul className="suggestionsv">
-              {suggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleCitySelect(suggestion)}  // Call handleCitySelect when clicked
-                  className="suggestion-item"
-                >
-                  {suggestion}
-                </li>
-              ))}
-            </ul>
-          )}  <select
-            className="notranslate"
-            id="choose-search" 
-          name="search" 
-          placeholder='Property Status Type'
-            required
-            onChange={handlePropertyStatusChange}
-          >
-    <option value="" disabled selected>Property Status</option>
+        <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
+  {/* Font Awesome Icon */}
+  <FontAwesomeIcon
+    icon={faMapLocationDot}
+    className="icon-specific"
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '10px',
+      transform: 'translateY(-50%)',
+      color: '#666',
+      pointerEvents: 'none', // Ensures the icon does not block input interactions
+    }}
+  />
+
+  {/* Input Field */}
+  <input
+    id="search"
+    type="text"
+    value={city}
+    onChange={handleCityInput}
+    placeholder="Enter city name"
+    className="input citt"
+    required
+    style={{
+      paddingLeft: '35px', // Add space to accommodate the icon
+      height: '100%',
+      width: '100%'
+    }}
+  />
+
+  {suggestions.length > 0 && (
+    <ul className="suggestionsv">
+      {suggestions.map((suggestion, index) => (
+        <li
+          key={index}
+          onClick={() => handleCitySelect(suggestion)} // Call handleCitySelect when clicked
+          className="suggestion-item"
+        >
+          {suggestion}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+          
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+  {/* Font Awesome Icon */}
+  <FontAwesomeIcon
+    icon={faSignHanging}
+    className="icon-specific"
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '10px',
+      transform: 'translateY(-50%)',
+      color: '#666',
+      pointerEvents: 'none', // Ensures the icon doesn't interfere with dropdown interaction
+    }}
+  />
+  
+  {/* Select Element */}
+  <select
+    className="notranslate"
+    id="choose-search"
+    name="search"
+    placeholder="Property Status Type"
+    required
+    style={{
+      textIndent: '25px', // Add space to accommodate the icon
+      height: '100%',
+      width: '100%'
+    }}
+    onChange={handlePropertyStatusChange}
+  >
+    <option value="" disabled selected>
+      Property Status
+    </option>
     <option value="1">For Rent</option>
     <option value="2">For Sale</option>
     <option value="3">Recently Sold</option>
-          </select>
+  </select>
+</div>
 
 
           <div className="custom-checkbox-select">
-        <div className="selected-value" onClick={toggleDropdown}>{renderPlaceholderOrSelected()}</div>
-        {isDropdownOpen && (
-          <div className="options">
-            {selectedPType === '1' ? (
-              <>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Houses"
-                    checked={selectedTypes.includes('Houses')}
-                    onChange={() => handleCheckboxChange('Houses')}
-                  />
-                  Houses
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Townhomes"
-                    checked={selectedTypes.includes('Townhomes')}
-                    onChange={() => handleCheckboxChange('Townhomes')}
-                  />
-                  Townhomes
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Apartments_Condos_Co-ops"
-                    checked={selectedTypes.includes('Apartments_Condos_Co-ops')}
-                    onChange={() => handleCheckboxChange('Apartments_Condos_Co-ops')}
-                  />
-                  Condos / Apartments / Co-ops
-                </label>
-              </>
-            ) : (
-              <>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Houses"
-                    checked={selectedTypes.includes('Houses')}
-                    onChange={() => handleCheckboxChange('Houses')}
-                  />
-                  Houses
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Townhomes"
-                    checked={selectedTypes.includes('Townhomes')}
-                    onChange={() => handleCheckboxChange('Townhomes')}
-                  />
-                  Townhomes
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Condos"
-                    checked={selectedTypes.includes('Condos')}
-                    onChange={() => handleCheckboxChange('Condos')}
-                  />
-                  Condominiums
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Apartments"
-                    checked={selectedTypes.includes('Apartments')}
-                    onChange={() => handleCheckboxChange('Apartments')}
-                  />
-                  Apartments
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Multi-family"
-                    checked={selectedTypes.includes('Multi-family')}
-                    onChange={() => handleCheckboxChange('Multi-family')}
-                  />
-                  Multi-family
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="LotsLand"
-                    checked={selectedTypes.includes('LotsLand')}
-                    onChange={() => handleCheckboxChange('LotsLand')}
-                  />
-                  Land Lots
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="Manufactured"
-                    checked={selectedTypes.includes('Manufactured')}
-                    onChange={() => handleCheckboxChange('Manufactured')}
-                  />
-                  Manufactured
-                </label>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-      <select
-        className="notranslate"
-        id="sortList"
-        name="sort"
-        placeholder="Sort Listings"
-        required
-        style={{ backgroundColor: selectedSort ? 'white' : 'white' }}
-        onChange={handleSortChange}
-      >
-        <option value="" disabled selected>Sort Listings</option>
-        <option value="Newest">Newest</option>
-        {selectedPType === '1' ? ( // For Rent selected
-          <>
-            <option value="Payment_High_Low">Ascending - Price</option>
-            <option value="Payment_Low_High">Descending - Price</option>
-          </>
-        ) : ( // For Sale or Recently Sold selected (or no selection)
-          <>
-            <option value="Price_High_Low">Ascending - Price</option>
-            <option value="Price_Low_High">Descending - Price</option>
-          </>
-        )}
-        <option value="Lot_Size">Lot Size</option>
-        <option value="Square_Feet">Square Footage</option>
-        <option value="Bedrooms">Bedrooms</option>
-        <option value="Bathrooms">Bathrooms</option>
-      </select>
+  {/* Font Awesome Icon */}
+  <FontAwesomeIcon
+    icon={faBuilding}
+    className="icon-specific"
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '10px',
+      transform: 'translateY(-50%)',
+      color: '#666',
+      zIndex: '400',
+      pointerEvents: 'none', // Prevent interaction issues
+    }}
+  />
 
-                    <select className='notranslate' 
-                    id="choose-beds" 
-                    name="beds" 
-                    placeholder='Beds' 
-                    required
-                    style={{ backgroundColor: selectedBeds ? 'white' : 'white' }}
-  onChange={(e) => {
-    setSelectedBeds(e.target.value); // Update selected beds
-  }}
-                    >
-                      <option value="" disabled selected>Beds</option>
-                      <option value="0">Any</option>
-                      <option value="1">1 Bed</option>
-                      <option value="2">2 Beds</option>
-                      <option value="3">3 Beds</option>
-                      <option value="4">4 Beds</option>
-                      <option value="5">5+ Beds</option>
-                    </select>
-                    <select className='notranslate' 
-                    id="choose-baths" 
-                    name="baths" 
-                    placeholder='Baths' 
-                    required
-                    style={{ backgroundColor: selectedBaths ? 'white' : 'white' }}
-                    onChange={(e) => {
-                      setSelectedBaths(e.target.value); // Update selected baths
-                    }}
-                    >
-                      <option value="" disabled selected>Baths</option>
-                      <option value="0">Any</option>
-                      <option value="1">1 Bath</option>
-                      <option value="2">2 Baths</option>
-                      <option value="3">3 Baths</option>
-                      <option value="4">4 Baths</option>
-                      <option value="5">5+ Baths</option>
-                    </select>
+  {/* Selectable Value */}
+  <div
+    className="selected-value"
+    onClick={toggleDropdown}
+    style={{
+      paddingLeft: '30px', // Make room for the icon
+      position: 'relative',
+      width: '100%'
+    }}
+  >
+    {renderPlaceholderOrSelected()}
+  </div>
+
+  {/* Dropdown Options */}
+  {isDropdownOpen && (
+    <div className="options">
+      {selectedPType === '1' ? (
+        <>
+          <label>
+            <input
+              type="checkbox"
+              value="Houses"
+              checked={selectedTypes.includes('Houses')}
+              onChange={() => handleCheckboxChange('Houses')}
+            />
+            Houses
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Townhomes"
+              checked={selectedTypes.includes('Townhomes')}
+              onChange={() => handleCheckboxChange('Townhomes')}
+            />
+            Townhomes
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Apartments_Condos_Co-ops"
+              checked={selectedTypes.includes('Apartments_Condos_Co-ops')}
+              onChange={() => handleCheckboxChange('Apartments_Condos_Co-ops')}
+            />
+            Condos / Apartments / Co-ops
+          </label>
+        </>
+      ) : (
+        <>
+          <label>
+            <input
+              type="checkbox"
+              value="Houses"
+              checked={selectedTypes.includes('Houses')}
+              onChange={() => handleCheckboxChange('Houses')}
+            />
+            Houses
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Townhomes"
+              checked={selectedTypes.includes('Townhomes')}
+              onChange={() => handleCheckboxChange('Townhomes')}
+            />
+            Townhomes
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Condos"
+              checked={selectedTypes.includes('Condos')}
+              onChange={() => handleCheckboxChange('Condos')}
+            />
+            Condominiums
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Apartments"
+              checked={selectedTypes.includes('Apartments')}
+              onChange={() => handleCheckboxChange('Apartments')}
+            />
+            Apartments
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Multi-family"
+              checked={selectedTypes.includes('Multi-family')}
+              onChange={() => handleCheckboxChange('Multi-family')}
+            />
+            Multi-family
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="LotsLand"
+              checked={selectedTypes.includes('LotsLand')}
+              onChange={() => handleCheckboxChange('LotsLand')}
+            />
+            Land Lots
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              value="Manufactured"
+              checked={selectedTypes.includes('Manufactured')}
+              onChange={() => handleCheckboxChange('Manufactured')}
+            />
+            Manufactured
+          </label>
+        </>
+      )}
+    </div>
+  )}
+</div>
+
+
+
+      <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
+  {/* Font Awesome Sort Icon */}
+  <FontAwesomeIcon
+    icon={faSort}
+    className="icon-specific"
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '10px',
+      transform: 'translateY(-50%)',
+      color: '#666',
+    }}
+  />
+
+  {/* Select Input */}
+  <select
+    className="notranslate"
+    id="sortList"
+    name="sort"
+    required
+    style={{
+      textIndent: '20px', // Shift text to make room for the icon
+      width: '100%',
+      height: '100%',
+      backgroundColor: selectedSort ? 'white' : 'white',
+    }}
+    onChange={handleSortChange}
+  >
+    <option value="" disabled selected>
+      Sort Listings
+    </option>
+    <option value="Newest">Newest</option>
+    {selectedPType === '1' ? (
+      <>
+        <option value="Payment_High_Low">Ascending - Price</option>
+        <option value="Payment_Low_High">Descending - Price</option>
+      </>
+    ) : (
+      <>
+        <option value="Price_High_Low">Ascending - Price</option>
+        <option value="Price_Low_High">Descending - Price</option>
+      </>
+    )}
+    <option value="Lot_Size">Lot Size</option>
+    <option value="Square_Feet">Square Footage</option>
+    <option value="Bedrooms">Bedrooms</option>
+    <option value="Bathrooms">Bathrooms</option>
+  </select>
+</div>
+
+      <div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
+  {/* Font Awesome Bed Icon */}
+  <FontAwesomeIcon
+    icon={faBed}
+    className="icon-specific"
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '10px',
+      transform: 'translateY(-50%)',
+      color: '#666',
+    }}
+  />
+
+  {/* Select Input */}
+  <select
+    className="notranslate"
+    id="choose-beds"
+    name="beds"
+    required
+    style={{
+      textIndent: '30px', // Shift only the visible text
+      width: '100%',
+      height: '100%',
+      backgroundColor: selectedBeds ? 'white' : 'white',
+    }}
+    onChange={(e) => setSelectedBeds(e.target.value)} // Update selected beds
+  >
+    <option value="" disabled selected>
+      Beds
+    </option>
+    <option value="0">Any</option>
+    <option value="1">1 Bed</option>
+    <option value="2">2 Beds</option>
+    <option value="3">3 Beds</option>
+    <option value="4">4 Beds</option>
+    <option value="5">5+ Beds</option>
+  </select>
+</div>
+<div style={{ position: 'relative', display: 'inline-block', width: '100%' }}>
+  {/* Font Awesome Bath Icon */}
+  <FontAwesomeIcon
+    icon={faBath}
+    className="icon-specific"
+    style={{
+      position: 'absolute',
+      top: '50%',
+      left: '10px',
+      transform: 'translateY(-50%)',
+      color: '#666',
+    }}
+  />
+
+  {/* Select Input */}
+  <select
+    className="notranslate"
+    id="choose-baths"
+    name="baths"
+    required
+    style={{
+      textIndent: '30px', // Shift only the visible text
+      width: '100%',
+      height: '100%',
+      backgroundColor: selectedBaths ? 'white' : 'white',
+    }}
+    onChange={(e) => setSelectedBaths(e.target.value)} // Update selected baths
+  >
+    <option value="" disabled selected>
+      Baths
+    </option>
+    <option value="0">Any</option>
+    <option value="1">1 Bath</option>
+    <option value="2">2 Baths</option>
+    <option value="3">3 Baths</option>
+    <option value="4">4 Baths</option>
+    <option value="5">5+ Baths</option>
+  </select>
+</div>
                     <div
         className="stilt"
         style={{
           position: 'relative',
           display: 'inline-block',
-          width: '200px',
+          width: '100%',
         }}
       >
         <input
@@ -1047,7 +1191,7 @@ return (
           onBlur={(e) => handleBlur(e, setMinPrice)}
           style={{
             paddingLeft: '30px',
-            width: '200px',
+            width: '100%',
             boxSizing: 'border-box',
             height: '100%',
           }}
@@ -1070,7 +1214,7 @@ return (
         style={{
           position: 'relative',
           display: 'inline-block',
-          width: '200px',
+          width: '100%',
         }}
       >
         <input
@@ -1084,7 +1228,7 @@ return (
           onBlur={(e) => handleBlur(e, setMaxPrice)}
           style={{
             paddingLeft: '30px',
-            width: '200px',
+            width: '100%',
             boxSizing: 'border-box',
             height: '100%',
           }}
