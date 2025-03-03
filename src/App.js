@@ -29,7 +29,9 @@ import Privacy from './Components/Privacy/Privacy';
 import Buying from './Components/Buying/Buying';
 import Selling from './Components/Selling/Selling';
 import Investing from './Components/Investing/Investing';
+import Oakwood from './Components/OakWood/Oakwood';
 import Lost from './Components/Lost/Lost';
+import BuySell from './Components/BuyerList/BuySell';
 import MarketRent from './Components/MarketRent/MarketRent';
 import MarketSale from './Components/MarketSale/MarketSale';
 import AIChat from './Components/AIChat/AIChat'
@@ -67,8 +69,11 @@ function App() {
         <Route path="/Biography | About Me" element={<Bio />} />
         <Route path="/Calculators | Mortgage Calculator" element={<Calculator />} />
         <Route path="/Announcements" element={<Blog />} />
+        <Route path="/Oakwood" element={<Oakwood />} />
         <Route path="/Find Listings | Property Search" element={<ForRent />} />
         <Route path="/Contact Me" element={<Contact />} />
+        <Route path="/Buyer and Sellers List" element={<BuySell />} />
+
         <Route path="/Pricing & Subscriptions" element={<Pricing />} />
         <Route path="/Agent Access" element={<Access />} />
         <Route path="/Terms of Service" element={<Service />} />

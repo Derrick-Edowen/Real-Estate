@@ -55,17 +55,17 @@ function Contact() {
         <div className='megainfo'>
         <img className='mainimg199' src={silo} alt='main' />      
           <div className='descTextJv'>[ Brokerage / Business Icon ]</div>
-          <div className='descTextJv'>[ Brokerage / Business Name ]</div>
+          <div className='descTextJv'>Right at Home Realty</div>
           <div className='descTextJv'>[ Brokerage /  Business Address ]</div>
           <div className='descTextJv'>[ Brokerage /  Business Number ]</div>
           </div>
 
 
           <div className='contactinfo'>
-          <div className='descTextJv'>[ Your Name ]</div>
-          <div className='descTextJv'>[ Sales Representative / Broker ]</div>
-          <div className='descTextJv'>[ Your Email ]</div>
-          <div className='descTextJv'>[ Your Phone Number ]</div>
+          <div className='descTextJv'>Derrick Edowen</div>
+          <div className='descTextJv'>Sales Representative</div>
+          <div className='descTextJv'>derrickedowen@hotmail.com</div>
+          <div className='descTextJv'>647-818-5317</div>
           <div className='descTextJv'> Lets Connect! </div>
           <div className='sci-hero2'>
                 <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>
@@ -81,7 +81,7 @@ function Contact() {
 
 
             <div className='contactForm-specific'>
-            <div className='descTexcjb'> Contact Form</div>
+            <div className='descTexcjb'> Contact Me</div>
 
             <form ref={form} onSubmit={sendEmail}>
       <div className='lostboy-specific'></div>

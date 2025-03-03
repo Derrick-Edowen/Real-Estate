@@ -565,7 +565,6 @@ padding: 6px;
     text-align: center;
     color: #333;
     letter-spacing: 2px;
-    background-color: #f8f8f8;
 	margin-top: 8px;
   margin-bottom: 8px;
 
@@ -1394,8 +1393,37 @@ justify-content: center;
   padding-right: 260px;
   padding-bottom: 70px;
   padding-top: 8px;
-  background: #f0f0f0;
-} 
+  background: #ffffff;
+  background-image: url('../src/Assets/Images/samp.jpg'); /* Replace with actual image URL */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative; /* Ensures ::before overlay works properly */
+}
+
+.investingIt::before, 
+.buyingIt::before, 
+.sellingIt::before, 
+.serviceIt::before, 
+.privacyIt::before, 
+.missionIt::before, 
+.priceIt::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* Dark overlay for readability */
+  filter: grayscale(100%) opacity(15%);
+  z-index: 0;
+}
+
+.sam {
+  background-color: #ffffff;
+padding: 8px;
+}
+
 .leftSidebar, .rightSidebar {
   width: 140px;
   position: absolute;
@@ -1851,7 +1879,6 @@ margin-bottom: 10px;
       text-align: center;
       color: #333;
       letter-spacing: 2px;
-      background-color: #f8f8f8;
     margin-top: 8px;
     margin-bottom: 8px;
   
@@ -2278,7 +2305,6 @@ height: 100vh;
         text-align: center;
         color: #333;
         letter-spacing: 2px;
-        background-color: #f8f8f8;
       margin-top: 8px;
       margin-bottom: 8px;
     

@@ -7,7 +7,7 @@ import { faChevronDown} from '@fortawesome/free-solid-svg-icons';
 import { Link as ScrollLink, animateScroll as scroll } from 'react-scroll';
 import woman100 from '../../Assets/Images/woman100.jpg';
 import silo from '../../Assets/Images/YourPhotoHEre.jpg'
-
+import logoo from '../../Assets/Images/rahlogo-placeholder.png'
 function Header() {
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
@@ -97,9 +97,8 @@ function Header() {
       
       <NavLink to="/Home" className="heading-link">
       <div className="heading">
-      <img className='mainimg19' src={silo} alt='main' />      
-        <h2>[ Brokerage / Business Icon ]</h2>
-        <h4>[ Your Name ]<br/> [ Sales Representative / Broker ]</h4>
+        <img className="minlog" src={logoo}/>
+        <h4>Derrick Edowen | Sales Representative</h4>
       </div>
     </NavLink>
       <a
@@ -125,7 +124,7 @@ function Header() {
               to="/Biography | About Me"
               className={`navbar--content ${location.pathname === '/Biography | About Me' ? 'active' : ''}`}
               >
-              [Your Name / Biography]
+              About Me
             </NavLink>
           </li>
           <li className={`dropdown ${dropdownVisible3 ? "active" : ""}`}>
@@ -237,19 +236,30 @@ function Header() {
               Announcements
             </NavLink>
           </li>
-
           <li>
-          <ScrollLink
-  onClick={closeMenu}
-  activeClass="navbar--active-content"
-  to="contact"
-  smooth={true}
-  offset={-100}
-  duration={250}
-  className="navbar--content"
->
-  Contact
-</ScrollLink>
+            <NavLink
+              activeclass="navbar--active-content"
+              smooth={true}
+              offset={-70}
+              duration={1500}
+            onClick={closeMenu}
+            to="/Buyer and Sellers List"
+              className="navbar--content"
+            >
+              Buyer / Seller List
+            </NavLink>
+          </li>          <li>
+            <NavLink
+              activeclass="navbar--active-content"
+              smooth={true}
+              offset={-70}
+              duration={1500}
+            onClick={closeMenu}
+            to="/Oakwood"
+              className="navbar--content"
+            >
+              Oak Wood Properties
+            </NavLink>
           </li>
         </ul>
       </div>

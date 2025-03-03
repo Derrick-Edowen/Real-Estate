@@ -55,12 +55,11 @@ function Bio() {
             <div className='rock'>
             <div className='sun'>
               <img className='mainimg1' src={silo} alt='main' />
-              <div className='descTextJ'>[Your Name]</div>
-              <div className='descTextJ'>[Sales Representative / Broker]</div>
-              <div className='descTextJ'>[Email Address]</div>
-              <div className='descTextJ'>[Phone Number]</div>
-              <div className='descTextJ'>[Office / Brokerage Address]</div>
-              <div className='descTextJ'>[Office Number]</div>
+              <div className='descTextJ'>Derrick Edowen</div>
+              <div className='descTextJ'>Sales Representative</div>
+              <div className='descTextJ'>derrickedowen@hotmail.com</div>
+              <div className='descTextJ'>647-818-5317</div>
+              <div className='descTextJ'>Right at Home Realty</div>
               <div className='sci-hero1'>
                 <span><a href='https://www.instagram.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faInstagram} size="xl" style={{ color: "#94004f" }} /></a></span>
                 <span><a href='https://www.facebook.com/' target="_blank" rel="noopener noreferrer"><FontAwesomeIcon icon={faFacebook} size="xl" style={{ color: "#032e77" }} /></a></span>
@@ -72,8 +71,12 @@ function Bio() {
             </div>
             <div className='moon'>
               
-                <div className='descTextZ'>[ Your Name ]</div>
-                <p className='descTextF'>{bio}
+                <div className='descTextZ'>Derrick Edowen</div>
+                <p className='descTextF'>With five years of experience in the fast-paced world of real estate, [Agent's Name] has quickly built a reputation for delivering results. Guided by some of the most seasoned and successful mentors in the industry, he has gained invaluable knowledge, sharp negotiation skills, and a deep understanding of the ever-changing market.
+
+What sets [Agent's Name] apart? His energy, dedication, and client-first approach. Whether you're a first-time homebuyer, a savvy investor, or looking to sell at top dollar, he knows how to make the process seamless and stress-free. With a keen eye for detail, a talent for spotting opportunities, and an unwavering commitment to excellence, [Agent’s Name] doesn’t just close deals—he builds lasting relationships.
+
+Passionate about helping people achieve their real estate dreams, [Agent’s Name] is ready to go the extra mile for you. Let’s turn your real estate goals into reality—reach out today!
               </p>
             </div>
 </div>
